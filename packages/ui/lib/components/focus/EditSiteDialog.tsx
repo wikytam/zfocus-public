@@ -3,6 +3,7 @@ import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { ScrollArea } from '../ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
@@ -152,7 +153,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
@@ -163,251 +164,253 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           <DialogDescription className="sr-only">Chỉnh sửa cài đặt cho nhóm website</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          {/* Title */}
-          <div className="space-y-2">
-            <Label htmlFor="title">Tên nhóm</Label>
-            <Input
-              id="title"
-              value={editData.title}
-              onChange={e => setEditData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Tên nhóm"
-            />
-          </div>
+        <ScrollArea className="max-h-[60vh] pr-4">
+          <div className="space-y-4 py-4">
+            {/* Title */}
+            <div className="space-y-2">
+              <Label htmlFor="title">Tên nhóm</Label>
+              <Input
+                id="title"
+                value={editData.title}
+                onChange={e => setEditData(prev => ({ ...prev, title: e.target.value }))}
+                placeholder="Tên nhóm"
+              />
+            </div>
 
-          {/* URL Input */}
-          <div className="space-y-2">
-            <Label htmlFor="urls">Danh sách URL</Label>
-            <Textarea
-              id="urls"
-              value={editData.urls}
-              onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
-              placeholder="facebook.com&#10;youtube.com&#10;twitter.com"
-              rows={4}
-              className="font-mono text-sm"
-            />
-            <p className="text-muted-foreground text-xs">
-              Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path.
-            </p>
+            {/* URL Input */}
+            <div className="space-y-2">
+              <Label htmlFor="urls">Danh sách URL</Label>
+              <Textarea
+                id="urls"
+                value={editData.urls}
+                onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
+                placeholder="facebook.com&#10;youtube.com&#10;twitter.com"
+                rows={4}
+                className="font-mono text-sm"
+              />
+              <p className="text-muted-foreground text-xs">
+                Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path.
+              </p>
 
-            {/* Expandable Advanced Options */}
-            <button
-              type="button"
-              onClick={() => setShowHelp(!showHelp)}
-              className="text-primary flex items-center gap-1 text-[11px] hover:underline">
-              <HelpCircle className="h-3 w-3" />
-              Tùy chọn nâng cao
-              {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-            </button>
+              {/* Expandable Advanced Options */}
+              <button
+                type="button"
+                onClick={() => setShowHelp(!showHelp)}
+                className="text-primary flex items-center gap-1 text-[11px] hover:underline">
+                <HelpCircle className="h-3 w-3" />
+                Tùy chọn nâng cao
+                {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+              </button>
 
-            {showHelp && (
-              <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
-                <div className="space-y-2">
-                  <Label htmlFor="edit-exceptions" className="text-xs">
-                    Ngoại lệ (cho phép)
-                  </Label>
-                  <Textarea
-                    id="edit-exceptions"
-                    value={editData.exceptions}
-                    onChange={e => setEditData(prev => ({ ...prev, exceptions: e.target.value }))}
-                    placeholder="youtube.com/learn&#10;facebook.com/help"
-                    rows={2}
-                    className="font-mono text-xs"
-                  />
-                  <p className="text-muted-foreground text-[10px]">Các URL này sẽ được cho phép truy cập</p>
+              {showHelp && (
+                <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-exceptions" className="text-xs">
+                      Ngoại lệ (cho phép)
+                    </Label>
+                    <Textarea
+                      id="edit-exceptions"
+                      value={editData.exceptions}
+                      onChange={e => setEditData(prev => ({ ...prev, exceptions: e.target.value }))}
+                      placeholder="youtube.com/learn&#10;facebook.com/help"
+                      rows={2}
+                      className="font-mono text-xs"
+                    />
+                    <p className="text-muted-foreground text-[10px]">Các URL này sẽ được cho phép truy cập</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-referrer" className="text-xs">
+                      Chặn từ nguồn (Referrer)
+                    </Label>
+                    <Textarea
+                      id="edit-referrer"
+                      value={editData.referrers}
+                      onChange={e => setEditData(prev => ({ ...prev, referrers: e.target.value }))}
+                      placeholder="facebook.com&#10;twitter.com"
+                      rows={2}
+                      className="font-mono text-xs"
+                    />
+                    <p className="text-muted-foreground text-[10px]">Chặn các link được click từ các trang này</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-keywords" className="text-xs">
+                      Từ khóa trong URL
+                    </Label>
+                    <Textarea
+                      id="edit-keywords"
+                      value={editData.keywords}
+                      onChange={e => setEditData(prev => ({ ...prev, keywords: e.target.value }))}
+                      placeholder="game&#10;video&#10;entertainment"
+                      rows={2}
+                      className="font-mono text-xs"
+                    />
+                    <p className="text-muted-foreground text-[10px]">Chặn URL chứa các từ khóa này (mỗi từ một dòng)</p>
+                  </div>
                 </div>
+              )}
+            </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-referrer" className="text-xs">
-                    Chặn từ nguồn (Referrer)
-                  </Label>
-                  <Textarea
-                    id="edit-referrer"
-                    value={editData.referrers}
-                    onChange={e => setEditData(prev => ({ ...prev, referrers: e.target.value }))}
-                    placeholder="facebook.com&#10;twitter.com"
-                    rows={2}
-                    className="font-mono text-xs"
-                  />
-                  <p className="text-muted-foreground text-[10px]">Chặn các link được click từ các trang này</p>
-                </div>
+            {/* Time Allowed with Interval */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Label>Thời gian cho phép (phút)</Label>
+                <Input
+                  id="allowedMinutes"
+                  type="number"
+                  min={1}
+                  value={editData.allowedMinutes}
+                  onChange={e => {
+                    const value = e.target.value;
+                    setEditData(prev => ({
+                      ...prev,
+                      allowedMinutes: (value === '' ? '' : Math.max(1, parseInt(value) || 1)) as number | '',
+                    }));
+                  }}
+                  onBlur={e => {
+                    // Ensure value is at least 1 when focus is lost
+                    if (e.target.value === '' || parseInt(e.target.value) < 1) {
+                      setEditData(prev => ({
+                        ...prev,
+                        allowedMinutes: 1,
+                      }));
+                    }
+                  }}
+                  className="w-20"
+                />
+                <span className="text-muted-foreground text-sm">phút mỗi</span>
+                <Select
+                  value={editData.timeInterval.toString()}
+                  onValueChange={value => setEditData(prev => ({ ...prev, timeInterval: parseInt(value) }))}>
+                  <SelectTrigger className="w-28">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TIME_INTERVALS.map(opt => (
+                      <SelectItem key={opt.value} value={opt.value.toString()}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="edit-keywords" className="text-xs">
-                    Từ khóa trong URL
+              {/* Count only active tab toggle */}
+              <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
+                <div className="flex items-center gap-2">
+                  <div className="cursor-help" title="Ví dụ: nghe nhạc Youtube Background thì không tính vào">
+                    <Info className="text-muted-foreground h-4 w-4" />
+                  </div>
+                  <Label htmlFor="edit-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
+                    Chỉ ghi nhận tab active
                   </Label>
-                  <Textarea
-                    id="edit-keywords"
-                    value={editData.keywords}
-                    onChange={e => setEditData(prev => ({ ...prev, keywords: e.target.value }))}
-                    placeholder="game&#10;video&#10;entertainment"
-                    rows={2}
-                    className="font-mono text-xs"
-                  />
-                  <p className="text-muted-foreground text-[10px]">Chặn URL chứa các từ khóa này (mỗi từ một dòng)</p>
                 </div>
+                <Switch
+                  id="edit-countOnlyActiveTab"
+                  checked={editData.countOnlyActiveTab}
+                  onCheckedChange={checked => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+                />
+              </div>
+            </div>
+
+            {/* Schedule Section */}
+            <div className="border-border space-y-4 border-t pt-4">
+              <div className="flex items-center gap-2 text-sm font-medium">
+                <Clock className="text-primary h-4 w-4" />
+                Lịch chặn
+              </div>
+
+              {/* Time Range */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="startTime">Bắt đầu</Label>
+                  <Input
+                    id="startTime"
+                    type="time"
+                    value={editData.startTime}
+                    onChange={e => setEditData(prev => ({ ...prev, startTime: e.target.value }))}
+                    className="text-center"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="endTime">Kết thúc</Label>
+                  <Input
+                    id="endTime"
+                    type="time"
+                    value={editData.endTime}
+                    onChange={e => setEditData(prev => ({ ...prev, endTime: e.target.value }))}
+                    className="text-center"
+                  />
+                </div>
+              </div>
+
+              {/* Work Days */}
+              <div className="space-y-2">
+                <Label>Áp dụng chặn theo ngày</Label>
+                <div className="flex gap-1.5">
+                  {DAYS.map(day => (
+                    <button
+                      key={day.value}
+                      type="button"
+                      onClick={() => toggleDay(day.value)}
+                      className={cn(
+                        'flex-1 rounded-lg px-1 py-2 text-xs font-medium transition-all duration-200',
+                        editData.activeDays.includes(day.value)
+                          ? 'gradient-primary text-primary-foreground shadow-md'
+                          : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                      )}
+                      title={day.fullLabel}>
+                      {day.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Action - Segmented Control */}
+            <div className="space-y-2">
+              <Label>Hành động khi hết thời gian</Label>
+              <div className="bg-secondary/50 flex rounded-lg p-1">
+                <button
+                  type="button"
+                  onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
+                  className={cn(
+                    'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
+                    editData.action === 'close'
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}>
+                  Đóng tab
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
+                  className={cn(
+                    'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
+                    editData.action === 'redirect'
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}>
+                  Chuyển hướng
+                </button>
+              </div>
+            </div>
+
+            {/* Redirect URL */}
+            {editData.action === 'redirect' && (
+              <div className="space-y-2">
+                <Label>URL chuyển hướng</Label>
+                <Input
+                  id="redirectUrl"
+                  value={editData.redirectUrl}
+                  onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
+                  placeholder="https://notion.so"
+                />
+                <p className="text-muted-foreground text-xs">Để trống sẽ chuyển đến trang popup của extension</p>
               </div>
             )}
           </div>
-
-          {/* Time Allowed with Interval */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Label>Thời gian cho phép (phút)</Label>
-              <Input
-                id="allowedMinutes"
-                type="number"
-                min={1}
-                value={editData.allowedMinutes}
-                onChange={e => {
-                  const value = e.target.value;
-                  setEditData(prev => ({
-                    ...prev,
-                    allowedMinutes: (value === '' ? '' : Math.max(1, parseInt(value) || 1)) as number | '',
-                  }));
-                }}
-                onBlur={e => {
-                  // Ensure value is at least 1 when focus is lost
-                  if (e.target.value === '' || parseInt(e.target.value) < 1) {
-                    setEditData(prev => ({
-                      ...prev,
-                      allowedMinutes: 1,
-                    }));
-                  }
-                }}
-                className="w-20"
-              />
-              <span className="text-muted-foreground text-sm">phút mỗi</span>
-              <Select
-                value={editData.timeInterval.toString()}
-                onValueChange={value => setEditData(prev => ({ ...prev, timeInterval: parseInt(value) }))}>
-                <SelectTrigger className="w-28">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {TIME_INTERVALS.map(opt => (
-                    <SelectItem key={opt.value} value={opt.value.toString()}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Count only active tab toggle */}
-            <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
-              <div className="flex items-center gap-2">
-                <div className="cursor-help" title="Ví dụ: nghe nhạc Youtube Background thì không tính vào">
-                  <Info className="text-muted-foreground h-4 w-4" />
-                </div>
-                <Label htmlFor="edit-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
-                  Chỉ ghi nhận tab active
-                </Label>
-              </div>
-              <Switch
-                id="edit-countOnlyActiveTab"
-                checked={editData.countOnlyActiveTab}
-                onCheckedChange={checked => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
-              />
-            </div>
-          </div>
-
-          {/* Schedule Section */}
-          <div className="border-border space-y-4 border-t pt-4">
-            <div className="flex items-center gap-2 text-sm font-medium">
-              <Clock className="text-primary h-4 w-4" />
-              Lịch chặn
-            </div>
-
-            {/* Time Range */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="startTime">Bắt đầu</Label>
-                <Input
-                  id="startTime"
-                  type="time"
-                  value={editData.startTime}
-                  onChange={e => setEditData(prev => ({ ...prev, startTime: e.target.value }))}
-                  className="text-center"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="endTime">Kết thúc</Label>
-                <Input
-                  id="endTime"
-                  type="time"
-                  value={editData.endTime}
-                  onChange={e => setEditData(prev => ({ ...prev, endTime: e.target.value }))}
-                  className="text-center"
-                />
-              </div>
-            </div>
-
-            {/* Work Days */}
-            <div className="space-y-2">
-              <Label>Áp dụng chặn theo ngày</Label>
-              <div className="flex gap-1.5">
-                {DAYS.map(day => (
-                  <button
-                    key={day.value}
-                    type="button"
-                    onClick={() => toggleDay(day.value)}
-                    className={cn(
-                      'flex-1 rounded-lg px-1 py-2 text-xs font-medium transition-all duration-200',
-                      editData.activeDays.includes(day.value)
-                        ? 'gradient-primary text-primary-foreground shadow-md'
-                        : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                    )}
-                    title={day.fullLabel}>
-                    {day.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Action - Segmented Control */}
-          <div className="space-y-2">
-            <Label>Hành động khi hết thời gian</Label>
-            <div className="bg-secondary/50 flex rounded-lg p-1">
-              <button
-                type="button"
-                onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
-                className={cn(
-                  'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
-                  editData.action === 'close'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}>
-                Đóng tab
-              </button>
-              <button
-                type="button"
-                onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
-                className={cn(
-                  'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
-                  editData.action === 'redirect'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}>
-                Chuyển hướng
-              </button>
-            </div>
-          </div>
-
-          {/* Redirect URL */}
-          {editData.action === 'redirect' && (
-            <div className="space-y-2">
-              <Label>URL chuyển hướng</Label>
-              <Input
-                id="redirectUrl"
-                value={editData.redirectUrl}
-                onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
-                placeholder="https://notion.so"
-              />
-              <p className="text-muted-foreground text-xs">Để trống sẽ chuyển đến trang popup của extension</p>
-            </div>
-          )}
-        </div>
+        </ScrollArea>
 
         {/* Footer Buttons - Inline */}
         <div className="flex items-center gap-2">

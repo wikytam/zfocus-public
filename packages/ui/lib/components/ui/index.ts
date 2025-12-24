@@ -24,5 +24,6 @@ export {
   SelectTrigger,
   SelectValue,
 } from './select';
+export { ScrollArea, ScrollBar } from './scroll-area';
 export { Switch } from './switch';
 export { Textarea } from './textarea';
