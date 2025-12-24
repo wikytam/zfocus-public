@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { cn } from '../lib/utils';
 import type { BlockedSite } from '../types/focus';
 
@@ -119,6 +119,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             </div>
             Chỉnh sửa website
           </DialogTitle>
+          <DialogDescription className="sr-only">Chỉnh sửa cài đặt cho nhóm website</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
