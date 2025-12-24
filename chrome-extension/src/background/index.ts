@@ -110,23 +110,23 @@ const getDefaultStats = (): DailyStats => ({
 
 // Storage helpers
 const getSettings = async (): Promise<FocusSettings> => {
-  const result = await chrome.storage.local.get([STORAGE_KEYS.settings]);
+  const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
   return result[STORAGE_KEYS.settings] ?? DEFAULT_SETTINGS;
 };
 
 const setSettings = async (settings: FocusSettings): Promise<void> => {
-  await chrome.storage.local.set({ [STORAGE_KEYS.settings]: settings });
+  await chrome.storage.sync.set({ [STORAGE_KEYS.settings]: settings });
 };
 
 const getStats = async (): Promise<DailyStats> => {
-  const result = await chrome.storage.local.get([STORAGE_KEYS.stats]);
+  const result = await chrome.storage.sync.get([STORAGE_KEYS.stats]);
   const stats = result[STORAGE_KEYS.stats] ?? getDefaultStats();
   
   // Reset if new day
   const today = new Date().toISOString().split('T')[0];
   if (stats.date !== today) {
     const newStats = getDefaultStats();
-    await chrome.storage.local.set({ [STORAGE_KEYS.stats]: newStats });
+    await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: newStats });
     return newStats;
   }
   return stats;
@@ -134,16 +134,16 @@ const getStats = async (): Promise<DailyStats> => {
 
 const updateStats = async (updates: Partial<DailyStats>): Promise<void> => {
   const stats = await getStats();
-  await chrome.storage.local.set({ [STORAGE_KEYS.stats]: { ...stats, ...updates } });
+  await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: { ...stats, ...updates } });
 };
 
 const getTimers = async (): Promise<Record<string, SiteTimer>> => {
-  const result = await chrome.storage.local.get([STORAGE_KEYS.timers]);
+  const result = await chrome.storage.sync.get([STORAGE_KEYS.timers]);
   return result[STORAGE_KEYS.timers] ?? {};
 };
 
 const setTimers = async (timers: Record<string, SiteTimer>): Promise<void> => {
-  await chrome.storage.local.set({ [STORAGE_KEYS.timers]: timers });
+  await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timers });
 };
 
 // Track active tabs and their timers
@@ -577,7 +577,7 @@ setInterval(async () => {
 
 // Initialize default settings if not present
 (async () => {
-  const result = await chrome.storage.local.get([STORAGE_KEYS.settings]);
+  const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
   if (!result[STORAGE_KEYS.settings]) {
     await setSettings(DEFAULT_SETTINGS);
     console.log('[FocusGuard] Initialized default settings');

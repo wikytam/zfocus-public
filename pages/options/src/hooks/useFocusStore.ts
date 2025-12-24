@@ -65,7 +65,7 @@ const getDefaultStats = (): DailyStats => ({
 // Chrome storage helpers
 const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
   try {
-    const result = await chrome.storage.local.get([key]);
+    const result = await chrome.storage.sync.get([key]);
     return result[key] ?? defaultValue;
   } catch {
     return defaultValue;
@@ -74,7 +74,7 @@ const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
 
 const setToStorage = async <T>(key: string, value: T): Promise<void> => {
   try {
-    await chrome.storage.local.set({ [key]: value });
+    await chrome.storage.sync.set({ [key]: value });
     // Cache settings to localStorage for instant theme loading (prevents flash)
     if (key === STORAGE_KEYS.settings) {
       try {
@@ -151,7 +151,7 @@ export const useFocusStore = () => {
       }
     };
 
-    chrome.storage.local.onChanged.addListener(handleStorageChange);
+    chrome.storage.sync.onChanged.addListener(handleStorageChange);
 
     // Poll for active timers
     const timerInterval = setInterval(() => {
@@ -167,7 +167,7 @@ export const useFocusStore = () => {
     }, 1000);
 
     return () => {
-      chrome.storage.local.onChanged.removeListener(handleStorageChange);
+      chrome.storage.sync.onChanged.removeListener(handleStorageChange);
       clearInterval(timerInterval);
     };
   }, []);
