@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Ban } from 'lucide-react';
+import { Ban, Clock } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
+import { StatCard } from './components/StatCard';
 import { PauseControl } from './components/PauseControl';
 import { BlockedSiteItem } from './components/BlockedSiteItem';
 import { AddSiteDialog } from './components/AddSiteDialog';
@@ -15,6 +16,7 @@ const Options = () => {
   const [activeTab, setActiveTab] = useState<TabType>('sites');
   const {
     settings,
+    stats,
     updateSettings,
     addBlockedSite,
     updateBlockedSite,
@@ -25,6 +27,13 @@ const Options = () => {
   } = useFocusStore();
 
   const withinHours = isWithinWorkHours();
+
+  const formatTimeSaved = (minutes: number) => {
+    if (minutes < 60) return `${minutes} phút`;
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -44,6 +53,25 @@ const Options = () => {
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-6">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <StatCard
+                icon={<Ban className="w-5 h-5" />}
+                label="Lượt chặn hôm nay"
+                value={stats.blockedAttempts}
+                subValue="trang web"
+                variant="success"
+                delay={0}
+              />
+              <StatCard
+                icon={<Clock className="w-5 h-5" />}
+                label="Thời gian tiết kiệm"
+                value={formatTimeSaved(stats.timeSavedMinutes)}
+                variant="accent"
+                delay={100}
+              />
+            </div>
+
             {/* Pause Control */}
             <PauseControl
               isPaused={settings.isPaused}

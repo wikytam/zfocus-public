@@ -1,17 +1,27 @@
+import { Clock, Ban } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
 import { Header } from './components/Header';
+import { StatCard } from './components/StatCard';
 import { PauseControl } from './components/PauseControl';
 import './index.css';
 
 const Popup = () => {
   const {
     settings,
+    stats,
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
   } = useFocusStore();
 
   const withinHours = isWithinWorkHours();
+
+  const formatTimeSaved = (minutes: number) => {
+    if (minutes < 60) return `${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
 
   return (
     <div className="w-[380px] min-h-[300px] bg-background overflow-y-auto">
@@ -27,6 +37,25 @@ const Popup = () => {
 
         {/* Dashboard Content */}
         <div className="space-y-3 mt-4">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-3">
+            <StatCard
+              icon={<Ban className="w-4 h-4" />}
+              label="Lượt chặn hôm nay"
+              value={stats.blockedAttempts}
+              subValue="trang web"
+              variant="success"
+              delay={0}
+            />
+            <StatCard
+              icon={<Clock className="w-4 h-4" />}
+              label="Thời gian tiết kiệm"
+              value={formatTimeSaved(stats.timeSavedMinutes)}
+              variant="accent"
+              delay={100}
+            />
+          </div>
+
           {/* Pause Control */}
           <PauseControl
             isPaused={settings.isPaused}
