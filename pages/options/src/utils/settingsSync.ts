@@ -54,22 +54,17 @@ export const autoSync = async (
 ): Promise<SyncStatusResult & { settings?: FocusSettings }> => {
   try {
     // Get data from cloud
-    const syncData = await chrome.storage.sync.get(['focus-settings', 'focus-last-sync']);
+    const syncData = await chrome.storage.sync.get(['focus-settings']);
     const cloudSettings = syncData['focus-settings'] as FocusSettings | undefined;
-    const cloudLastSync = syncData['focus-last-sync'] as number | undefined;
 
-    // Get local last modified time from storage
-    const localData = await chrome.storage.local.get(['focus-last-sync']);
-    const localLastSync = localData['focus-last-sync'] as number | undefined;
-
-    // If no cloud data, push local to cloud
-    if (!cloudSettings || !cloudLastSync) {
+    // Since we're using sync storage, data is automatically synced
+    // Just verify the data exists
+    if (!cloudSettings) {
       const now = Date.now();
       await chrome.storage.sync.set({
         'focus-settings': localSettings,
         'focus-last-sync': now,
       });
-      await chrome.storage.local.set({ 'focus-last-sync': now });
 
       return {
         success: true,
@@ -78,40 +73,13 @@ export const autoSync = async (
       };
     }
 
-    // Compare timestamps - use newer data
-    if (!localLastSync || cloudLastSync > localLastSync) {
-      // Cloud is newer, use cloud data
-      await chrome.storage.local.set({
-        'focus-settings': cloudSettings,
-        'focus-last-sync': cloudLastSync,
-      });
-
-      return {
-        success: true,
-        type: 'success',
-        message: 'Đã đồng bộ dữ liệu mới từ cloud!',
-        settings: cloudSettings,
-      };
-    } else if (localLastSync > cloudLastSync) {
-      // Local is newer, push to cloud
-      await chrome.storage.sync.set({
-        'focus-settings': localSettings,
-        'focus-last-sync': localLastSync,
-      });
-
-      return {
-        success: true,
-        type: 'success',
-        message: 'Đã đồng bộ dữ liệu lên cloud!',
-      };
-    } else {
-      // Same timestamp, already synced
-      return {
-        success: true,
-        type: 'success',
-        message: 'Dữ liệu đã được đồng bộ!',
-      };
-    }
+    // Data already in sync storage
+    return {
+      success: true,
+      type: 'success',
+      message: 'Dữ liệu đã được đồng bộ tự động!',
+      settings: cloudSettings,
+    };
   } catch (error) {
     return {
       success: false,
@@ -124,5 +92,4 @@ export const autoSync = async (
 // ===== CLEAR ALL DATA =====
 export const clearAllData = async (): Promise<void> => {
   await chrome.storage.sync.clear();
-  await chrome.storage.local.clear();
 };
