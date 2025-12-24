@@ -151,48 +151,88 @@ const activeTabTimers: Map<number, ReturnType<typeof setInterval>> = new Map();
 const tabSiteMapping: Map<number, string> = new Map();
 
 // Check if URL matches a blocked site pattern
-const matchesUrl = (url: string, patterns: string[]): boolean => {
+const matchesUrl = (url: string, patterns: string[], referrer?: string): boolean => {
   try {
     const urlObj = new URL(url);
     const hostname = urlObj.hostname.replace(/^www\./, '').toLowerCase();
     const fullPath = hostname + urlObj.pathname.toLowerCase();
+    const fullUrl = url.toLowerCase();
 
+    // First check exceptions (+) - if URL matches any exception, return false
     for (const pattern of patterns) {
-      let cleanPattern = pattern.trim().toLowerCase();
-      
-      // Skip exception patterns (+), referrer patterns (>), keyword patterns (~)
-      if (cleanPattern.startsWith('+') || cleanPattern.startsWith('>') || cleanPattern.startsWith('~')) {
-        continue;
-      }
-
-      // Handle keyword pattern
-      if (pattern.startsWith('~')) {
-        const keyword = cleanPattern.substring(1);
-        if (fullPath.includes(keyword)) {
-          return true;
-        }
-        continue;
-      }
-
-      // Handle wildcard patterns
-      if (cleanPattern.includes('*')) {
-        const regexPattern = cleanPattern
-          .replace(/\./g, '\\.')
-          .replace(/\*\*/g, '.*')
-          .replace(/\*/g, '[^.]*');
-        const regex = new RegExp(`^${regexPattern}`, 'i');
-        if (regex.test(hostname) || regex.test(fullPath)) {
-          return true;
-        }
-      } else {
-        // Simple domain match
-        if (hostname.includes(cleanPattern) || cleanPattern.includes(hostname)) {
-          return true;
+      const cleanPattern = pattern.trim().toLowerCase();
+      if (cleanPattern.startsWith('+')) {
+        const exceptionPath = cleanPattern.substring(1);
+        if (fullPath.includes(exceptionPath) || fullUrl.includes(exceptionPath)) {
+          console.log(`[FocusGuard] Exception matched: ${exceptionPath} - allowing access`);
+          return false; // Exception matched, don't block
         }
       }
     }
+
+    // Check if any blocking pattern matches
+    for (const pattern of patterns) {
+      const cleanPattern = pattern.trim().toLowerCase();
+      
+      // Skip exception patterns (already handled above)
+      if (cleanPattern.startsWith('+')) {
+        continue;
+      }
+
+      // Handle referrer pattern (>)
+      if (cleanPattern.startsWith('>')) {
+        const referrerDomain = cleanPattern.substring(1);
+        if (referrer) {
+          try {
+            const refHost = new URL(referrer).hostname.replace(/^www\./, '').toLowerCase();
+            if (refHost.includes(referrerDomain)) {
+              console.log(`[FocusGuard] Referrer matched: ${referrerDomain}`);
+              return true;
+            }
+          } catch {
+            // Invalid referrer URL
+          }
+        }
+        continue;
+      }
+
+      // Handle keyword pattern (~)
+      if (cleanPattern.startsWith('~')) {
+        const keyword = cleanPattern.substring(1);
+        if (fullUrl.includes(keyword)) {
+          console.log(`[FocusGuard] Keyword matched: ${keyword}`);
+          return true;
+        }
+        continue;
+      }
+
+      // Handle wildcard patterns (* and **)
+      if (cleanPattern.includes('*')) {
+        // ** = any path (greedy)
+        // * = subdomain only (non-greedy, no dots)
+        const regexPattern = cleanPattern
+          .replace(/\./g, '\\.')           // Escape dots
+          .replace(/\*\*/g, '<<<DOUBLE>>>') // Temp placeholder
+          .replace(/\*/g, '[^./]*')         // Single * = any chars except . and /
+          .replace(/<<<DOUBLE>>>/g, '.*');  // ** = any chars including . and /
+        
+        const regex = new RegExp(regexPattern, 'i');
+        if (regex.test(hostname) || regex.test(fullPath)) {
+          console.log(`[FocusGuard] Wildcard matched: ${pattern} -> ${fullPath}`);
+          return true;
+        }
+        continue;
+      }
+
+      // Simple domain match
+      if (hostname.includes(cleanPattern) || fullPath.startsWith(cleanPattern)) {
+        console.log(`[FocusGuard] Domain matched: ${cleanPattern}`);
+        return true;
+      }
+    }
     return false;
-  } catch {
+  } catch (e) {
+    console.error('[FocusGuard] Error matching URL:', e);
     return false;
   }
 };
@@ -216,7 +256,7 @@ const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
 };
 
 // Find matching blocked site for URL
-const findBlockedSite = async (url: string): Promise<BlockedSite | null> => {
+const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedSite | null> => {
   const settings = await getSettings();
   
   // Check if paused
@@ -232,7 +272,7 @@ const findBlockedSite = async (url: string): Promise<BlockedSite | null> => {
   for (const site of settings.blockedSites) {
     if (!site.isActive) continue;
     if (!isWithinWorkHours(site.schedule)) continue;
-    if (matchesUrl(url, site.urls)) {
+    if (matchesUrl(url, site.urls, referrer)) {
       return site;
     }
   }
