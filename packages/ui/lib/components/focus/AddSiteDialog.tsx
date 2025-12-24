@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
+import { Switch } from '../ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { cn } from '../../utils';
@@ -38,6 +39,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
     urls: '',
     allowedMinutes: 5,
     timeInterval: 60,
+    countOnlyActiveTab: true,
     action: 'redirect' as 'close' | 'redirect',
     redirectUrl: '',
     activeDays: [1, 2, 3, 4, 5],
@@ -73,6 +75,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       urls: '',
       allowedMinutes: 5,
       timeInterval: 60,
+      countOnlyActiveTab: true,
       action: 'redirect',
       redirectUrl: '',
       activeDays: [1, 2, 3, 4, 5],
@@ -209,6 +212,26 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 </SelectContent>
               </Select>
             </div>
+            
+            {/* Count only active tab toggle */}
+            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 border border-border/50">
+              <div className="flex items-center gap-2">
+                <Info className="w-4 h-4 text-muted-foreground" />
+                <div className="flex flex-col">
+                  <Label htmlFor="add-countOnlyActiveTab" className="text-sm font-medium cursor-pointer">
+                    Chỉ ghi nhận tab active
+                  </Label>
+                  <span className="text-xs text-muted-foreground">
+                    Ví dụ: nghe nhạc Youtube Background thì không tính vào
+                  </span>
+                </div>
+              </div>
+              <Switch
+                id="add-countOnlyActiveTab"
+                checked={formData.countOnlyActiveTab}
+                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+              />
+            </div>
           </div>
 
           
@@ -298,44 +321,19 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             </div>
           </div>
 
-          {/* Redirect URL - Segmented Control */}
+          {/* Redirect URL */}
           {formData.action === 'redirect' && (
             <div className="space-y-2">
               <Label>URL chuyển hướng</Label>
-              <div className="flex p-1 rounded-lg bg-secondary/50">
-                <button
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, redirectUrl: '' }))}
-                  className={cn(
-                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                    formData.redirectUrl === ''
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}
-                >
-                  Dashboard
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }))}
-                  className={cn(
-                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                    formData.redirectUrl !== ''
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}
-                >
-                  Tùy chỉnh
-                </button>
-              </div>
-              {formData.redirectUrl !== '' && (
-                <Input
-                  id="add-redirectUrl"
-                  value={formData.redirectUrl}
-                  onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
-                  placeholder="https://notion.so"
-                />
-              )}
+              <Input
+                id="add-redirectUrl"
+                value={formData.redirectUrl}
+                onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
+                placeholder="https://notion.so"
+              />
+              <p className="text-xs text-muted-foreground">
+                Để trống sẽ chuyển đến trang popup của extension
+              </p>
             </div>
           )}
 

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Label } from '../ui/label';
+import { Switch } from '../ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { cn } from '../../utils';
@@ -41,6 +42,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     urls: site.urls.join('\n'),
     allowedMinutes: site.allowedMinutesPerHour,
     timeInterval: 60,
+    countOnlyActiveTab: true,
     action: site.action,
     redirectUrl: site.redirectUrl || '',
     activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
@@ -54,6 +56,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       urls: site.urls.join('\n'),
       allowedMinutes: site.allowedMinutesPerHour,
       timeInterval: 60,
+      countOnlyActiveTab: true,
       action: site.action,
       redirectUrl: site.redirectUrl || '',
       activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
@@ -222,6 +225,26 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 </SelectContent>
               </Select>
             </div>
+            
+            {/* Count only active tab toggle */}
+            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 border border-border/50">
+              <div className="flex items-center gap-2">
+                <Info className="w-4 h-4 text-muted-foreground" />
+                <div className="flex flex-col">
+                  <Label htmlFor="edit-countOnlyActiveTab" className="text-sm font-medium cursor-pointer">
+                    Chỉ ghi nhận tab active
+                  </Label>
+                  <span className="text-xs text-muted-foreground">
+                    Ví dụ: nghe nhạc Youtube Background thì không tính vào
+                  </span>
+                </div>
+              </div>
+              <Switch
+                id="edit-countOnlyActiveTab"
+                checked={editData.countOnlyActiveTab}
+                onCheckedChange={(checked) => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+              />
+            </div>
           </div>
 
           {/* Schedule Section */}
@@ -309,44 +332,19 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             </div>
           </div>
 
-          {/* Redirect URL - Segmented Control */}
+          {/* Redirect URL */}
           {editData.action === 'redirect' && (
             <div className="space-y-2">
               <Label>URL chuyển hướng</Label>
-              <div className="flex p-1 rounded-lg bg-secondary/50">
-                <button
-                  type="button"
-                  onClick={() => setEditData(prev => ({ ...prev, redirectUrl: '' }))}
-                  className={cn(
-                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                    editData.redirectUrl === ''
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}
-                >
-                  Dashboard
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }))}
-                  className={cn(
-                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                    editData.redirectUrl !== ''
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}
-                >
-                  Tùy chỉnh
-                </button>
-              </div>
-              {editData.redirectUrl !== '' && (
-                <Input
-                  id="redirectUrl"
-                  value={editData.redirectUrl}
-                  onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
-                  placeholder="https://notion.so"
-                />
-              )}
+              <Input
+                id="redirectUrl"
+                value={editData.redirectUrl}
+                onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
+                placeholder="https://notion.so"
+              />
+              <p className="text-xs text-muted-foreground">
+                Để trống sẽ chuyển đến trang popup của extension
+              </p>
             </div>
           )}
         </div>
