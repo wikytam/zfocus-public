@@ -42,7 +42,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     urls: site.urls.join('\n'),
     allowedMinutes: site.allowedMinutesPerHour,
     timeInterval: 60,
-    countOnlyActiveTab: true,
+    countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
     action: site.action,
     redirectUrl: site.redirectUrl || '',
     activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
@@ -56,7 +56,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       urls: site.urls.join('\n'),
       allowedMinutes: site.allowedMinutesPerHour,
       timeInterval: 60,
-      countOnlyActiveTab: true,
+      countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
       action: site.action,
       redirectUrl: site.redirectUrl || '',
       activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
@@ -76,6 +76,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       title: editData.title,
       urls: allUrls,
       allowedMinutesPerHour: Math.max(5, editData.allowedMinutes),
+      countOnlyActiveTab: editData.countOnlyActiveTab,
       action: editData.action,
       redirectUrl: editData.redirectUrl || undefined,
       schedule: {

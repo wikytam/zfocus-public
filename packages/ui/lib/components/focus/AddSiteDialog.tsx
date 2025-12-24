@@ -59,6 +59,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       title: formData.title,
       urls: allUrls,
       allowedMinutesPerHour: Math.max(5, formData.allowedMinutes),
+      countOnlyActiveTab: formData.countOnlyActiveTab,
       action: formData.action,
       redirectUrl: formData.redirectUrl || undefined,
       isActive: true,

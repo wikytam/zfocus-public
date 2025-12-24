@@ -8,6 +8,7 @@ interface BlockedSite {
   title: string;
   urls: string[];
   allowedMinutesPerHour: number;
+  countOnlyActiveTab?: boolean;
   action: 'close' | 'redirect';
   redirectUrl?: string;
   isActive: boolean;
@@ -358,6 +359,15 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
       if (!tab) {
         clearTabTimer(tabId);
         return;
+      }
+
+      // If site has countOnlyActiveTab enabled, check if tab is active
+      if (site.countOnlyActiveTab !== false) { // Default to true if not set
+        const activeTab = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!activeTab[0] || activeTab[0].id !== tabId) {
+          // Tab is not active, skip counting this second
+          return;
+        }
       }
 
       // Get current timers

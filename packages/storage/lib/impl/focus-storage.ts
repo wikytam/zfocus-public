@@ -6,6 +6,7 @@ export interface BlockedSite {
   title: string;
   urls: string[];
   allowedMinutesPerHour: number;
+  countOnlyActiveTab?: boolean;
   action: 'close' | 'redirect';
   redirectUrl?: string;
   isActive: boolean;
