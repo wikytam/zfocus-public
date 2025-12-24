@@ -11,6 +11,29 @@ interface TimerData {
 export default function App() {
   const [timerData, setTimerData] = useState<TimerData | null>(null);
   const [dismissed, setDismissed] = useState(false);
+  const [showCountdown, setShowCountdown] = useState(true);
+
+  // Load showBadgeCountdown setting
+  useEffect(() => {
+    const loadSettings = async () => {
+      const result = await chrome.storage.sync.get(['focus-settings']);
+      const settings = result['focus-settings'];
+      setShowCountdown(settings?.showBadgeCountdown !== false);
+    };
+
+    loadSettings();
+
+    // Listen for setting changes
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+      if (changes['focus-settings']) {
+        const newSettings = changes['focus-settings'].newValue;
+        setShowCountdown(newSettings?.showBadgeCountdown !== false);
+      }
+    };
+
+    chrome.storage.sync.onChanged.addListener(handleStorageChange);
+    return () => chrome.storage.sync.onChanged.removeListener(handleStorageChange);
+  }, []);
 
   useEffect(() => {
     const handleMessage = (message: { type: string; data: TimerData }) => {
@@ -27,7 +50,8 @@ export default function App() {
     return () => chrome.runtime.onMessage.removeListener(handleMessage);
   }, []);
 
-  if (!timerData || dismissed) return null;
+  // Don't show if setting is disabled
+  if (!showCountdown || !timerData || dismissed) return null;
 
   const { siteName, remainingSeconds, allowedSeconds } = timerData;
   const progress = (remainingSeconds / allowedSeconds) * 100;
