@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug } from 'lucide-react';
+import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, Download } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
 import type { FocusSettings } from '@extension/storage';
 
@@ -41,6 +41,28 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
     } catch (error) {
       setSyncStatus('error');
       setSyncInfo(`Lỗi đồng bộ: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const pullFromCloud = async () => {
+    setSyncStatus('syncing');
+    try {
+      // Force reload data from sync storage
+      const syncData = await chrome.storage.sync.get(['focus-settings']);
+      if (syncData['focus-settings']) {
+        // Update local state with cloud data
+        onUpdate(syncData['focus-settings']);
+        setSyncStatus('success');
+        setSyncInfo('Đã tải dữ liệu từ cloud! Đang reload...');
+        // Reload page to apply
+        setTimeout(() => window.location.reload(), 500);
+      } else {
+        setSyncInfo('Không có dữ liệu trên cloud.');
+        setSyncStatus('idle');
+      }
+    } catch (error) {
+      setSyncStatus('error');
+      setSyncInfo(`Lỗi tải: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -164,7 +186,16 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
               disabled={syncStatus === 'syncing'}
             >
               <RefreshCw className="w-4 h-4 mr-2" />
-              Đồng bộ ngay
+              Đẩy lên cloud
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={pullFromCloud}
+              disabled={syncStatus === 'syncing'}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Tải từ cloud
             </Button>
           </div>
           {syncInfo && (
