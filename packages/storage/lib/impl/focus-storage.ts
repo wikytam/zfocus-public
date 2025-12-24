@@ -34,6 +34,7 @@ interface FocusSettings {
   pauseEndTime?: number;
   hardLockMode: boolean;
   theme: 'light' | 'dark' | 'system';
+  showBadgeCountdown: boolean; // Show countdown timer on extension icon badge
 }
 
 interface DailyStats {
@@ -103,6 +104,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   isPaused: false,
   hardLockMode: false,
   theme: 'dark',
+  showBadgeCountdown: true, // Default: show countdown on badge
 };
 
 const getDefaultStats = (): DailyStats => ({

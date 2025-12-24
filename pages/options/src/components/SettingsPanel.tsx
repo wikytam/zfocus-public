@@ -14,6 +14,7 @@ import {
   FileUp,
   AlertTriangle,
   CheckCircle,
+  Timer,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import type { FocusSettings } from '@extension/storage';
@@ -136,6 +137,26 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Badge Countdown */}
+        <div className="bg-secondary/50 flex items-center justify-between rounded-lg p-4 transition-all duration-200">
+          <div className="flex items-center gap-3">
+            <div className="bg-secondary rounded-lg p-2">
+              <Timer className="text-muted-foreground h-5 w-5" />
+            </div>
+            <div>
+              <Label htmlFor="badgeCountdown" className="cursor-pointer">
+                Hiển thị đếm ngược
+              </Label>
+              <p className="text-muted-foreground text-xs">Hiển thị thời gian còn lại trên icon extension</p>
+            </div>
+          </div>
+          <Switch
+            id="badgeCountdown"
+            checked={settings.showBadgeCountdown}
+            onCheckedChange={checked => onUpdate({ showBadgeCountdown: checked })}
+          />
         </div>
 
         {/* Hard Lock Mode */}

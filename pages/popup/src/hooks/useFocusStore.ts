@@ -53,6 +53,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   isPaused: false,
   hardLockMode: false,
   theme: 'dark',
+  showBadgeCountdown: true,
 };
 
 const getDefaultStats = (): DailyStats => ({

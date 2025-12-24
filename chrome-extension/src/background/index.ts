@@ -61,6 +61,7 @@ interface FocusSettings {
   pauseEndTime?: number;
   hardLockMode: boolean;
   theme: 'light' | 'dark' | 'system';
+  showBadgeCountdown: boolean;
 }
 
 interface DailyStats {
@@ -128,6 +129,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   isPaused: false,
   hardLockMode: false,
   theme: 'dark',
+  showBadgeCountdown: true,
 };
 
 const getDefaultStats = (): DailyStats => ({
@@ -181,6 +183,64 @@ const tabSiteMapping: Map<number, string> = new Map();
 
 // Track referrers for each tab
 const tabReferrers: Map<number, string> = new Map();
+
+// Update badge with countdown timer
+const updateBadge = async (tabId: number, remainingSeconds: number) => {
+  try {
+    const settings = await getSettings();
+
+    console.log(
+      `[FocusGuard] updateBadge called for tab ${tabId}, remaining: ${remainingSeconds}s, showBadge: ${settings.showBadgeCountdown}`,
+    );
+
+    if (!settings.showBadgeCountdown) {
+      // Clear badge if countdown is disabled
+      await chrome.action.setBadgeText({ text: '', tabId });
+      return;
+    }
+
+    // Convert to hours and minutes
+    const hours = Math.floor(remainingSeconds / 3600);
+    const minutes = Math.floor((remainingSeconds % 3600) / 60);
+
+    let badgeText = '';
+    if (hours > 0) {
+      badgeText = `${hours}h`;
+    } else if (minutes > 0) {
+      badgeText = `${minutes}m`;
+    } else if (remainingSeconds > 0) {
+      badgeText = '<1m';
+    } else {
+      badgeText = '0';
+    }
+
+    // Set badge color based on remaining time
+    let color: [number, number, number, number] = [34, 197, 94, 255]; // Green
+    if (remainingSeconds < 300) {
+      // Less than 5 minutes - Red
+      color = [239, 68, 68, 255];
+    } else if (remainingSeconds < 600) {
+      // Less than 10 minutes - Orange
+      color = [249, 115, 22, 255];
+    }
+
+    await chrome.action.setBadgeBackgroundColor({ color, tabId });
+    await chrome.action.setBadgeText({ text: badgeText, tabId });
+
+    console.log(`[FocusGuard] Badge updated: "${badgeText}" with color`, color);
+  } catch (error) {
+    console.error('[FocusGuard] Badge update error:', error);
+  }
+};
+
+// Clear badge for a tab
+const clearBadge = async (tabId: number) => {
+  try {
+    await chrome.action.setBadgeText({ text: '', tabId });
+  } catch (error) {
+    console.error('[FocusGuard] Clear badge error:', error);
+  }
+};
 
 // Check if URL matches a blocked site
 const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean => {
@@ -382,6 +442,7 @@ const clearTabTimer = (tabId: number) => {
     activeTabTimers.delete(tabId);
   }
   tabSiteMapping.delete(tabId);
+  clearBadge(tabId);
 };
 
 // Start tracking time for a tab
@@ -396,6 +457,13 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
     await handleBlocking(tabId, site);
     return;
   }
+
+  // Update badge immediately when starting timer
+  const initialRemainingSeconds = Math.max(0, timer.allowedSeconds - timer.usedSeconds);
+  await updateBadge(tabId, initialRemainingSeconds);
+  console.log(
+    `[FocusGuard] Started timer for tab ${tabId}, site: ${site.title}, remaining: ${initialRemainingSeconds}s`,
+  );
 
   // Start interval to track time
   const interval = setInterval(async () => {
@@ -456,6 +524,12 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         return;
       }
 
+      // Calculate remaining time
+      const remainingSeconds = Math.max(0, currentTimer.allowedSeconds - newUsedSeconds);
+
+      // Update badge with countdown
+      await updateBadge(tabId, remainingSeconds);
+
       // Send message to content script with remaining time
       try {
         await chrome.tabs.sendMessage(tabId, {
@@ -465,7 +539,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
             siteName: site.title,
             usedSeconds: newUsedSeconds,
             allowedSeconds: currentTimer.allowedSeconds,
-            remainingSeconds: Math.max(0, currentTimer.allowedSeconds - newUsedSeconds),
+            remainingSeconds,
           },
         });
       } catch {
@@ -539,6 +613,37 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
 // Handle tab removal
 chrome.tabs.onRemoved.addListener(tabId => {
   clearTabTimer(tabId);
+});
+
+// Listen for storage changes to update badges
+chrome.storage.sync.onChanged.addListener(changes => {
+  if (changes['focus-settings']) {
+    const newSettings = changes['focus-settings'].newValue as FocusSettings;
+
+    // If badge countdown was disabled, clear all badges
+    if (!newSettings.showBadgeCountdown) {
+      chrome.tabs.query({}).then(tabs => {
+        tabs.forEach(tab => {
+          if (tab.id) clearBadge(tab.id);
+        });
+      });
+    } else {
+      // If enabled, update badges for active timers
+      chrome.tabs.query({}).then(async tabs => {
+        const timers = await getTimers();
+        tabs.forEach(tab => {
+          if (tab.id && tabSiteMapping.has(tab.id)) {
+            const siteId = tabSiteMapping.get(tab.id);
+            const timer = timers[siteId!];
+            if (timer) {
+              const remainingSeconds = Math.max(0, timer.allowedSeconds - timer.usedSeconds);
+              updateBadge(tab.id, remainingSeconds);
+            }
+          }
+        });
+      });
+    }
+  }
 });
 
 // Handle messages from popup/options
