@@ -1,11 +1,9 @@
-import { Globe, Clock, Trash2 } from 'lucide-react';
+import { Globe, Clock } from 'lucide-react';
 import { Card } from './ui/card';
-import { Button } from './ui/button';
 import { Switch } from './ui/switch';
-import { SiteScheduleDialog } from './SiteScheduleDialog';
 import { EditSiteDialog } from './EditSiteDialog';
 import { cn } from '../lib/utils';
-import type { BlockedSite, SiteSchedule } from '../types/focus';
+import type { BlockedSite } from '../types/focus';
 
 interface BlockedSiteItemProps {
   site: BlockedSite;
@@ -14,13 +12,13 @@ interface BlockedSiteItemProps {
   delay?: number;
 }
 
-export function BlockedSiteItem({ site, onUpdate, onRemove, delay = 0 }: BlockedSiteItemProps) {
-  const handleScheduleSave = (schedule: SiteSchedule) => {
-    onUpdate(site.id, { schedule });
-  };
-
+export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: BlockedSiteItemProps) => {
   const handleEditSave = (updates: Partial<BlockedSite>) => {
     onUpdate(site.id, updates);
+  };
+
+  const handleDelete = () => {
+    onRemove(site.id);
   };
 
   return (
@@ -61,28 +59,9 @@ export function BlockedSiteItem({ site, onUpdate, onRemove, delay = 0 }: Blocked
 
         <div className="flex items-center gap-2">
           <Switch checked={site.isActive} onCheckedChange={checked => onUpdate(site.id, { isActive: checked })} />
-          <SiteScheduleDialog
-            schedule={site.schedule}
-            onSave={handleScheduleSave}
-            siteName={site.title}
-            trigger={
-              <Button variant="ghost" size="icon-sm">
-                <Clock className="w-4 h-4" />
-              </Button>
-            }
-          />
-          <EditSiteDialog site={site} onSave={handleEditSave} />
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="text-destructive hover:text-destructive"
-            onClick={() => onRemove(site.id)}
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
+          <EditSiteDialog site={site} onSave={handleEditSave} onDelete={handleDelete} />
         </div>
       </div>
     </Card>
   );
-}
-
+};

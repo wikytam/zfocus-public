@@ -21,7 +21,7 @@ const PAUSE_OPTIONS = [
   { value: 60, label: '1 giờ' },
 ];
 
-export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, onResume }: PauseControlProps) {
+export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, onResume }: PauseControlProps) => {
   const [selectedMinutes, setSelectedMinutes] = useState('15');
   const [remainingTime, setRemainingTime] = useState<string>('');
 
@@ -94,18 +94,18 @@ export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, on
         </div>
       ) : (
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-success/10">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <div className="p-2 rounded-lg bg-success/10 shrink-0">
               <Play className="w-4 h-4 text-success" />
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-sm font-medium leading-tight">Đang hoạt động</p>
-              <p className="text-xs text-muted-foreground leading-tight">Chặn trang web xao nhãng</p>
+              <p className="text-xs text-muted-foreground leading-tight truncate">Chặn trang web xao nhãng</p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 shrink-0">
             <Select value={selectedMinutes} onValueChange={setSelectedMinutes}>
-              <SelectTrigger className="w-20 h-8 text-xs">
+              <SelectTrigger className="w-[85px] h-8 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -125,4 +125,4 @@ export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, on
       )}
     </Card>
   );
-}
+};

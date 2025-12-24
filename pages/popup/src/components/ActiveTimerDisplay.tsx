@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
@@ -11,7 +11,7 @@ interface ActiveTimerDisplayProps {
   onCloseTimer: (siteId: string) => void;
 }
 
-export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayProps) {
+export const ActiveTimerDisplay = ({ timers, onCloseTimer }: ActiveTimerDisplayProps) => {
   const [, setTick] = useState(0);
 
   // Force re-render every second to update displays
@@ -24,11 +24,6 @@ export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayP
 
   return (
     <div className="space-y-2">
-      <h3 className="text-xs font-medium text-muted-foreground flex items-center gap-1.5 px-1">
-        <AlertTriangle className="w-3.5 h-3.5 text-warning" />
-        Đang theo dõi ({timers.length})
-      </h3>
-
       {timers.map(timer => {
         const progress = (timer.remainingSeconds / timer.totalSeconds) * 100;
         const isLow = timer.remainingSeconds <= 60;
@@ -77,4 +72,4 @@ export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayP
       })}
     </div>
   );
-}
+};

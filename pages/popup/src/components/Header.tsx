@@ -1,12 +1,17 @@
-import { Shield, Zap } from 'lucide-react';
+import { Shield, Settings, ExternalLink } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { Button } from './ui/button';
 
 interface HeaderProps {
   isWithinWorkHours: boolean;
   isPaused: boolean;
 }
 
-export function Header({ isWithinWorkHours, isPaused }: HeaderProps) {
+export const Header = ({ isWithinWorkHours, isPaused }: HeaderProps) => {
+  const openOptionsPage = () => {
+    chrome.runtime.openOptionsPage();
+  };
+
   return (
     <header className="flex items-center justify-between">
       <div className="flex items-center gap-2.5">
@@ -36,19 +41,16 @@ export function Header({ isWithinWorkHours, isPaused }: HeaderProps) {
         </div>
       </div>
 
-      <div
-        className={cn(
-          'flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all duration-300',
-          isPaused
-            ? 'bg-warning/10 text-warning'
-            : isWithinWorkHours
-              ? 'bg-success/10 text-success'
-              : 'bg-secondary text-muted-foreground',
-        )}
+      <Button
+        variant="outline"
+        size="sm"
+        className="gap-1.5 h-8"
+        onClick={openOptionsPage}
       >
-        <Zap className="w-3 h-3" />
-        {isPaused ? 'Tạm dừng' : isWithinWorkHours ? 'Hoạt động' : 'Nghỉ'}
-      </div>
+        <Settings className="w-3.5 h-3.5" />
+        <span className="text-xs">Cài đặt đầy đủ</span>
+        <ExternalLink className="w-3 h-3 opacity-50" />
+      </Button>
     </header>
   );
-}
+};

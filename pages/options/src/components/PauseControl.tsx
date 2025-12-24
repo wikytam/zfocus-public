@@ -21,7 +21,7 @@ const PAUSE_OPTIONS = [
   { value: 60, label: '1 giờ' },
 ];
 
-export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, onResume }: PauseControlProps) {
+export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, onResume }: PauseControlProps) => {
   const [selectedMinutes, setSelectedMinutes] = useState('15');
   const [remainingTime, setRemainingTime] = useState<string>('');
 
@@ -52,14 +52,14 @@ export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, on
 
   if (hardLockMode) {
     return (
-      <Card variant="bordered" className="p-4 border-warning/30 bg-warning/5">
-        <div className="flex items-center gap-3 text-warning">
-          <div className="p-2 rounded-lg bg-warning/10">
-            <Clock className="w-5 h-5" />
+      <Card variant="bordered" className="p-3 border-warning/30 bg-warning/5">
+        <div className="flex items-center gap-2.5 text-warning">
+          <div className="p-1.5 rounded-lg bg-warning/10">
+            <Clock className="w-4 h-4" />
           </div>
           <div>
-            <p className="font-medium">Chế độ khóa cứng</p>
-            <p className="text-xs opacity-80">Không thể tạm dừng trong giờ làm việc</p>
+            <p className="text-sm font-medium leading-tight">Chế độ khóa cứng</p>
+            <p className="text-[11px] opacity-80 leading-tight">Không thể tạm dừng</p>
           </div>
         </div>
       </Card>
@@ -70,42 +70,42 @@ export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, on
     <Card
       variant="glass"
       className={cn(
-        'p-4 transition-all duration-300',
-        isPaused && 'border-warning/50 shadow-[0_0_20px_hsl(38_90%_50%/0.1)]',
+        'p-3 transition-all duration-300',
+        isPaused && 'border-warning/50 shadow-[0_0_15px_hsl(38_90%_50%/0.1)]',
       )}
     >
       {isPaused ? (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-lg gradient-accent animate-pulse-soft">
-              <Pause className="w-5 h-5 text-accent-foreground" />
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-lg gradient-accent animate-pulse-soft">
+              <Pause className="w-4 h-4 text-accent-foreground" />
             </div>
             <div>
-              <p className="font-medium">Đang tạm dừng</p>
-              <p className="text-sm text-muted-foreground">
-                Còn lại: <span className="font-mono font-medium text-warning">{remainingTime}</span>
+              <p className="text-sm font-medium leading-tight">Đang tạm dừng</p>
+              <p className="text-xs text-muted-foreground leading-tight">
+                Còn <span className="font-mono font-semibold text-warning">{remainingTime}</span>
               </p>
             </div>
           </div>
-          <Button variant="outline" onClick={onResume}>
-            <Play className="w-4 h-4 mr-2" />
+          <Button variant="outline" size="sm" onClick={onResume} className="h-8">
+            <Play className="w-3.5 h-3.5 mr-1.5" />
             Tiếp tục
           </Button>
         </div>
       ) : (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-success/10">
-              <Play className="w-5 h-5 text-success" />
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <div className="p-2 rounded-lg bg-success/10 shrink-0">
+              <Play className="w-4 h-4 text-success" />
             </div>
-            <div>
-              <p className="font-medium">Đang hoạt động</p>
-              <p className="text-sm text-muted-foreground">Chặn các trang web xao nhãng</p>
+            <div className="min-w-0">
+              <p className="text-sm font-medium leading-tight">Đang hoạt động</p>
+              <p className="text-xs text-muted-foreground leading-tight truncate">Chặn trang web xao nhãng</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 shrink-0">
             <Select value={selectedMinutes} onValueChange={setSelectedMinutes}>
-              <SelectTrigger className="w-24">
+              <SelectTrigger className="w-[85px] h-8 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -116,13 +116,13 @@ export function PauseControl({ isPaused, pauseEndTime, hardLockMode, onPause, on
                 ))}
               </SelectContent>
             </Select>
-            <Button variant="warning" onClick={() => onPause(parseInt(selectedMinutes))}>
-              <Pause className="w-4 h-4 mr-2" />
-              Tạm dừng
+            <Button variant="warning" size="sm" onClick={() => onPause(parseInt(selectedMinutes))} className="h-8">
+              <Pause className="w-3.5 h-3.5 mr-1.5" />
+              Dừng
             </Button>
           </div>
         </div>
       )}
     </Card>
   );
-}
+};

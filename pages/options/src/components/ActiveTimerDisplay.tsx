@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
@@ -11,7 +11,7 @@ interface ActiveTimerDisplayProps {
   onCloseTimer: (siteId: string) => void;
 }
 
-export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayProps) {
+export const ActiveTimerDisplay = ({ timers, onCloseTimer }: ActiveTimerDisplayProps) => {
   const [, setTick] = useState(0);
 
   // Force re-render every second to update displays
@@ -23,12 +23,7 @@ export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayP
   if (timers.length === 0) return null;
 
   return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-        <AlertTriangle className="w-4 h-4 text-warning" />
-        Đang theo dõi ({timers.length})
-      </h3>
-
+    <div className="space-y-2">
       {timers.map(timer => {
         const progress = (timer.remainingSeconds / timer.totalSeconds) * 100;
         const isLow = timer.remainingSeconds <= 60;
@@ -43,23 +38,23 @@ export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayP
             key={timer.siteId}
             variant="bordered"
             className={cn(
-              'p-3 transition-all duration-300',
+              'p-2.5 transition-all duration-300',
               isCritical && 'border-destructive/50 bg-destructive/5 animate-pulse-soft',
               isLow && !isCritical && 'border-warning/50 bg-warning/5',
             )}
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-medium text-sm">{timer.siteName}</span>
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-medium text-xs">{timer.siteName}</span>
+              <div className="flex items-center gap-1.5">
                 <span
                   className={cn(
-                    'font-mono text-sm font-bold',
+                    'font-mono text-xs font-bold',
                     isCritical ? 'text-destructive' : isLow ? 'text-warning' : 'text-muted-foreground',
                   )}
                 >
                   {timeDisplay}
                 </span>
-                <Button variant="ghost" size="icon-sm" onClick={() => onCloseTimer(timer.siteId)} className="h-6 w-6">
+                <Button variant="ghost" size="icon-sm" onClick={() => onCloseTimer(timer.siteId)} className="h-5 w-5">
                   <X className="w-3 h-3" />
                 </Button>
               </div>
@@ -67,7 +62,7 @@ export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayP
             <Progress
               value={progress}
               className={cn(
-                'h-1.5',
+                'h-1',
                 isCritical && '[&>div]:bg-destructive',
                 isLow && !isCritical && '[&>div]:bg-warning',
               )}
@@ -77,4 +72,4 @@ export function ActiveTimerDisplay({ timers, onCloseTimer }: ActiveTimerDisplayP
       })}
     </div>
   );
-}
+};

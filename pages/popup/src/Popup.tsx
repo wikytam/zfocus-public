@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Clock, Ban, Settings, ExternalLink } from 'lucide-react';
+import { useEffect } from 'react';
+import { Clock, Ban } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
 import { Header } from './components/Header';
 import { StatCard } from './components/StatCard';
 import { PauseControl } from './components/PauseControl';
 import { ActiveTimerDisplay } from './components/ActiveTimerDisplay';
-import { Button } from './components/ui/button';
 import './index.css';
 
 const Popup = () => {
@@ -38,10 +37,6 @@ const Popup = () => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
-  };
-
-  const openOptionsPage = () => {
-    chrome.runtime.openOptionsPage();
   };
 
   return (
@@ -94,27 +89,6 @@ const Popup = () => {
             }}
           />
 
-          {/* Quick Info */}
-          <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-secondary/50 text-sm">
-            <span className="text-muted-foreground">
-              Đang chặn{' '}
-              <span className="font-semibold text-foreground">
-                {settings.blockedSites.filter(s => s.isActive).length}
-              </span>{' '}
-              / {settings.blockedSites.length} nhóm
-            </span>
-          </div>
-
-          {/* Open Settings Button */}
-          <Button
-            variant="outline"
-            className="w-full gap-2 h-11"
-            onClick={openOptionsPage}
-          >
-            <Settings className="w-4 h-4" />
-            <span>Mở cài đặt đầy đủ</span>
-            <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
-          </Button>
         </div>
       </div>
     </div>
