@@ -1,5 +1,6 @@
-import { Moon, Sun, Monitor, Lock, Unlock } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, cn } from '@extension/ui';
+import { useState } from 'react';
+import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
 import type { FocusSettings } from '@extension/storage';
 
 interface SettingsPanelProps {
@@ -8,6 +9,48 @@ interface SettingsPanelProps {
 }
 
 export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
+  const [syncInfo, setSyncInfo] = useState<string>('');
+  const [showDebug, setShowDebug] = useState(false);
+  const [debugData, setDebugData] = useState<string>('');
+
+  const checkSyncStatus = async () => {
+    setSyncStatus('syncing');
+    try {
+      // Check chrome.storage.sync
+      const syncData = await chrome.storage.sync.get(null);
+      const bytesUsed = await chrome.storage.sync.getBytesInUse(null);
+      const maxBytes = chrome.storage.sync.QUOTA_BYTES; // 102,400 bytes
+      
+      setSyncInfo(`Đã sử dụng: ${(bytesUsed / 1024).toFixed(2)} KB / ${(maxBytes / 1024).toFixed(0)} KB`);
+      setDebugData(JSON.stringify(syncData, null, 2));
+      setSyncStatus('success');
+    } catch (error) {
+      setSyncStatus('error');
+      setSyncInfo(`Lỗi: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const forceSyncNow = async () => {
+    setSyncStatus('syncing');
+    try {
+      // Re-save current settings to trigger sync
+      await chrome.storage.sync.set({ 'focus-settings': settings });
+      setSyncStatus('success');
+      setSyncInfo('Đã đồng bộ thành công!');
+    } catch (error) {
+      setSyncStatus('error');
+      setSyncInfo(`Lỗi đồng bộ: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const clearAllData = async () => {
+    if (confirm('Xóa tất cả dữ liệu? Hành động này không thể hoàn tác!')) {
+      await chrome.storage.sync.clear();
+      await chrome.storage.local.clear();
+      window.location.reload();
+    }
+  };
   const themes = [
     { value: 'light' as const, icon: Sun, label: 'Sáng' },
     { value: 'dark' as const, icon: Moon, label: 'Tối' },
@@ -88,6 +131,84 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
             checked={settings.hardLockMode}
             onCheckedChange={checked => onUpdate({ hardLockMode: checked })}
           />
+        </div>
+
+        {/* Sync Status */}
+        <div className="space-y-3">
+          <Label className="flex items-center gap-2">
+            <Cloud className="w-4 h-4" />
+            Đồng bộ dữ liệu
+          </Label>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={checkSyncStatus}
+              disabled={syncStatus === 'syncing'}
+            >
+              {syncStatus === 'syncing' ? (
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              ) : syncStatus === 'success' ? (
+                <Cloud className="w-4 h-4 mr-2 text-green-500" />
+              ) : syncStatus === 'error' ? (
+                <CloudOff className="w-4 h-4 mr-2 text-red-500" />
+              ) : (
+                <Cloud className="w-4 h-4 mr-2" />
+              )}
+              Kiểm tra
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={forceSyncNow}
+              disabled={syncStatus === 'syncing'}
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Đồng bộ ngay
+            </Button>
+          </div>
+          {syncInfo && (
+            <p className={cn(
+              'text-xs',
+              syncStatus === 'error' ? 'text-red-500' : 'text-muted-foreground'
+            )}>
+              {syncInfo}
+            </p>
+          )}
+        </div>
+
+        {/* Debug Section */}
+        <div className="space-y-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setShowDebug(!showDebug);
+              if (!showDebug) checkSyncStatus();
+            }}
+            className="text-muted-foreground"
+          >
+            <Bug className="w-4 h-4 mr-2" />
+            {showDebug ? 'Ẩn Debug' : 'Hiện Debug'}
+          </Button>
+          
+          {showDebug && (
+            <div className="space-y-2">
+              <div className="p-3 bg-secondary/50 rounded-lg">
+                <p className="text-xs font-mono text-muted-foreground mb-2">Storage Data:</p>
+                <pre className="text-xs font-mono overflow-auto max-h-40 text-foreground">
+                  {debugData || 'Click "Kiểm tra" để xem dữ liệu'}
+                </pre>
+              </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={clearAllData}
+              >
+                Xóa tất cả dữ liệu
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Extension Info */}
