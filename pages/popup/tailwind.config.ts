@@ -1,12 +1,9 @@
+import tailwindcssAnimate from 'tailwindcss-animate';
 import type { Config } from 'tailwindcss';
 
 export default {
   darkMode: ['class'],
-  content: [
-    'index.html',
-    'src/**/*.tsx',
-    '../../packages/ui/lib/**/*.tsx',
-  ],
+  content: ['index.html', 'src/**/*.tsx', '../../packages/ui/lib/**/*.tsx'],
   prefix: '',
   theme: {
     container: {
@@ -18,7 +15,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        sans: ['"Google Sans Text"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -115,5 +112,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
