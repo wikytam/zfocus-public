@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, ChevronDown, ChevronUp, Globe } from 'lucide-react';
+import { Plus, ChevronDown, ChevronUp, Globe, HelpCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -13,17 +13,6 @@ interface AddSiteDialogProps {
   onAdd: (site: Omit<BlockedSite, 'id'>) => void;
 }
 
-const WEBSITE_ICONS = [
-  { id: 'tiktok', label: 'TikTok', icon: '🎵', pattern: 'tiktok.com' },
-  { id: 'youtube', label: 'YouTube', icon: '▶️', pattern: 'youtube.com' },
-  { id: 'youtube-short', label: 'YouTube Shorts', icon: '📱', pattern: 'youtube.com/shorts' },
-  { id: 'facebook', label: 'Facebook', icon: '📘', pattern: 'facebook.com' },
-  { id: 'instagram', label: 'Instagram', icon: '📷', pattern: 'instagram.com' },
-  { id: 'twitter', label: 'Twitter/X', icon: '🐦', pattern: 'twitter.com, x.com' },
-  { id: 'reddit', label: 'Reddit', icon: '🤖', pattern: 'reddit.com' },
-  { id: 'twitch', label: 'Twitch', icon: '🎮', pattern: 'twitch.tv' },
-];
-
 const DAYS = [
   { value: 1, label: 'T2' },
   { value: 2, label: 'T3' },
@@ -34,48 +23,42 @@ const DAYS = [
   { value: 0, label: 'CN' },
 ];
 
+const TIME_INTERVALS = [
+  { value: 10, label: '10 phút' },
+  { value: 20, label: '20 phút' },
+  { value: 30, label: '30 phút' },
+  { value: 60, label: '1 tiếng' },
+];
+
 export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [isAdvanced, setIsAdvanced] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const [formData, setFormData] = useState<{
     title: string;
     urls: string;
     allowedMinutes: number;
+    timeInterval: number;
     action: 'close' | 'redirect';
     redirectUrl: string;
     activeDays: number[];
-    selectedIcons: string[];
   }>({
     title: '',
     urls: '',
     allowedMinutes: 5,
+    timeInterval: 60,
     action: 'redirect',
     redirectUrl: '',
     activeDays: [1, 2, 3, 4, 5],
-    selectedIcons: [],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Combine URLs from selected icons and manual input
-    let allUrls = formData.urls
+    const allUrls = formData.urls
       .split('\n')
       .map(u => u.trim())
       .filter(Boolean);
-
-    // Add patterns from selected icons
-    formData.selectedIcons.forEach(iconId => {
-      const icon = WEBSITE_ICONS.find(i => i.id === iconId);
-      if (icon) {
-        const patterns = icon.pattern.split(', ').map(p => p.trim());
-        patterns.forEach(p => {
-          if (!allUrls.includes(p)) {
-            allUrls.push(p);
-          }
-        });
-      }
-    });
 
     onAdd({
       title: formData.title,
@@ -96,21 +79,12 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       title: '',
       urls: '',
       allowedMinutes: 5,
+      timeInterval: 60,
       action: 'redirect',
       redirectUrl: '',
       activeDays: [1, 2, 3, 4, 5],
-      selectedIcons: [],
     });
     setOpen(false);
-  };
-
-  const toggleIcon = (iconId: string) => {
-    setFormData(prev => ({
-      ...prev,
-      selectedIcons: prev.selectedIcons.includes(iconId)
-        ? prev.selectedIcons.filter(id => id !== iconId)
-        : [...prev.selectedIcons, iconId],
-    }));
   };
 
   const toggleDay = (day: number) => {
@@ -174,55 +148,56 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 placeholder="facebook.com&#10;twitter.com&#10;instagram.com"
                 rows={6}
                 className="font-mono text-base min-h-[150px]"
-                required={formData.selectedIcons.length === 0}
+                required
               />
               <p className="text-xs text-muted-foreground">Mỗi dòng một URL, chỉ cần nhập domain</p>
             </div>
           ) : (
             /* Advanced Mode */
             <div className="space-y-4">
-              {/* Website Icon Selection */}
-              <div className="space-y-2">
-                <Label>Chọn theo website</Label>
-                <div className="grid grid-cols-4 gap-2">
-                  {WEBSITE_ICONS.map(icon => (
-                    <button
-                      key={icon.id}
-                      type="button"
-                      onClick={() => toggleIcon(icon.id)}
-                      className={cn(
-                        'flex flex-col items-center gap-1 p-2 rounded-lg text-xs transition-all duration-200 border',
-                        formData.selectedIcons.includes(icon.id)
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border bg-secondary/50 text-muted-foreground hover:bg-secondary',
-                      )}
-                      title={icon.pattern}
-                    >
-                      <span className="text-lg">{icon.icon}</span>
-                      <span className="truncate w-full text-center">{icon.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* URL Input with Wildcard Support */}
               <div className="space-y-2">
-                <Label htmlFor="add-urls-advanced">Danh sách URL (nâng cao)</Label>
+                <Label htmlFor="add-urls-advanced">Danh sách URL</Label>
                 <Textarea
                   id="add-urls-advanced"
                   value={formData.urls}
                   onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
-                  placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com&#10;>referrer.com&#10;~keyword"
+                  placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
                   rows={4}
                   className="font-mono text-sm"
                 />
-                <p className="text-[11px] text-muted-foreground leading-relaxed">
-                  Hỗ trợ: <code className="px-1 py-0.5 bg-secondary rounded">*</code> hoặc{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">**</code> wildcard,{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">+</code> ngoại lệ,{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">&gt;</code> referrer,{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">~</code> từ khóa
-                </p>
+                
+                {/* Expandable Help */}
+                <button
+                  type="button"
+                  onClick={() => setShowHelp(!showHelp)}
+                  className="flex items-center gap-1 text-[11px] text-primary hover:underline"
+                >
+                  <HelpCircle className="w-3 h-3" />
+                  Xem cú pháp hỗ trợ
+                  {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                </button>
+                
+                {showHelp && (
+                  <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
+                    <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
+                      <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
+                      <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
+                      <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
+                      <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
+                      <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Active Days */}
@@ -249,42 +224,57 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="add-allowedMinutes">Thời gian cho phép (phút)</Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  id="add-allowedMinutes"
-                  type="number"
-                  min={5}
-                  value={formData.allowedMinutes}
-                  onChange={e =>
-                    setFormData(prev => ({
-                      ...prev,
-                      allowedMinutes: Math.max(5, parseInt(e.target.value) || 5),
-                    }))
-                  }
-                  className="flex-1"
-                />
-                <span className="text-xs text-muted-foreground whitespace-nowrap">min: 5</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="add-action">Hành động</Label>
+          {/* Time Allowed with Interval */}
+          <div className="space-y-2">
+            <Label>Thời gian cho phép</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                id="add-allowedMinutes"
+                type="number"
+                min={5}
+                value={formData.allowedMinutes}
+                onChange={e =>
+                  setFormData(prev => ({
+                    ...prev,
+                    allowedMinutes: Math.max(5, parseInt(e.target.value) || 5),
+                  }))
+                }
+                className="w-20"
+              />
+              <span className="text-sm text-muted-foreground">phút mỗi</span>
               <Select
-                value={formData.action}
-                onValueChange={(value: 'close' | 'redirect') => setFormData(prev => ({ ...prev, action: value }))}
+                value={formData.timeInterval.toString()}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
               >
-                <SelectTrigger id="add-action">
+                <SelectTrigger className="w-28">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="close">Đóng tab</SelectItem>
-                  <SelectItem value="redirect">Chuyển hướng</SelectItem>
+                  {TIME_INTERVALS.map(opt => (
+                    <SelectItem key={opt.value} value={opt.value.toString()}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          {/* Action */}
+          <div className="space-y-2">
+            <Label htmlFor="add-action">Hành động khi hết thời gian</Label>
+            <Select
+              value={formData.action}
+              onValueChange={(value: 'close' | 'redirect') => setFormData(prev => ({ ...prev, action: value }))}
+            >
+              <SelectTrigger id="add-action">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="close">Đóng tab</SelectItem>
+                <SelectItem value="redirect">Chuyển hướng</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {formData.action === 'redirect' && (

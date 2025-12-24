@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Edit2, ChevronDown, ChevronUp, Globe, Trash2, Clock } from 'lucide-react';
+import { Edit2, ChevronDown, ChevronUp, Globe, Trash2, Clock, HelpCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
-import { Switch } from './ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { cn } from '../lib/utils';
@@ -17,17 +16,6 @@ interface EditSiteDialogProps {
   trigger?: React.ReactNode;
 }
 
-const WEBSITE_ICONS = [
-  { id: 'tiktok', label: 'TikTok', icon: '🎵', pattern: 'tiktok.com' },
-  { id: 'youtube', label: 'YouTube', icon: '▶️', pattern: 'youtube.com' },
-  { id: 'youtube-short', label: 'YouTube Shorts', icon: '📱', pattern: 'youtube.com/shorts' },
-  { id: 'facebook', label: 'Facebook', icon: '📘', pattern: 'facebook.com' },
-  { id: 'instagram', label: 'Instagram', icon: '📷', pattern: 'instagram.com' },
-  { id: 'twitter', label: 'Twitter/X', icon: '🐦', pattern: 'twitter.com, x.com' },
-  { id: 'reddit', label: 'Reddit', icon: '🤖', pattern: 'reddit.com' },
-  { id: 'twitch', label: 'Twitch', icon: '🎮', pattern: 'twitch.tv' },
-];
-
 const DAYS = [
   { value: 1, label: 'T2', fullLabel: 'Thứ hai' },
   { value: 2, label: 'T3', fullLabel: 'Thứ ba' },
@@ -38,21 +26,27 @@ const DAYS = [
   { value: 0, label: 'CN', fullLabel: 'Chủ nhật' },
 ];
 
+const TIME_INTERVALS = [
+  { value: 10, label: '10 phút' },
+  { value: 20, label: '20 phút' },
+  { value: 30, label: '30 phút' },
+  { value: 60, label: '1 tiếng' },
+];
+
 export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [isAdvanced, setIsAdvanced] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const [editData, setEditData] = useState({
     title: site.title,
     urls: site.urls.join('\n'),
     allowedMinutes: site.allowedMinutesPerHour,
+    timeInterval: 60,
     action: site.action,
     redirectUrl: site.redirectUrl || '',
     activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
     startTime: site.schedule?.startTime || '08:00',
     endTime: site.schedule?.endTime || '17:00',
-    allowOutsideHours: site.schedule?.allowOutsideHours ?? true,
-    selectedIcons: [] as string[],
   });
 
   useEffect(() => {
@@ -60,36 +54,21 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       title: site.title,
       urls: site.urls.join('\n'),
       allowedMinutes: site.allowedMinutesPerHour,
+      timeInterval: 60,
       action: site.action,
       redirectUrl: site.redirectUrl || '',
       activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
       startTime: site.schedule?.startTime || '08:00',
       endTime: site.schedule?.endTime || '17:00',
-      allowOutsideHours: site.schedule?.allowOutsideHours ?? true,
-      selectedIcons: [],
     });
-    setShowDeleteConfirm(false);
+    setShowHelp(false);
   }, [site, open]);
 
   const handleSave = () => {
-    // Combine URLs from selected icons and manual input
-    let allUrls = editData.urls
+    const allUrls = editData.urls
       .split('\n')
       .map(u => u.trim())
       .filter(Boolean);
-
-    // Add patterns from selected icons
-    editData.selectedIcons.forEach(iconId => {
-      const icon = WEBSITE_ICONS.find(i => i.id === iconId);
-      if (icon) {
-        const patterns = icon.pattern.split(', ').map(p => p.trim());
-        patterns.forEach(p => {
-          if (!allUrls.includes(p)) {
-            allUrls.push(p);
-          }
-        });
-      }
-    });
 
     onSave({
       title: editData.title,
@@ -101,7 +80,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
         workDays: editData.activeDays,
         startTime: editData.startTime,
         endTime: editData.endTime,
-        allowOutsideHours: editData.allowOutsideHours,
+        allowOutsideHours: true,
       },
     });
     setOpen(false);
@@ -112,15 +91,6 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       onDelete();
       setOpen(false);
     }
-  };
-
-  const toggleIcon = (iconId: string) => {
-    setEditData(prev => ({
-      ...prev,
-      selectedIcons: prev.selectedIcons.includes(iconId)
-        ? prev.selectedIcons.filter(id => id !== iconId)
-        : [...prev.selectedIcons, iconId],
-    }));
   };
 
   const toggleDay = (day: number) => {
@@ -194,89 +164,104 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           ) : (
             /* Advanced Mode */
             <div className="space-y-4">
-              {/* Website Icon Selection */}
-              <div className="space-y-2">
-                <Label>Chọn theo website</Label>
-                <div className="grid grid-cols-4 gap-2">
-                  {WEBSITE_ICONS.map(icon => (
-                    <button
-                      key={icon.id}
-                      type="button"
-                      onClick={() => toggleIcon(icon.id)}
-                      className={cn(
-                        'flex flex-col items-center gap-1 p-2 rounded-lg text-xs transition-all duration-200 border',
-                        editData.selectedIcons.includes(icon.id)
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border bg-secondary/50 text-muted-foreground hover:bg-secondary',
-                      )}
-                      title={icon.pattern}
-                    >
-                      <span className="text-lg">{icon.icon}</span>
-                      <span className="truncate w-full text-center">{icon.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* URL Input with Wildcard Support */}
               <div className="space-y-2">
-                <Label htmlFor="urls-advanced">Danh sách URL (nâng cao)</Label>
+                <Label htmlFor="urls-advanced">Danh sách URL</Label>
                 <Textarea
                   id="urls-advanced"
                   value={editData.urls}
                   onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
-                  placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com&#10;>referrer.com&#10;~keyword"
+                  placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
                   rows={4}
                   className="font-mono text-sm"
                 />
-                <p className="text-[11px] text-muted-foreground leading-relaxed">
-                  Hỗ trợ: <code className="px-1 py-0.5 bg-secondary rounded">*</code> hoặc{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">**</code> wildcard,{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">+</code> ngoại lệ,{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">&gt;</code> referrer,{' '}
-                  <code className="px-1 py-0.5 bg-secondary rounded">~</code> từ khóa
-                </p>
+                
+                {/* Expandable Help */}
+                <button
+                  type="button"
+                  onClick={() => setShowHelp(!showHelp)}
+                  className="flex items-center gap-1 text-[11px] text-primary hover:underline"
+                >
+                  <HelpCircle className="w-3 h-3" />
+                  Xem cú pháp hỗ trợ
+                  {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                </button>
+                
+                {showHelp && (
+                  <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
+                    <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
+                      <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
+                      <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
+                      <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
+                      <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
+                      
+                      <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
+                      <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {/* Time and Action */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="allowedMinutes">Thời gian cho phép (phút)</Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  id="allowedMinutes"
-                  type="number"
-                  min={5}
-                  value={editData.allowedMinutes}
-                  onChange={e =>
-                    setEditData(prev => ({
-                      ...prev,
-                      allowedMinutes: Math.max(5, parseInt(e.target.value) || 5),
-                    }))
-                  }
-                  className="flex-1"
-                />
-                <span className="text-xs text-muted-foreground whitespace-nowrap">min: 5</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="action">Hành động</Label>
+          {/* Time Allowed with Interval */}
+          <div className="space-y-2">
+            <Label>Thời gian cho phép</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                id="allowedMinutes"
+                type="number"
+                min={5}
+                value={editData.allowedMinutes}
+                onChange={e =>
+                  setEditData(prev => ({
+                    ...prev,
+                    allowedMinutes: Math.max(5, parseInt(e.target.value) || 5),
+                  }))
+                }
+                className="w-20"
+              />
+              <span className="text-sm text-muted-foreground">phút mỗi</span>
               <Select
-                value={editData.action}
-                onValueChange={(value: 'close' | 'redirect') => setEditData(prev => ({ ...prev, action: value }))}
+                value={editData.timeInterval.toString()}
+                onValueChange={(value) => setEditData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
               >
-                <SelectTrigger id="action">
+                <SelectTrigger className="w-28">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="close">Đóng tab</SelectItem>
-                  <SelectItem value="redirect">Chuyển hướng</SelectItem>
+                  {TIME_INTERVALS.map(opt => (
+                    <SelectItem key={opt.value} value={opt.value.toString()}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          {/* Action */}
+          <div className="space-y-2">
+            <Label htmlFor="action">Hành động khi hết thời gian</Label>
+            <Select
+              value={editData.action}
+              onValueChange={(value: 'close' | 'redirect') => setEditData(prev => ({ ...prev, action: value }))}
+            >
+              <SelectTrigger id="action">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="close">Đóng tab</SelectItem>
+                <SelectItem value="redirect">Chuyển hướng</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Redirect URL */}
@@ -312,7 +297,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             </div>
           )}
 
-          {/* Schedule Section - Merged from SiteScheduleDialog */}
+          {/* Schedule Section */}
           <div className="space-y-4 pt-4 border-t border-border">
             <div className="flex items-center gap-2 text-sm font-medium">
               <Clock className="w-4 h-4 text-primary" />
@@ -365,73 +350,30 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 ))}
               </div>
             </div>
-
-            {/* Allow outside hours */}
-            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
-              <div className="space-y-0.5">
-                <Label htmlFor="allowOutside" className="cursor-pointer text-sm">
-                  Cho phép truy cập ngoài giờ
-                </Label>
-                <p className="text-[11px] text-muted-foreground">Không chặn trong ngày nghỉ và ngoài giờ làm</p>
-              </div>
-              <Switch
-                id="allowOutside"
-                checked={editData.allowOutsideHours}
-                onCheckedChange={checked => setEditData(prev => ({ ...prev, allowOutsideHours: checked }))}
-              />
-            </div>
           </div>
-
-          {/* Delete Section */}
-          {onDelete && (
-            <div className="pt-4 border-t border-border">
-              {!showDeleteConfirm ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="w-full text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={() => setShowDeleteConfirm(true)}
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Xóa nhóm này
-                </Button>
-              ) : (
-                <div className="space-y-2">
-                  <p className="text-sm text-center text-muted-foreground">
-                    Bạn có chắc muốn xóa nhóm "{site.title}"?
-                  </p>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => setShowDeleteConfirm(false)}
-                    >
-                      Hủy
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      className="flex-1"
-                      onClick={handleDelete}
-                    >
-                      Xác nhận xóa
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
-        <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={() => setOpen(false)}>
+        {/* Footer Buttons - Inline */}
+        <div className="flex items-center gap-2">
+          {onDelete && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="text-destructive hover:text-destructive hover:bg-destructive/10"
+              onClick={handleDelete}
+            >
+              <Trash2 className="w-4 h-4 mr-1" />
+              Xóa
+            </Button>
+          )}
+          <div className="flex-1" />
+          <Button variant="outline" size="sm" onClick={() => setOpen(false)}>
             Hủy
           </Button>
-          <Button onClick={handleSave}>Lưu thay đổi</Button>
+          <Button size="sm" onClick={handleSave}>
+            Lưu thay đổi
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
