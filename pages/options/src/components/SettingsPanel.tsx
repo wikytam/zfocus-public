@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
-import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, Download, Upload, FileDown, FileUp, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, FileDown, FileUp, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
 import type { FocusSettings } from '@extension/storage';
-import { checkSyncStatus as checkSync, forcePushToCloud, forcePullFromCloud, clearAllData } from '../utils/settingsSync';
+import { checkSyncStatus as checkSync, autoSync, clearAllData } from '../utils/settingsSync';
 import { exportSettings as exportSettingsFile, parseImportFile } from '../utils/settingsExportImport';
 
 interface SettingsPanelProps {
@@ -31,16 +31,9 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
     if (result.debugData) setDebugData(result.debugData);
   };
 
-  const handlePushToCloud = async () => {
+  const handleAutoSync = async () => {
     setSyncStatus('syncing');
-    const result = await forcePushToCloud(settings);
-    setSyncStatus(result.type);
-    setSyncInfo(result.message);
-  };
-
-  const handlePullFromCloud = async () => {
-    setSyncStatus('syncing');
-    const result = await forcePullFromCloud();
+    const result = await autoSync(settings);
     setSyncStatus(result.type);
     setSyncInfo(result.message);
     if (result.success && result.settings) {
@@ -174,13 +167,13 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={handlePushToCloud}
+              onClick={handleAutoSync}
               disabled={syncStatus === 'syncing'}
             >
               {syncStatus === 'syncing' ? (
                 <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
               ) : (
-                <Upload className="w-4 h-4 mr-2" />
+                <RefreshCw className="w-4 h-4 mr-2" />
               )}
               Đồng bộ
             </Button>

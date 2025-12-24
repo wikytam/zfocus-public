@@ -131,6 +131,8 @@ export const focusSettingsStorage = {
 
   updateSettings: async (updates: Partial<FocusSettings>) => {
     await settingsStorage.set(prev => ({ ...prev, ...updates }));
+    // Update last sync timestamp for auto-sync
+    await chrome.storage.local.set({ 'focus-last-sync': Date.now() });
   },
 
   addBlockedSite: async (site: Omit<BlockedSite, 'id'>) => {
@@ -142,6 +144,7 @@ export const focusSettingsStorage = {
       ...prev,
       blockedSites: [...prev.blockedSites, newSite],
     }));
+    await chrome.storage.local.set({ 'focus-last-sync': Date.now() });
     return newSite;
   },
 
@@ -150,6 +153,7 @@ export const focusSettingsStorage = {
       ...prev,
       blockedSites: prev.blockedSites.map(site => (site.id === id ? { ...site, ...updates } : site)),
     }));
+    await chrome.storage.local.set({ 'focus-last-sync': Date.now() });
   },
 
   removeBlockedSite: async (id: string) => {
@@ -157,6 +161,7 @@ export const focusSettingsStorage = {
       ...prev,
       blockedSites: prev.blockedSites.filter(site => site.id !== id),
     }));
+    await chrome.storage.local.set({ 'focus-last-sync': Date.now() });
   },
 
   pauseBlocking: async (minutes: number) => {
