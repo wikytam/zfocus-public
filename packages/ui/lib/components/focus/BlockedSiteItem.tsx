@@ -1,8 +1,8 @@
-import { Globe, Clock } from 'lucide-react';
-import { Card } from '../ui/card';
-import { Switch } from '../ui/switch';
 import { EditSiteDialog } from './EditSiteDialog';
 import { cn } from '../../utils';
+import { Card } from '../ui/card';
+import { Switch } from '../ui/switch';
+import { Globe, Clock } from 'lucide-react';
 import type { BlockedSite } from '@extension/storage';
 
 interface BlockedSiteItemProps {
@@ -24,30 +24,29 @@ export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: Blocked
   return (
     <Card
       variant="glass"
-      className={cn('p-4 opacity-0 animate-fade-in transition-all duration-300', !site.isActive && 'opacity-60')}
-      style={{ animationDelay: `${delay}ms` }}
-    >
+      className={cn('animate-fade-in p-4 opacity-0 transition-all duration-300', !site.isActive && 'opacity-60')}
+      style={{ animationDelay: `${delay}ms` }}>
       <div className="flex items-start gap-4">
-        <div className="p-2.5 rounded-lg bg-secondary/50">
-          <Globe className="w-5 h-5 text-muted-foreground" />
+        <div className="bg-secondary/50 rounded-lg p-2.5">
+          <Globe className="text-muted-foreground h-5 w-5" />
         </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <h4 className="font-semibold truncate">{site.title}</h4>
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex items-center gap-2">
+            <h4 className="truncate font-semibold">{site.title}</h4>
             {site.isActive && (
-              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-success/10 text-success">Đang chặn</span>
+              <span className="bg-success/10 text-success rounded-full px-2 py-0.5 text-xs font-medium">Đang chặn</span>
             )}
           </div>
 
-          <p className="text-sm text-muted-foreground mb-2 truncate">
+          <p className="text-muted-foreground mb-2 truncate text-sm">
             {site.urls.slice(0, 3).join(', ')}
             {site.urls.length > 3 && ` +${site.urls.length - 3} khác`}
           </p>
 
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-4 text-xs">
             <span className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5" />
+              <Clock className="h-3.5 w-3.5" />
               {site.allowedMinutesPerHour} phút/giờ
             </span>
             <span>{site.action === 'close' ? 'Đóng tab' : 'Chuyển hướng'}</span>

@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
-import { Switch } from '../ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { cn } from '../../utils';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Switch } from '../ui/switch';
+import { Textarea } from '../ui/textarea';
+import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { useState } from 'react';
 import type { BlockedSite } from '@extension/storage';
 
 interface AddSiteDialogProps {
@@ -34,13 +34,30 @@ const TIME_INTERVALS = [
 export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string;
+    urls: string;
+    exceptions: string;
+    referrers: string;
+    keywords: string;
+    allowedMinutes: number | '';
+    timeInterval: number;
+    countOnlyActiveTab: boolean;
+    action: 'close' | 'redirect';
+    redirectUrl: string;
+    activeDays: number[];
+    startTime: string;
+    endTime: string;
+  }>({
     title: '',
     urls: '',
+    exceptions: '',
+    referrers: '',
+    keywords: '',
     allowedMinutes: 5,
     timeInterval: 60,
     countOnlyActiveTab: true,
-    action: 'redirect' as 'close' | 'redirect',
+    action: 'redirect',
     redirectUrl: '',
     activeDays: [1, 2, 3, 4, 5],
     startTime: '08:00',
@@ -55,10 +72,28 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       .map(u => u.trim())
       .filter(Boolean);
 
+    const exceptions = formData.exceptions
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean);
+
+    const referrers = formData.referrers
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean);
+
+    const keywords = formData.keywords
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean);
+
     onAdd({
       title: formData.title,
       urls: allUrls,
-      allowedMinutesPerHour: Math.max(5, formData.allowedMinutes),
+      exceptions: exceptions.length > 0 ? exceptions : undefined,
+      referrers: referrers.length > 0 ? referrers : undefined,
+      keywords: keywords.length > 0 ? keywords : undefined,
+      allowedMinutesPerHour: Math.max(5, typeof formData.allowedMinutes === 'number' ? formData.allowedMinutes : 5),
       countOnlyActiveTab: formData.countOnlyActiveTab,
       action: formData.action,
       redirectUrl: formData.redirectUrl || undefined,
@@ -74,6 +109,9 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
     setFormData({
       title: '',
       urls: '',
+      exceptions: '',
+      referrers: '',
+      keywords: '',
       allowedMinutes: 5,
       timeInterval: 60,
       countOnlyActiveTab: true,
@@ -100,11 +138,11 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="gap-2">
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           Thêm nhóm mới
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Thêm nhóm website chặn</DialogTitle>
           <DialogDescription>Tạo nhóm mới để quản lý các trang web gây xao nhãng</DialogDescription>
@@ -130,40 +168,70 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               id="add-urls"
               value={formData.urls}
               onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
-              placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
+              placeholder="facebook.com&#10;youtube.com&#10;twitter.com"
               rows={4}
               className="font-mono text-sm"
               required
             />
-            
-            {/* Expandable Help */}
+            <p className="text-muted-foreground text-xs">
+              Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path.
+            </p>
+
+            {/* Expandable Advanced Options */}
             <button
               type="button"
               onClick={() => setShowHelp(!showHelp)}
-              className="flex items-center gap-1 text-[11px] text-primary hover:underline"
-            >
-              <HelpCircle className="w-3 h-3" />
-              Xem cú pháp hỗ trợ
-              {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              className="text-primary flex items-center gap-1 text-[11px] hover:underline">
+              <HelpCircle className="h-3 w-3" />
+              Tùy chọn nâng cao
+              {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             </button>
-            
+
             {showHelp && (
-              <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
-                <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
-                  <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
-                  <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
-                  <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
-                  <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
-                  <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
+              <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="add-exceptions" className="text-xs">
+                    Ngoại lệ (cho phép)
+                  </Label>
+                  <Textarea
+                    id="add-exceptions"
+                    value={formData.exceptions}
+                    onChange={e => setFormData(prev => ({ ...prev, exceptions: e.target.value }))}
+                    placeholder="youtube.com/learn&#10;facebook.com/help"
+                    rows={2}
+                    className="font-mono text-xs"
+                  />
+                  <p className="text-muted-foreground text-[10px]">Các URL này sẽ được cho phép truy cập</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="add-referrer" className="text-xs">
+                    Chặn từ nguồn (Referrer)
+                  </Label>
+                  <Textarea
+                    id="add-referrer"
+                    value={formData.referrers}
+                    onChange={e => setFormData(prev => ({ ...prev, referrers: e.target.value }))}
+                    placeholder="facebook.com&#10;twitter.com"
+                    rows={2}
+                    className="font-mono text-xs"
+                  />
+                  <p className="text-muted-foreground text-[10px]">Chặn các link được click từ các trang này</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="add-keywords" className="text-xs">
+                    Từ khóa trong URL
+                  </Label>
+                  <Textarea
+                    id="add-keywords"
+                    value={formData.keywords}
+                    onChange={e => setFormData(prev => ({ ...prev, keywords: e.target.value }))}
+                    placeholder="game&#10;video&#10;entertainment"
+                    rows={2}
+                    className="font-mono text-xs"
+                  />
+                  <p className="text-muted-foreground text-[10px]">Chặn URL chứa các từ khóa này (mỗi từ một dòng)</p>
                 </div>
               </div>
             )}
@@ -171,8 +239,8 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
 
           {/* Time Allowed with Interval */}
           <div className="space-y-2">
-            <Label>Thời gian cho phép (phút)</Label>
             <div className="flex items-center gap-2">
+              <Label>Thời gian cho phép (phút)</Label>
               <Input
                 id="add-allowedMinutes"
                 type="number"
@@ -182,7 +250,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                   const value = e.target.value;
                   setFormData(prev => ({
                     ...prev,
-                    allowedMinutes: value === '' ? '' as any : Math.max(1, parseInt(value) || 1),
+                    allowedMinutes: (value === '' ? '' : Math.max(1, parseInt(value) || 1)) as number | '',
                   }));
                 }}
                 onBlur={e => {
@@ -196,11 +264,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 }}
                 className="w-20"
               />
-              <span className="text-sm text-muted-foreground">phút mỗi</span>
+              <span className="text-muted-foreground text-sm">phút mỗi</span>
               <Select
                 value={formData.timeInterval.toString()}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
-              >
+                onValueChange={value => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}>
                 <SelectTrigger className="w-28">
                   <SelectValue />
                 </SelectTrigger>
@@ -213,34 +280,29 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 </SelectContent>
               </Select>
             </div>
-            
+
             {/* Count only active tab toggle */}
-            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 border border-border/50">
+            <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
               <div className="flex items-center gap-2">
-                <Info className="w-4 h-4 text-muted-foreground" />
-                <div className="flex flex-col">
-                  <Label htmlFor="add-countOnlyActiveTab" className="text-sm font-medium cursor-pointer">
-                    Chỉ ghi nhận tab active
-                  </Label>
-                  <span className="text-xs text-muted-foreground">
-                    Ví dụ: nghe nhạc Youtube Background thì không tính vào
-                  </span>
+                <div className="cursor-help" title="Ví dụ: nghe nhạc Youtube Background thì không tính vào">
+                  <Info className="text-muted-foreground h-4 w-4" />
                 </div>
+                <Label htmlFor="add-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
+                  Chỉ ghi nhận tab active
+                </Label>
               </div>
               <Switch
                 id="add-countOnlyActiveTab"
                 checked={formData.countOnlyActiveTab}
-                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+                onCheckedChange={checked => setFormData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
               />
             </div>
           </div>
 
-          
-
           {/* Schedule Section */}
-          <div className="space-y-4 pt-4 border-t border-border">
+          <div className="border-border space-y-4 border-t pt-4">
             <div className="flex items-center gap-2 text-sm font-medium">
-              <Clock className="w-4 h-4 text-primary" />
+              <Clock className="text-primary h-4 w-4" />
               Lịch chặn
             </div>
 
@@ -278,13 +340,12 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     type="button"
                     onClick={() => toggleDay(day.value)}
                     className={cn(
-                      'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
+                      'flex-1 rounded-lg px-1 py-2 text-xs font-medium transition-all duration-200',
                       formData.activeDays.includes(day.value)
                         ? 'gradient-primary text-primary-foreground shadow-md'
                         : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                     )}
-                    title={day.fullLabel}
-                  >
+                    title={day.fullLabel}>
                     {day.label}
                   </button>
                 ))}
@@ -294,29 +355,27 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           {/* Action - Segmented Control */}
           <div className="space-y-2">
             <Label>Hành động khi hết thời gian</Label>
-            <div className="flex p-1 rounded-lg bg-secondary/50">
+            <div className="bg-secondary/50 flex rounded-lg p-1">
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, action: 'close' }))}
                 className={cn(
-                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
                   formData.action === 'close'
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
+                )}>
                 Đóng tab
               </button>
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, action: 'redirect' }))}
                 className={cn(
-                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
                   formData.action === 'redirect'
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
+                )}>
                 Chuyển hướng
               </button>
             </div>
@@ -332,9 +391,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
                 placeholder="https://notion.so"
               />
-              <p className="text-xs text-muted-foreground">
-                Để trống sẽ chuyển đến trang popup của extension
-              </p>
+              <p className="text-muted-foreground text-xs">Để trống sẽ chuyển đến trang popup của extension</p>
             </div>
           )}
 

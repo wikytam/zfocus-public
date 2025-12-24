@@ -1,5 +1,5 @@
-import type { FocusSettings } from '@extension/storage';
 import { isValidSettings } from './settingsValidation';
+import type { FocusSettings } from '@extension/storage';
 
 export interface ExportData {
   version: string;
@@ -22,7 +22,7 @@ export const exportSettings = (settings: FocusSettings): ImportResult => {
       exportedAt: new Date().toISOString(),
       settings: settings,
     };
-    
+
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -32,7 +32,7 @@ export const exportSettings = (settings: FocusSettings): ImportResult => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
+
     return { success: true, type: 'success', message: 'Đã xuất file thành công!' };
   } catch (error) {
     return {
@@ -44,26 +44,26 @@ export const exportSettings = (settings: FocusSettings): ImportResult => {
 };
 
 // ===== IMPORT FUNCTION =====
-export const parseImportFile = (file: File): Promise<ImportResult> => {
-  return new Promise((resolve) => {
+export const parseImportFile = (file: File): Promise<ImportResult> =>
+  new Promise(resolve => {
     // Validate file size (max 1MB)
     if (file.size > 1024 * 1024) {
       resolve({ success: false, type: 'error', message: 'File quá lớn (tối đa 1MB)' });
       return;
     }
-    
+
     // Validate file type
     if (!file.name.endsWith('.json')) {
       resolve({ success: false, type: 'error', message: 'Chỉ hỗ trợ file .json' });
       return;
     }
-    
+
     const reader = new FileReader();
-    
-    reader.onload = (e) => {
+
+    reader.onload = e => {
       try {
         const content = e.target?.result as string;
-        
+
         // Parse JSON
         let parsed: unknown;
         try {
@@ -72,7 +72,7 @@ export const parseImportFile = (file: File): Promise<ImportResult> => {
           resolve({ success: false, type: 'error', message: 'File JSON không hợp lệ' });
           return;
         }
-        
+
         // Extract settings (support both old and new format)
         let settingsData: unknown;
         if (parsed && typeof parsed === 'object') {
@@ -91,10 +91,10 @@ export const parseImportFile = (file: File): Promise<ImportResult> => {
           resolve({ success: false, type: 'error', message: 'Định dạng file không hợp lệ' });
           return;
         }
-        
+
         // Validate and normalize
         const validation = isValidSettings(settingsData);
-        
+
         if (!validation.valid) {
           resolve({
             success: false,
@@ -103,7 +103,7 @@ export const parseImportFile = (file: File): Promise<ImportResult> => {
           });
           return;
         }
-        
+
         resolve({
           success: true,
           type: 'success',
@@ -118,12 +118,10 @@ export const parseImportFile = (file: File): Promise<ImportResult> => {
         });
       }
     };
-    
+
     reader.onerror = () => {
       resolve({ success: false, type: 'error', message: 'Không thể đọc file' });
     };
-    
+
     reader.readAsText(file);
   });
-};
-

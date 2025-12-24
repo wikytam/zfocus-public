@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
-import { Card } from '../ui/card';
-import { Button } from '../ui/button';
-import { Progress } from '../ui/progress';
 import { cn } from '../../utils';
+import { Button } from '../ui/button';
+import { Card } from '../ui/card';
+import { Progress } from '../ui/progress';
+import { X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import type { ActiveTimer } from '@extension/storage';
 
 interface ActiveTimerDisplayProps {
@@ -41,21 +41,19 @@ export const ActiveTimerDisplay = ({ timers, onCloseTimer }: ActiveTimerDisplayP
               'p-2.5 transition-all duration-300',
               isCritical && 'border-destructive/50 bg-destructive/5 animate-pulse-soft',
               isLow && !isCritical && 'border-warning/50 bg-warning/5',
-            )}
-          >
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="font-medium text-xs">{timer.siteName}</span>
+            )}>
+            <div className="mb-1.5 flex items-center justify-between">
+              <span className="text-xs font-medium">{timer.siteName}</span>
               <div className="flex items-center gap-1.5">
                 <span
                   className={cn(
                     'font-mono text-xs font-bold',
                     isCritical ? 'text-destructive' : isLow ? 'text-warning' : 'text-muted-foreground',
-                  )}
-                >
+                  )}>
                   {timeDisplay}
                 </span>
                 <Button variant="ghost" size="icon-sm" onClick={() => onCloseTimer(timer.siteId)} className="h-5 w-5">
-                  <X className="w-3 h-3" />
+                  <X className="h-3 w-3" />
                 </Button>
               </div>
             </div>

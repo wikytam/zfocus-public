@@ -1,16 +1,10 @@
-import { Clock, Ban } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
 import { Header, StatCard, PauseControl } from '@extension/ui';
+import { Clock, Ban } from 'lucide-react';
 import './index.css';
 
 const Popup = () => {
-  const {
-    settings,
-    stats,
-    pauseBlocking,
-    resumeBlocking,
-    isWithinWorkHours,
-  } = useFocusStore();
+  const { settings, stats, pauseBlocking, resumeBlocking, isWithinWorkHours } = useFocusStore();
 
   const withinHours = isWithinWorkHours();
 
@@ -22,11 +16,11 @@ const Popup = () => {
   };
 
   return (
-    <div className="w-[380px] min-h-[300px] bg-background overflow-y-auto">
+    <div className="bg-background min-h-[300px] w-[380px] overflow-y-auto">
       {/* Decorative background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/8 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 -left-32 w-48 h-48 bg-accent/8 rounded-full blur-3xl" />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="bg-primary/8 absolute -right-32 -top-32 h-64 w-64 rounded-full blur-3xl" />
+        <div className="bg-accent/8 absolute -bottom-32 -left-32 h-48 w-48 rounded-full blur-3xl" />
       </div>
 
       <div className="relative px-4 py-4">
@@ -34,11 +28,11 @@ const Popup = () => {
         <Header isWithinWorkHours={withinHours} isPaused={settings.isPaused} />
 
         {/* Dashboard Content */}
-        <div className="space-y-3 mt-4">
+        <div className="mt-4 space-y-3">
           {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-3">
             <StatCard
-              icon={<Ban className="w-4 h-4" />}
+              icon={<Ban className="h-4 w-4" />}
               label="Lượt chặn hôm nay"
               value={stats.blockedAttempts}
               subValue="trang web"
@@ -46,7 +40,7 @@ const Popup = () => {
               delay={0}
             />
             <StatCard
-              icon={<Clock className="w-4 h-4" />}
+              icon={<Clock className="h-4 w-4" />}
               label="Thời gian tiết kiệm"
               value={formatTimeSaved(stats.timeSavedMinutes)}
               variant="accent"

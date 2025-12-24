@@ -65,7 +65,7 @@ const getDefaultStats = (): DailyStats => ({
 // Chrome storage helpers
 const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
   try {
-    const result = await chrome.storage.sync.get([key]);
+    const result = await chrome.storage.local.get([key]);
     return result[key] ?? defaultValue;
   } catch {
     return defaultValue;
@@ -74,7 +74,7 @@ const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
 
 const setToStorage = async <T>(key: string, value: T): Promise<void> => {
   try {
-    await chrome.storage.sync.set({ [key]: value });
+    await chrome.storage.local.set({ [key]: value });
     // Cache settings to localStorage for instant theme loading (prevents flash)
     if (key === STORAGE_KEYS.settings) {
       try {
@@ -114,7 +114,7 @@ export const useFocusStore = () => {
         }
 
         setSettings(settingsData);
-        
+
         // Cache to localStorage for instant theme loading on next visit
         try {
           localStorage.setItem('focus-settings-cache', JSON.stringify(settingsData));
@@ -124,7 +124,7 @@ export const useFocusStore = () => {
 
         // Get active timers from background
         try {
-          chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TIMERS' }, (response) => {
+          chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TIMERS' }, response => {
             if (response?.timers) {
               setActiveTimers(response.timers);
             }
@@ -151,12 +151,12 @@ export const useFocusStore = () => {
       }
     };
 
-    chrome.storage.sync.onChanged.addListener(handleStorageChange);
+    chrome.storage.local.onChanged.addListener(handleStorageChange);
 
     // Poll for active timers
     const timerInterval = setInterval(() => {
       try {
-        chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TIMERS' }, (response) => {
+        chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TIMERS' }, response => {
           if (response?.timers) {
             setActiveTimers(response.timers);
           }
@@ -167,7 +167,7 @@ export const useFocusStore = () => {
     }, 1000);
 
     return () => {
-      chrome.storage.sync.onChanged.removeListener(handleStorageChange);
+      chrome.storage.local.onChanged.removeListener(handleStorageChange);
       clearInterval(timerInterval);
     };
   }, []);
@@ -175,7 +175,7 @@ export const useFocusStore = () => {
   // Apply theme (only after loading to prevent flash)
   useEffect(() => {
     if (loading) return; // Don't change theme while loading
-    
+
     const root = document.documentElement;
     if (settings.theme === 'dark') {
       root.classList.add('dark');
@@ -191,63 +191,76 @@ export const useFocusStore = () => {
     }
   }, [settings.theme, loading]);
 
-  const updateSettings = useCallback(async (updates: Partial<FocusSettings>) => {
-    const newSettings = { ...settings, ...updates };
-    setSettings(newSettings);
-    await setToStorage(STORAGE_KEYS.settings, newSettings);
-  }, [settings]);
+  const updateSettings = useCallback(
+    async (updates: Partial<FocusSettings>) => {
+      const newSettings = { ...settings, ...updates };
+      setSettings(newSettings);
+      await setToStorage(STORAGE_KEYS.settings, newSettings);
+    },
+    [settings],
+  );
 
-  const addBlockedSite = useCallback(async (site: Omit<BlockedSite, 'id'>) => {
-    const newSite: BlockedSite = {
-      ...site,
-      id: Date.now().toString(),
-    };
-    const newSettings = {
-      ...settings,
-      blockedSites: [...settings.blockedSites, newSite],
-    };
-    setSettings(newSettings);
-    await setToStorage(STORAGE_KEYS.settings, newSettings);
-  }, [settings]);
+  const addBlockedSite = useCallback(
+    async (site: Omit<BlockedSite, 'id'>) => {
+      const newSite: BlockedSite = {
+        ...site,
+        id: Date.now().toString(),
+      };
+      const newSettings = {
+        ...settings,
+        blockedSites: [...settings.blockedSites, newSite],
+      };
+      setSettings(newSettings);
+      await setToStorage(STORAGE_KEYS.settings, newSettings);
+    },
+    [settings],
+  );
 
-  const updateBlockedSite = useCallback(async (id: string, updates: Partial<BlockedSite>) => {
-    const newSettings = {
-      ...settings,
-      blockedSites: settings.blockedSites.map(site =>
-        site.id === id ? { ...site, ...updates } : site
-      ),
-    };
-    setSettings(newSettings);
-    await setToStorage(STORAGE_KEYS.settings, newSettings);
-  }, [settings]);
+  const updateBlockedSite = useCallback(
+    async (id: string, updates: Partial<BlockedSite>) => {
+      const newSettings = {
+        ...settings,
+        blockedSites: settings.blockedSites.map(site => (site.id === id ? { ...site, ...updates } : site)),
+      };
+      setSettings(newSettings);
+      await setToStorage(STORAGE_KEYS.settings, newSettings);
+    },
+    [settings],
+  );
 
-  const removeBlockedSite = useCallback(async (id: string) => {
-    const newSettings = {
-      ...settings,
-      blockedSites: settings.blockedSites.filter(site => site.id !== id),
-    };
-    setSettings(newSettings);
-    await setToStorage(STORAGE_KEYS.settings, newSettings);
-  }, [settings]);
+  const removeBlockedSite = useCallback(
+    async (id: string) => {
+      const newSettings = {
+        ...settings,
+        blockedSites: settings.blockedSites.filter(site => site.id !== id),
+      };
+      setSettings(newSettings);
+      await setToStorage(STORAGE_KEYS.settings, newSettings);
+    },
+    [settings],
+  );
 
-  const pauseBlocking = useCallback(async (minutes: number) => {
-    if (settings.hardLockMode) return;
-    
-    const endTime = Date.now() + minutes * 60 * 1000;
-    const newSettings = {
-      ...settings,
-      isPaused: true,
-      pauseEndTime: endTime,
-    };
-    setSettings(newSettings);
-    await setToStorage(STORAGE_KEYS.settings, newSettings);
+  const pauseBlocking = useCallback(
+    async (minutes: number) => {
+      if (settings.hardLockMode) return;
 
-    try {
-      chrome.runtime.sendMessage({ type: 'PAUSE_BLOCKING', minutes });
-    } catch {
-      // Ignore
-    }
-  }, [settings]);
+      const endTime = Date.now() + minutes * 60 * 1000;
+      const newSettings = {
+        ...settings,
+        isPaused: true,
+        pauseEndTime: endTime,
+      };
+      setSettings(newSettings);
+      await setToStorage(STORAGE_KEYS.settings, newSettings);
+
+      try {
+        chrome.runtime.sendMessage({ type: 'PAUSE_BLOCKING', minutes });
+      } catch {
+        // Ignore
+      }
+    },
+    [settings],
+  );
 
   const resumeBlocking = useCallback(async () => {
     const newSettings = {
@@ -274,14 +287,17 @@ export const useFocusStore = () => {
     await setToStorage(STORAGE_KEYS.stats, newStats);
   }, [stats]);
 
-  const addTimeSaved = useCallback(async (minutes: number) => {
-    const newStats = {
-      ...stats,
-      timeSavedMinutes: stats.timeSavedMinutes + minutes,
-    };
-    setStats(newStats);
-    await setToStorage(STORAGE_KEYS.stats, newStats);
-  }, [stats]);
+  const addTimeSaved = useCallback(
+    async (minutes: number) => {
+      const newStats = {
+        ...stats,
+        timeSavedMinutes: stats.timeSavedMinutes + minutes,
+      };
+      setStats(newStats);
+      await setToStorage(STORAGE_KEYS.stats, newStats);
+    },
+    [stats],
+  );
 
   const isWithinWorkHours = useCallback(() => {
     const now = new Date();

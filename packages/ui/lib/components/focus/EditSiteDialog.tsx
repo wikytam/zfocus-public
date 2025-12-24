@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
-import { Switch } from '../ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { cn } from '../../utils';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Switch } from '../ui/switch';
+import { Textarea } from '../ui/textarea';
+import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import type { BlockedSite } from '@extension/storage';
 
 interface EditSiteDialogProps {
@@ -37,9 +37,26 @@ const TIME_INTERVALS = [
 export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [editData, setEditData] = useState({
+  const [editData, setEditData] = useState<{
+    title: string;
+    urls: string;
+    exceptions: string;
+    referrers: string;
+    keywords: string;
+    allowedMinutes: number | '';
+    timeInterval: number;
+    countOnlyActiveTab: boolean;
+    action: 'close' | 'redirect';
+    redirectUrl: string;
+    activeDays: number[];
+    startTime: string;
+    endTime: string;
+  }>({
     title: site.title,
     urls: site.urls.join('\n'),
+    exceptions: (site.exceptions || []).join('\n'),
+    referrers: (site.referrers || []).join('\n'),
+    keywords: (site.keywords || []).join('\n'),
     allowedMinutes: site.allowedMinutesPerHour,
     timeInterval: 60,
     countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
@@ -54,6 +71,9 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     setEditData({
       title: site.title,
       urls: site.urls.join('\n'),
+      exceptions: (site.exceptions || []).join('\n'),
+      referrers: (site.referrers || []).join('\n'),
+      keywords: (site.keywords || []).join('\n'),
       allowedMinutes: site.allowedMinutesPerHour,
       timeInterval: 60,
       countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
@@ -72,10 +92,28 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       .map(u => u.trim())
       .filter(Boolean);
 
+    const exceptions = editData.exceptions
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean);
+
+    const referrers = editData.referrers
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean);
+
+    const keywords = editData.keywords
+      .split('\n')
+      .map(u => u.trim())
+      .filter(Boolean);
+
     onSave({
       title: editData.title,
       urls: allUrls,
-      allowedMinutesPerHour: Math.max(5, editData.allowedMinutes),
+      exceptions: exceptions.length > 0 ? exceptions : undefined,
+      referrers: referrers.length > 0 ? referrers : undefined,
+      keywords: keywords.length > 0 ? keywords : undefined,
+      allowedMinutesPerHour: Math.max(5, typeof editData.allowedMinutes === 'number' ? editData.allowedMinutes : 5),
       countOnlyActiveTab: editData.countOnlyActiveTab,
       action: editData.action,
       redirectUrl: editData.redirectUrl || undefined,
@@ -110,15 +148,15 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       <DialogTrigger asChild>
         {trigger || (
           <Button variant="ghost" size="icon-sm">
-            <Edit2 className="w-4 h-4" />
+            <Edit2 className="h-4 w-4" />
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Edit2 className="w-4 h-4 text-primary" />
+            <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">
+              <Edit2 className="text-primary h-4 w-4" />
             </div>
             Chỉnh sửa website
           </DialogTitle>
@@ -144,39 +182,69 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               id="urls"
               value={editData.urls}
               onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
-              placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
+              placeholder="facebook.com&#10;youtube.com&#10;twitter.com"
               rows={4}
               className="font-mono text-sm"
             />
-            
-            {/* Expandable Help */}
+            <p className="text-muted-foreground text-xs">
+              Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path.
+            </p>
+
+            {/* Expandable Advanced Options */}
             <button
               type="button"
               onClick={() => setShowHelp(!showHelp)}
-              className="flex items-center gap-1 text-[11px] text-primary hover:underline"
-            >
-              <HelpCircle className="w-3 h-3" />
-              Xem cú pháp hỗ trợ
-              {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              className="text-primary flex items-center gap-1 text-[11px] hover:underline">
+              <HelpCircle className="h-3 w-3" />
+              Tùy chọn nâng cao
+              {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             </button>
-            
+
             {showHelp && (
-              <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
-                <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
-                  <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
-                  <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
-                  <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
-                  <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
-                  
-                  <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
-                  <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
+              <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-exceptions" className="text-xs">
+                    Ngoại lệ (cho phép)
+                  </Label>
+                  <Textarea
+                    id="edit-exceptions"
+                    value={editData.exceptions}
+                    onChange={e => setEditData(prev => ({ ...prev, exceptions: e.target.value }))}
+                    placeholder="youtube.com/learn&#10;facebook.com/help"
+                    rows={2}
+                    className="font-mono text-xs"
+                  />
+                  <p className="text-muted-foreground text-[10px]">Các URL này sẽ được cho phép truy cập</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-referrer" className="text-xs">
+                    Chặn từ nguồn (Referrer)
+                  </Label>
+                  <Textarea
+                    id="edit-referrer"
+                    value={editData.referrers}
+                    onChange={e => setEditData(prev => ({ ...prev, referrers: e.target.value }))}
+                    placeholder="facebook.com&#10;twitter.com"
+                    rows={2}
+                    className="font-mono text-xs"
+                  />
+                  <p className="text-muted-foreground text-[10px]">Chặn các link được click từ các trang này</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-keywords" className="text-xs">
+                    Từ khóa trong URL
+                  </Label>
+                  <Textarea
+                    id="edit-keywords"
+                    value={editData.keywords}
+                    onChange={e => setEditData(prev => ({ ...prev, keywords: e.target.value }))}
+                    placeholder="game&#10;video&#10;entertainment"
+                    rows={2}
+                    className="font-mono text-xs"
+                  />
+                  <p className="text-muted-foreground text-[10px]">Chặn URL chứa các từ khóa này (mỗi từ một dòng)</p>
                 </div>
               </div>
             )}
@@ -184,8 +252,8 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
 
           {/* Time Allowed with Interval */}
           <div className="space-y-2">
-            <Label>Thời gian cho phép (phút)</Label>
             <div className="flex items-center gap-2">
+              <Label>Thời gian cho phép (phút)</Label>
               <Input
                 id="allowedMinutes"
                 type="number"
@@ -195,7 +263,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                   const value = e.target.value;
                   setEditData(prev => ({
                     ...prev,
-                    allowedMinutes: value === '' ? '' as any : Math.max(1, parseInt(value) || 1),
+                    allowedMinutes: (value === '' ? '' : Math.max(1, parseInt(value) || 1)) as number | '',
                   }));
                 }}
                 onBlur={e => {
@@ -209,11 +277,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 }}
                 className="w-20"
               />
-              <span className="text-sm text-muted-foreground">phút mỗi</span>
+              <span className="text-muted-foreground text-sm">phút mỗi</span>
               <Select
                 value={editData.timeInterval.toString()}
-                onValueChange={(value) => setEditData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
-              >
+                onValueChange={value => setEditData(prev => ({ ...prev, timeInterval: parseInt(value) }))}>
                 <SelectTrigger className="w-28">
                   <SelectValue />
                 </SelectTrigger>
@@ -226,32 +293,29 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 </SelectContent>
               </Select>
             </div>
-            
+
             {/* Count only active tab toggle */}
-            <div className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 border border-border/50">
+            <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
               <div className="flex items-center gap-2">
-                <Info className="w-4 h-4 text-muted-foreground" />
-                <div className="flex flex-col">
-                  <Label htmlFor="edit-countOnlyActiveTab" className="text-sm font-medium cursor-pointer">
-                    Chỉ ghi nhận tab active
-                  </Label>
-                  <span className="text-xs text-muted-foreground">
-                    Ví dụ: nghe nhạc Youtube Background thì không tính vào
-                  </span>
+                <div className="cursor-help" title="Ví dụ: nghe nhạc Youtube Background thì không tính vào">
+                  <Info className="text-muted-foreground h-4 w-4" />
                 </div>
+                <Label htmlFor="edit-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
+                  Chỉ ghi nhận tab active
+                </Label>
               </div>
               <Switch
                 id="edit-countOnlyActiveTab"
                 checked={editData.countOnlyActiveTab}
-                onCheckedChange={(checked) => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+                onCheckedChange={checked => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
               />
             </div>
           </div>
 
           {/* Schedule Section */}
-          <div className="space-y-4 pt-4 border-t border-border">
+          <div className="border-border space-y-4 border-t pt-4">
             <div className="flex items-center gap-2 text-sm font-medium">
-              <Clock className="w-4 h-4 text-primary" />
+              <Clock className="text-primary h-4 w-4" />
               Lịch chặn
             </div>
 
@@ -289,13 +353,12 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                     type="button"
                     onClick={() => toggleDay(day.value)}
                     className={cn(
-                      'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
+                      'flex-1 rounded-lg px-1 py-2 text-xs font-medium transition-all duration-200',
                       editData.activeDays.includes(day.value)
                         ? 'gradient-primary text-primary-foreground shadow-md'
                         : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                     )}
-                    title={day.fullLabel}
-                  >
+                    title={day.fullLabel}>
                     {day.label}
                   </button>
                 ))}
@@ -305,29 +368,27 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           {/* Action - Segmented Control */}
           <div className="space-y-2">
             <Label>Hành động khi hết thời gian</Label>
-            <div className="flex p-1 rounded-lg bg-secondary/50">
+            <div className="bg-secondary/50 flex rounded-lg p-1">
               <button
                 type="button"
                 onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
                 className={cn(
-                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
                   editData.action === 'close'
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
+                )}>
                 Đóng tab
               </button>
               <button
                 type="button"
                 onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
                 className={cn(
-                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
                   editData.action === 'redirect'
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
-                )}
-              >
+                )}>
                 Chuyển hướng
               </button>
             </div>
@@ -343,9 +404,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
                 placeholder="https://notion.so"
               />
-              <p className="text-xs text-muted-foreground">
-                Để trống sẽ chuyển đến trang popup của extension
-              </p>
+              <p className="text-muted-foreground text-xs">Để trống sẽ chuyển đến trang popup của extension</p>
             </div>
           )}
         </div>
@@ -358,9 +417,8 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               variant="ghost"
               size="sm"
               className="text-destructive hover:text-destructive hover:bg-destructive/10"
-              onClick={handleDelete}
-            >
-              <Trash2 className="w-4 h-4 mr-1" />
+              onClick={handleDelete}>
+              <Trash2 className="mr-1 h-4 w-4" />
               Xóa
             </Button>
           )}

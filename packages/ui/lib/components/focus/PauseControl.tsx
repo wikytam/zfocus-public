@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Pause, Play, Clock } from 'lucide-react';
+import { cn } from '../../utils';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { cn } from '../../utils';
+import { Pause, Play, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface PauseControlProps {
   isPaused: boolean;
@@ -52,14 +52,14 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
 
   if (hardLockMode) {
     return (
-      <Card variant="bordered" className="p-3 border-warning/30 bg-warning/5">
-        <div className="flex items-center gap-2.5 text-warning">
-          <div className="p-1.5 rounded-lg bg-warning/10">
-            <Clock className="w-4 h-4" />
+      <Card variant="bordered" className="border-warning/30 bg-warning/5 p-3">
+        <div className="text-warning flex items-center gap-2.5">
+          <div className="bg-warning/10 rounded-lg p-1.5">
+            <Clock className="h-4 w-4" />
           </div>
           <div>
             <p className="text-sm font-medium leading-tight">Chế độ khóa cứng</p>
-            <p className="text-[11px] opacity-80 leading-tight">Không thể tạm dừng</p>
+            <p className="text-[11px] leading-tight opacity-80">Không thể tạm dừng</p>
           </div>
         </div>
       </Card>
@@ -72,40 +72,39 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
       className={cn(
         'p-3 transition-all duration-300',
         isPaused && 'border-warning/50 shadow-[0_0_15px_hsl(38_90%_50%/0.1)]',
-      )}
-    >
+      )}>
       {isPaused ? (
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg gradient-accent animate-pulse-soft">
-              <Pause className="w-4 h-4 text-accent-foreground" />
+            <div className="gradient-accent animate-pulse-soft rounded-lg p-2">
+              <Pause className="text-accent-foreground h-4 w-4" />
             </div>
             <div>
               <p className="text-sm font-medium leading-tight">Đang tạm dừng</p>
-              <p className="text-xs text-muted-foreground leading-tight">
-                Còn <span className="font-mono font-semibold text-warning">{remainingTime}</span>
+              <p className="text-muted-foreground text-xs leading-tight">
+                Còn <span className="text-warning font-mono font-semibold">{remainingTime}</span>
               </p>
             </div>
           </div>
           <Button variant="outline" size="sm" onClick={onResume} className="h-8">
-            <Play className="w-3.5 h-3.5 mr-1.5" />
+            <Play className="mr-1.5 h-3.5 w-3.5" />
             Tiếp tục
           </Button>
         </div>
       ) : (
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
-            <div className="p-2 rounded-lg bg-success/10 shrink-0">
-              <Play className="w-4 h-4 text-success" />
+          <div className="flex min-w-0 flex-1 items-center gap-2.5">
+            <div className="bg-success/10 shrink-0 rounded-lg p-2">
+              <Play className="text-success h-4 w-4" />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-medium leading-tight">Đang hoạt động</p>
-              <p className="text-xs text-muted-foreground leading-tight truncate">Chặn trang web xao nhãng</p>
+              <p className="text-muted-foreground truncate text-xs leading-tight">Chặn trang web xao nhãng</p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex shrink-0 items-center gap-1.5">
             <Select value={selectedMinutes} onValueChange={setSelectedMinutes}>
-              <SelectTrigger className="w-[85px] h-8 text-xs">
+              <SelectTrigger className="h-8 w-[85px] text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -117,7 +116,7 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
               </SelectContent>
             </Select>
             <Button variant="warning" size="sm" onClick={() => onPause(parseInt(selectedMinutes))} className="h-8">
-              <Pause className="w-3.5 h-3.5 mr-1.5" />
+              <Pause className="mr-1.5 h-3.5 w-3.5" />
               Dừng
             </Button>
           </div>

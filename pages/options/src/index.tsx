@@ -9,7 +9,7 @@ const init = () => {
   }
   const root = createRoot(appContainer);
   root.render(<Options />);
-  
+
   // Show content after React loads (prevents flash)
   requestAnimationFrame(() => {
     appContainer.classList.add('loaded');

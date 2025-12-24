@@ -1,10 +1,13 @@
 import { createStorage, StorageEnum } from '../base/index.js';
 
 // Types
-export interface BlockedSite {
+interface BlockedSite {
   id: string;
   title: string;
   urls: string[];
+  exceptions?: string[]; // URLs to allow (whitelist)
+  referrers?: string[]; // Block when coming from these referrers
+  keywords?: string[]; // Block URLs containing these keywords
   allowedMinutesPerHour: number;
   countOnlyActiveTab?: boolean;
   action: 'close' | 'redirect';
@@ -18,7 +21,7 @@ export interface BlockedSite {
   };
 }
 
-export interface FocusSettings {
+interface FocusSettings {
   blockedSites: BlockedSite[];
   workSchedule: {
     startTime: string;
@@ -33,14 +36,14 @@ export interface FocusSettings {
   theme: 'light' | 'dark' | 'system';
 }
 
-export interface DailyStats {
+interface DailyStats {
   date: string;
   blockedAttempts: number;
   timeSavedMinutes: number;
   sitesAccessed: Record<string, number>;
 }
 
-export interface SiteTimer {
+interface SiteTimer {
   siteId: string;
   siteName: string;
   usedSeconds: number;
@@ -48,7 +51,7 @@ export interface SiteTimer {
   lastUpdate: number;
 }
 
-export interface ActiveTimer {
+interface ActiveTimer {
   siteId: string;
   siteName: string;
   remainingSeconds: number;
@@ -120,10 +123,14 @@ const statsStorage = createStorage<DailyStats>('focus-stats', getDefaultStats(),
   liveUpdate: true,
 });
 
-const timersStorage = createStorage<Record<string, SiteTimer>>('focus-timers', {}, {
-  storageEnum: StorageEnum.Local,
-  liveUpdate: true,
-});
+const timersStorage = createStorage<Record<string, SiteTimer>>(
+  'focus-timers',
+  {},
+  {
+    storageEnum: StorageEnum.Local,
+    liveUpdate: true,
+  },
+);
 
 // Export storage with helper methods
 export const focusSettingsStorage = {
@@ -246,3 +253,5 @@ export const focusTimersStorage = {
   },
 };
 
+// Export types at the end
+export type { BlockedSite, FocusSettings, DailyStats, SiteTimer, ActiveTimer };

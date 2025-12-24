@@ -1,5 +1,5 @@
-import { Moon, Sun, Monitor, Lock, Unlock } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, cn } from '@extension/ui';
+import { Moon, Sun, Monitor, Lock, Unlock } from 'lucide-react';
 import type { FocusSettings } from '@extension/storage';
 
 interface SettingsPanelProps {
@@ -7,7 +7,7 @@ interface SettingsPanelProps {
   onUpdate: (updates: Partial<FocusSettings>) => void;
 }
 
-export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
+export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
   const themes = [
     { value: 'light' as const, icon: Sun, label: 'Sáng' },
     { value: 'dark' as const, icon: Moon, label: 'Tối' },
@@ -15,16 +15,11 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
   ];
 
   return (
-    <Card variant="glass" className="opacity-0 animate-fade-in" style={{ animationDelay: '300ms' }}>
+    <Card variant="glass" className="animate-fade-in opacity-0" style={{ animationDelay: '300ms' }}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
-            <svg
-              className="w-4 h-4 text-secondary-foreground"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+          <div className="bg-secondary flex h-8 w-8 items-center justify-center rounded-lg">
+            <svg className="text-secondary-foreground h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -48,13 +43,12 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
                 key={theme.value}
                 onClick={() => onUpdate({ theme: theme.value })}
                 className={cn(
-                  'flex flex-col items-center gap-2 p-4 rounded-lg transition-all duration-200',
+                  'flex flex-col items-center gap-2 rounded-lg p-4 transition-all duration-200',
                   settings.theme === theme.value
                     ? 'gradient-primary text-primary-foreground shadow-md'
                     : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                )}
-              >
-                <theme.icon className="w-5 h-5" />
+                )}>
+                <theme.icon className="h-5 w-5" />
                 <span className="text-xs font-medium">{theme.label}</span>
               </button>
             ))}
@@ -64,23 +58,22 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         {/* Hard Lock Mode */}
         <div
           className={cn(
-            'flex items-center justify-between p-4 rounded-lg transition-all duration-200',
-            settings.hardLockMode ? 'bg-destructive/10 border border-destructive/20' : 'bg-secondary/50',
-          )}
-        >
+            'flex items-center justify-between rounded-lg p-4 transition-all duration-200',
+            settings.hardLockMode ? 'bg-destructive/10 border-destructive/20 border' : 'bg-secondary/50',
+          )}>
           <div className="flex items-center gap-3">
-            <div className={cn('p-2 rounded-lg', settings.hardLockMode ? 'bg-destructive/20' : 'bg-secondary')}>
+            <div className={cn('rounded-lg p-2', settings.hardLockMode ? 'bg-destructive/20' : 'bg-secondary')}>
               {settings.hardLockMode ? (
-                <Lock className="w-5 h-5 text-destructive" />
+                <Lock className="text-destructive h-5 w-5" />
               ) : (
-                <Unlock className="w-5 h-5 text-muted-foreground" />
+                <Unlock className="text-muted-foreground h-5 w-5" />
               )}
             </div>
             <div>
               <Label htmlFor="hardLock" className="cursor-pointer">
                 Chế độ khóa cứng
               </Label>
-              <p className="text-xs text-muted-foreground">Không thể tạm dừng trong giờ làm</p>
+              <p className="text-muted-foreground text-xs">Không thể tạm dừng trong giờ làm</p>
             </div>
           </div>
           <Switch
@@ -91,7 +84,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         </div>
 
         {/* Extension Info */}
-        <div className="pt-4 border-t border-border">
+        <div className="border-border border-t pt-4">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Phiên bản</span>
             <span className="font-mono">1.0.0</span>
@@ -100,5 +93,4 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
       </CardContent>
     </Card>
   );
-}
-
+};

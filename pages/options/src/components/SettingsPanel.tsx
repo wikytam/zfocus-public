@@ -1,23 +1,39 @@
-import { useState, useRef } from 'react';
-import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, FileDown, FileUp, AlertTriangle, CheckCircle } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
-import type { FocusSettings } from '@extension/storage';
-import { checkSyncStatus as checkSync, autoSync, clearAllData } from '../utils/settingsSync';
 import { exportSettings as exportSettingsFile, parseImportFile } from '../utils/settingsExportImport';
+import { checkSyncStatus as checkSync, autoSync, clearAllData } from '../utils/settingsSync';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
+import {
+  Moon,
+  Sun,
+  Monitor,
+  Lock,
+  Unlock,
+  RefreshCw,
+  Cloud,
+  Bug,
+  FileDown,
+  FileUp,
+  AlertTriangle,
+  CheckCircle,
+} from 'lucide-react';
+import { useState, useRef } from 'react';
+import type { FocusSettings } from '@extension/storage';
 
 interface SettingsPanelProps {
   settings: FocusSettings;
   onUpdate: (updates: Partial<FocusSettings>) => void;
 }
 
-export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
+export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
   const [syncInfo, setSyncInfo] = useState<string>('');
   const [showDebug, setShowDebug] = useState(false);
   const [debugData, setDebugData] = useState<string>('');
   const [accountEmail, setAccountEmail] = useState<string>('');
   const [lastUpdate, setLastUpdate] = useState<string>('');
-  const [importStatus, setImportStatus] = useState<{ type: 'success' | 'error' | 'warning' | null; message: string }>({ type: null, message: '' });
+  const [importStatus, setImportStatus] = useState<{ type: 'success' | 'error' | 'warning' | null; message: string }>({
+    type: null,
+    message: '',
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sync handlers
@@ -58,17 +74,17 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
   const handleImportFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
+
     const result = await parseImportFile(file);
     setImportStatus({ type: result.type, message: result.message });
-    
+
     if (result.success && result.normalized) {
       if (confirm(`Nhập ${result.normalized.blockedSites.length} website? Dữ liệu hiện tại sẽ bị ghi đè.`)) {
         onUpdate(result.normalized);
         setTimeout(() => window.location.reload(), 1000);
       }
     }
-    
+
     // Reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -82,16 +98,11 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
   ];
 
   return (
-    <Card variant="glass" className="opacity-0 animate-fade-in" style={{ animationDelay: '300ms' }}>
+    <Card variant="glass" className="animate-fade-in opacity-0" style={{ animationDelay: '300ms' }}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
-            <svg
-              className="w-4 h-4 text-secondary-foreground"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+          <div className="bg-secondary flex h-8 w-8 items-center justify-center rounded-lg">
+            <svg className="text-secondary-foreground h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -115,13 +126,12 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
                 key={theme.value}
                 onClick={() => onUpdate({ theme: theme.value })}
                 className={cn(
-                  'flex flex-col items-center gap-2 p-4 rounded-lg transition-all duration-200',
+                  'flex flex-col items-center gap-2 rounded-lg p-4 transition-all duration-200',
                   settings.theme === theme.value
                     ? 'gradient-primary text-primary-foreground shadow-md'
                     : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                )}
-              >
-                <theme.icon className="w-5 h-5" />
+                )}>
+                <theme.icon className="h-5 w-5" />
                 <span className="text-xs font-medium">{theme.label}</span>
               </button>
             ))}
@@ -131,23 +141,22 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         {/* Hard Lock Mode */}
         <div
           className={cn(
-            'flex items-center justify-between p-4 rounded-lg transition-all duration-200',
-            settings.hardLockMode ? 'bg-destructive/10 border border-destructive/20' : 'bg-secondary/50',
-          )}
-        >
+            'flex items-center justify-between rounded-lg p-4 transition-all duration-200',
+            settings.hardLockMode ? 'bg-destructive/10 border-destructive/20 border' : 'bg-secondary/50',
+          )}>
           <div className="flex items-center gap-3">
-            <div className={cn('p-2 rounded-lg', settings.hardLockMode ? 'bg-destructive/20' : 'bg-secondary')}>
+            <div className={cn('rounded-lg p-2', settings.hardLockMode ? 'bg-destructive/20' : 'bg-secondary')}>
               {settings.hardLockMode ? (
-                <Lock className="w-5 h-5 text-destructive" />
+                <Lock className="text-destructive h-5 w-5" />
               ) : (
-                <Unlock className="w-5 h-5 text-muted-foreground" />
+                <Unlock className="text-muted-foreground h-5 w-5" />
               )}
             </div>
             <div>
               <Label htmlFor="hardLock" className="cursor-pointer">
                 Chế độ khóa cứng
               </Label>
-              <p className="text-xs text-muted-foreground">Không thể tạm dừng trong giờ làm</p>
+              <p className="text-muted-foreground text-xs">Không thể tạm dừng trong giờ làm</p>
             </div>
           </div>
           <Switch
@@ -160,29 +169,21 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         {/* Sync Status */}
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
-            <Cloud className="w-4 h-4" />
+            <Cloud className="h-4 w-4" />
             Đồng bộ (Chrome)
           </Label>
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleAutoSync}
-              disabled={syncStatus === 'syncing'}
-            >
+          <div className="flex flex-wrap items-center gap-2">
+            <Button variant="outline" size="sm" onClick={handleAutoSync} disabled={syncStatus === 'syncing'}>
               {syncStatus === 'syncing' ? (
-                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <RefreshCw className="w-4 h-4 mr-2" />
+                <RefreshCw className="mr-2 h-4 w-4" />
               )}
               Đồng bộ
             </Button>
           </div>
           {syncInfo && (
-            <p className={cn(
-              'text-xs',
-              syncStatus === 'error' ? 'text-red-500' : 'text-muted-foreground'
-            )}>
+            <p className={cn('text-xs', syncStatus === 'error' ? 'text-red-500' : 'text-muted-foreground')}>
               {syncInfo}
             </p>
           )}
@@ -191,54 +192,39 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         {/* Export/Import for Firefox & other browsers */}
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
-            <FileDown className="w-4 h-4" />
+            <FileDown className="h-4 w-4" />
             Sao lưu & Khôi phục (Edge, Firefox, Brave, ...)
           </Label>
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExport}
-            >
-              <FileDown className="w-4 h-4 mr-2" />
+          <div className="flex flex-wrap items-center gap-2">
+            <Button variant="outline" size="sm" onClick={handleExport}>
+              <FileDown className="mr-2 h-4 w-4" />
               Xuất file
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <FileUp className="w-4 h-4 mr-2" />
+            <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
+              <FileUp className="mr-2 h-4 w-4" />
               Nhập file
             </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".json"
-              onChange={handleImportFile}
-              className="hidden"
-            />
+            <input ref={fileInputRef} type="file" accept=".json" onChange={handleImportFile} className="hidden" />
           </div>
           {importStatus.type && (
-            <div className={cn(
-              'flex items-start gap-2 text-xs p-2 rounded-lg',
-              importStatus.type === 'success' && 'bg-green-500/10 text-green-500',
-              importStatus.type === 'error' && 'bg-red-500/10 text-red-500',
-              importStatus.type === 'warning' && 'bg-yellow-500/10 text-yellow-500',
-            )}>
-              {importStatus.type === 'success' && <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
-              {importStatus.type === 'error' && <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
-              {importStatus.type === 'warning' && <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
+            <div
+              className={cn(
+                'flex items-start gap-2 rounded-lg p-2 text-xs',
+                importStatus.type === 'success' && 'bg-green-500/10 text-green-500',
+                importStatus.type === 'error' && 'bg-red-500/10 text-red-500',
+                importStatus.type === 'warning' && 'bg-yellow-500/10 text-yellow-500',
+              )}>
+              {importStatus.type === 'success' && <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />}
+              {importStatus.type === 'error' && <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" />}
+              {importStatus.type === 'warning' && <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" />}
               <span className="whitespace-pre-wrap">{importStatus.message}</span>
             </div>
           )}
-          <p className="text-xs text-muted-foreground">
-            Dùng để chuyển cài đặt giữa các trình duyệt khác nhau
-          </p>
+          <p className="text-muted-foreground text-xs">Dùng để chuyển cài đặt giữa các trình duyệt khác nhau</p>
         </div>
 
         {/* Extension Info with Debug */}
-        <div className="pt-4 border-t border-border space-y-3">
+        <div className="border-border space-y-3 border-t pt-4">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Phiên bản</span>
             <Button
@@ -248,40 +234,35 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
                 setShowDebug(!showDebug);
                 if (!showDebug) handleCheckSync();
               }}
-              className="h-8 gap-2"
-            >
+              className="h-8 gap-2">
               <span className="font-mono">1.0.0</span>
-              <Bug className="w-3.5 h-3.5 text-muted-foreground" />
+              <Bug className="text-muted-foreground h-3.5 w-3.5" />
             </Button>
           </div>
-          
+
           {showDebug && (
-            <div className="space-y-3 animate-fade-in">
+            <div className="animate-fade-in space-y-3">
               {/* Account & Timestamp Info */}
-              <div className="p-3 bg-secondary/50 rounded-lg space-y-2">
+              <div className="bg-secondary/50 space-y-2 rounded-lg p-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Tài khoản:</span>
-                  <span className="font-mono text-foreground">{accountEmail || 'Chưa kiểm tra'}</span>
+                  <span className="text-foreground font-mono">{accountEmail || 'Chưa kiểm tra'}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Lần kiểm tra cuối:</span>
-                  <span className="font-mono text-foreground">{lastUpdate || 'Chưa kiểm tra'}</span>
+                  <span className="text-foreground font-mono">{lastUpdate || 'Chưa kiểm tra'}</span>
                 </div>
               </div>
-              
+
               {/* Storage Data */}
-              <div className="p-3 bg-secondary/50 rounded-lg">
-                <p className="text-xs font-mono text-muted-foreground mb-2">Storage Data:</p>
-                <pre className="text-xs font-mono overflow-auto max-h-40 text-foreground">
+              <div className="bg-secondary/50 rounded-lg p-3">
+                <p className="text-muted-foreground mb-2 font-mono text-xs">Storage Data:</p>
+                <pre className="text-foreground max-h-40 overflow-auto font-mono text-xs">
                   {debugData || 'Click vào "Phiên bản 1.0.0" để tải dữ liệu'}
                 </pre>
               </div>
-              
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={handleClearData}
-              >
+
+              <Button variant="destructive" size="sm" onClick={handleClearData}>
                 Xóa tất cả dữ liệu
               </Button>
             </div>
@@ -290,5 +271,4 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
       </CardContent>
     </Card>
   );
-}
-
+};

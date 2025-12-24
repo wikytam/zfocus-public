@@ -7,6 +7,9 @@ interface BlockedSite {
   id: string;
   title: string;
   urls: string[];
+  exceptions?: string[]; // URLs to allow (whitelist)
+  referrers?: string[]; // Block when coming from these referrers
+  keywords?: string[]; // Block URLs containing these keywords
   allowedMinutesPerHour: number;
   countOnlyActiveTab?: boolean;
   action: 'close' | 'redirect';
@@ -111,23 +114,23 @@ const getDefaultStats = (): DailyStats => ({
 
 // Storage helpers
 const getSettings = async (): Promise<FocusSettings> => {
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
+  const result = await chrome.storage.local.get([STORAGE_KEYS.settings]);
   return result[STORAGE_KEYS.settings] ?? DEFAULT_SETTINGS;
 };
 
 const setSettings = async (settings: FocusSettings): Promise<void> => {
-  await chrome.storage.sync.set({ [STORAGE_KEYS.settings]: settings });
+  await chrome.storage.local.set({ [STORAGE_KEYS.settings]: settings });
 };
 
 const getStats = async (): Promise<DailyStats> => {
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.stats]);
+  const result = await chrome.storage.local.get([STORAGE_KEYS.stats]);
   const stats = result[STORAGE_KEYS.stats] ?? getDefaultStats();
-  
+
   // Reset if new day
   const today = new Date().toISOString().split('T')[0];
   if (stats.date !== today) {
     const newStats = getDefaultStats();
-    await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: newStats });
+    await chrome.storage.local.set({ [STORAGE_KEYS.stats]: newStats });
     return newStats;
   }
   return stats;
@@ -135,103 +138,116 @@ const getStats = async (): Promise<DailyStats> => {
 
 const updateStats = async (updates: Partial<DailyStats>): Promise<void> => {
   const stats = await getStats();
-  await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: { ...stats, ...updates } });
+  await chrome.storage.local.set({ [STORAGE_KEYS.stats]: { ...stats, ...updates } });
 };
 
 const getTimers = async (): Promise<Record<string, SiteTimer>> => {
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.timers]);
+  const result = await chrome.storage.local.get([STORAGE_KEYS.timers]);
   return result[STORAGE_KEYS.timers] ?? {};
 };
 
 const setTimers = async (timers: Record<string, SiteTimer>): Promise<void> => {
-  await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timers });
+  await chrome.storage.local.set({ [STORAGE_KEYS.timers]: timers });
 };
 
 // Track active tabs and their timers
 const activeTabTimers: Map<number, ReturnType<typeof setInterval>> = new Map();
 const tabSiteMapping: Map<number, string> = new Map();
 
-// Check if URL matches a blocked site pattern
-const matchesUrl = (url: string, patterns: string[], referrer?: string): boolean => {
+// Track referrers for each tab
+const tabReferrers: Map<number, string> = new Map();
+
+// Check if URL matches a blocked site
+const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean => {
   try {
     const urlObj = new URL(url);
     const hostname = urlObj.hostname.replace(/^www\./, '').toLowerCase();
     const fullPath = hostname + urlObj.pathname.toLowerCase();
     const fullUrl = url.toLowerCase();
 
-    // First check exceptions (+) - if URL matches any exception, return false
-    for (const pattern of patterns) {
-      const cleanPattern = pattern.trim().toLowerCase();
-      if (cleanPattern.startsWith('+')) {
-        const exceptionPath = cleanPattern.substring(1);
-        if (fullPath.includes(exceptionPath) || fullUrl.includes(exceptionPath)) {
-          console.log(`[FocusGuard] Exception matched: ${exceptionPath} - allowing access`);
-          return false; // Exception matched, don't block
+    console.log(`[FocusGuard] Checking URL: ${url} for site: ${site.title}`);
+    console.log(`[FocusGuard] Referrer: ${referrer || 'none'}`);
+
+    // 1. Check exceptions - if URL matches any exception, allow access immediately
+    if (site.exceptions && site.exceptions.length > 0) {
+      for (const exception of site.exceptions) {
+        const cleanException = exception.trim().toLowerCase();
+        if (cleanException && (fullPath.includes(cleanException) || fullUrl.includes(cleanException))) {
+          console.log(`[FocusGuard] Exception matched: ${cleanException} - allowing access`);
+          return false; // Don't block
         }
       }
     }
 
-    // Check if any blocking pattern matches
-    for (const pattern of patterns) {
-      const cleanPattern = pattern.trim().toLowerCase();
-      
-      // Skip exception patterns (already handled above)
-      if (cleanPattern.startsWith('+')) {
-        continue;
-      }
-
-      // Handle referrer pattern (>)
-      if (cleanPattern.startsWith('>')) {
-        const referrerDomain = cleanPattern.substring(1);
-        if (referrer) {
-          try {
-            const refHost = new URL(referrer).hostname.replace(/^www\./, '').toLowerCase();
-            if (refHost.includes(referrerDomain)) {
-              console.log(`[FocusGuard] Referrer matched: ${referrerDomain}`);
-              return true;
-            }
-          } catch {
-            // Invalid referrer URL
+    // 2. Check referrers FIRST - if coming from blocked referrer, block ANY external URL
+    if (site.referrers && site.referrers.length > 0 && referrer) {
+      try {
+        const refHost = new URL(referrer).hostname.replace(/^www\./, '').toLowerCase();
+        for (const referrerDomain of site.referrers) {
+          const cleanReferrer = referrerDomain.trim().toLowerCase();
+          if (cleanReferrer && refHost.includes(cleanReferrer)) {
+            console.log(`[FocusGuard] Referrer matched: ${cleanReferrer} - blocking ANY external link`);
+            return true; // Block ANY link from this referrer
           }
         }
-        continue;
+      } catch {
+        console.log(`[FocusGuard] Invalid referrer URL`);
       }
+    }
 
-      // Handle keyword pattern (~)
-      if (cleanPattern.startsWith('~')) {
-        const keyword = cleanPattern.substring(1);
-        if (fullUrl.includes(keyword)) {
-          console.log(`[FocusGuard] Keyword matched: ${keyword}`);
-          return true;
-        }
-        continue;
-      }
+    // 3. Check if URL matches main site patterns
+    let matchesMainUrl = false;
+    for (const pattern of site.urls) {
+      const cleanPattern = pattern.trim().toLowerCase();
+      if (!cleanPattern) continue;
 
       // Handle wildcard patterns (* and **)
       if (cleanPattern.includes('*')) {
         // ** = any path (greedy)
         // * = subdomain only (non-greedy, no dots)
         const regexPattern = cleanPattern
-          .replace(/\./g, '\\.')           // Escape dots
+          .replace(/\./g, '\\.') // Escape dots
           .replace(/\*\*/g, '<<<DOUBLE>>>') // Temp placeholder
-          .replace(/\*/g, '[^./]*')         // Single * = any chars except . and /
-          .replace(/<<<DOUBLE>>>/g, '.*');  // ** = any chars including . and /
-        
+          .replace(/\*/g, '[^./]*') // Single * = any chars except . and /
+          .replace(/<<<DOUBLE>>>/g, '.*'); // ** = any chars including . and /
+
         const regex = new RegExp(regexPattern, 'i');
         if (regex.test(hostname) || regex.test(fullPath)) {
           console.log(`[FocusGuard] Wildcard matched: ${pattern} -> ${fullPath}`);
-          return true;
+          matchesMainUrl = true;
+          break;
         }
         continue;
       }
 
-      // Simple domain match
+      // Simple domain match (default - matches all subdomains and paths)
       if (hostname.includes(cleanPattern) || fullPath.startsWith(cleanPattern)) {
         console.log(`[FocusGuard] Domain matched: ${cleanPattern}`);
-        return true;
+        matchesMainUrl = true;
+        break;
       }
     }
-    return false;
+
+    // If URL doesn't match main patterns, don't block
+    if (!matchesMainUrl) {
+      console.log(`[FocusGuard] URL doesn't match main patterns - not blocking`);
+      return false;
+    }
+
+    // 4. Check keywords - if URL contains keyword, block
+    if (site.keywords && site.keywords.length > 0) {
+      for (const keyword of site.keywords) {
+        const cleanKeyword = keyword.trim().toLowerCase();
+        if (cleanKeyword && fullUrl.includes(cleanKeyword)) {
+          console.log(`[FocusGuard] Keyword matched: ${cleanKeyword} - blocking`);
+          return true; // Block
+        }
+      }
+    }
+
+    // 5. Main URL matched, no keywords, block
+    console.log(`[FocusGuard] Main URL matched - blocking`);
+    return true;
   } catch (e) {
     console.error('[FocusGuard] Error matching URL:', e);
     return false;
@@ -240,6 +256,11 @@ const matchesUrl = (url: string, patterns: string[], referrer?: string): boolean
 
 // Check if current time is within work hours
 const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
+  // If allowOutsideHours is true, always block
+  if (schedule.allowOutsideHours) {
+    return true;
+  }
+
   const now = new Date();
   const currentDay = now.getDay();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
@@ -259,7 +280,7 @@ const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
 // Find matching blocked site for URL
 const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedSite | null> => {
   const settings = await getSettings();
-  
+
   // Check if paused
   if (settings.isPaused) {
     if (settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
@@ -273,7 +294,7 @@ const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedS
   for (const site of settings.blockedSites) {
     if (!site.isActive) continue;
     if (!isWithinWorkHours(site.schedule)) continue;
-    if (matchesUrl(url, site.urls, referrer)) {
+    if (matchesUrl(url, site, referrer)) {
       return site;
     }
   }
@@ -305,7 +326,7 @@ const getOrCreateTimer = async (site: BlockedSite): Promise<SiteTimer> => {
 // Handle blocking action
 const handleBlocking = async (tabId: number, site: BlockedSite) => {
   console.log(`[FocusGuard] Blocking ${site.title} - Action: ${site.action}`);
-  
+
   // Increment blocked attempts
   const stats = await getStats();
   await updateStats({ blockedAttempts: stats.blockedAttempts + 1 });
@@ -344,7 +365,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   tabSiteMapping.set(tabId, site.id);
 
   const timer = await getOrCreateTimer(site);
-  
+
   // Check if already exceeded time
   if (timer.usedSeconds >= timer.allowedSeconds) {
     await handleBlocking(tabId, site);
@@ -362,7 +383,8 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
       }
 
       // If site has countOnlyActiveTab enabled, check if tab is active
-      if (site.countOnlyActiveTab !== false) { // Default to true if not set
+      if (site.countOnlyActiveTab !== false) {
+        // Default to true if not set
         const activeTab = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!activeTab[0] || activeTab[0].id !== tabId) {
           // Tab is not active, skip counting this second
@@ -404,7 +426,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         const savedMinutes = Math.ceil(currentTimer.allowedSeconds / 60);
         const stats = await getStats();
         await updateStats({ timeSavedMinutes: stats.timeSavedMinutes + savedMinutes });
-        
+
         await handleBlocking(tabId, site);
         return;
       }
@@ -433,23 +455,41 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   activeTabTimers.set(tabId, interval);
 };
 
+// Listen for referrer messages from content script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'REFERRER_CAPTURED' && sender.tab?.id) {
+    console.log(`[FocusGuard] Received referrer from content script for tab ${sender.tab.id}: ${message.referrer}`);
+    tabReferrers.set(sender.tab.id, message.referrer);
+    sendResponse({ received: true });
+  }
+  return true; // Keep message channel open for async response
+});
+
 // Handle tab updates
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  console.log(`[FocusGuard] Tab ${tabId} updated:`, changeInfo.status, tab.url);
+
   if (changeInfo.status !== 'complete' || !tab.url) return;
-  
+
   // Skip chrome:// and extension pages
   if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
     clearTabTimer(tabId);
     return;
   }
 
-  const site = await findBlockedSite(tab.url);
+  console.log(`[FocusGuard] Checking URL: ${tab.url}`);
+  const referrer = tabReferrers.get(tabId);
+  const site = await findBlockedSite(tab.url, referrer);
   if (site) {
-    console.log(`[FocusGuard] Detected blocked site: ${site.title} on ${tab.url}`);
+    console.log(`[FocusGuard] ✅ MATCHED! Detected blocked site: ${site.title} on ${tab.url}`);
     await startTabTimer(tabId, site);
   } else {
+    console.log(`[FocusGuard] ❌ No match for: ${tab.url}`);
     clearTabTimer(tabId);
   }
+
+  // Clean up referrer after use
+  tabReferrers.delete(tabId);
 });
 
 // Handle tab activation
@@ -472,7 +512,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
 });
 
 // Handle tab removal
-chrome.tabs.onRemoved.addListener((tabId) => {
+chrome.tabs.onRemoved.addListener(tabId => {
   clearTabTimer(tabId);
 });
 
@@ -505,14 +545,14 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       const settings = await getSettings();
       const endTime = Date.now() + message.minutes * 60 * 1000;
       await setSettings({ ...settings, isPaused: true, pauseEndTime: endTime });
-      
+
       // Clear all active timers
       activeTabTimers.forEach((timer, tabId) => {
         clearInterval(timer);
         activeTabTimers.delete(tabId);
       });
       tabSiteMapping.clear();
-      
+
       sendResponse({ success: true });
     })();
     return true;
@@ -522,7 +562,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     (async () => {
       const settings = await getSettings();
       await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-      
+
       // Re-check all tabs
       const tabs = await chrome.tabs.query({});
       for (const tab of tabs) {
@@ -571,7 +611,7 @@ setInterval(async () => {
   if (settings.isPaused && settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
     await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
     console.log('[FocusGuard] Pause expired, resuming blocking');
-    
+
     // Re-check all tabs
     const tabs = await chrome.tabs.query({});
     for (const tab of tabs) {
@@ -587,10 +627,16 @@ setInterval(async () => {
 
 // Initialize default settings if not present
 (async () => {
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
+  const result = await chrome.storage.local.get([STORAGE_KEYS.settings]);
   if (!result[STORAGE_KEYS.settings]) {
     await setSettings(DEFAULT_SETTINGS);
     console.log('[FocusGuard] Initialized default settings');
+  } else {
+    const settings = result[STORAGE_KEYS.settings];
+    console.log('[FocusGuard] Loaded settings with', settings.blockedSites?.length || 0, 'blocked sites');
+    settings.blockedSites?.forEach((site: BlockedSite) => {
+      console.log(`[FocusGuard] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);
+    });
   }
 })();
 
