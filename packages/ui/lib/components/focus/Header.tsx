@@ -5,9 +5,10 @@ import { Button } from '../ui/button';
 interface HeaderProps {
   isWithinWorkHours: boolean;
   isPaused: boolean;
+  showSettingsButton?: boolean; // Default true for popup, false for options
 }
 
-export const Header = ({ isWithinWorkHours, isPaused }: HeaderProps) => {
+export const Header = ({ isWithinWorkHours, isPaused, showSettingsButton = true }: HeaderProps) => {
   const openOptionsPage = () => {
     chrome.runtime.openOptionsPage();
   };
@@ -41,16 +42,18 @@ export const Header = ({ isWithinWorkHours, isPaused }: HeaderProps) => {
         </div>
       </div>
 
-      <Button
-        variant="outline"
-        size="sm"
-        className="gap-1.5 h-8"
-        onClick={openOptionsPage}
-      >
-        <Settings className="w-3.5 h-3.5" />
-        <span className="text-xs">Cài đặt đầy đủ</span>
-        <ExternalLink className="w-3 h-3 opacity-50" />
-      </Button>
+      {showSettingsButton && (
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-1.5 h-8"
+          onClick={openOptionsPage}
+        >
+          <Settings className="w-3.5 h-3.5" />
+          <span className="text-xs">Cài đặt đầy đủ</span>
+          <ExternalLink className="w-3 h-3 opacity-50" />
+        </Button>
+      )}
     </header>
   );
 };

@@ -39,8 +39,8 @@ const Options = () => {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
       </div>
 
-      <div className="relative max-w-2xl mx-auto px-6 py-8">
-        <Header isWithinWorkHours={withinHours} isPaused={settings.isPaused} />
+          <div className="relative max-w-2xl mx-auto px-6 py-8">
+            <Header isWithinWorkHours={withinHours} isPaused={settings.isPaused} showSettingsButton={false} />
 
         <div className="flex justify-center my-4">
           <Navigation activeTab={activeTab} onTabChange={setActiveTab} />

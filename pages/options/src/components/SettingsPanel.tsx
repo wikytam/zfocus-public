@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
 import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, Download, Upload, FileDown, FileUp, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
-import type { FocusSettings, BlockedSite } from '@extension/storage';
+import type { FocusSettings } from '@extension/storage';
+import { checkSyncStatus as checkSync, forcePushToCloud, forcePullFromCloud, clearAllData } from '../utils/settingsSync';
+import { exportSettings as exportSettingsFile, parseImportFile } from '../utils/settingsExportImport';
 
 interface SettingsPanelProps {
   settings: FocusSettings;
@@ -18,302 +20,61 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
   const [importStatus, setImportStatus] = useState<{ type: 'success' | 'error' | 'warning' | null; message: string }>({ type: null, message: '' });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const checkSyncStatus = async () => {
+  // Sync handlers
+  const handleCheckSync = async () => {
     setSyncStatus('syncing');
-    try {
-      // Check chrome.storage.sync
-      const syncData = await chrome.storage.sync.get(null);
-      const bytesUsed = await chrome.storage.sync.getBytesInUse(null);
-      const maxBytes = chrome.storage.sync.QUOTA_BYTES; // 102,400 bytes
-      
-      // Get Chrome account info
-      try {
-        const identity = await chrome.identity?.getProfileUserInfo({ accountStatus: 'ANY' as chrome.identity.AccountStatus });
-        setAccountEmail(identity?.email || 'Chưa đăng nhập');
-      } catch {
-        setAccountEmail('Không thể lấy thông tin tài khoản');
-      }
-      
-      // Set last update time
-      setLastUpdate(new Date().toLocaleString('vi-VN'));
-      
-      setSyncInfo(`Đã sử dụng: ${(bytesUsed / 1024).toFixed(2)} KB / ${(maxBytes / 1024).toFixed(0)} KB`);
-      setDebugData(JSON.stringify(syncData, null, 2));
-      setSyncStatus('success');
-    } catch (error) {
-      setSyncStatus('error');
-      setSyncInfo(`Lỗi: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    const result = await checkSync();
+    setSyncStatus(result.type);
+    setSyncInfo(result.message);
+    if (result.accountEmail) setAccountEmail(result.accountEmail);
+    if (result.lastUpdate) setLastUpdate(result.lastUpdate);
+    if (result.debugData) setDebugData(result.debugData);
+  };
+
+  const handlePushToCloud = async () => {
+    setSyncStatus('syncing');
+    const result = await forcePushToCloud(settings);
+    setSyncStatus(result.type);
+    setSyncInfo(result.message);
+  };
+
+  const handlePullFromCloud = async () => {
+    setSyncStatus('syncing');
+    const result = await forcePullFromCloud();
+    setSyncStatus(result.type);
+    setSyncInfo(result.message);
+    if (result.success && result.settings) {
+      onUpdate(result.settings);
+      setTimeout(() => window.location.reload(), 500);
     }
   };
 
-  const forceSyncNow = async () => {
-    setSyncStatus('syncing');
-    try {
-      // Re-save current settings to trigger sync
-      await chrome.storage.sync.set({ 'focus-settings': settings });
-      setSyncStatus('success');
-      setSyncInfo('Đã đồng bộ thành công!');
-    } catch (error) {
-      setSyncStatus('error');
-      setSyncInfo(`Lỗi đồng bộ: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  };
-
-  const pullFromCloud = async () => {
-    setSyncStatus('syncing');
-    try {
-      // Force reload data from sync storage
-      const syncData = await chrome.storage.sync.get(['focus-settings']);
-      if (syncData['focus-settings']) {
-        // Update local state with cloud data
-        onUpdate(syncData['focus-settings']);
-        setSyncStatus('success');
-        setSyncInfo('Đã tải dữ liệu từ cloud! Đang reload...');
-        // Reload page to apply
-        setTimeout(() => window.location.reload(), 500);
-      } else {
-        setSyncInfo('Không có dữ liệu trên cloud.');
-        setSyncStatus('idle');
-      }
-    } catch (error) {
-      setSyncStatus('error');
-      setSyncInfo(`Lỗi tải: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  };
-
-  const clearAllData = async () => {
+  const handleClearData = async () => {
     if (confirm('Xóa tất cả dữ liệu? Hành động này không thể hoàn tác!')) {
-      await chrome.storage.sync.clear();
-      await chrome.storage.local.clear();
+      await clearAllData();
       window.location.reload();
     }
   };
 
-  // ===== VALIDATION FUNCTIONS =====
-  const isValidUrl = (url: string): boolean => {
-    // Basic URL pattern validation
-    const urlPattern = /^[a-zA-Z0-9*+>~][a-zA-Z0-9.*+>~\-/_]*$/;
-    return urlPattern.test(url.trim()) && url.trim().length > 0 && url.trim().length < 500;
+  // Export/Import handlers
+  const handleExport = () => {
+    const result = exportSettingsFile(settings);
+    setImportStatus({ type: result.type, message: result.message });
   };
 
-  const isValidTime = (time: string): boolean => {
-    const timePattern = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    return timePattern.test(time);
-  };
-
-  const isValidBlockedSite = (site: unknown): site is BlockedSite => {
-    if (!site || typeof site !== 'object') return false;
-    const s = site as Record<string, unknown>;
-    
-    // Required fields
-    if (typeof s.id !== 'string' || s.id.length === 0 || s.id.length > 100) return false;
-    if (typeof s.title !== 'string' || s.title.length === 0 || s.title.length > 200) return false;
-    if (!Array.isArray(s.urls) || s.urls.length === 0 || s.urls.length > 100) return false;
-    if (!s.urls.every((url: unknown) => typeof url === 'string' && isValidUrl(url))) return false;
-    if (typeof s.allowedMinutesPerHour !== 'number' || s.allowedMinutesPerHour < 1 || s.allowedMinutesPerHour > 60) return false;
-    if (s.action !== 'close' && s.action !== 'redirect') return false;
-    if (typeof s.isActive !== 'boolean') return false;
-    
-    // Optional fields
-    if (s.redirectUrl !== undefined && typeof s.redirectUrl !== 'string') return false;
-    
-    // Schedule validation
-    if (!s.schedule || typeof s.schedule !== 'object') return false;
-    const schedule = s.schedule as Record<string, unknown>;
-    if (typeof schedule.startTime !== 'string' || !isValidTime(schedule.startTime)) return false;
-    if (typeof schedule.endTime !== 'string' || !isValidTime(schedule.endTime)) return false;
-    if (!Array.isArray(schedule.workDays) || !schedule.workDays.every((d: unknown) => typeof d === 'number' && d >= 0 && d <= 6)) return false;
-    if (typeof schedule.allowOutsideHours !== 'boolean') return false;
-    
-    return true;
-  };
-
-  const isValidSettings = (data: unknown): { valid: boolean; errors: string[]; normalized: FocusSettings | null } => {
-    const errors: string[] = [];
-    
-    if (!data || typeof data !== 'object') {
-      return { valid: false, errors: ['Dữ liệu không hợp lệ'], normalized: null };
-    }
-    
-    const d = data as Record<string, unknown>;
-    
-    // Check blockedSites
-    if (!Array.isArray(d.blockedSites)) {
-      errors.push('Thiếu danh sách website (blockedSites)');
-    } else if (d.blockedSites.length > 50) {
-      errors.push('Quá nhiều website (tối đa 50)');
-    } else {
-      d.blockedSites.forEach((site: unknown, index: number) => {
-        if (!isValidBlockedSite(site)) {
-          errors.push(`Website #${index + 1} không hợp lệ`);
-        }
-      });
-    }
-    
-    // Check workSchedule
-    if (d.workSchedule && typeof d.workSchedule === 'object') {
-      const ws = d.workSchedule as Record<string, unknown>;
-      if (ws.startTime && !isValidTime(ws.startTime as string)) {
-        errors.push('Thời gian bắt đầu không hợp lệ');
-      }
-      if (ws.endTime && !isValidTime(ws.endTime as string)) {
-        errors.push('Thời gian kết thúc không hợp lệ');
-      }
-    }
-    
-    // Check pauseMinutes
-    if (d.pauseMinutes !== undefined) {
-      if (typeof d.pauseMinutes !== 'number' || d.pauseMinutes < 1 || d.pauseMinutes > 120) {
-        errors.push('Thời gian tạm dừng phải từ 1-120 phút');
-      }
-    }
-    
-    // Check theme
-    if (d.theme !== undefined && d.theme !== 'light' && d.theme !== 'dark' && d.theme !== 'system') {
-      errors.push('Theme không hợp lệ (phải là light, dark, hoặc system)');
-    }
-    
-    if (errors.length > 0) {
-      return { valid: false, errors, normalized: null };
-    }
-    
-    // Normalize data - fill in defaults for missing optional fields
-    const normalized: FocusSettings = {
-      blockedSites: (d.blockedSites as BlockedSite[]).map((site, index) => ({
-        id: site.id || `imported-${index}-${Date.now()}`,
-        title: site.title.trim().substring(0, 200),
-        urls: site.urls.map((url: string) => url.trim().toLowerCase().substring(0, 500)),
-        allowedMinutesPerHour: Math.min(60, Math.max(1, Math.round(site.allowedMinutesPerHour))),
-        action: site.action,
-        redirectUrl: site.redirectUrl?.trim().substring(0, 500),
-        isActive: site.isActive,
-        schedule: {
-          startTime: site.schedule.startTime,
-          endTime: site.schedule.endTime,
-          workDays: [...new Set(site.schedule.workDays)].sort(),
-          allowOutsideHours: site.schedule.allowOutsideHours,
-        },
-      })),
-      workSchedule: d.workSchedule as FocusSettings['workSchedule'] || {
-        startTime: '08:00',
-        endTime: '17:00',
-        workDays: [1, 2, 3, 4, 5],
-        allowOutsideHours: true,
-      },
-      pauseMinutes: typeof d.pauseMinutes === 'number' ? Math.min(120, Math.max(1, d.pauseMinutes)) : 15,
-      isPaused: false, // Always reset pause state on import
-      pauseEndTime: undefined,
-      hardLockMode: typeof d.hardLockMode === 'boolean' ? d.hardLockMode : false,
-      theme: (d.theme as 'light' | 'dark' | 'system') || 'dark',
-    };
-    
-    return { valid: true, errors: [], normalized };
-  };
-
-  // ===== EXPORT FUNCTION =====
-  const exportSettings = () => {
-    try {
-      const exportData = {
-        version: '1.0.0',
-        exportedAt: new Date().toISOString(),
-        settings: settings,
-      };
-      
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `focusguard-backup-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      setImportStatus({ type: 'success', message: 'Đã xuất file thành công!' });
-    } catch (error) {
-      setImportStatus({ type: 'error', message: `Lỗi xuất file: ${error instanceof Error ? error.message : 'Unknown'}` });
-    }
-  };
-
-  // ===== IMPORT FUNCTION =====
-  const handleImportFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImportFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
     
-    // Validate file size (max 1MB)
-    if (file.size > 1024 * 1024) {
-      setImportStatus({ type: 'error', message: 'File quá lớn (tối đa 1MB)' });
-      return;
-    }
+    const result = await parseImportFile(file);
+    setImportStatus({ type: result.type, message: result.message });
     
-    // Validate file type
-    if (!file.name.endsWith('.json')) {
-      setImportStatus({ type: 'error', message: 'Chỉ hỗ trợ file .json' });
-      return;
-    }
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const content = e.target?.result as string;
-        
-        // Parse JSON
-        let parsed: unknown;
-        try {
-          parsed = JSON.parse(content);
-        } catch {
-          setImportStatus({ type: 'error', message: 'File JSON không hợp lệ' });
-          return;
-        }
-        
-        // Extract settings (support both old and new format)
-        let settingsData: unknown;
-        if (parsed && typeof parsed === 'object') {
-          const p = parsed as Record<string, unknown>;
-          if (p.settings && typeof p.settings === 'object') {
-            // New format with metadata
-            settingsData = p.settings;
-          } else if (p.blockedSites) {
-            // Direct settings format
-            settingsData = parsed;
-          } else {
-            setImportStatus({ type: 'error', message: 'Không tìm thấy dữ liệu settings trong file' });
-            return;
-          }
-        } else {
-          setImportStatus({ type: 'error', message: 'Định dạng file không hợp lệ' });
-          return;
-        }
-        
-        // Validate and normalize
-        const validation = isValidSettings(settingsData);
-        
-        if (!validation.valid) {
-          setImportStatus({ 
-            type: 'error', 
-            message: `Dữ liệu không hợp lệ:\n${validation.errors.join('\n')}` 
-          });
-          return;
-        }
-        
-        // Confirm import
-        if (confirm(`Nhập ${validation.normalized!.blockedSites.length} website? Dữ liệu hiện tại sẽ bị ghi đè.`)) {
-          onUpdate(validation.normalized!);
-          setImportStatus({ type: 'success', message: `Đã nhập ${validation.normalized!.blockedSites.length} website thành công!` });
-          
-          // Reload after short delay
-          setTimeout(() => window.location.reload(), 1000);
-        }
-      } catch (error) {
-        setImportStatus({ type: 'error', message: `Lỗi đọc file: ${error instanceof Error ? error.message : 'Unknown'}` });
+    if (result.success && result.normalized) {
+      if (confirm(`Nhập ${result.normalized.blockedSites.length} website? Dữ liệu hiện tại sẽ bị ghi đè.`)) {
+        onUpdate(result.normalized);
+        setTimeout(() => window.location.reload(), 1000);
       }
-    };
-    
-    reader.onerror = () => {
-      setImportStatus({ type: 'error', message: 'Không thể đọc file' });
-    };
-    
-    reader.readAsText(file);
+    }
     
     // Reset input
     if (fileInputRef.current) {
@@ -407,13 +168,13 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
             <Cloud className="w-4 h-4" />
-            Đồng bộ dữ liệu (Chrome/Edge)
+            Đồng bộ dữ liệu (Chrome)
           </Label>
           <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
-              onClick={checkSyncStatus}
+              onClick={handleCheckSync}
               disabled={syncStatus === 'syncing'}
             >
               {syncStatus === 'syncing' ? (
@@ -430,7 +191,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={forceSyncNow}
+              onClick={handlePushToCloud}
               disabled={syncStatus === 'syncing'}
             >
               <Upload className="w-4 h-4 mr-2" />
@@ -439,7 +200,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={pullFromCloud}
+              onClick={handlePullFromCloud}
               disabled={syncStatus === 'syncing'}
             >
               <Download className="w-4 h-4 mr-2" />
@@ -466,7 +227,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={exportSettings}
+              onClick={handleExport}
             >
               <FileDown className="w-4 h-4 mr-2" />
               Xuất file
@@ -512,7 +273,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
             size="sm"
             onClick={() => {
               setShowDebug(!showDebug);
-              if (!showDebug) checkSyncStatus();
+              if (!showDebug) handleCheckSync();
             }}
             className="text-muted-foreground"
           >
@@ -542,10 +303,10 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
                 </pre>
               </div>
               
-              <Button
+                <Button
                 variant="destructive"
                 size="sm"
-                onClick={clearAllData}
+                onClick={handleClearData}
               >
                 Xóa tất cả dữ liệu
               </Button>
