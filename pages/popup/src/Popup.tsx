@@ -1,8 +1,6 @@
 import { Clock, Ban } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
-import { Header } from './components/Header';
-import { StatCard } from './components/StatCard';
-import { PauseControl } from './components/PauseControl';
+import { Header, StatCard, PauseControl } from '@extension/ui';
 import './index.css';
 
 const Popup = () => {

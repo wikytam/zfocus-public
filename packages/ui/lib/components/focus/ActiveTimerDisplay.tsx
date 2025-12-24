@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Progress } from './ui/progress';
-import { cn } from '../lib/utils';
-import type { ActiveTimer } from '../types/focus';
+import { Card } from '../ui/card';
+import { Button } from '../ui/button';
+import { Progress } from '../ui/progress';
+import { cn } from '../../utils';
+import type { ActiveTimer } from '@extension/storage';
 
 interface ActiveTimerDisplayProps {
   timers: ActiveTimer[];

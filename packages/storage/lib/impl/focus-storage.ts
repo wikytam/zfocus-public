@@ -47,6 +47,13 @@ export interface SiteTimer {
   lastUpdate: number;
 }
 
+export interface ActiveTimer {
+  siteId: string;
+  siteName: string;
+  remainingSeconds: number;
+  totalSeconds: number;
+}
+
 // Default values
 const DEFAULT_SCHEDULE = {
   startTime: '08:00',

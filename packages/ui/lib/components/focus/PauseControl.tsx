@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Pause, Play, Clock } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { cn } from '../lib/utils';
+import { Button } from '../ui/button';
+import { Card } from '../ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { cn } from '../../utils';
 
 interface PauseControlProps {
   isPaused: boolean;

@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { Ban, Clock } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
-import { Header } from './components/Header';
+import { Header, StatCard, PauseControl, BlockedSiteItem, AddSiteDialog } from '@extension/ui';
 import { Navigation } from './components/Navigation';
-import { StatCard } from './components/StatCard';
-import { PauseControl } from './components/PauseControl';
-import { BlockedSiteItem } from './components/BlockedSiteItem';
-import { AddSiteDialog } from './components/AddSiteDialog';
 import { SettingsPanel } from './components/SettingsPanel';
 import './index.css';
 

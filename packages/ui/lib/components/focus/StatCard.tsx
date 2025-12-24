@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Card } from './ui/card';
-import { cn } from '../lib/utils';
+import { Card } from '../ui/card';
+import { cn } from '../../utils';
 
 interface StatCardProps {
   icon: ReactNode;

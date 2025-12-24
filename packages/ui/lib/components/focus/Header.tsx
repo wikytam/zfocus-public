@@ -1,6 +1,6 @@
 import { Shield, Settings, ExternalLink } from 'lucide-react';
-import { cn } from '../lib/utils';
-import { Button } from './ui/button';
+import { cn } from '../../utils';
+import { Button } from '../ui/button';
 
 interface HeaderProps {
   isWithinWorkHours: boolean;

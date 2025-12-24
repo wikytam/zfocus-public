@@ -1,9 +1,6 @@
 import { Moon, Sun, Monitor, Lock, Unlock } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Switch } from './ui/switch';
-import { Label } from './ui/label';
-import { cn } from '../lib/utils';
-import type { FocusSettings } from '../types/focus';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, cn } from '@extension/ui';
+import type { FocusSettings } from '@extension/storage';
 
 interface SettingsPanelProps {
   settings: FocusSettings;

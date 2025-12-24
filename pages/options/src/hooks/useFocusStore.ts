@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { FocusSettings, DailyStats, BlockedSite, ActiveTimer } from '../types/focus';
+import type { FocusSettings, DailyStats, BlockedSite, ActiveTimer } from '@extension/storage';
 
 // Storage keys
 const STORAGE_KEYS = {

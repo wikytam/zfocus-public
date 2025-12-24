@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Label } from './ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { cn } from '../lib/utils';
-import type { BlockedSite } from '../types/focus';
+import { useState } from 'react';
+import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { cn } from '../../utils';
+import type { BlockedSite } from '@extension/storage';
 
-interface EditSiteDialogProps {
-  site: BlockedSite;
-  onSave: (updates: Partial<BlockedSite>) => void;
-  onDelete?: () => void;
-  trigger?: React.ReactNode;
+interface AddSiteDialogProps {
+  onAdd: (site: Omit<BlockedSite, 'id'>) => void;
 }
 
 const DAYS = [
@@ -33,67 +30,61 @@ const TIME_INTERVALS = [
   { value: 60, label: '1 tiếng' },
 ];
 
-export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDialogProps) => {
+export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [editData, setEditData] = useState({
-    title: site.title,
-    urls: site.urls.join('\n'),
-    allowedMinutes: site.allowedMinutesPerHour,
+  const [formData, setFormData] = useState({
+    title: '',
+    urls: '',
+    allowedMinutes: 5,
     timeInterval: 60,
-    action: site.action,
-    redirectUrl: site.redirectUrl || '',
-    activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
-    startTime: site.schedule?.startTime || '08:00',
-    endTime: site.schedule?.endTime || '17:00',
+    action: 'redirect' as 'close' | 'redirect',
+    redirectUrl: '',
+    activeDays: [1, 2, 3, 4, 5],
+    startTime: '08:00',
+    endTime: '17:00',
   });
 
-  useEffect(() => {
-    setEditData({
-      title: site.title,
-      urls: site.urls.join('\n'),
-      allowedMinutes: site.allowedMinutesPerHour,
-      timeInterval: 60,
-      action: site.action,
-      redirectUrl: site.redirectUrl || '',
-      activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
-      startTime: site.schedule?.startTime || '08:00',
-      endTime: site.schedule?.endTime || '17:00',
-    });
-    setShowHelp(false);
-  }, [site, open]);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleSave = () => {
-    const allUrls = editData.urls
+    const allUrls = formData.urls
       .split('\n')
       .map(u => u.trim())
       .filter(Boolean);
 
-    onSave({
-      title: editData.title,
+    onAdd({
+      title: formData.title,
       urls: allUrls,
-      allowedMinutesPerHour: Math.max(5, editData.allowedMinutes),
-      action: editData.action,
-      redirectUrl: editData.redirectUrl || undefined,
+      allowedMinutesPerHour: Math.max(5, formData.allowedMinutes),
+      action: formData.action,
+      redirectUrl: formData.redirectUrl || undefined,
+      isActive: true,
       schedule: {
-        workDays: editData.activeDays,
-        startTime: editData.startTime,
-        endTime: editData.endTime,
+        startTime: formData.startTime,
+        endTime: formData.endTime,
+        workDays: formData.activeDays,
         allowOutsideHours: true,
       },
     });
+
+    setFormData({
+      title: '',
+      urls: '',
+      allowedMinutes: 5,
+      timeInterval: 60,
+      action: 'redirect',
+      redirectUrl: '',
+      activeDays: [1, 2, 3, 4, 5],
+      startTime: '08:00',
+      endTime: '17:00',
+    });
+    setShowHelp(false);
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    if (onDelete) {
-      onDelete();
-      setOpen(false);
-    }
-  };
-
   const toggleDay = (day: number) => {
-    setEditData(prev => ({
+    setFormData(prev => ({
       ...prev,
       activeDays: prev.activeDays.includes(day)
         ? prev.activeDays.filter(d => d !== day)
@@ -104,45 +95,41 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger || (
-          <Button variant="ghost" size="icon-sm">
-            <Edit2 className="w-4 h-4" />
-          </Button>
-        )}
+        <Button className="gap-2">
+          <Plus className="w-4 h-4" />
+          Thêm nhóm mới
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Edit2 className="w-4 h-4 text-primary" />
-            </div>
-            Chỉnh sửa website
-          </DialogTitle>
-          <DialogDescription className="sr-only">Chỉnh sửa cài đặt cho nhóm website</DialogDescription>
+          <DialogTitle>Thêm nhóm website chặn</DialogTitle>
+          <DialogDescription>Tạo nhóm mới để quản lý các trang web gây xao nhãng</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title">Tên nhóm</Label>
+            <Label htmlFor="add-title">Tên nhóm</Label>
             <Input
-              id="title"
-              value={editData.title}
-              onChange={e => setEditData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Tên nhóm"
+              id="add-title"
+              value={formData.title}
+              onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
+              placeholder="VD: Mạng xã hội"
+              required
             />
           </div>
 
           {/* URL Input */}
           <div className="space-y-2">
-            <Label htmlFor="urls">Danh sách URL</Label>
+            <Label htmlFor="add-urls">Danh sách URL</Label>
             <Textarea
-              id="urls"
-              value={editData.urls}
-              onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
+              id="add-urls"
+              value={formData.urls}
+              onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
               placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
               rows={4}
               className="font-mono text-sm"
+              required
             />
             
             {/* Expandable Help */}
@@ -183,12 +170,12 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             <Label>Thời gian cho phép</Label>
             <div className="flex items-center gap-2">
               <Input
-                id="allowedMinutes"
+                id="add-allowedMinutes"
                 type="number"
                 min={5}
-                value={editData.allowedMinutes}
+                value={formData.allowedMinutes}
                 onChange={e =>
-                  setEditData(prev => ({
+                  setFormData(prev => ({
                     ...prev,
                     allowedMinutes: Math.max(5, parseInt(e.target.value) || 5),
                   }))
@@ -197,8 +184,8 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               />
               <span className="text-sm text-muted-foreground">phút mỗi</span>
               <Select
-                value={editData.timeInterval.toString()}
-                onValueChange={(value) => setEditData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
+                value={formData.timeInterval.toString()}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
               >
                 <SelectTrigger className="w-28">
                   <SelectValue />
@@ -220,10 +207,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             <div className="flex p-1 rounded-lg bg-secondary/50">
               <button
                 type="button"
-                onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
+                onClick={() => setFormData(prev => ({ ...prev, action: 'close' }))}
                 className={cn(
                   'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                  editData.action === 'close'
+                  formData.action === 'close'
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
                 )}
@@ -232,10 +219,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               </button>
               <button
                 type="button"
-                onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
+                onClick={() => setFormData(prev => ({ ...prev, action: 'redirect' }))}
                 className={cn(
                   'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                  editData.action === 'redirect'
+                  formData.action === 'redirect'
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
                 )}
@@ -246,16 +233,16 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           </div>
 
           {/* Redirect URL - Segmented Control */}
-          {editData.action === 'redirect' && (
+          {formData.action === 'redirect' && (
             <div className="space-y-2">
               <Label>URL chuyển hướng</Label>
               <div className="flex p-1 rounded-lg bg-secondary/50">
                 <button
                   type="button"
-                  onClick={() => setEditData(prev => ({ ...prev, redirectUrl: '' }))}
+                  onClick={() => setFormData(prev => ({ ...prev, redirectUrl: '' }))}
                   className={cn(
                     'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                    editData.redirectUrl === ''
+                    formData.redirectUrl === ''
                       ? 'bg-background text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground',
                   )}
@@ -264,10 +251,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 </button>
                 <button
                   type="button"
-                  onClick={() => setEditData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }))}
+                  onClick={() => setFormData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }))}
                   className={cn(
                     'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
-                    editData.redirectUrl !== ''
+                    formData.redirectUrl !== ''
                       ? 'bg-background text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground',
                   )}
@@ -275,11 +262,11 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                   Tùy chỉnh
                 </button>
               </div>
-              {editData.redirectUrl !== '' && (
+              {formData.redirectUrl !== '' && (
                 <Input
-                  id="redirectUrl"
-                  value={editData.redirectUrl}
-                  onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
+                  id="add-redirectUrl"
+                  value={formData.redirectUrl}
+                  onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
                   placeholder="https://notion.so"
                 />
               )}
@@ -296,22 +283,22 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             {/* Time Range */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="startTime">Bắt đầu</Label>
+                <Label htmlFor="add-startTime">Bắt đầu</Label>
                 <Input
-                  id="startTime"
+                  id="add-startTime"
                   type="time"
-                  value={editData.startTime}
-                  onChange={e => setEditData(prev => ({ ...prev, startTime: e.target.value }))}
+                  value={formData.startTime}
+                  onChange={e => setFormData(prev => ({ ...prev, startTime: e.target.value }))}
                   className="text-center"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="endTime">Kết thúc</Label>
+                <Label htmlFor="add-endTime">Kết thúc</Label>
                 <Input
-                  id="endTime"
+                  id="add-endTime"
                   type="time"
-                  value={editData.endTime}
-                  onChange={e => setEditData(prev => ({ ...prev, endTime: e.target.value }))}
+                  value={formData.endTime}
+                  onChange={e => setFormData(prev => ({ ...prev, endTime: e.target.value }))}
                   className="text-center"
                 />
               </div>
@@ -328,7 +315,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                     onClick={() => toggleDay(day.value)}
                     className={cn(
                       'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
-                      editData.activeDays.includes(day.value)
+                      formData.activeDays.includes(day.value)
                         ? 'gradient-primary text-primary-foreground shadow-md'
                         : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                     )}
@@ -340,30 +327,14 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Footer Buttons - Inline */}
-        <div className="flex items-center gap-2">
-          {onDelete && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="text-destructive hover:text-destructive hover:bg-destructive/10"
-              onClick={handleDelete}
-            >
-              <Trash2 className="w-4 h-4 mr-1" />
-              Xóa
+          <div className="flex justify-end gap-3 pt-2">
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+              Hủy
             </Button>
-          )}
-          <div className="flex-1" />
-          <Button variant="outline" size="sm" onClick={() => setOpen(false)}>
-            Hủy
-          </Button>
-          <Button size="sm" onClick={handleSave}>
-            Lưu thay đổi
-          </Button>
-        </div>
+            <Button type="submit">Thêm nhóm</Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

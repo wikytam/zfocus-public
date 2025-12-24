@@ -1,9 +1,9 @@
 import { Globe, Clock } from 'lucide-react';
-import { Card } from './ui/card';
-import { Switch } from './ui/switch';
+import { Card } from '../ui/card';
+import { Switch } from '../ui/switch';
 import { EditSiteDialog } from './EditSiteDialog';
-import { cn } from '../lib/utils';
-import type { BlockedSite } from '../types/focus';
+import { cn } from '../../utils';
+import type { BlockedSite } from '@extension/storage';
 
 interface BlockedSiteItemProps {
   site: BlockedSite;

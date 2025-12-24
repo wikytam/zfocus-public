@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Label } from './ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { cn } from '../lib/utils';
-import type { BlockedSite } from '../types/focus';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { cn } from '../../utils';
+import type { BlockedSite } from '@extension/storage';
 
 interface EditSiteDialogProps {
   site: BlockedSite;

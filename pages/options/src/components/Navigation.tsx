@@ -1,5 +1,5 @@
 import { LayoutDashboard, Settings, Globe } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { cn } from '@extension/ui';
 
 type TabType = 'dashboard' | 'sites' | 'settings';
 
