@@ -168,43 +168,21 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
             <Cloud className="w-4 h-4" />
-            Đồng bộ dữ liệu (Chrome)
+            Đồng bộ (Chrome)
           </Label>
           <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCheckSync}
-              disabled={syncStatus === 'syncing'}
-            >
-              {syncStatus === 'syncing' ? (
-                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-              ) : syncStatus === 'success' ? (
-                <Cloud className="w-4 h-4 mr-2 text-green-500" />
-              ) : syncStatus === 'error' ? (
-                <CloudOff className="w-4 h-4 mr-2 text-red-500" />
-              ) : (
-                <Cloud className="w-4 h-4 mr-2" />
-              )}
-              Kiểm tra
-            </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={handlePushToCloud}
               disabled={syncStatus === 'syncing'}
             >
-              <Upload className="w-4 h-4 mr-2" />
-              Đẩy lên cloud
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handlePullFromCloud}
-              disabled={syncStatus === 'syncing'}
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Tải từ cloud
+              {syncStatus === 'syncing' ? (
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Upload className="w-4 h-4 mr-2" />
+              )}
+              Đồng bộ
             </Button>
           </div>
           {syncInfo && (
@@ -221,7 +199,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
             <FileDown className="w-4 h-4" />
-            Sao lưu & Khôi phục (Firefox, Brave, ...)
+            Sao lưu & Khôi phục (Edge, Firefox, Brave, ...)
           </Label>
           <div className="flex items-center gap-2 flex-wrap">
             <Button
@@ -266,23 +244,26 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
           </p>
         </div>
 
-        {/* Debug Section */}
-        <div className="space-y-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              setShowDebug(!showDebug);
-              if (!showDebug) handleCheckSync();
-            }}
-            className="text-muted-foreground"
-          >
-            <Bug className="w-4 h-4 mr-2" />
-            {showDebug ? 'Ẩn Debug' : 'Hiện Debug'}
-          </Button>
+        {/* Extension Info with Debug */}
+        <div className="pt-4 border-t border-border space-y-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Phiên bản</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setShowDebug(!showDebug);
+                if (!showDebug) handleCheckSync();
+              }}
+              className="h-8 gap-2"
+            >
+              <span className="font-mono">1.0.0</span>
+              <Bug className="w-3.5 h-3.5 text-muted-foreground" />
+            </Button>
+          </div>
           
           {showDebug && (
-            <div className="space-y-3">
+            <div className="space-y-3 animate-fade-in">
               {/* Account & Timestamp Info */}
               <div className="p-3 bg-secondary/50 rounded-lg space-y-2">
                 <div className="flex items-center justify-between text-xs">
@@ -299,11 +280,11 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
               <div className="p-3 bg-secondary/50 rounded-lg">
                 <p className="text-xs font-mono text-muted-foreground mb-2">Storage Data:</p>
                 <pre className="text-xs font-mono overflow-auto max-h-40 text-foreground">
-                  {debugData || 'Click "Kiểm tra" để xem dữ liệu'}
+                  {debugData || 'Click vào "Phiên bản 1.0.0" để tải dữ liệu'}
                 </pre>
               </div>
               
-                <Button
+              <Button
                 variant="destructive"
                 size="sm"
                 onClick={handleClearData}
@@ -312,14 +293,6 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
               </Button>
             </div>
           )}
-        </div>
-
-        {/* Extension Info */}
-        <div className="pt-4 border-t border-border">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Phiên bản</span>
-            <span className="font-mono">1.0.0</span>
-          </div>
         </div>
       </CardContent>
     </Card>

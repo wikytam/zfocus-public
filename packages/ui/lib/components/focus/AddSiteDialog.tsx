@@ -174,12 +174,22 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 type="number"
                 min={1}
                 value={formData.allowedMinutes}
-                onChange={e =>
+                onChange={e => {
+                  const value = e.target.value;
                   setFormData(prev => ({
                     ...prev,
-                    allowedMinutes: Math.max(1, parseInt(e.target.value) || 5),
-                  }))
-                }
+                    allowedMinutes: value === '' ? '' as any : Math.max(1, parseInt(value) || 1),
+                  }));
+                }}
+                onBlur={e => {
+                  // Ensure value is at least 1 when focus is lost
+                  if (e.target.value === '' || parseInt(e.target.value) < 1) {
+                    setFormData(prev => ({
+                      ...prev,
+                      allowedMinutes: 1,
+                    }));
+                  }
+                }}
                 className="w-20"
               />
               <span className="text-sm text-muted-foreground">phút mỗi</span>
@@ -201,6 +211,62 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             </div>
           </div>
 
+          
+
+          {/* Schedule Section */}
+          <div className="space-y-4 pt-4 border-t border-border">
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <Clock className="w-4 h-4 text-primary" />
+              Lịch chặn
+            </div>
+
+            {/* Time Range */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="add-startTime">Bắt đầu</Label>
+                <Input
+                  id="add-startTime"
+                  type="time"
+                  value={formData.startTime}
+                  onChange={e => setFormData(prev => ({ ...prev, startTime: e.target.value }))}
+                  className="text-center"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="add-endTime">Kết thúc</Label>
+                <Input
+                  id="add-endTime"
+                  type="time"
+                  value={formData.endTime}
+                  onChange={e => setFormData(prev => ({ ...prev, endTime: e.target.value }))}
+                  className="text-center"
+                />
+              </div>
+            </div>
+
+            {/* Work Days */}
+            <div className="space-y-2">
+              <Label>Áp dụng chặn theo ngày</Label>
+              <div className="flex gap-1.5">
+                {DAYS.map(day => (
+                  <button
+                    key={day.value}
+                    type="button"
+                    onClick={() => toggleDay(day.value)}
+                    className={cn(
+                      'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
+                      formData.activeDays.includes(day.value)
+                        ? 'gradient-primary text-primary-foreground shadow-md'
+                        : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                    )}
+                    title={day.fullLabel}
+                  >
+                    {day.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
           {/* Action - Segmented Control */}
           <div className="space-y-2">
             <Label>Hành động khi hết thời gian</Label>
@@ -272,61 +338,6 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               )}
             </div>
           )}
-
-          {/* Schedule Section */}
-          <div className="space-y-4 pt-4 border-t border-border">
-            <div className="flex items-center gap-2 text-sm font-medium">
-              <Clock className="w-4 h-4 text-primary" />
-              Lịch chặn
-            </div>
-
-            {/* Time Range */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="add-startTime">Bắt đầu</Label>
-                <Input
-                  id="add-startTime"
-                  type="time"
-                  value={formData.startTime}
-                  onChange={e => setFormData(prev => ({ ...prev, startTime: e.target.value }))}
-                  className="text-center"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="add-endTime">Kết thúc</Label>
-                <Input
-                  id="add-endTime"
-                  type="time"
-                  value={formData.endTime}
-                  onChange={e => setFormData(prev => ({ ...prev, endTime: e.target.value }))}
-                  className="text-center"
-                />
-              </div>
-            </div>
-
-            {/* Work Days */}
-            <div className="space-y-2">
-              <Label>Áp dụng chặn theo ngày</Label>
-              <div className="flex gap-1.5">
-                {DAYS.map(day => (
-                  <button
-                    key={day.value}
-                    type="button"
-                    onClick={() => toggleDay(day.value)}
-                    className={cn(
-                      'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
-                      formData.activeDays.includes(day.value)
-                        ? 'gradient-primary text-primary-foreground shadow-md'
-                        : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                    )}
-                    title={day.fullLabel}
-                  >
-                    {day.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
 
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
