@@ -70,7 +70,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
       id: '1',
       title: 'Mạng xã hội',
       urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-      allowedMinutesPerHour: 5,
+      allowedMinutesPerHour: 15, // DEBUG: 15 seconds
       action: 'redirect',
       isActive: true,
       schedule: { ...DEFAULT_SCHEDULE },
@@ -251,7 +251,7 @@ const getOrCreateTimer = async (site: BlockedSite): Promise<SiteTimer> => {
       siteId: site.id,
       siteName: site.title,
       usedSeconds: 0,
-      allowedSeconds: site.allowedMinutesPerHour * 60,
+      allowedSeconds: site.allowedMinutesPerHour, // DEBUG: Now in seconds, not minutes
       lastUpdate: now,
     };
     timers[site.id] = timer;

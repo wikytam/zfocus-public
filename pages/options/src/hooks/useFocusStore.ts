@@ -21,7 +21,7 @@ const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
     id: '1',
     title: 'Mạng xã hội',
     urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-    allowedMinutesPerHour: 5,
+    allowedMinutesPerHour: 15, // DEBUG: 15 seconds
     action: 'redirect',
     isActive: true,
     schedule: { ...DEFAULT_SCHEDULE },

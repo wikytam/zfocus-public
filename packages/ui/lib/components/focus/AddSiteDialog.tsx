@@ -167,22 +167,22 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
 
           {/* Time Allowed with Interval */}
           <div className="space-y-2">
-            <Label>Thời gian cho phép</Label>
+            <Label>Thời gian cho phép (giây)</Label>
             <div className="flex items-center gap-2">
               <Input
                 id="add-allowedMinutes"
                 type="number"
-                min={5}
+                min={10}
                 value={formData.allowedMinutes}
                 onChange={e =>
                   setFormData(prev => ({
                     ...prev,
-                    allowedMinutes: Math.max(5, parseInt(e.target.value) || 5),
+                    allowedMinutes: Math.max(10, parseInt(e.target.value) || 10),
                   }))
                 }
                 className="w-20"
               />
-              <span className="text-sm text-muted-foreground">phút mỗi</span>
+              <span className="text-sm text-muted-foreground">giây mỗi</span>
               <Select
                 value={formData.timeInterval.toString()}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}
