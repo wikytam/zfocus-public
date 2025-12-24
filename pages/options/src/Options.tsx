@@ -42,7 +42,7 @@ const Options = () => {
       <div className="relative max-w-2xl mx-auto px-6 py-8">
         <Header isWithinWorkHours={withinHours} isPaused={settings.isPaused} />
 
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center my-4">
           <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
 

@@ -48,7 +48,7 @@ export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: Blocked
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" />
-              {site.allowedMinutesPerHour} giây/giờ
+              {site.allowedMinutesPerHour} phút/giờ
             </span>
             <span>{site.action === 'close' ? 'Đóng tab' : 'Chuyển hướng'}</span>
             <span>
