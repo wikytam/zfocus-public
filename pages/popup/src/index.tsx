@@ -8,8 +8,12 @@ const init = () => {
     throw new Error('Can not find #app-container');
   }
   const root = createRoot(appContainer);
-
   root.render(<Popup />);
+  
+  // Show content after React loads (prevents flash)
+  requestAnimationFrame(() => {
+    appContainer.classList.add('loaded');
+  });
 };
 
 init();

@@ -1,8 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <title>Popup</title>
+    <style>
+      /* Prevent flash - default to dark theme */
+      html { 
+        background: hsl(225 25% 8%); 
+        color-scheme: dark;
+      }
+      html:not(.dark) { 
+        background: hsl(220 20% 97%); 
+        color-scheme: light;
+      }
+      /* Hide content until React loads */
+      #app-container { opacity: 0; transition: opacity 0.1s; }
+      #app-container.loaded { opacity: 1; }
+    </style>
   </head>
 
   <body>

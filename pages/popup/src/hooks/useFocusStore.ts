@@ -75,6 +75,14 @@ const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
 const setToStorage = async <T>(key: string, value: T): Promise<void> => {
   try {
     await chrome.storage.local.set({ [key]: value });
+    // Cache settings to localStorage for instant theme loading (prevents flash)
+    if (key === STORAGE_KEYS.settings) {
+      try {
+        localStorage.setItem('focus-settings-cache', JSON.stringify(value));
+      } catch {
+        // Ignore localStorage errors
+      }
+    }
   } catch (e) {
     console.error('[FocusGuard] Storage error:', e);
   }
@@ -106,6 +114,13 @@ export const useFocusStore = () => {
         }
 
         setSettings(settingsData);
+        
+        // Cache to localStorage for instant theme loading on next visit
+        try {
+          localStorage.setItem('focus-settings-cache', JSON.stringify(settingsData));
+        } catch {
+          // Ignore localStorage errors
+        }
 
         // Get active timers from background
         try {
@@ -157,21 +172,24 @@ export const useFocusStore = () => {
     };
   }, []);
 
-  // Apply theme
+  // Apply theme (only after loading to prevent flash)
   useEffect(() => {
+    if (loading) return; // Don't change theme while loading
+    
     const root = document.documentElement;
     if (settings.theme === 'dark') {
       root.classList.add('dark');
     } else if (settings.theme === 'light') {
       root.classList.remove('dark');
     } else {
+      // System theme
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         root.classList.add('dark');
       } else {
         root.classList.remove('dark');
       }
     }
-  }, [settings.theme]);
+  }, [settings.theme, loading]);
 
   const updateSettings = useCallback(async (updates: Partial<FocusSettings>) => {
     const newSettings = { ...settings, ...updates };
