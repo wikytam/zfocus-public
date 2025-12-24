@@ -13,6 +13,8 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
   const [syncInfo, setSyncInfo] = useState<string>('');
   const [showDebug, setShowDebug] = useState(false);
   const [debugData, setDebugData] = useState<string>('');
+  const [accountEmail, setAccountEmail] = useState<string>('');
+  const [lastUpdate, setLastUpdate] = useState<string>('');
 
   const checkSyncStatus = async () => {
     setSyncStatus('syncing');
@@ -21,6 +23,17 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
       const syncData = await chrome.storage.sync.get(null);
       const bytesUsed = await chrome.storage.sync.getBytesInUse(null);
       const maxBytes = chrome.storage.sync.QUOTA_BYTES; // 102,400 bytes
+      
+      // Get Chrome account info
+      try {
+        const identity = await chrome.identity?.getProfileUserInfo({ accountStatus: 'ANY' as chrome.identity.AccountStatus });
+        setAccountEmail(identity?.email || 'Chưa đăng nhập');
+      } catch {
+        setAccountEmail('Không thể lấy thông tin tài khoản');
+      }
+      
+      // Set last update time
+      setLastUpdate(new Date().toLocaleString('vi-VN'));
       
       setSyncInfo(`Đã sử dụng: ${(bytesUsed / 1024).toFixed(2)} KB / ${(maxBytes / 1024).toFixed(0)} KB`);
       setDebugData(JSON.stringify(syncData, null, 2));
@@ -224,13 +237,27 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
           </Button>
           
           {showDebug && (
-            <div className="space-y-2">
+            <div className="space-y-3">
+              {/* Account & Timestamp Info */}
+              <div className="p-3 bg-secondary/50 rounded-lg space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">Tài khoản:</span>
+                  <span className="font-mono text-foreground">{accountEmail || 'Chưa kiểm tra'}</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">Lần kiểm tra cuối:</span>
+                  <span className="font-mono text-foreground">{lastUpdate || 'Chưa kiểm tra'}</span>
+                </div>
+              </div>
+              
+              {/* Storage Data */}
               <div className="p-3 bg-secondary/50 rounded-lg">
                 <p className="text-xs font-mono text-muted-foreground mb-2">Storage Data:</p>
                 <pre className="text-xs font-mono overflow-auto max-h-40 text-foreground">
                   {debugData || 'Click "Kiểm tra" để xem dữ liệu'}
                 </pre>
               </div>
+              
               <Button
                 variant="destructive"
                 size="sm"
