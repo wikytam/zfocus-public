@@ -296,7 +296,7 @@
     "message": "Add Website Group"
   },
   "addWebsiteGroupDesc": {
-    "message": "Create a new group to manage distracting websites"
+    "message": "Create a new group to block time-wasting websites"
   },
   "editWebsiteGroup": {
     "message": "Edit Website Group"
@@ -428,7 +428,7 @@
     "message": "Active"
   },
   "blockingDistractingSites": {
-    "message": "Blocking distracting websites"
+    "message": "Blocking time-wasting sites"
   },
   "noWebsites": {
     "message": "No websites added yet"

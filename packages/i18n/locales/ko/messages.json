@@ -11,7 +11,7 @@
     "message": "FocusGuard"
   },
   "appTagline": {
-    "message": "집중력을 보호하고 있습니다"
+    "message": "집중력 보호 중"
   },
   "overview": {
     "message": "개요"
@@ -32,10 +32,10 @@
     "message": "새 그룹 추가"
   },
   "blockedAttempts": {
-    "message": "오늘 차단 횟수"
+    "message": "오늘 차단"
   },
   "timeSaved": {
-    "message": "절약한 시간"
+    "message": "절약된 시간"
   },
   "pauseBlocking": {
     "message": "차단 일시 중지"
@@ -296,7 +296,7 @@
     "message": "웹사이트 그룹 추가"
   },
   "addWebsiteGroupDesc": {
-    "message": "집중력을 방해하는 웹사이트를 관리할 새 그룹 만들기"
+    "message": "방해되는 웹사이트를 관리할 새 그룹 만들기"
   },
   "editWebsiteGroup": {
     "message": "웹사이트 그룹 편집"

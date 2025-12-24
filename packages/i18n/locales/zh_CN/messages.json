@@ -296,7 +296,7 @@
     "message": "添加网站组"
   },
   "addWebsiteGroupDesc": {
-    "message": "创建新组来管理分散注意力的网站"
+    "message": "创建新组来屏蔽浪费时间的网站"
   },
   "editWebsiteGroup": {
     "message": "编辑网站组"
@@ -428,7 +428,7 @@
     "message": "活动"
   },
   "blockingDistractingSites": {
-    "message": "屏蔽分心网站"
+    "message": "屏蔽浪费时间的网站"
   },
   "noWebsites": {
     "message": "尚未添加网站"

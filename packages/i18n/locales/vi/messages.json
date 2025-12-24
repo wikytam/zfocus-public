@@ -296,7 +296,7 @@
     "message": "Thêm nhóm website chặn"
   },
   "addWebsiteGroupDesc": {
-    "message": "Tạo nhóm mới để quản lý các trang web gây xao nhãng"
+    "message": "Tạo nhóm mới để quản lý các website gây mất tập trung"
   },
   "editWebsiteGroup": {
     "message": "Chỉnh sửa nhóm website"
@@ -428,7 +428,7 @@
     "message": "Đang hoạt động"
   },
   "blockingDistractingSites": {
-    "message": "Chặn trang web xao nhãng"
+    "message": "Chặn website gây mất tập trung"
   },
   "noWebsites": {
     "message": "Chưa có website nào"
