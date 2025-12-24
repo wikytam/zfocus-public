@@ -1,10 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { FocusSettings, DailyStats, BlockedSite, ActiveTimer } from '../types/focus';
 
+// Storage keys
+const STORAGE_KEYS = {
+  settings: 'focus-settings',
+  stats: 'focus-stats',
+  timers: 'focus-timers',
+};
+
+// Default values
 const DEFAULT_SCHEDULE = {
-  startTime: '08:00',
-  endTime: '17:00',
-  workDays: [1, 2, 3, 4, 5],
+  startTime: '00:00',
+  endTime: '23:59',
+  workDays: [0, 1, 2, 3, 4, 5, 6], // All days
   allowOutsideHours: true,
 };
 
@@ -40,51 +48,114 @@ const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
 
 const DEFAULT_SETTINGS: FocusSettings = {
   blockedSites: DEFAULT_BLOCKED_SITES,
-  workSchedule: {
-    startTime: '08:00',
-    endTime: '17:00',
-    workDays: [1, 2, 3, 4, 5], // Monday to Friday
-    allowOutsideHours: true,
-  },
+  workSchedule: { ...DEFAULT_SCHEDULE },
   pauseMinutes: 15,
   isPaused: false,
   hardLockMode: false,
   theme: 'dark',
 };
 
-const DEFAULT_STATS: DailyStats = {
+const getDefaultStats = (): DailyStats => ({
   date: new Date().toISOString().split('T')[0],
-  blockedAttempts: 24,
-  timeSavedMinutes: 127,
+  blockedAttempts: 0,
+  timeSavedMinutes: 0,
   sitesAccessed: {},
+});
+
+// Chrome storage helpers
+const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
+  try {
+    const result = await chrome.storage.local.get([key]);
+    return result[key] ?? defaultValue;
+  } catch {
+    return defaultValue;
+  }
 };
 
-export function useFocusStore() {
-  const [settings, setSettings] = useState<FocusSettings>(() => {
-    const saved = localStorage.getItem('focusSettings');
-    return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
-  });
+const setToStorage = async <T>(key: string, value: T): Promise<void> => {
+  try {
+    await chrome.storage.local.set({ [key]: value });
+  } catch (e) {
+    console.error('[FocusGuard] Storage error:', e);
+  }
+};
 
-  const [stats, setStats] = useState<DailyStats>(() => {
-    const saved = localStorage.getItem('focusStats');
-    const parsed = saved ? JSON.parse(saved) : DEFAULT_STATS;
-    // Reset stats if it's a new day
-    const today = new Date().toISOString().split('T')[0];
-    if (parsed.date !== today) {
-      return { ...DEFAULT_STATS, date: today };
-    }
-    return parsed;
-  });
-
+export const useFocusStore = () => {
+  const [settings, setSettings] = useState<FocusSettings>(DEFAULT_SETTINGS);
+  const [stats, setStats] = useState<DailyStats>(getDefaultStats());
   const [activeTimers, setActiveTimers] = useState<ActiveTimer[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  // Load initial data
   useEffect(() => {
-    localStorage.setItem('focusSettings', JSON.stringify(settings));
-  }, [settings]);
+    const loadData = async () => {
+      try {
+        const [settingsData, statsData] = await Promise.all([
+          getFromStorage(STORAGE_KEYS.settings, DEFAULT_SETTINGS),
+          getFromStorage(STORAGE_KEYS.stats, getDefaultStats()),
+        ]);
 
-  useEffect(() => {
-    localStorage.setItem('focusStats', JSON.stringify(stats));
-  }, [stats]);
+        // Ensure today's stats
+        const today = new Date().toISOString().split('T')[0];
+        if (statsData.date !== today) {
+          const newStats = getDefaultStats();
+          await setToStorage(STORAGE_KEYS.stats, newStats);
+          setStats(newStats);
+        } else {
+          setStats(statsData);
+        }
+
+        setSettings(settingsData);
+
+        // Get active timers from background
+        try {
+          chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TIMERS' }, (response) => {
+            if (response?.timers) {
+              setActiveTimers(response.timers);
+            }
+          });
+        } catch {
+          // Background might not be ready
+        }
+      } catch (e) {
+        console.error('[FocusGuard] Failed to load data:', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+
+    // Listen for storage changes
+    const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+      if (changes[STORAGE_KEYS.settings]?.newValue) {
+        setSettings(changes[STORAGE_KEYS.settings].newValue);
+      }
+      if (changes[STORAGE_KEYS.stats]?.newValue) {
+        setStats(changes[STORAGE_KEYS.stats].newValue);
+      }
+    };
+
+    chrome.storage.local.onChanged.addListener(handleStorageChange);
+
+    // Poll for active timers
+    const timerInterval = setInterval(() => {
+      try {
+        chrome.runtime.sendMessage({ type: 'GET_ACTIVE_TIMERS' }, (response) => {
+          if (response?.timers) {
+            setActiveTimers(response.timers);
+          }
+        });
+      } catch {
+        // Ignore
+      }
+    }, 1000);
+
+    return () => {
+      chrome.storage.local.onChanged.removeListener(handleStorageChange);
+      clearInterval(timerInterval);
+    };
+  }, []);
 
   // Apply theme
   useEffect(() => {
@@ -94,7 +165,6 @@ export function useFocusStore() {
     } else if (settings.theme === 'light') {
       root.classList.remove('dark');
     } else {
-      // System preference
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         root.classList.add('dark');
       } else {
@@ -103,61 +173,97 @@ export function useFocusStore() {
     }
   }, [settings.theme]);
 
-  const updateSettings = useCallback((updates: Partial<FocusSettings>) => {
-    setSettings(prev => ({ ...prev, ...updates }));
-  }, []);
+  const updateSettings = useCallback(async (updates: Partial<FocusSettings>) => {
+    const newSettings = { ...settings, ...updates };
+    setSettings(newSettings);
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
+  }, [settings]);
 
-  const addBlockedSite = useCallback((site: Omit<BlockedSite, 'id'>) => {
+  const addBlockedSite = useCallback(async (site: Omit<BlockedSite, 'id'>) => {
     const newSite: BlockedSite = {
       ...site,
       id: Date.now().toString(),
     };
-    setSettings(prev => ({
-      ...prev,
-      blockedSites: [...prev.blockedSites, newSite],
-    }));
-  }, []);
+    const newSettings = {
+      ...settings,
+      blockedSites: [...settings.blockedSites, newSite],
+    };
+    setSettings(newSettings);
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
+  }, [settings]);
 
-  const updateBlockedSite = useCallback((id: string, updates: Partial<BlockedSite>) => {
-    setSettings(prev => ({
-      ...prev,
-      blockedSites: prev.blockedSites.map(site => (site.id === id ? { ...site, ...updates } : site)),
-    }));
-  }, []);
+  const updateBlockedSite = useCallback(async (id: string, updates: Partial<BlockedSite>) => {
+    const newSettings = {
+      ...settings,
+      blockedSites: settings.blockedSites.map(site =>
+        site.id === id ? { ...site, ...updates } : site
+      ),
+    };
+    setSettings(newSettings);
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
+  }, [settings]);
 
-  const removeBlockedSite = useCallback((id: string) => {
-    setSettings(prev => ({
-      ...prev,
-      blockedSites: prev.blockedSites.filter(site => site.id !== id),
-    }));
-  }, []);
+  const removeBlockedSite = useCallback(async (id: string) => {
+    const newSettings = {
+      ...settings,
+      blockedSites: settings.blockedSites.filter(site => site.id !== id),
+    };
+    setSettings(newSettings);
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
+  }, [settings]);
 
-  const pauseBlocking = useCallback(
-    (minutes: number) => {
-      if (settings.hardLockMode) return;
-      const endTime = Date.now() + minutes * 60 * 1000;
-      updateSettings({ isPaused: true, pauseEndTime: endTime });
-    },
-    [settings.hardLockMode, updateSettings],
-  );
+  const pauseBlocking = useCallback(async (minutes: number) => {
+    if (settings.hardLockMode) return;
+    
+    const endTime = Date.now() + minutes * 60 * 1000;
+    const newSettings = {
+      ...settings,
+      isPaused: true,
+      pauseEndTime: endTime,
+    };
+    setSettings(newSettings);
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
 
-  const resumeBlocking = useCallback(() => {
-    updateSettings({ isPaused: false, pauseEndTime: undefined });
-  }, [updateSettings]);
+    try {
+      chrome.runtime.sendMessage({ type: 'PAUSE_BLOCKING', minutes });
+    } catch {
+      // Ignore
+    }
+  }, [settings]);
 
-  const incrementBlockedAttempts = useCallback(() => {
-    setStats(prev => ({
-      ...prev,
-      blockedAttempts: prev.blockedAttempts + 1,
-    }));
-  }, []);
+  const resumeBlocking = useCallback(async () => {
+    const newSettings = {
+      ...settings,
+      isPaused: false,
+      pauseEndTime: undefined,
+    };
+    setSettings(newSettings);
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
 
-  const addTimeSaved = useCallback((minutes: number) => {
-    setStats(prev => ({
-      ...prev,
-      timeSavedMinutes: prev.timeSavedMinutes + minutes,
-    }));
-  }, []);
+    try {
+      chrome.runtime.sendMessage({ type: 'RESUME_BLOCKING' });
+    } catch {
+      // Ignore
+    }
+  }, [settings]);
+
+  const incrementBlockedAttempts = useCallback(async () => {
+    const newStats = {
+      ...stats,
+      blockedAttempts: stats.blockedAttempts + 1,
+    };
+    setStats(newStats);
+    await setToStorage(STORAGE_KEYS.stats, newStats);
+  }, [stats]);
+
+  const addTimeSaved = useCallback(async (minutes: number) => {
+    const newStats = {
+      ...stats,
+      timeSavedMinutes: stats.timeSavedMinutes + minutes,
+    };
+    setStats(newStats);
+    await setToStorage(STORAGE_KEYS.stats, newStats);
+  }, [stats]);
 
   const isWithinWorkHours = useCallback(() => {
     const now = new Date();
@@ -166,12 +272,10 @@ export function useFocusStore() {
 
     const { workSchedule } = settings;
 
-    // Check if it's a work day
     if (!workSchedule.workDays.includes(currentDay)) {
       return false;
     }
 
-    // Parse work hours
     const [startHour, startMin] = workSchedule.startTime.split(':').map(Number);
     const [endHour, endMin] = workSchedule.endTime.split(':').map(Number);
     const startMinutes = startHour * 60 + startMin;
@@ -184,6 +288,7 @@ export function useFocusStore() {
     settings,
     stats,
     activeTimers,
+    loading,
     updateSettings,
     addBlockedSite,
     updateBlockedSite,
@@ -195,5 +300,6 @@ export function useFocusStore() {
     isWithinWorkHours,
     setActiveTimers,
   };
-}
+};
 
+export type { FocusSettings, DailyStats, BlockedSite, ActiveTimer };
