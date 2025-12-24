@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, Download } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Moon, Sun, Monitor, Lock, Unlock, RefreshCw, Cloud, CloudOff, Bug, Download, Upload, FileDown, FileUp, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
-import type { FocusSettings } from '@extension/storage';
+import type { FocusSettings, BlockedSite } from '@extension/storage';
 
 interface SettingsPanelProps {
   settings: FocusSettings;
@@ -15,6 +15,8 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
   const [debugData, setDebugData] = useState<string>('');
   const [accountEmail, setAccountEmail] = useState<string>('');
   const [lastUpdate, setLastUpdate] = useState<string>('');
+  const [importStatus, setImportStatus] = useState<{ type: 'success' | 'error' | 'warning' | null; message: string }>({ type: null, message: '' });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const checkSyncStatus = async () => {
     setSyncStatus('syncing');
@@ -86,6 +88,239 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
       window.location.reload();
     }
   };
+
+  // ===== VALIDATION FUNCTIONS =====
+  const isValidUrl = (url: string): boolean => {
+    // Basic URL pattern validation
+    const urlPattern = /^[a-zA-Z0-9*+>~][a-zA-Z0-9.*+>~\-/_]*$/;
+    return urlPattern.test(url.trim()) && url.trim().length > 0 && url.trim().length < 500;
+  };
+
+  const isValidTime = (time: string): boolean => {
+    const timePattern = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    return timePattern.test(time);
+  };
+
+  const isValidBlockedSite = (site: unknown): site is BlockedSite => {
+    if (!site || typeof site !== 'object') return false;
+    const s = site as Record<string, unknown>;
+    
+    // Required fields
+    if (typeof s.id !== 'string' || s.id.length === 0 || s.id.length > 100) return false;
+    if (typeof s.title !== 'string' || s.title.length === 0 || s.title.length > 200) return false;
+    if (!Array.isArray(s.urls) || s.urls.length === 0 || s.urls.length > 100) return false;
+    if (!s.urls.every((url: unknown) => typeof url === 'string' && isValidUrl(url))) return false;
+    if (typeof s.allowedMinutesPerHour !== 'number' || s.allowedMinutesPerHour < 1 || s.allowedMinutesPerHour > 60) return false;
+    if (s.action !== 'close' && s.action !== 'redirect') return false;
+    if (typeof s.isActive !== 'boolean') return false;
+    
+    // Optional fields
+    if (s.redirectUrl !== undefined && typeof s.redirectUrl !== 'string') return false;
+    
+    // Schedule validation
+    if (!s.schedule || typeof s.schedule !== 'object') return false;
+    const schedule = s.schedule as Record<string, unknown>;
+    if (typeof schedule.startTime !== 'string' || !isValidTime(schedule.startTime)) return false;
+    if (typeof schedule.endTime !== 'string' || !isValidTime(schedule.endTime)) return false;
+    if (!Array.isArray(schedule.workDays) || !schedule.workDays.every((d: unknown) => typeof d === 'number' && d >= 0 && d <= 6)) return false;
+    if (typeof schedule.allowOutsideHours !== 'boolean') return false;
+    
+    return true;
+  };
+
+  const isValidSettings = (data: unknown): { valid: boolean; errors: string[]; normalized: FocusSettings | null } => {
+    const errors: string[] = [];
+    
+    if (!data || typeof data !== 'object') {
+      return { valid: false, errors: ['Dữ liệu không hợp lệ'], normalized: null };
+    }
+    
+    const d = data as Record<string, unknown>;
+    
+    // Check blockedSites
+    if (!Array.isArray(d.blockedSites)) {
+      errors.push('Thiếu danh sách website (blockedSites)');
+    } else if (d.blockedSites.length > 50) {
+      errors.push('Quá nhiều website (tối đa 50)');
+    } else {
+      d.blockedSites.forEach((site: unknown, index: number) => {
+        if (!isValidBlockedSite(site)) {
+          errors.push(`Website #${index + 1} không hợp lệ`);
+        }
+      });
+    }
+    
+    // Check workSchedule
+    if (d.workSchedule && typeof d.workSchedule === 'object') {
+      const ws = d.workSchedule as Record<string, unknown>;
+      if (ws.startTime && !isValidTime(ws.startTime as string)) {
+        errors.push('Thời gian bắt đầu không hợp lệ');
+      }
+      if (ws.endTime && !isValidTime(ws.endTime as string)) {
+        errors.push('Thời gian kết thúc không hợp lệ');
+      }
+    }
+    
+    // Check pauseMinutes
+    if (d.pauseMinutes !== undefined) {
+      if (typeof d.pauseMinutes !== 'number' || d.pauseMinutes < 1 || d.pauseMinutes > 120) {
+        errors.push('Thời gian tạm dừng phải từ 1-120 phút');
+      }
+    }
+    
+    // Check theme
+    if (d.theme !== undefined && d.theme !== 'light' && d.theme !== 'dark' && d.theme !== 'system') {
+      errors.push('Theme không hợp lệ (phải là light, dark, hoặc system)');
+    }
+    
+    if (errors.length > 0) {
+      return { valid: false, errors, normalized: null };
+    }
+    
+    // Normalize data - fill in defaults for missing optional fields
+    const normalized: FocusSettings = {
+      blockedSites: (d.blockedSites as BlockedSite[]).map((site, index) => ({
+        id: site.id || `imported-${index}-${Date.now()}`,
+        title: site.title.trim().substring(0, 200),
+        urls: site.urls.map((url: string) => url.trim().toLowerCase().substring(0, 500)),
+        allowedMinutesPerHour: Math.min(60, Math.max(1, Math.round(site.allowedMinutesPerHour))),
+        action: site.action,
+        redirectUrl: site.redirectUrl?.trim().substring(0, 500),
+        isActive: site.isActive,
+        schedule: {
+          startTime: site.schedule.startTime,
+          endTime: site.schedule.endTime,
+          workDays: [...new Set(site.schedule.workDays)].sort(),
+          allowOutsideHours: site.schedule.allowOutsideHours,
+        },
+      })),
+      workSchedule: d.workSchedule as FocusSettings['workSchedule'] || {
+        startTime: '08:00',
+        endTime: '17:00',
+        workDays: [1, 2, 3, 4, 5],
+        allowOutsideHours: true,
+      },
+      pauseMinutes: typeof d.pauseMinutes === 'number' ? Math.min(120, Math.max(1, d.pauseMinutes)) : 15,
+      isPaused: false, // Always reset pause state on import
+      pauseEndTime: undefined,
+      hardLockMode: typeof d.hardLockMode === 'boolean' ? d.hardLockMode : false,
+      theme: (d.theme as 'light' | 'dark' | 'system') || 'dark',
+    };
+    
+    return { valid: true, errors: [], normalized };
+  };
+
+  // ===== EXPORT FUNCTION =====
+  const exportSettings = () => {
+    try {
+      const exportData = {
+        version: '1.0.0',
+        exportedAt: new Date().toISOString(),
+        settings: settings,
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `focusguard-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      setImportStatus({ type: 'success', message: 'Đã xuất file thành công!' });
+    } catch (error) {
+      setImportStatus({ type: 'error', message: `Lỗi xuất file: ${error instanceof Error ? error.message : 'Unknown'}` });
+    }
+  };
+
+  // ===== IMPORT FUNCTION =====
+  const handleImportFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    // Validate file size (max 1MB)
+    if (file.size > 1024 * 1024) {
+      setImportStatus({ type: 'error', message: 'File quá lớn (tối đa 1MB)' });
+      return;
+    }
+    
+    // Validate file type
+    if (!file.name.endsWith('.json')) {
+      setImportStatus({ type: 'error', message: 'Chỉ hỗ trợ file .json' });
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        
+        // Parse JSON
+        let parsed: unknown;
+        try {
+          parsed = JSON.parse(content);
+        } catch {
+          setImportStatus({ type: 'error', message: 'File JSON không hợp lệ' });
+          return;
+        }
+        
+        // Extract settings (support both old and new format)
+        let settingsData: unknown;
+        if (parsed && typeof parsed === 'object') {
+          const p = parsed as Record<string, unknown>;
+          if (p.settings && typeof p.settings === 'object') {
+            // New format with metadata
+            settingsData = p.settings;
+          } else if (p.blockedSites) {
+            // Direct settings format
+            settingsData = parsed;
+          } else {
+            setImportStatus({ type: 'error', message: 'Không tìm thấy dữ liệu settings trong file' });
+            return;
+          }
+        } else {
+          setImportStatus({ type: 'error', message: 'Định dạng file không hợp lệ' });
+          return;
+        }
+        
+        // Validate and normalize
+        const validation = isValidSettings(settingsData);
+        
+        if (!validation.valid) {
+          setImportStatus({ 
+            type: 'error', 
+            message: `Dữ liệu không hợp lệ:\n${validation.errors.join('\n')}` 
+          });
+          return;
+        }
+        
+        // Confirm import
+        if (confirm(`Nhập ${validation.normalized!.blockedSites.length} website? Dữ liệu hiện tại sẽ bị ghi đè.`)) {
+          onUpdate(validation.normalized!);
+          setImportStatus({ type: 'success', message: `Đã nhập ${validation.normalized!.blockedSites.length} website thành công!` });
+          
+          // Reload after short delay
+          setTimeout(() => window.location.reload(), 1000);
+        }
+      } catch (error) {
+        setImportStatus({ type: 'error', message: `Lỗi đọc file: ${error instanceof Error ? error.message : 'Unknown'}` });
+      }
+    };
+    
+    reader.onerror = () => {
+      setImportStatus({ type: 'error', message: 'Không thể đọc file' });
+    };
+    
+    reader.readAsText(file);
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const themes = [
     { value: 'light' as const, icon: Sun, label: 'Sáng' },
     { value: 'dark' as const, icon: Moon, label: 'Tối' },
@@ -172,9 +407,9 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
             <Cloud className="w-4 h-4" />
-            Đồng bộ dữ liệu
+            Đồng bộ dữ liệu (Chrome/Edge)
           </Label>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
@@ -198,7 +433,7 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
               onClick={forceSyncNow}
               disabled={syncStatus === 'syncing'}
             >
-              <RefreshCw className="w-4 h-4 mr-2" />
+              <Upload className="w-4 h-4 mr-2" />
               Đẩy lên cloud
             </Button>
             <Button
@@ -219,6 +454,55 @@ export function SettingsPanel({ settings, onUpdate }: SettingsPanelProps) {
               {syncInfo}
             </p>
           )}
+        </div>
+
+        {/* Export/Import for Firefox & other browsers */}
+        <div className="space-y-3">
+          <Label className="flex items-center gap-2">
+            <FileDown className="w-4 h-4" />
+            Sao lưu & Khôi phục (Firefox, Brave, ...)
+          </Label>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exportSettings}
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              Xuất file
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <FileUp className="w-4 h-4 mr-2" />
+              Nhập file
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleImportFile}
+              className="hidden"
+            />
+          </div>
+          {importStatus.type && (
+            <div className={cn(
+              'flex items-start gap-2 text-xs p-2 rounded-lg',
+              importStatus.type === 'success' && 'bg-green-500/10 text-green-500',
+              importStatus.type === 'error' && 'bg-red-500/10 text-red-500',
+              importStatus.type === 'warning' && 'bg-yellow-500/10 text-yellow-500',
+            )}>
+              {importStatus.type === 'success' && <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
+              {importStatus.type === 'error' && <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
+              {importStatus.type === 'warning' && <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
+              <span className="whitespace-pre-wrap">{importStatus.message}</span>
+            </div>
+          )}
+          <p className="text-xs text-muted-foreground">
+            Dùng để chuyển cài đặt giữa các trình duyệt khác nhau
+          </p>
         </div>
 
         {/* Debug Section */}
