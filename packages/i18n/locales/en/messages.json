@@ -1,31 +1,281 @@
 {
   "extensionDescription": {
     "description": "Extension description",
-    "message": "Chrome extension boilerplate developed with Vite, React and Typescript"
+    "message": "Chrome extension to manage time and block distracting websites"
   },
   "extensionName": {
     "description": "Extension name",
-    "message": "Chrome extension boilerplate"
+    "message": "FocusGuard"
   },
-  "toggleTheme": {
-    "message": "Toggle theme"
+  "appName": {
+    "message": "FocusGuard"
   },
-  "injectButton": {
-    "message": "Click to inject Content Scripts"
+  "appTagline": {
+    "message": "Protecting your focus"
   },
-  "greeting": {
-    "description": "Greeting message",
-    "message": "Hello, My name is $NAME$",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John Doe"
-      }
-    }
+  "overview": {
+    "message": "Overview"
   },
-  "hello": {
-    "description": "Placeholder example",
-    "message": "Hello $1"
+  "websites": {
+    "message": "Websites"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "manageWebsites": {
+    "message": "Manage Websites"
+  },
+  "manageWebsitesDesc": {
+    "message": "Add and configure websites to block"
+  },
+  "addNewGroup": {
+    "message": "Add New Group"
+  },
+  "blockedAttempts": {
+    "message": "Blocked Today"
+  },
+  "timeSaved": {
+    "message": "Time Saved"
+  },
+  "pauseBlocking": {
+    "message": "Pause Blocking"
+  },
+  "resumeBlocking": {
+    "message": "Resume Blocking"
+  },
+  "pauseFor": {
+    "message": "Pause for"
+  },
+  "minutes": {
+    "message": "minutes"
+  },
+  "advancedSettings": {
+    "message": "Advanced Settings"
+  },
+  "advancedSettingsDesc": {
+    "message": "Customize appearance and protection mode"
+  },
+  "appearance": {
+    "message": "Appearance"
+  },
+  "light": {
+    "message": "Light"
+  },
+  "dark": {
+    "message": "Dark"
+  },
+  "system": {
+    "message": "System"
+  },
+  "showBadgeCountdown": {
+    "message": "Show Countdown"
+  },
+  "showBadgeCountdownDesc": {
+    "message": "Display remaining time on extension icon"
+  },
+  "hardLockMode": {
+    "message": "Hard Lock Mode"
+  },
+  "hardLockModeDesc": {
+    "message": "Cannot pause during work hours"
+  },
+  "sync": {
+    "message": "Sync"
+  },
+  "syncChrome": {
+    "message": "Sync (Chrome)"
+  },
+  "backupRestore": {
+    "message": "Backup & Restore (Edge, Firefox, Brave, ...)"
+  },
+  "backupRestoreDesc": {
+    "message": "Transfer settings between different browsers"
+  },
+  "exportFile": {
+    "message": "Export File"
+  },
+  "importFile": {
+    "message": "Import File"
+  },
+  "version": {
+    "message": "Version"
+  },
+  "deleteAllData": {
+    "message": "Delete All Data"
+  },
+  "confirmDeleteAll": {
+    "message": "Delete all data? This action cannot be undone!"
+  },
+  "confirmImport": {
+    "message": "Import $1 websites? Current data will be overwritten."
+  },
+  "account": {
+    "message": "Account"
+  },
+  "lastCheck": {
+    "message": "Last Check"
+  },
+  "notChecked": {
+    "message": "Not Checked"
+  },
+  "storageData": {
+    "message": "Storage Data"
+  },
+  "clickToLoadData": {
+    "message": "Click on \"Version 1.0.0\" to load data"
+  },
+  "editWebsite": {
+    "message": "Edit Website"
+  },
+  "editWebsiteDesc": {
+    "message": "Edit settings for website group"
+  },
+  "addWebsite": {
+    "message": "Add Website"
+  },
+  "addWebsiteDesc": {
+    "message": "Add website group to block"
+  },
+  "groupName": {
+    "message": "Group Name"
+  },
+  "urlList": {
+    "message": "URL List"
+  },
+  "urlListPlaceholder": {
+    "message": "facebook.com\nyoutube.com\ntwitter.com"
+  },
+  "urlListDesc": {
+    "message": "Enter one URL per line. Applies to all subdomains and paths by default."
+  },
+  "advancedOptions": {
+    "message": "Advanced Options"
+  },
+  "exceptions": {
+    "message": "Exceptions"
+  },
+  "exceptionsPlaceholder": {
+    "message": "facebook.com/marketplace\nfacebook.com/events"
+  },
+  "exceptionsDesc": {
+    "message": "These URLs will NOT be blocked (one per line)"
+  },
+  "referrers": {
+    "message": "Allowed Referrers"
+  },
+  "referrersPlaceholder": {
+    "message": "google.com\nnotion.so"
+  },
+  "referrersDesc": {
+    "message": "Allow access if coming from these pages"
+  },
+  "keywords": {
+    "message": "Block Keywords"
+  },
+  "keywordsPlaceholder": {
+    "message": "gaming\nstreaming\nshopping"
+  },
+  "keywordsDesc": {
+    "message": "Block if URL contains these keywords"
+  },
+  "allowedTime": {
+    "message": "Allowed Time (minutes)"
+  },
+  "perHour": {
+    "message": "minutes per"
+  },
+  "hour": {
+    "message": "hour"
+  },
+  "countOnlyActiveTab": {
+    "message": "Count Only Active Tab"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "Example: YouTube music in background won't count"
+  },
+  "blockSchedule": {
+    "message": "Block Schedule"
+  },
+  "startTime": {
+    "message": "Start"
+  },
+  "endTime": {
+    "message": "End"
+  },
+  "applyBlockingDays": {
+    "message": "Apply Blocking by Days"
+  },
+  "monday": {
+    "message": "Mon"
+  },
+  "tuesday": {
+    "message": "Tue"
+  },
+  "wednesday": {
+    "message": "Wed"
+  },
+  "thursday": {
+    "message": "Thu"
+  },
+  "friday": {
+    "message": "Fri"
+  },
+  "saturday": {
+    "message": "Sat"
+  },
+  "sunday": {
+    "message": "Sun"
+  },
+  "actionWhenTimeUp": {
+    "message": "Action When Time is Up"
+  },
+  "closeTab": {
+    "message": "Close Tab"
+  },
+  "redirect": {
+    "message": "Redirect"
+  },
+  "redirectUrl": {
+    "message": "Redirect URL"
+  },
+  "redirectUrlPlaceholder": {
+    "message": "https://notion.so"
+  },
+  "redirectUrlDesc": {
+    "message": "Leave empty to redirect to extension popup"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "saveChanges": {
+    "message": "Save Changes"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "blocking": {
+    "message": "Blocking"
+  },
+  "paused": {
+    "message": "Paused"
+  },
+  "noWebsitesAdded": {
+    "message": "No websites added yet"
+  },
+  "noWebsitesAddedDesc": {
+    "message": "Click \"Add New Group\" to get started"
+  },
+  "website": {
+    "message": "website"
+  },
+  "more": {
+    "message": "more"
   },
   "displayErrorInfo": {
     "message": "Error occur"
@@ -41,5 +291,200 @@
   },
   "displayErrorReset": {
     "message": "Run Again"
+  },
+  "addWebsiteGroup": {
+    "message": "Add Website Group"
+  },
+  "addWebsiteGroupDesc": {
+    "message": "Create a new group to manage distracting websites"
+  },
+  "editWebsiteGroup": {
+    "message": "Edit Website Group"
+  },
+  "editWebsiteGroupDesc": {
+    "message": "Update settings for website group"
+  },
+  "groupNamePlaceholder": {
+    "message": "E.g.: Social Media"
+  },
+  "urlListDescription": {
+    "message": "Enter one URL per line. Applies to all subdomains and paths by default."
+  },
+  "advancedOptionsToggle": {
+    "message": "Advanced Options"
+  },
+  "exceptionsLabel": {
+    "message": "Exceptions (Allow)"
+  },
+  "exceptionsDescription": {
+    "message": "These URLs will be allowed"
+  },
+  "blockFromReferrer": {
+    "message": "Block from Source (Referrer)"
+  },
+  "blockFromReferrerDesc": {
+    "message": "Block links clicked from these pages"
+  },
+  "keywordsInUrl": {
+    "message": "Keywords in URL"
+  },
+  "keywordsInUrlDesc": {
+    "message": "Block URLs containing these keywords (one per line)"
+  },
+  "allowedTimeMinutes": {
+    "message": "Allowed Time (minutes)"
+  },
+  "minutesPer": {
+    "message": "minutes per"
+  },
+  "countOnlyActiveTabLabel": {
+    "message": "Count only active tab"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "Example: YouTube music in background won't count"
+  },
+  "scheduleLabel": {
+    "message": "Block Schedule"
+  },
+  "redirectUrlLabel": {
+    "message": "Redirect URL"
+  },
+  "redirectUrlDescription": {
+    "message": "Leave empty to redirect to extension popup"
+  },
+  "addGroup": {
+    "message": "Add Group"
+  },
+  "deleteGroup": {
+    "message": "Delete Group"
+  },
+  "deleteConfirm": {
+    "message": "Are you sure you want to delete this group?"
+  },
+  "tenMinutes": {
+    "message": "10 minutes"
+  },
+  "twentyMinutes": {
+    "message": "20 minutes"
+  },
+  "thirtyMinutes": {
+    "message": "30 minutes"
+  },
+  "oneHour": {
+    "message": "1 hour"
+  },
+  "mondayFull": {
+    "message": "Monday"
+  },
+  "tuesdayFull": {
+    "message": "Tuesday"
+  },
+  "wednesdayFull": {
+    "message": "Wednesday"
+  },
+  "thursdayFull": {
+    "message": "Thursday"
+  },
+  "fridayFull": {
+    "message": "Friday"
+  },
+  "saturdayFull": {
+    "message": "Saturday"
+  },
+  "sundayFull": {
+    "message": "Sunday"
+  },
+  "overview": {
+    "message": "Overview"
+  },
+  "fullSettings": {
+    "message": "Full Settings"
+  },
+  "protecting": {
+    "message": "Protecting your focus"
+  },
+  "paused": {
+    "message": "Paused"
+  },
+  "outsideWorkHours": {
+    "message": "Outside work hours"
+  },
+  "blocking": {
+    "message": "Blocking"
+  },
+  "minutesPerHour": {
+    "message": "minutes/hour"
+  },
+  "closeTab": {
+    "message": "Close Tab"
+  },
+  "redirect": {
+    "message": "Redirect"
+  },
+  "continue": {
+    "message": "Continue"
+  },
+  "active": {
+    "message": "Active"
+  },
+  "blockingDistractingSites": {
+    "message": "Blocking distracting websites"
+  },
+  "noWebsites": {
+    "message": "No websites added yet"
+  },
+  "clickAddToStart": {
+    "message": "Click \"Add New Group\" to start"
+  },
+  "invalidWebsite": {
+    "message": "Website #$1 is invalid"
+  },
+  "pauseTimeMustBe": {
+    "message": "Pause time must be 1-120 minutes"
+  },
+  "5minutes": {
+    "message": "5 minutes"
+  },
+  "10minutes": {
+    "message": "10 minutes"
+  },
+  "15minutes": {
+    "message": "15 minutes"
+  },
+  "30minutes": {
+    "message": "30 minutes"
+  },
+  "1hour": {
+    "message": "1 hour"
+  },
+  "remaining": {
+    "message": "Remaining"
+  },
+  "pause": {
+    "message": "Pause"
+  },
+  "more": {
+    "message": "more"
+  },
+  "manageWebsites": {
+    "message": "Manage Websites"
+  },
+  "manageWebsitesDesc": {
+    "message": "Add and configure websites to block"
+  },
+  "timeRemaining": {
+    "message": "Time Remaining"
+  },
+  "blocksToday": {
+    "message": "Blocks Today"
+  },
+  "websites": {
+    "message": "websites"
+  },
+  "timeSaved": {
+    "message": "Time Saved"
+  },
+  "minutes": {
+    "message": "minutes"
   }
 }

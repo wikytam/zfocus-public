@@ -6,6 +6,7 @@ import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
+import { useI18n } from '@extension/i18n';
 import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { useState } from 'react';
 import type { BlockedSite } from '@extension/storage';
@@ -14,24 +15,25 @@ interface AddSiteDialogProps {
   onAdd: (site: Omit<BlockedSite, 'id'>) => void;
 }
 
-const DAYS = [
-  { value: 1, label: 'T2', fullLabel: 'Thứ hai' },
-  { value: 2, label: 'T3', fullLabel: 'Thứ ba' },
-  { value: 3, label: 'T4', fullLabel: 'Thứ tư' },
-  { value: 4, label: 'T5', fullLabel: 'Thứ năm' },
-  { value: 5, label: 'T6', fullLabel: 'Thứ sáu' },
-  { value: 6, label: 'T7', fullLabel: 'Thứ bảy' },
-  { value: 0, label: 'CN', fullLabel: 'Chủ nhật' },
-];
-
-const TIME_INTERVALS = [
-  { value: 10, label: '10 phút' },
-  { value: 20, label: '20 phút' },
-  { value: 30, label: '30 phút' },
-  { value: 60, label: '1 tiếng' },
-];
-
 export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
+  const { t } = useI18n();
+
+  const DAYS = [
+    { value: 1, label: t('monday'), fullLabel: t('mondayFull') },
+    { value: 2, label: t('tuesday'), fullLabel: t('tuesdayFull') },
+    { value: 3, label: t('wednesday'), fullLabel: t('wednesdayFull') },
+    { value: 4, label: t('thursday'), fullLabel: t('thursdayFull') },
+    { value: 5, label: t('friday'), fullLabel: t('fridayFull') },
+    { value: 6, label: t('saturday'), fullLabel: t('saturdayFull') },
+    { value: 0, label: t('sunday'), fullLabel: t('sundayFull') },
+  ];
+
+  const TIME_INTERVALS = [
+    { value: 10, label: t('tenMinutes') },
+    { value: 20, label: t('twentyMinutes') },
+    { value: 30, label: t('thirtyMinutes') },
+    { value: 60, label: t('oneHour') },
+  ];
   const [open, setOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [formData, setFormData] = useState<{
@@ -139,31 +141,31 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="h-4 w-4" />
-          Thêm nhóm mới
+          {t('addNewGroup')}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Thêm nhóm website chặn</DialogTitle>
-          <DialogDescription>Tạo nhóm mới để quản lý các trang web gây xao nhãng</DialogDescription>
+          <DialogTitle>{t('addWebsiteGroup')}</DialogTitle>
+          <DialogDescription>{t('addWebsiteGroupDesc')}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="add-title">Tên nhóm</Label>
+            <Label htmlFor="add-title">{t('groupName')}</Label>
             <Input
               id="add-title"
               value={formData.title}
               onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="VD: Mạng xã hội"
+              placeholder={t('groupNamePlaceholder')}
               required
             />
           </div>
 
           {/* URL Input */}
           <div className="space-y-2">
-            <Label htmlFor="add-urls">Danh sách URL</Label>
+            <Label htmlFor="add-urls">{t('urlList')}</Label>
             <Textarea
               id="add-urls"
               value={formData.urls}
@@ -173,9 +175,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               className="font-mono text-sm"
               required
             />
-            <p className="text-muted-foreground text-xs">
-              Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path.
-            </p>
+            <p className="text-muted-foreground text-xs">{t('urlListDescription')}</p>
 
             {/* Expandable Advanced Options */}
             <button
@@ -183,7 +183,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               onClick={() => setShowHelp(!showHelp)}
               className="text-primary flex items-center gap-1 text-[11px] hover:underline">
               <HelpCircle className="h-3 w-3" />
-              Tùy chọn nâng cao
+              {t('advancedOptionsToggle')}
               {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             </button>
 
@@ -191,7 +191,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
                 <div className="space-y-2">
                   <Label htmlFor="add-exceptions" className="text-xs">
-                    Ngoại lệ (cho phép)
+                    {t('exceptionsLabel')}
                   </Label>
                   <Textarea
                     id="add-exceptions"
@@ -201,12 +201,12 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     rows={2}
                     className="font-mono text-xs"
                   />
-                  <p className="text-muted-foreground text-[10px]">Các URL này sẽ được cho phép truy cập</p>
+                  <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="add-referrer" className="text-xs">
-                    Chặn từ nguồn (Referrer)
+                    {t('blockFromReferrer')}
                   </Label>
                   <Textarea
                     id="add-referrer"
@@ -216,12 +216,12 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     rows={2}
                     className="font-mono text-xs"
                   />
-                  <p className="text-muted-foreground text-[10px]">Chặn các link được click từ các trang này</p>
+                  <p className="text-muted-foreground text-[10px]">{t('blockFromReferrerDesc')}</p>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="add-keywords" className="text-xs">
-                    Từ khóa trong URL
+                    {t('keywordsInUrl')}
                   </Label>
                   <Textarea
                     id="add-keywords"
@@ -231,7 +231,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     rows={2}
                     className="font-mono text-xs"
                   />
-                  <p className="text-muted-foreground text-[10px]">Chặn URL chứa các từ khóa này (mỗi từ một dòng)</p>
+                  <p className="text-muted-foreground text-[10px]">{t('keywordsInUrlDesc')}</p>
                 </div>
               </div>
             )}
@@ -240,7 +240,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           {/* Time Allowed with Interval */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label>Thời gian cho phép (phút)</Label>
+              <Label>{t('allowedTimeMinutes')}</Label>
               <Input
                 id="add-allowedMinutes"
                 type="number"
@@ -264,7 +264,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 }}
                 className="w-20"
               />
-              <span className="text-muted-foreground text-sm">phút mỗi</span>
+              <span className="text-muted-foreground text-sm">{t('minutesPer')}</span>
               <Select
                 value={formData.timeInterval.toString()}
                 onValueChange={value => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}>
@@ -284,11 +284,11 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             {/* Count only active tab toggle */}
             <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
               <div className="flex items-center gap-2">
-                <div className="cursor-help" title="Ví dụ: nghe nhạc Youtube Background thì không tính vào">
+                <div className="cursor-help" title={t('countOnlyActiveTabTooltip')}>
                   <Info className="text-muted-foreground h-4 w-4" />
                 </div>
                 <Label htmlFor="add-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
-                  Chỉ ghi nhận tab active
+                  {t('countOnlyActiveTabLabel')}
                 </Label>
               </div>
               <Switch
@@ -303,13 +303,13 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           <div className="border-border space-y-4 border-t pt-4">
             <div className="flex items-center gap-2 text-sm font-medium">
               <Clock className="text-primary h-4 w-4" />
-              Lịch chặn
+              {t('scheduleLabel')}
             </div>
 
             {/* Time Range */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="add-startTime">Bắt đầu</Label>
+                <Label htmlFor="add-startTime">{t('startTime')}</Label>
                 <Input
                   id="add-startTime"
                   type="time"
@@ -319,7 +319,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="add-endTime">Kết thúc</Label>
+                <Label htmlFor="add-endTime">{t('endTime')}</Label>
                 <Input
                   id="add-endTime"
                   type="time"
@@ -332,7 +332,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
 
             {/* Work Days */}
             <div className="space-y-2">
-              <Label>Áp dụng chặn theo ngày</Label>
+              <Label>{t('applyBlockingDays')}</Label>
               <div className="flex gap-1.5">
                 {DAYS.map(day => (
                   <button
@@ -354,7 +354,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           </div>
           {/* Action - Segmented Control */}
           <div className="space-y-2">
-            <Label>Hành động khi hết thời gian</Label>
+            <Label>{t('actionWhenTimeUp')}</Label>
             <div className="bg-secondary/50 flex rounded-lg p-1">
               <button
                 type="button"
@@ -365,7 +365,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
                 )}>
-                Đóng tab
+                {t('closeTab')}
               </button>
               <button
                 type="button"
@@ -376,7 +376,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground',
                 )}>
-                Chuyển hướng
+                {t('redirect')}
               </button>
             </div>
           </div>
@@ -384,22 +384,22 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           {/* Redirect URL */}
           {formData.action === 'redirect' && (
             <div className="space-y-2">
-              <Label>URL chuyển hướng</Label>
+              <Label>{t('redirectUrlLabel')}</Label>
               <Input
                 id="add-redirectUrl"
                 value={formData.redirectUrl}
                 onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
                 placeholder="https://notion.so"
               />
-              <p className="text-muted-foreground text-xs">Để trống sẽ chuyển đến trang popup của extension</p>
+              <p className="text-muted-foreground text-xs">{t('redirectUrlDescription')}</p>
             </div>
           )}
 
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Hủy
+              {t('cancel')}
             </Button>
-            <Button type="submit">Thêm nhóm</Button>
+            <Button type="submit">{t('addGroup')}</Button>
           </div>
         </form>
       </DialogContent>

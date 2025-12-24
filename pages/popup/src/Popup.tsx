@@ -1,9 +1,11 @@
 import { useFocusStore } from './hooks/useFocusStore';
+import { useI18n } from '@extension/i18n';
 import { Header, StatCard, PauseControl } from '@extension/ui';
 import { Clock, Ban } from 'lucide-react';
 import './index.css';
 
 const Popup = () => {
+  const { t } = useI18n();
   const { settings, stats, pauseBlocking, resumeBlocking, isWithinWorkHours } = useFocusStore();
 
   const withinHours = isWithinWorkHours();
@@ -33,15 +35,15 @@ const Popup = () => {
           <div className="grid grid-cols-2 gap-3">
             <StatCard
               icon={<Ban className="h-4 w-4" />}
-              label="Lượt chặn hôm nay"
+              label={t('blocksToday')}
               value={stats.blockedAttempts}
-              subValue="trang web"
+              subValue={t('websites')}
               variant="success"
               delay={0}
             />
             <StatCard
               icon={<Clock className="h-4 w-4" />}
-              label="Thời gian tiết kiệm"
+              label={t('timeSaved')}
               value={formatTimeSaved(stats.timeSavedMinutes)}
               variant="accent"
               delay={100}

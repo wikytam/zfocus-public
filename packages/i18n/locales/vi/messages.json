@@ -1,0 +1,490 @@
+{
+  "extensionDescription": {
+    "description": "Extension description",
+    "message": "Tiện ích Chrome giúp quản lý thời gian và chặn website gây mất tập trung"
+  },
+  "extensionName": {
+    "description": "Extension name",
+    "message": "FocusGuard"
+  },
+  "appName": {
+    "message": "FocusGuard"
+  },
+  "appTagline": {
+    "message": "Đang bảo vệ sự tập trung"
+  },
+  "overview": {
+    "message": "Tổng quan"
+  },
+  "websites": {
+    "message": "Website"
+  },
+  "settings": {
+    "message": "Cài đặt"
+  },
+  "manageWebsites": {
+    "message": "Quản lý Website"
+  },
+  "manageWebsitesDesc": {
+    "message": "Thêm và cấu hình các trang web cần chặn"
+  },
+  "addNewGroup": {
+    "message": "Thêm nhóm mới"
+  },
+  "blockedAttempts": {
+    "message": "Lượt chặn hôm nay"
+  },
+  "timeSaved": {
+    "message": "Thời gian tiết kiệm"
+  },
+  "pauseBlocking": {
+    "message": "Tạm dừng chặn"
+  },
+  "resumeBlocking": {
+    "message": "Tiếp tục chặn"
+  },
+  "pauseFor": {
+    "message": "Tạm dừng trong"
+  },
+  "minutes": {
+    "message": "phút"
+  },
+  "advancedSettings": {
+    "message": "Cài đặt nâng cao"
+  },
+  "advancedSettingsDesc": {
+    "message": "Tùy chỉnh giao diện và chế độ bảo vệ"
+  },
+  "appearance": {
+    "message": "Giao diện"
+  },
+  "light": {
+    "message": "Sáng"
+  },
+  "dark": {
+    "message": "Tối"
+  },
+  "system": {
+    "message": "Hệ thống"
+  },
+  "showBadgeCountdown": {
+    "message": "Hiển thị đếm ngược"
+  },
+  "showBadgeCountdownDesc": {
+    "message": "Hiển thị thời gian còn lại trên icon extension"
+  },
+  "hardLockMode": {
+    "message": "Chế độ khóa cứng"
+  },
+  "hardLockModeDesc": {
+    "message": "Không thể tạm dừng trong giờ làm"
+  },
+  "sync": {
+    "message": "Đồng bộ"
+  },
+  "syncChrome": {
+    "message": "Đồng bộ (Chrome)"
+  },
+  "backupRestore": {
+    "message": "Sao lưu & Khôi phục (Edge, Firefox, Brave, ...)"
+  },
+  "backupRestoreDesc": {
+    "message": "Dùng để chuyển cài đặt giữa các trình duyệt khác nhau"
+  },
+  "exportFile": {
+    "message": "Xuất file"
+  },
+  "importFile": {
+    "message": "Nhập file"
+  },
+  "version": {
+    "message": "Phiên bản"
+  },
+  "deleteAllData": {
+    "message": "Xóa tất cả dữ liệu"
+  },
+  "confirmDeleteAll": {
+    "message": "Xóa tất cả dữ liệu? Hành động này không thể hoàn tác!"
+  },
+  "confirmImport": {
+    "message": "Nhập $1 website? Dữ liệu hiện tại sẽ bị ghi đè."
+  },
+  "account": {
+    "message": "Tài khoản"
+  },
+  "lastCheck": {
+    "message": "Lần kiểm tra cuối"
+  },
+  "notChecked": {
+    "message": "Chưa kiểm tra"
+  },
+  "storageData": {
+    "message": "Storage Data"
+  },
+  "clickToLoadData": {
+    "message": "Click vào \"Phiên bản 1.0.0\" để tải dữ liệu"
+  },
+  "editWebsite": {
+    "message": "Chỉnh sửa website"
+  },
+  "editWebsiteDesc": {
+    "message": "Chỉnh sửa cài đặt cho nhóm website"
+  },
+  "addWebsite": {
+    "message": "Thêm website"
+  },
+  "addWebsiteDesc": {
+    "message": "Thêm nhóm website cần chặn"
+  },
+  "groupName": {
+    "message": "Tên nhóm"
+  },
+  "urlList": {
+    "message": "Danh sách URL"
+  },
+  "urlListPlaceholder": {
+    "message": "facebook.com\nyoutube.com\ntwitter.com"
+  },
+  "urlListDesc": {
+    "message": "Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path."
+  },
+  "advancedOptions": {
+    "message": "Tùy chọn nâng cao"
+  },
+  "exceptions": {
+    "message": "Ngoại lệ"
+  },
+  "exceptionsPlaceholder": {
+    "message": "facebook.com/marketplace\nfacebook.com/events"
+  },
+  "exceptionsDesc": {
+    "message": "Các URL sẽ KHÔNG bị chặn (mỗi dòng một URL)"
+  },
+  "referrers": {
+    "message": "Referrer cho phép"
+  },
+  "referrersPlaceholder": {
+    "message": "google.com\nnotion.so"
+  },
+  "referrersDesc": {
+    "message": "Cho phép truy cập nếu đến từ các trang này"
+  },
+  "keywords": {
+    "message": "Từ khóa chặn"
+  },
+  "keywordsPlaceholder": {
+    "message": "gaming\nstreaming\nshopping"
+  },
+  "keywordsDesc": {
+    "message": "Chặn nếu URL chứa các từ khóa này"
+  },
+  "allowedTime": {
+    "message": "Thời gian cho phép (phút)"
+  },
+  "perHour": {
+    "message": "phút mỗi"
+  },
+  "hour": {
+    "message": "tiếng"
+  },
+  "countOnlyActiveTab": {
+    "message": "Chỉ ghi nhận tab active"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "Ví dụ: nghe nhạc Youtube Background thì không tính vào"
+  },
+  "blockSchedule": {
+    "message": "Lịch chặn"
+  },
+  "startTime": {
+    "message": "Bắt đầu"
+  },
+  "endTime": {
+    "message": "Kết thúc"
+  },
+  "applyBlockingDays": {
+    "message": "Áp dụng chặn theo ngày"
+  },
+  "monday": {
+    "message": "T2"
+  },
+  "tuesday": {
+    "message": "T3"
+  },
+  "wednesday": {
+    "message": "T4"
+  },
+  "thursday": {
+    "message": "T5"
+  },
+  "friday": {
+    "message": "T6"
+  },
+  "saturday": {
+    "message": "T7"
+  },
+  "sunday": {
+    "message": "CN"
+  },
+  "actionWhenTimeUp": {
+    "message": "Hành động khi hết thời gian"
+  },
+  "closeTab": {
+    "message": "Đóng tab"
+  },
+  "redirect": {
+    "message": "Chuyển hướng"
+  },
+  "redirectUrl": {
+    "message": "URL chuyển hướng"
+  },
+  "redirectUrlPlaceholder": {
+    "message": "https://notion.so"
+  },
+  "redirectUrlDesc": {
+    "message": "Để trống sẽ chuyển đến trang popup của extension"
+  },
+  "delete": {
+    "message": "Xóa"
+  },
+  "cancel": {
+    "message": "Hủy"
+  },
+  "save": {
+    "message": "Lưu"
+  },
+  "saveChanges": {
+    "message": "Lưu thay đổi"
+  },
+  "add": {
+    "message": "Thêm"
+  },
+  "blocking": {
+    "message": "Đang chặn"
+  },
+  "paused": {
+    "message": "Đã tạm dừng"
+  },
+  "noWebsitesAdded": {
+    "message": "Chưa có website nào được thêm"
+  },
+  "noWebsitesAddedDesc": {
+    "message": "Nhấn \"Thêm nhóm mới\" để bắt đầu"
+  },
+  "website": {
+    "message": "trang web"
+  },
+  "more": {
+    "message": "khác"
+  },
+  "displayErrorInfo": {
+    "message": "Đã xảy ra lỗi"
+  },
+  "displayErrorDescription": {
+    "message": "Xin lỗi, đã có lỗi xảy ra khi tải trang."
+  },
+  "displayErrorDetailsInfo": {
+    "message": "Chi tiết lỗi:"
+  },
+  "displayErrorUnknownErrorInfo": {
+    "message": "Lỗi không xác định"
+  },
+  "displayErrorReset": {
+    "message": "Chạy lại"
+  },
+  "addWebsiteGroup": {
+    "message": "Thêm nhóm website chặn"
+  },
+  "addWebsiteGroupDesc": {
+    "message": "Tạo nhóm mới để quản lý các trang web gây xao nhãng"
+  },
+  "editWebsiteGroup": {
+    "message": "Chỉnh sửa nhóm website"
+  },
+  "editWebsiteGroupDesc": {
+    "message": "Cập nhật cài đặt cho nhóm website"
+  },
+  "groupNamePlaceholder": {
+    "message": "VD: Mạng xã hội"
+  },
+  "urlListDescription": {
+    "message": "Nhập mỗi URL một dòng. Mặc định sẽ áp dụng cho tất cả subdomain và path."
+  },
+  "advancedOptionsToggle": {
+    "message": "Tùy chọn nâng cao"
+  },
+  "exceptionsLabel": {
+    "message": "Ngoại lệ (cho phép)"
+  },
+  "exceptionsDescription": {
+    "message": "Các URL này sẽ được cho phép truy cập"
+  },
+  "blockFromReferrer": {
+    "message": "Chặn từ nguồn (Referrer)"
+  },
+  "blockFromReferrerDesc": {
+    "message": "Chặn các link được click từ các trang này"
+  },
+  "keywordsInUrl": {
+    "message": "Từ khóa trong URL"
+  },
+  "keywordsInUrlDesc": {
+    "message": "Chặn URL chứa các từ khóa này (mỗi từ một dòng)"
+  },
+  "allowedTimeMinutes": {
+    "message": "Thời gian cho phép (phút)"
+  },
+  "minutesPer": {
+    "message": "phút mỗi"
+  },
+  "countOnlyActiveTabLabel": {
+    "message": "Chỉ ghi nhận tab active"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "Ví dụ: nghe nhạc Youtube Background thì không tính vào"
+  },
+  "scheduleLabel": {
+    "message": "Lịch chặn"
+  },
+  "redirectUrlLabel": {
+    "message": "URL chuyển hướng"
+  },
+  "redirectUrlDescription": {
+    "message": "Để trống sẽ chuyển đến trang popup của extension"
+  },
+  "addGroup": {
+    "message": "Thêm nhóm"
+  },
+  "deleteGroup": {
+    "message": "Xóa nhóm"
+  },
+  "deleteConfirm": {
+    "message": "Bạn có chắc chắn muốn xóa nhóm này?"
+  },
+  "tenMinutes": {
+    "message": "10 phút"
+  },
+  "twentyMinutes": {
+    "message": "20 phút"
+  },
+  "thirtyMinutes": {
+    "message": "30 phút"
+  },
+  "oneHour": {
+    "message": "1 tiếng"
+  },
+  "mondayFull": {
+    "message": "Thứ hai"
+  },
+  "tuesdayFull": {
+    "message": "Thứ ba"
+  },
+  "wednesdayFull": {
+    "message": "Thứ tư"
+  },
+  "thursdayFull": {
+    "message": "Thứ năm"
+  },
+  "fridayFull": {
+    "message": "Thứ sáu"
+  },
+  "saturdayFull": {
+    "message": "Thứ bảy"
+  },
+  "sundayFull": {
+    "message": "Chủ nhật"
+  },
+  "overview": {
+    "message": "Tổng quan"
+  },
+  "fullSettings": {
+    "message": "Cài đặt đầy đủ"
+  },
+  "protecting": {
+    "message": "Đang bảo vệ sự tập trung"
+  },
+  "paused": {
+    "message": "Đang tạm dừng"
+  },
+  "outsideWorkHours": {
+    "message": "Ngoài giờ làm việc"
+  },
+  "blocking": {
+    "message": "Đang chặn"
+  },
+  "minutesPerHour": {
+    "message": "phút/giờ"
+  },
+  "closeTab": {
+    "message": "Đóng tab"
+  },
+  "redirect": {
+    "message": "Chuyển hướng"
+  },
+  "continue": {
+    "message": "Tiếp tục"
+  },
+  "active": {
+    "message": "Đang hoạt động"
+  },
+  "blockingDistractingSites": {
+    "message": "Chặn trang web xao nhãng"
+  },
+  "noWebsites": {
+    "message": "Chưa có website nào"
+  },
+  "clickAddToStart": {
+    "message": "Nhấn \"Thêm nhóm mới\" để bắt đầu"
+  },
+  "invalidWebsite": {
+    "message": "Website #$1 không hợp lệ"
+  },
+  "pauseTimeMustBe": {
+    "message": "Thời gian tạm dừng phải từ 1-120 phút"
+  },
+  "5minutes": {
+    "message": "5 phút"
+  },
+  "10minutes": {
+    "message": "10 phút"
+  },
+  "15minutes": {
+    "message": "15 phút"
+  },
+  "30minutes": {
+    "message": "30 phút"
+  },
+  "1hour": {
+    "message": "1 giờ"
+  },
+  "remaining": {
+    "message": "Còn"
+  },
+  "pause": {
+    "message": "Dừng"
+  },
+  "more": {
+    "message": "khác"
+  },
+  "manageWebsites": {
+    "message": "Quản lý Website"
+  },
+  "manageWebsitesDesc": {
+    "message": "Thêm và cấu hình các trang web cần chặn"
+  },
+  "timeRemaining": {
+    "message": "Thời gian còn lại"
+  },
+  "blocksToday": {
+    "message": "Lượt chặn hôm nay"
+  },
+  "websites": {
+    "message": "trang web"
+  },
+  "timeSaved": {
+    "message": "Thời gian tiết kiệm"
+  },
+  "minutes": {
+    "message": "phút"
+  }
+}

@@ -151,7 +151,9 @@ export default function App() {
             {timeDisplay}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '11px', opacity: 0.8, marginBottom: '4px' }}>Thời gian còn lại</div>
+            <div style={{ fontSize: '11px', opacity: 0.8, marginBottom: '4px' }}>
+              {chrome.i18n.getMessage('timeRemaining')}
+            </div>
             <div
               style={{
                 height: '6px',

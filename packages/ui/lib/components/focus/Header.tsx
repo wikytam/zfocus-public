@@ -1,5 +1,6 @@
 import { cn } from '../../utils';
 import { Button } from '../ui/button';
+import { useI18n } from '@extension/i18n';
 import { Shield, Settings, ExternalLink } from 'lucide-react';
 
 interface HeaderProps {
@@ -9,8 +10,16 @@ interface HeaderProps {
 }
 
 export const Header = ({ isWithinWorkHours, isPaused, showSettingsButton = true }: HeaderProps) => {
+  const { t } = useI18n();
+
   const openOptionsPage = () => {
     chrome.runtime.openOptionsPage();
+  };
+
+  const getStatusText = () => {
+    if (isPaused) return t('paused');
+    if (isWithinWorkHours) return t('protecting');
+    return t('outsideWorkHours');
   };
 
   return (
@@ -35,16 +44,14 @@ export const Header = ({ isWithinWorkHours, isPaused, showSettingsButton = true 
         </div>
         <div>
           <h1 className="text-lg font-bold leading-tight tracking-tight">FocusGuard</h1>
-          <p className="text-muted-foreground text-xs leading-tight">
-            {isPaused ? 'Đang tạm dừng' : isWithinWorkHours ? 'Đang bảo vệ sự tập trung' : 'Ngoài giờ làm việc'}
-          </p>
+          <p className="text-muted-foreground text-xs leading-tight">{getStatusText()}</p>
         </div>
       </div>
 
       {showSettingsButton && (
         <Button variant="outline" size="sm" className="h-8 gap-1.5" onClick={openOptionsPage}>
           <Settings className="h-3.5 w-3.5" />
-          <span className="text-xs">Cài đặt đầy đủ</span>
+          <span className="text-xs">{t('fullSettings')}</span>
           <ExternalLink className="h-3 w-3 opacity-50" />
         </Button>
       )}

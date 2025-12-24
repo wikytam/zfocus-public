@@ -2,8 +2,10 @@ import { cn } from '../../utils';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { useI18n } from '@extension/i18n';
 import { Pause, Play, Clock } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import type { MessageKeyType } from '@extension/i18n';
 
 interface PauseControlProps {
   isPaused: boolean;
@@ -13,17 +15,18 @@ interface PauseControlProps {
   onResume: () => void;
 }
 
-const PAUSE_OPTIONS = [
-  { value: 5, label: '5 phút' },
-  { value: 10, label: '10 phút' },
-  { value: 15, label: '15 phút' },
-  { value: 30, label: '30 phút' },
-  { value: 60, label: '1 giờ' },
-];
-
 export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, onResume }: PauseControlProps) => {
+  const { t } = useI18n();
   const [selectedMinutes, setSelectedMinutes] = useState('15');
   const [remainingTime, setRemainingTime] = useState<string>('');
+
+  const PAUSE_OPTIONS = [
+    { value: 5, labelKey: '5minutes' },
+    { value: 10, labelKey: '10minutes' },
+    { value: 15, labelKey: '15minutes' },
+    { value: 30, labelKey: '30minutes' },
+    { value: 60, labelKey: '1hour' },
+  ];
 
   useEffect(() => {
     if (!isPaused || !pauseEndTime) {
@@ -58,8 +61,8 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
             <Clock className="h-4 w-4" />
           </div>
           <div>
-            <p className="text-sm font-medium leading-tight">Chế độ khóa cứng</p>
-            <p className="text-[11px] leading-tight opacity-80">Không thể tạm dừng</p>
+            <p className="text-sm font-medium leading-tight">{t('hardLockMode')}</p>
+            <p className="text-[11px] leading-tight opacity-80">{t('hardLockModeDesc')}</p>
           </div>
         </div>
       </Card>
@@ -80,15 +83,15 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
               <Pause className="text-accent-foreground h-4 w-4" />
             </div>
             <div>
-              <p className="text-sm font-medium leading-tight">Đang tạm dừng</p>
+              <p className="text-sm font-medium leading-tight">{t('paused')}</p>
               <p className="text-muted-foreground text-xs leading-tight">
-                Còn <span className="text-warning font-mono font-semibold">{remainingTime}</span>
+                {t('remaining')} <span className="text-warning font-mono font-semibold">{remainingTime}</span>
               </p>
             </div>
           </div>
           <Button variant="outline" size="sm" onClick={onResume} className="h-8">
             <Play className="mr-1.5 h-3.5 w-3.5" />
-            Tiếp tục
+            {t('continue')}
           </Button>
         </div>
       ) : (
@@ -98,8 +101,8 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
               <Play className="text-success h-4 w-4" />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-medium leading-tight">Đang hoạt động</p>
-              <p className="text-muted-foreground truncate text-xs leading-tight">Chặn trang web xao nhãng</p>
+              <p className="text-sm font-medium leading-tight">{t('active')}</p>
+              <p className="text-muted-foreground truncate text-xs leading-tight">{t('blockingDistractingSites')}</p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
@@ -110,14 +113,14 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
               <SelectContent>
                 {PAUSE_OPTIONS.map(opt => (
                   <SelectItem key={opt.value} value={opt.value.toString()}>
-                    {opt.label}
+                    {t(opt.labelKey as MessageKeyType)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             <Button variant="warning" size="sm" onClick={() => onPause(parseInt(selectedMinutes))} className="h-8">
               <Pause className="mr-1.5 h-3.5 w-3.5" />
-              Dừng
+              {t('pause')}
             </Button>
           </div>
         </div>

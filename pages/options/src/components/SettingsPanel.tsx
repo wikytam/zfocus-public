@@ -1,6 +1,18 @@
 import { exportSettings as exportSettingsFile, parseImportFile } from '../utils/settingsExportImport';
 import { checkSyncStatus as checkSync, autoSync, clearAllData } from '../utils/settingsSync';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, Button, cn } from '@extension/ui';
+import { getCurrentLocale, useI18n } from '@extension/i18n';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Switch,
+  Label,
+  Button,
+  cn,
+  LanguageSelector,
+} from '@extension/ui';
 import {
   Moon,
   Sun,
@@ -25,6 +37,7 @@ interface SettingsPanelProps {
 }
 
 export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
+  const { t } = useI18n();
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
   const [syncInfo, setSyncInfo] = useState<string>('');
   const [showDebug, setShowDebug] = useState(false);
@@ -60,7 +73,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
   };
 
   const handleClearData = async () => {
-    if (confirm('Xóa tất cả dữ liệu? Hành động này không thể hoàn tác!')) {
+    if (confirm(t('confirmDeleteAll'))) {
       await clearAllData();
       window.location.reload();
     }
@@ -80,7 +93,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
     setImportStatus({ type: result.type, message: result.message });
 
     if (result.success && result.normalized) {
-      if (confirm(`Nhập ${result.normalized.blockedSites.length} website? Dữ liệu hiện tại sẽ bị ghi đè.`)) {
+      if (confirm(t('confirmImport', String(result.normalized.blockedSites.length)))) {
         onUpdate(result.normalized);
         setTimeout(() => window.location.reload(), 1000);
       }
@@ -93,9 +106,9 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
   };
 
   const themes = [
-    { value: 'light' as const, icon: Sun, label: 'Sáng' },
-    { value: 'dark' as const, icon: Moon, label: 'Tối' },
-    { value: 'system' as const, icon: Monitor, label: 'Hệ thống' },
+    { value: 'light' as const, icon: Sun, labelKey: 'light' },
+    { value: 'dark' as const, icon: Moon, labelKey: 'dark' },
+    { value: 'system' as const, icon: Monitor, labelKey: 'system' },
   ];
 
   return (
@@ -113,14 +126,20 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
-          Cài đặt nâng cao
+          {t('advancedSettings')}
         </CardTitle>
-        <CardDescription>Tùy chỉnh giao diện và chế độ bảo vệ</CardDescription>
+        <CardDescription>{t('advancedSettingsDesc')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Language Selection */}
+        <LanguageSelector
+          value={settings.language || getCurrentLocale()}
+          onChange={language => onUpdate({ language })}
+        />
+
         {/* Theme Selection */}
         <div className="space-y-3">
-          <Label>Giao diện</Label>
+          <Label>{t('appearance')}</Label>
           <div className="grid grid-cols-3 gap-2">
             {themes.map(theme => (
               <button
@@ -133,7 +152,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
                     : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 )}>
                 <theme.icon className="h-5 w-5" />
-                <span className="text-xs font-medium">{theme.label}</span>
+                <span className="text-xs font-medium">{t(theme.labelKey)}</span>
               </button>
             ))}
           </div>
@@ -147,9 +166,9 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
             </div>
             <div>
               <Label htmlFor="badgeCountdown" className="cursor-pointer">
-                Hiển thị đếm ngược
+                {t('showBadgeCountdown')}
               </Label>
-              <p className="text-muted-foreground text-xs">Hiển thị thời gian còn lại trên icon extension</p>
+              <p className="text-muted-foreground text-xs">{t('showBadgeCountdownDesc')}</p>
             </div>
           </div>
           <Switch
@@ -175,9 +194,9 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
             </div>
             <div>
               <Label htmlFor="hardLock" className="cursor-pointer">
-                Chế độ khóa cứng
+                {t('hardLockMode')}
               </Label>
-              <p className="text-muted-foreground text-xs">Không thể tạm dừng trong giờ làm</p>
+              <p className="text-muted-foreground text-xs">{t('hardLockModeDesc')}</p>
             </div>
           </div>
           <Switch
@@ -191,7 +210,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
             <Cloud className="h-4 w-4" />
-            Đồng bộ (Chrome)
+            {t('syncChrome')}
           </Label>
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" onClick={handleAutoSync} disabled={syncStatus === 'syncing'}>
@@ -200,7 +219,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
               ) : (
                 <RefreshCw className="mr-2 h-4 w-4" />
               )}
-              Đồng bộ
+              {t('sync')}
             </Button>
           </div>
           {syncInfo && (
@@ -214,16 +233,16 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
         <div className="space-y-3">
           <Label className="flex items-center gap-2">
             <FileDown className="h-4 w-4" />
-            Sao lưu & Khôi phục (Edge, Firefox, Brave, ...)
+            {t('backupRestore')}
           </Label>
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" onClick={handleExport}>
               <FileDown className="mr-2 h-4 w-4" />
-              Xuất file
+              {t('exportFile')}
             </Button>
             <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
               <FileUp className="mr-2 h-4 w-4" />
-              Nhập file
+              {t('importFile')}
             </Button>
             <input ref={fileInputRef} type="file" accept=".json" onChange={handleImportFile} className="hidden" />
           </div>
@@ -241,13 +260,13 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
               <span className="whitespace-pre-wrap">{importStatus.message}</span>
             </div>
           )}
-          <p className="text-muted-foreground text-xs">Dùng để chuyển cài đặt giữa các trình duyệt khác nhau</p>
+          <p className="text-muted-foreground text-xs">{t('backupRestoreDesc')}</p>
         </div>
 
         {/* Extension Info with Debug */}
         <div className="border-border space-y-3 border-t pt-4">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Phiên bản</span>
+            <span className="text-muted-foreground">{t('version')}</span>
             <Button
               variant="ghost"
               size="sm"
@@ -266,25 +285,25 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
               {/* Account & Timestamp Info */}
               <div className="bg-secondary/50 space-y-2 rounded-lg p-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Tài khoản:</span>
-                  <span className="text-foreground font-mono">{accountEmail || 'Chưa kiểm tra'}</span>
+                  <span className="text-muted-foreground">{t('account')}:</span>
+                  <span className="text-foreground font-mono">{accountEmail || t('notChecked')}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Lần kiểm tra cuối:</span>
-                  <span className="text-foreground font-mono">{lastUpdate || 'Chưa kiểm tra'}</span>
+                  <span className="text-muted-foreground">{t('lastCheck')}:</span>
+                  <span className="text-foreground font-mono">{lastUpdate || t('notChecked')}</span>
                 </div>
               </div>
 
               {/* Storage Data */}
               <div className="bg-secondary/50 rounded-lg p-3">
-                <p className="text-muted-foreground mb-2 font-mono text-xs">Storage Data:</p>
+                <p className="text-muted-foreground mb-2 font-mono text-xs">{t('storageData')}:</p>
                 <pre className="text-foreground max-h-40 overflow-auto font-mono text-xs">
-                  {debugData || 'Click vào "Phiên bản 1.0.0" để tải dữ liệu'}
+                  {debugData || t('clickToLoadData')}
                 </pre>
               </div>
 
               <Button variant="destructive" size="sm" onClick={handleClearData}>
-                Xóa tất cả dữ liệu
+                {t('deleteAllData')}
               </Button>
             </div>
           )}

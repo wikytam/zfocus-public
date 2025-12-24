@@ -1,5 +1,7 @@
+import { useI18n } from '@extension/i18n';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Switch, Label, cn } from '@extension/ui';
 import { Moon, Sun, Monitor, Lock, Unlock } from 'lucide-react';
+import type { MessageKeyType } from '@extension/i18n';
 import type { FocusSettings } from '@extension/storage';
 
 interface SettingsPanelProps {
@@ -8,10 +10,12 @@ interface SettingsPanelProps {
 }
 
 export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
+  const { t } = useI18n();
+
   const themes = [
-    { value: 'light' as const, icon: Sun, label: 'Sáng' },
-    { value: 'dark' as const, icon: Moon, label: 'Tối' },
-    { value: 'system' as const, icon: Monitor, label: 'Hệ thống' },
+    { value: 'light' as const, icon: Sun, labelKey: 'light' },
+    { value: 'dark' as const, icon: Moon, labelKey: 'dark' },
+    { value: 'system' as const, icon: Monitor, labelKey: 'system' },
   ];
 
   return (
@@ -29,14 +33,14 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
-          Cài đặt nâng cao
+          {t('advancedSettings')}
         </CardTitle>
-        <CardDescription>Tùy chỉnh giao diện và chế độ bảo vệ</CardDescription>
+        <CardDescription>{t('advancedSettingsDesc')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Theme Selection */}
         <div className="space-y-3">
-          <Label>Giao diện</Label>
+          <Label>{t('appearance')}</Label>
           <div className="grid grid-cols-3 gap-2">
             {themes.map(theme => (
               <button
@@ -49,7 +53,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
                     : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 )}>
                 <theme.icon className="h-5 w-5" />
-                <span className="text-xs font-medium">{theme.label}</span>
+                <span className="text-xs font-medium">{t(theme.labelKey as MessageKeyType)}</span>
               </button>
             ))}
           </div>
@@ -71,9 +75,9 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
             </div>
             <div>
               <Label htmlFor="hardLock" className="cursor-pointer">
-                Chế độ khóa cứng
+                {t('hardLockMode')}
               </Label>
-              <p className="text-muted-foreground text-xs">Không thể tạm dừng trong giờ làm</p>
+              <p className="text-muted-foreground text-xs">{t('hardLockModeDesc')}</p>
             </div>
           </div>
           <Switch

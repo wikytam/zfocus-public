@@ -35,6 +35,7 @@ interface FocusSettings {
   hardLockMode: boolean;
   theme: 'light' | 'dark' | 'system';
   showBadgeCountdown: boolean; // Show countdown timer on extension icon badge
+  language?: string; // User's preferred language (auto-detected by default)
 }
 
 interface DailyStats {
@@ -105,6 +106,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   hardLockMode: false,
   theme: 'dark',
   showBadgeCountdown: true, // Default: show countdown on badge
+  language: undefined, // Auto-detect by default
 };
 
 const getDefaultStats = (): DailyStats => ({

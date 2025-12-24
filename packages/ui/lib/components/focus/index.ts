@@ -1,6 +1,7 @@
 export { AddSiteDialog } from './AddSiteDialog';
 export { EditSiteDialog } from './EditSiteDialog';
 export { BlockedSiteItem } from './BlockedSiteItem';
+export { LanguageSelector } from './LanguageSelector';
 export { StatCard } from './StatCard';
 export { PauseControl } from './PauseControl';
 export { Header } from './Header';

@@ -1,0 +1,490 @@
+{
+  "extensionDescription": {
+    "description": "Extension description",
+    "message": "時間管理と集中力を妨げるウェブサイトをブロックするChrome拡張機能"
+  },
+  "extensionName": {
+    "description": "Extension name",
+    "message": "FocusGuard"
+  },
+  "appName": {
+    "message": "FocusGuard"
+  },
+  "appTagline": {
+    "message": "集中力を守っています"
+  },
+  "overview": {
+    "message": "概要"
+  },
+  "websites": {
+    "message": "ウェブサイト"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "manageWebsites": {
+    "message": "ウェブサイト管理"
+  },
+  "manageWebsitesDesc": {
+    "message": "ブロックするウェブサイトを追加・設定"
+  },
+  "addNewGroup": {
+    "message": "新しいグループを追加"
+  },
+  "blockedAttempts": {
+    "message": "今日のブロック回数"
+  },
+  "timeSaved": {
+    "message": "節約した時間"
+  },
+  "pauseBlocking": {
+    "message": "ブロックを一時停止"
+  },
+  "resumeBlocking": {
+    "message": "ブロックを再開"
+  },
+  "pauseFor": {
+    "message": "一時停止"
+  },
+  "minutes": {
+    "message": "分"
+  },
+  "advancedSettings": {
+    "message": "詳細設定"
+  },
+  "advancedSettingsDesc": {
+    "message": "外観と保護モードをカスタマイズ"
+  },
+  "appearance": {
+    "message": "外観"
+  },
+  "light": {
+    "message": "ライト"
+  },
+  "dark": {
+    "message": "ダーク"
+  },
+  "system": {
+    "message": "システム"
+  },
+  "showBadgeCountdown": {
+    "message": "カウントダウンを表示"
+  },
+  "showBadgeCountdownDesc": {
+    "message": "拡張機能アイコンに残り時間を表示"
+  },
+  "hardLockMode": {
+    "message": "ハードロックモード"
+  },
+  "hardLockModeDesc": {
+    "message": "勤務時間中は一時停止不可"
+  },
+  "sync": {
+    "message": "同期"
+  },
+  "syncChrome": {
+    "message": "同期 (Chrome)"
+  },
+  "backupRestore": {
+    "message": "バックアップと復元 (Edge, Firefox, Brave, ...)"
+  },
+  "backupRestoreDesc": {
+    "message": "異なるブラウザ間で設定を転送"
+  },
+  "exportFile": {
+    "message": "ファイルをエクスポート"
+  },
+  "importFile": {
+    "message": "ファイルをインポート"
+  },
+  "version": {
+    "message": "バージョン"
+  },
+  "deleteAllData": {
+    "message": "すべてのデータを削除"
+  },
+  "confirmDeleteAll": {
+    "message": "すべてのデータを削除しますか？この操作は元に戻せません！"
+  },
+  "confirmImport": {
+    "message": "$1個のウェブサイトをインポートしますか？現在のデータは上書きされます。"
+  },
+  "account": {
+    "message": "アカウント"
+  },
+  "lastCheck": {
+    "message": "最終確認"
+  },
+  "notChecked": {
+    "message": "未確認"
+  },
+  "storageData": {
+    "message": "ストレージデータ"
+  },
+  "clickToLoadData": {
+    "message": "\"バージョン 1.0.0\"をクリックしてデータを読み込む"
+  },
+  "editWebsite": {
+    "message": "ウェブサイトを編集"
+  },
+  "editWebsiteDesc": {
+    "message": "ウェブサイトグループの設定を編集"
+  },
+  "addWebsite": {
+    "message": "ウェブサイトを追加"
+  },
+  "addWebsiteDesc": {
+    "message": "ブロックするウェブサイトグループを追加"
+  },
+  "groupName": {
+    "message": "グループ名"
+  },
+  "urlList": {
+    "message": "URLリスト"
+  },
+  "urlListPlaceholder": {
+    "message": "facebook.com\nyoutube.com\ntwitter.com"
+  },
+  "urlListDesc": {
+    "message": "1行に1つのURLを入力。デフォルトですべてのサブドメインとパスに適用されます。"
+  },
+  "advancedOptions": {
+    "message": "詳細オプション"
+  },
+  "exceptions": {
+    "message": "例外"
+  },
+  "exceptionsPlaceholder": {
+    "message": "facebook.com/marketplace\nfacebook.com/events"
+  },
+  "exceptionsDesc": {
+    "message": "これらのURLはブロックされません（1行に1つのURL）"
+  },
+  "referrers": {
+    "message": "許可されたリファラー"
+  },
+  "referrersPlaceholder": {
+    "message": "google.com\nnotion.so"
+  },
+  "referrersDesc": {
+    "message": "これらのページから来た場合はアクセスを許可"
+  },
+  "keywords": {
+    "message": "ブロックキーワード"
+  },
+  "keywordsPlaceholder": {
+    "message": "gaming\nstreaming\nshopping"
+  },
+  "keywordsDesc": {
+    "message": "URLにこれらのキーワードが含まれている場合はブロック"
+  },
+  "allowedTime": {
+    "message": "許可時間（分）"
+  },
+  "perHour": {
+    "message": "分毎"
+  },
+  "hour": {
+    "message": "時間"
+  },
+  "countOnlyActiveTab": {
+    "message": "アクティブなタブのみカウント"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "例：バックグラウンドでYouTube音楽を聴いてもカウントされません"
+  },
+  "blockSchedule": {
+    "message": "ブロックスケジュール"
+  },
+  "startTime": {
+    "message": "開始"
+  },
+  "endTime": {
+    "message": "終了"
+  },
+  "applyBlockingDays": {
+    "message": "曜日別にブロックを適用"
+  },
+  "monday": {
+    "message": "月"
+  },
+  "tuesday": {
+    "message": "火"
+  },
+  "wednesday": {
+    "message": "水"
+  },
+  "thursday": {
+    "message": "木"
+  },
+  "friday": {
+    "message": "金"
+  },
+  "saturday": {
+    "message": "土"
+  },
+  "sunday": {
+    "message": "日"
+  },
+  "actionWhenTimeUp": {
+    "message": "時間切れ時のアクション"
+  },
+  "closeTab": {
+    "message": "タブを閉じる"
+  },
+  "redirect": {
+    "message": "リダイレクト"
+  },
+  "redirectUrl": {
+    "message": "リダイレクトURL"
+  },
+  "redirectUrlPlaceholder": {
+    "message": "https://notion.so"
+  },
+  "redirectUrlDesc": {
+    "message": "空白の場合は拡張機能のポップアップページに移動"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "saveChanges": {
+    "message": "変更を保存"
+  },
+  "add": {
+    "message": "追加"
+  },
+  "blocking": {
+    "message": "ブロック中"
+  },
+  "paused": {
+    "message": "一時停止中"
+  },
+  "noWebsitesAdded": {
+    "message": "ウェブサイトが追加されていません"
+  },
+  "noWebsitesAddedDesc": {
+    "message": "「新しいグループを追加」をクリックして開始"
+  },
+  "website": {
+    "message": "ウェブサイト"
+  },
+  "more": {
+    "message": "その他"
+  },
+  "displayErrorInfo": {
+    "message": "エラーが発生しました"
+  },
+  "displayErrorDescription": {
+    "message": "申し訳ございません。ページの読み込み中に問題が発生しました。"
+  },
+  "displayErrorDetailsInfo": {
+    "message": "エラーの詳細："
+  },
+  "displayErrorUnknownErrorInfo": {
+    "message": "不明なエラー"
+  },
+  "displayErrorReset": {
+    "message": "再実行"
+  },
+  "addWebsiteGroup": {
+    "message": "ウェブサイトグループを追加"
+  },
+  "addWebsiteGroupDesc": {
+    "message": "集中力を妨げるウェブサイトを管理する新しいグループを作成"
+  },
+  "editWebsiteGroup": {
+    "message": "ウェブサイトグループを編集"
+  },
+  "editWebsiteGroupDesc": {
+    "message": "ウェブサイトグループの設定を更新"
+  },
+  "groupNamePlaceholder": {
+    "message": "例：ソーシャルメディア"
+  },
+  "urlListDescription": {
+    "message": "1行に1つのURLを入力してください。デフォルトですべてのサブドメインとパスに適用されます。"
+  },
+  "advancedOptionsToggle": {
+    "message": "詳細オプション"
+  },
+  "exceptionsLabel": {
+    "message": "例外（許可）"
+  },
+  "exceptionsDescription": {
+    "message": "これらのURLは許可されます"
+  },
+  "blockFromReferrer": {
+    "message": "ソースからブロック（リファラー）"
+  },
+  "blockFromReferrerDesc": {
+    "message": "これらのページからクリックされたリンクをブロック"
+  },
+  "keywordsInUrl": {
+    "message": "URLのキーワード"
+  },
+  "keywordsInUrlDesc": {
+    "message": "これらのキーワードを含むURLをブロック（1行に1つ）"
+  },
+  "allowedTimeMinutes": {
+    "message": "許可時間（分）"
+  },
+  "minutesPer": {
+    "message": "分毎"
+  },
+  "countOnlyActiveTabLabel": {
+    "message": "アクティブなタブのみカウント"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "例：バックグラウンドでYouTube音楽を聴いてもカウントされません"
+  },
+  "scheduleLabel": {
+    "message": "ブロックスケジュール"
+  },
+  "redirectUrlLabel": {
+    "message": "リダイレクトURL"
+  },
+  "redirectUrlDescription": {
+    "message": "空白の場合は拡張機能のポップアップページに移動"
+  },
+  "addGroup": {
+    "message": "グループを追加"
+  },
+  "deleteGroup": {
+    "message": "グループを削除"
+  },
+  "deleteConfirm": {
+    "message": "このグループを削除してもよろしいですか？"
+  },
+  "tenMinutes": {
+    "message": "10分"
+  },
+  "twentyMinutes": {
+    "message": "20分"
+  },
+  "thirtyMinutes": {
+    "message": "30分"
+  },
+  "oneHour": {
+    "message": "1時間"
+  },
+  "mondayFull": {
+    "message": "月曜日"
+  },
+  "tuesdayFull": {
+    "message": "火曜日"
+  },
+  "wednesdayFull": {
+    "message": "水曜日"
+  },
+  "thursdayFull": {
+    "message": "木曜日"
+  },
+  "fridayFull": {
+    "message": "金曜日"
+  },
+  "saturdayFull": {
+    "message": "土曜日"
+  },
+  "sundayFull": {
+    "message": "日曜日"
+  },
+  "overview": {
+    "message": "概要"
+  },
+  "fullSettings": {
+    "message": "完全な設定"
+  },
+  "protecting": {
+    "message": "集中力を保護中"
+  },
+  "paused": {
+    "message": "一時停止中"
+  },
+  "outsideWorkHours": {
+    "message": "勤務時間外"
+  },
+  "blocking": {
+    "message": "ブロック中"
+  },
+  "minutesPerHour": {
+    "message": "分/時間"
+  },
+  "closeTab": {
+    "message": "タブを閉じる"
+  },
+  "redirect": {
+    "message": "リダイレクト"
+  },
+  "continue": {
+    "message": "続行"
+  },
+  "active": {
+    "message": "アクティブ"
+  },
+  "blockingDistractingSites": {
+    "message": "気を散らすウェブサイトをブロック"
+  },
+  "noWebsites": {
+    "message": "まだウェブサイトが追加されていません"
+  },
+  "clickAddToStart": {
+    "message": "「新しいグループを追加」をクリックして開始"
+  },
+  "invalidWebsite": {
+    "message": "ウェブサイト #$1 は無効です"
+  },
+  "pauseTimeMustBe": {
+    "message": "一時停止時間は1〜120分である必要があります"
+  },
+  "5minutes": {
+    "message": "5分"
+  },
+  "10minutes": {
+    "message": "10分"
+  },
+  "15minutes": {
+    "message": "15分"
+  },
+  "30minutes": {
+    "message": "30分"
+  },
+  "1hour": {
+    "message": "1時間"
+  },
+  "remaining": {
+    "message": "残り"
+  },
+  "pause": {
+    "message": "一時停止"
+  },
+  "more": {
+    "message": "その他"
+  },
+  "manageWebsites": {
+    "message": "ウェブサイトを管理"
+  },
+  "manageWebsitesDesc": {
+    "message": "ブロックするウェブサイトを追加して設定"
+  },
+  "timeRemaining": {
+    "message": "残り時間"
+  },
+  "blocksToday": {
+    "message": "今日のブロック"
+  },
+  "websites": {
+    "message": "ウェブサイト"
+  },
+  "timeSaved": {
+    "message": "節約した時間"
+  },
+  "minutes": {
+    "message": "分"
+  }
+}

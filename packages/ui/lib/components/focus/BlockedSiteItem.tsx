@@ -2,6 +2,7 @@ import { EditSiteDialog } from './EditSiteDialog';
 import { cn } from '../../utils';
 import { Card } from '../ui/card';
 import { Switch } from '../ui/switch';
+import { useI18n } from '@extension/i18n';
 import { Globe, Clock } from 'lucide-react';
 import type { BlockedSite } from '@extension/storage';
 
@@ -13,6 +14,8 @@ interface BlockedSiteItemProps {
 }
 
 export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: BlockedSiteItemProps) => {
+  const { t } = useI18n();
+
   const handleEditSave = (updates: Partial<BlockedSite>) => {
     onUpdate(site.id, updates);
   };
@@ -35,21 +38,23 @@ export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: Blocked
           <div className="mb-1 flex items-center gap-2">
             <h4 className="truncate font-semibold">{site.title}</h4>
             {site.isActive && (
-              <span className="bg-success/10 text-success rounded-full px-2 py-0.5 text-xs font-medium">Đang chặn</span>
+              <span className="bg-success/10 text-success rounded-full px-2 py-0.5 text-xs font-medium">
+                {t('blocking')}
+              </span>
             )}
           </div>
 
           <p className="text-muted-foreground mb-2 truncate text-sm">
             {site.urls.slice(0, 3).join(', ')}
-            {site.urls.length > 3 && ` +${site.urls.length - 3} khác`}
+            {site.urls.length > 3 && ` +${site.urls.length - 3} ${t('more')}`}
           </p>
 
           <div className="text-muted-foreground flex items-center gap-4 text-xs">
             <span className="flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />
-              {site.allowedMinutesPerHour} phút/giờ
+              {site.allowedMinutesPerHour} {t('minutesPerHour')}
             </span>
-            <span>{site.action === 'close' ? 'Đóng tab' : 'Chuyển hướng'}</span>
+            <span>{site.action === 'close' ? t('closeTab') : t('redirect')}</span>
             <span>
               {site.schedule.startTime} - {site.schedule.endTime}
             </span>

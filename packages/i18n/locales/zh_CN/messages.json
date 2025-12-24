@@ -1,0 +1,490 @@
+{
+  "extensionDescription": {
+    "description": "Extension description",
+    "message": "帮助管理时间和屏蔽分散注意力网站的Chrome扩展"
+  },
+  "extensionName": {
+    "description": "Extension name",
+    "message": "FocusGuard"
+  },
+  "appName": {
+    "message": "FocusGuard"
+  },
+  "appTagline": {
+    "message": "正在保护您的专注力"
+  },
+  "overview": {
+    "message": "概览"
+  },
+  "websites": {
+    "message": "网站"
+  },
+  "settings": {
+    "message": "设置"
+  },
+  "manageWebsites": {
+    "message": "管理网站"
+  },
+  "manageWebsitesDesc": {
+    "message": "添加和配置需要屏蔽的网站"
+  },
+  "addNewGroup": {
+    "message": "添加新组"
+  },
+  "blockedAttempts": {
+    "message": "今日拦截次数"
+  },
+  "timeSaved": {
+    "message": "节省时间"
+  },
+  "pauseBlocking": {
+    "message": "暂停拦截"
+  },
+  "resumeBlocking": {
+    "message": "继续拦截"
+  },
+  "pauseFor": {
+    "message": "暂停"
+  },
+  "minutes": {
+    "message": "分钟"
+  },
+  "advancedSettings": {
+    "message": "高级设置"
+  },
+  "advancedSettingsDesc": {
+    "message": "自定义界面和保护模式"
+  },
+  "appearance": {
+    "message": "外观"
+  },
+  "light": {
+    "message": "浅色"
+  },
+  "dark": {
+    "message": "深色"
+  },
+  "system": {
+    "message": "系统"
+  },
+  "showBadgeCountdown": {
+    "message": "显示倒计时"
+  },
+  "showBadgeCountdownDesc": {
+    "message": "在扩展图标上显示剩余时间"
+  },
+  "hardLockMode": {
+    "message": "硬锁定模式"
+  },
+  "hardLockModeDesc": {
+    "message": "工作时间内无法暂停"
+  },
+  "sync": {
+    "message": "同步"
+  },
+  "syncChrome": {
+    "message": "同步 (Chrome)"
+  },
+  "backupRestore": {
+    "message": "备份和恢复 (Edge, Firefox, Brave, ...)"
+  },
+  "backupRestoreDesc": {
+    "message": "用于在不同浏览器之间转移设置"
+  },
+  "exportFile": {
+    "message": "导出文件"
+  },
+  "importFile": {
+    "message": "导入文件"
+  },
+  "version": {
+    "message": "版本"
+  },
+  "deleteAllData": {
+    "message": "删除所有数据"
+  },
+  "confirmDeleteAll": {
+    "message": "删除所有数据？此操作无法撤消！"
+  },
+  "confirmImport": {
+    "message": "导入$1个网站？当前数据将被覆盖。"
+  },
+  "account": {
+    "message": "账户"
+  },
+  "lastCheck": {
+    "message": "最后检查"
+  },
+  "notChecked": {
+    "message": "未检查"
+  },
+  "storageData": {
+    "message": "存储数据"
+  },
+  "clickToLoadData": {
+    "message": "点击\"版本 1.0.0\"加载数据"
+  },
+  "editWebsite": {
+    "message": "编辑网站"
+  },
+  "editWebsiteDesc": {
+    "message": "编辑网站组设置"
+  },
+  "addWebsite": {
+    "message": "添加网站"
+  },
+  "addWebsiteDesc": {
+    "message": "添加需要屏蔽的网站组"
+  },
+  "groupName": {
+    "message": "组名"
+  },
+  "urlList": {
+    "message": "URL列表"
+  },
+  "urlListPlaceholder": {
+    "message": "facebook.com\nyoutube.com\ntwitter.com"
+  },
+  "urlListDesc": {
+    "message": "每行输入一个URL。默认应用于所有子域和路径。"
+  },
+  "advancedOptions": {
+    "message": "高级选项"
+  },
+  "exceptions": {
+    "message": "例外"
+  },
+  "exceptionsPlaceholder": {
+    "message": "facebook.com/marketplace\nfacebook.com/events"
+  },
+  "exceptionsDesc": {
+    "message": "这些URL将不会被屏蔽（每行一个URL）"
+  },
+  "referrers": {
+    "message": "允许的来源"
+  },
+  "referrersPlaceholder": {
+    "message": "google.com\nnotion.so"
+  },
+  "referrersDesc": {
+    "message": "如果来自这些页面则允许访问"
+  },
+  "keywords": {
+    "message": "屏蔽关键词"
+  },
+  "keywordsPlaceholder": {
+    "message": "gaming\nstreaming\nshopping"
+  },
+  "keywordsDesc": {
+    "message": "如果URL包含这些关键词则屏蔽"
+  },
+  "allowedTime": {
+    "message": "允许时间（分钟）"
+  },
+  "perHour": {
+    "message": "分钟每"
+  },
+  "hour": {
+    "message": "小时"
+  },
+  "countOnlyActiveTab": {
+    "message": "仅计算活动标签页"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "例如：后台播放YouTube音乐不计入"
+  },
+  "blockSchedule": {
+    "message": "屏蔽时间表"
+  },
+  "startTime": {
+    "message": "开始"
+  },
+  "endTime": {
+    "message": "结束"
+  },
+  "applyBlockingDays": {
+    "message": "按天应用屏蔽"
+  },
+  "monday": {
+    "message": "周一"
+  },
+  "tuesday": {
+    "message": "周二"
+  },
+  "wednesday": {
+    "message": "周三"
+  },
+  "thursday": {
+    "message": "周四"
+  },
+  "friday": {
+    "message": "周五"
+  },
+  "saturday": {
+    "message": "周六"
+  },
+  "sunday": {
+    "message": "周日"
+  },
+  "actionWhenTimeUp": {
+    "message": "时间用完时的操作"
+  },
+  "closeTab": {
+    "message": "关闭标签页"
+  },
+  "redirect": {
+    "message": "重定向"
+  },
+  "redirectUrl": {
+    "message": "重定向URL"
+  },
+  "redirectUrlPlaceholder": {
+    "message": "https://notion.so"
+  },
+  "redirectUrlDesc": {
+    "message": "留空将跳转到扩展弹出页面"
+  },
+  "delete": {
+    "message": "删除"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "saveChanges": {
+    "message": "保存更改"
+  },
+  "add": {
+    "message": "添加"
+  },
+  "blocking": {
+    "message": "正在屏蔽"
+  },
+  "paused": {
+    "message": "已暂停"
+  },
+  "noWebsitesAdded": {
+    "message": "尚未添加任何网站"
+  },
+  "noWebsitesAddedDesc": {
+    "message": "点击「添加新组」开始"
+  },
+  "website": {
+    "message": "网站"
+  },
+  "more": {
+    "message": "更多"
+  },
+  "displayErrorInfo": {
+    "message": "发生错误"
+  },
+  "displayErrorDescription": {
+    "message": "抱歉，加载页面时出错。"
+  },
+  "displayErrorDetailsInfo": {
+    "message": "错误详情："
+  },
+  "displayErrorUnknownErrorInfo": {
+    "message": "未知错误"
+  },
+  "displayErrorReset": {
+    "message": "重新运行"
+  },
+  "addWebsiteGroup": {
+    "message": "添加网站组"
+  },
+  "addWebsiteGroupDesc": {
+    "message": "创建新组来管理分散注意力的网站"
+  },
+  "editWebsiteGroup": {
+    "message": "编辑网站组"
+  },
+  "editWebsiteGroupDesc": {
+    "message": "更新网站组设置"
+  },
+  "groupNamePlaceholder": {
+    "message": "例如：社交媒体"
+  },
+  "urlListDescription": {
+    "message": "每行输入一个URL。默认应用于所有子域和路径。"
+  },
+  "advancedOptionsToggle": {
+    "message": "高级选项"
+  },
+  "exceptionsLabel": {
+    "message": "例外（允许）"
+  },
+  "exceptionsDescription": {
+    "message": "这些URL将被允许"
+  },
+  "blockFromReferrer": {
+    "message": "从来源屏蔽（引荐来源）"
+  },
+  "blockFromReferrerDesc": {
+    "message": "屏蔽从这些页面点击的链接"
+  },
+  "keywordsInUrl": {
+    "message": "URL中的关键词"
+  },
+  "keywordsInUrlDesc": {
+    "message": "屏蔽包含这些关键词的URL（每行一个）"
+  },
+  "allowedTimeMinutes": {
+    "message": "允许时间（分钟）"
+  },
+  "minutesPer": {
+    "message": "分钟每"
+  },
+  "countOnlyActiveTabLabel": {
+    "message": "仅计算活动标签页"
+  },
+  "countOnlyActiveTabTooltip": {
+    "message": "例如：后台播放YouTube音乐不计入"
+  },
+  "scheduleLabel": {
+    "message": "屏蔽时间表"
+  },
+  "redirectUrlLabel": {
+    "message": "重定向URL"
+  },
+  "redirectUrlDescription": {
+    "message": "留空将跳转到扩展弹出页面"
+  },
+  "addGroup": {
+    "message": "添加组"
+  },
+  "deleteGroup": {
+    "message": "删除组"
+  },
+  "deleteConfirm": {
+    "message": "您确定要删除此组吗？"
+  },
+  "tenMinutes": {
+    "message": "10分钟"
+  },
+  "twentyMinutes": {
+    "message": "20分钟"
+  },
+  "thirtyMinutes": {
+    "message": "30分钟"
+  },
+  "oneHour": {
+    "message": "1小时"
+  },
+  "mondayFull": {
+    "message": "星期一"
+  },
+  "tuesdayFull": {
+    "message": "星期二"
+  },
+  "wednesdayFull": {
+    "message": "星期三"
+  },
+  "thursdayFull": {
+    "message": "星期四"
+  },
+  "fridayFull": {
+    "message": "星期五"
+  },
+  "saturdayFull": {
+    "message": "星期六"
+  },
+  "sundayFull": {
+    "message": "星期日"
+  },
+  "overview": {
+    "message": "概览"
+  },
+  "fullSettings": {
+    "message": "完整设置"
+  },
+  "protecting": {
+    "message": "正在保护您的专注力"
+  },
+  "paused": {
+    "message": "已暂停"
+  },
+  "outsideWorkHours": {
+    "message": "工作时间外"
+  },
+  "blocking": {
+    "message": "正在屏蔽"
+  },
+  "minutesPerHour": {
+    "message": "分钟/小时"
+  },
+  "closeTab": {
+    "message": "关闭标签页"
+  },
+  "redirect": {
+    "message": "重定向"
+  },
+  "continue": {
+    "message": "继续"
+  },
+  "active": {
+    "message": "活动"
+  },
+  "blockingDistractingSites": {
+    "message": "屏蔽分心网站"
+  },
+  "noWebsites": {
+    "message": "尚未添加网站"
+  },
+  "clickAddToStart": {
+    "message": "点击\"添加新组\"开始"
+  },
+  "invalidWebsite": {
+    "message": "网站 #$1 无效"
+  },
+  "pauseTimeMustBe": {
+    "message": "暂停时间必须为 1-120 分钟"
+  },
+  "5minutes": {
+    "message": "5分钟"
+  },
+  "10minutes": {
+    "message": "10分钟"
+  },
+  "15minutes": {
+    "message": "15分钟"
+  },
+  "30minutes": {
+    "message": "30分钟"
+  },
+  "1hour": {
+    "message": "1小时"
+  },
+  "remaining": {
+    "message": "剩余"
+  },
+  "pause": {
+    "message": "暂停"
+  },
+  "more": {
+    "message": "更多"
+  },
+  "manageWebsites": {
+    "message": "管理网站"
+  },
+  "manageWebsitesDesc": {
+    "message": "添加和配置要屏蔽的网站"
+  },
+  "timeRemaining": {
+    "message": "剩余时间"
+  },
+  "blocksToday": {
+    "message": "今日拦截"
+  },
+  "websites": {
+    "message": "网站"
+  },
+  "timeSaved": {
+    "message": "节省时间"
+  },
+  "minutes": {
+    "message": "分钟"
+  }
+}

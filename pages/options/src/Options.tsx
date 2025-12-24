@@ -1,6 +1,7 @@
 import { Navigation } from './components/Navigation';
 import { SettingsPanel } from './components/SettingsPanel';
 import { useFocusStore } from './hooks/useFocusStore';
+import { useI18n } from '@extension/i18n';
 import { Header, StatCard, PauseControl, BlockedSiteItem, AddSiteDialog } from '@extension/ui';
 import { Ban, Clock } from 'lucide-react';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ import './index.css';
 type TabType = 'dashboard' | 'sites' | 'settings';
 
 const Options = () => {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<TabType>('sites');
   const {
     settings,
@@ -25,7 +27,7 @@ const Options = () => {
   const withinHours = isWithinWorkHours();
 
   const formatTimeSaved = (minutes: number) => {
-    if (minutes < 60) return `${minutes} phút`;
+    if (minutes < 60) return `${minutes} ${t('minutes')}`;
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
@@ -53,15 +55,15 @@ const Options = () => {
             <div className="grid grid-cols-2 gap-4">
               <StatCard
                 icon={<Ban className="h-5 w-5" />}
-                label="Lượt chặn hôm nay"
+                label={t('blocksToday')}
                 value={stats.blockedAttempts}
-                subValue="trang web"
+                subValue={t('websites')}
                 variant="success"
                 delay={0}
               />
               <StatCard
                 icon={<Clock className="h-5 w-5" />}
-                label="Thời gian tiết kiệm"
+                label={t('timeSaved')}
                 value={formatTimeSaved(stats.timeSavedMinutes)}
                 variant="accent"
                 delay={100}
@@ -84,8 +86,8 @@ const Options = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-semibold">Quản lý Website</h2>
-                <p className="text-muted-foreground text-sm">Thêm và cấu hình các trang web cần chặn</p>
+                <h2 className="text-xl font-semibold">{t('manageWebsites')}</h2>
+                <p className="text-muted-foreground text-sm">{t('manageWebsitesDesc')}</p>
               </div>
               <AddSiteDialog onAdd={addBlockedSite} />
             </div>
