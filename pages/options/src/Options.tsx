@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import { ShieldCheck, Clock, Ban, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
+import { Ban } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
-import { StatCard } from './components/StatCard';
 import { PauseControl } from './components/PauseControl';
-import { ActiveTimerDisplay } from './components/ActiveTimerDisplay';
 import { BlockedSiteItem } from './components/BlockedSiteItem';
 import { AddSiteDialog } from './components/AddSiteDialog';
 import { SettingsPanel } from './components/SettingsPanel';
@@ -17,8 +15,6 @@ const Options = () => {
   const [activeTab, setActiveTab] = useState<TabType>('sites');
   const {
     settings,
-    stats,
-    activeTimers,
     updateSettings,
     addBlockedSite,
     updateBlockedSite,
@@ -26,29 +22,9 @@ const Options = () => {
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
-    setActiveTimers,
   } = useFocusStore();
 
   const withinHours = isWithinWorkHours();
-
-  // Simulate some active timers for demo
-  useEffect(() => {
-    if (withinHours && !settings.isPaused) {
-      setActiveTimers([
-        { siteId: '1', siteName: 'facebook.com', remainingSeconds: 180, totalSeconds: 300 },
-        { siteId: '2', siteName: 'youtube.com', remainingSeconds: 45, totalSeconds: 600 },
-      ]);
-    } else {
-      setActiveTimers([]);
-    }
-  }, [withinHours, settings.isPaused, setActiveTimers]);
-
-  const formatTimeSaved = (minutes: number) => {
-    if (minutes < 60) return `${minutes} phút`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,25 +44,6 @@ const Options = () => {
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-6">
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <StatCard
-                icon={<Ban className="w-5 h-5" />}
-                label="Lượt chặn hôm nay"
-                value={stats.blockedAttempts}
-                subValue="trang web"
-                variant="success"
-                delay={0}
-              />
-              <StatCard
-                icon={<Clock className="w-5 h-5" />}
-                label="Thời gian tiết kiệm"
-                value={formatTimeSaved(stats.timeSavedMinutes)}
-                variant="accent"
-                delay={100}
-              />
-            </div>
-
             {/* Pause Control */}
             <PauseControl
               isPaused={settings.isPaused}
@@ -95,33 +52,6 @@ const Options = () => {
               onPause={pauseBlocking}
               onResume={resumeBlocking}
             />
-
-            {/* Active Timers */}
-            <ActiveTimerDisplay
-              timers={activeTimers}
-              onCloseTimer={siteId => {
-                setActiveTimers(activeTimers.filter(t => t.siteId !== siteId));
-              }}
-            />
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <StatCard
-                icon={<ShieldCheck className="w-5 h-5" />}
-                label="Nhóm đang chặn"
-                value={settings.blockedSites.filter(s => s.isActive).length}
-                subValue={`/ ${settings.blockedSites.length}`}
-                delay={200}
-              />
-              <StatCard
-                icon={<TrendingUp className="w-5 h-5" />}
-                label="Tuần này"
-                value="+23%"
-                subValue="năng suất"
-                variant="success"
-                delay={300}
-              />
-            </div>
           </div>
         )}
 

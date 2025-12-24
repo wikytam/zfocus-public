@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Edit2, ChevronDown, ChevronUp, Globe, Trash2, Clock, HelpCircle } from 'lucide-react';
+import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -35,7 +35,6 @@ const TIME_INTERVALS = [
 
 export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDialogProps) => {
   const [open, setOpen] = useState(false);
-  const [isAdvanced, setIsAdvanced] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [editData, setEditData] = useState({
     title: site.title,
@@ -134,83 +133,50 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             />
           </div>
 
-          {/* Toggle Advanced Mode */}
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="w-full justify-between text-muted-foreground hover:text-foreground"
-            onClick={() => setIsAdvanced(!isAdvanced)}
-          >
-            <span className="flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              {isAdvanced ? 'Chế độ nâng cao' : 'Hiển thị nâng cao'}
-            </span>
-            {isAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </Button>
-
-          {!isAdvanced ? (
-            /* Basic Mode - URL Input Only */
-            <div className="space-y-2">
-              <Label htmlFor="urls">Danh sách URL</Label>
-              <Textarea
-                id="urls"
-                value={editData.urls}
-                onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
-                placeholder="Nhập URL (mỗi dòng một URL)"
-                rows={4}
-                className="font-mono text-sm"
-              />
-            </div>
-          ) : (
-            /* Advanced Mode */
-            <div className="space-y-4">
-              {/* URL Input with Wildcard Support */}
-              <div className="space-y-2">
-                <Label htmlFor="urls-advanced">Danh sách URL</Label>
-                <Textarea
-                  id="urls-advanced"
-                  value={editData.urls}
-                  onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
-                  placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
-                  rows={4}
-                  className="font-mono text-sm"
-                />
-                
-                {/* Expandable Help */}
-                <button
-                  type="button"
-                  onClick={() => setShowHelp(!showHelp)}
-                  className="flex items-center gap-1 text-[11px] text-primary hover:underline"
-                >
-                  <HelpCircle className="w-3 h-3" />
-                  Xem cú pháp hỗ trợ
-                  {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                </button>
-                
-                {showHelp && (
-                  <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
-                    <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
-                      <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
-                      <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
-                      <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
-                      <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
-                      <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
-                    </div>
-                  </div>
-                )}
+          {/* URL Input */}
+          <div className="space-y-2">
+            <Label htmlFor="urls">Danh sách URL</Label>
+            <Textarea
+              id="urls"
+              value={editData.urls}
+              onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
+              placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
+              rows={4}
+              className="font-mono text-sm"
+            />
+            
+            {/* Expandable Help */}
+            <button
+              type="button"
+              onClick={() => setShowHelp(!showHelp)}
+              className="flex items-center gap-1 text-[11px] text-primary hover:underline"
+            >
+              <HelpCircle className="w-3 h-3" />
+              Xem cú pháp hỗ trợ
+              {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+            
+            {showHelp && (
+              <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
+                <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
+                  <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
+                  <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
+                  <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
+                  <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
+                  <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Time Allowed with Interval */}
           <div className="space-y-2">
@@ -248,45 +214,67 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             </div>
           </div>
 
-          {/* Action */}
+          {/* Action - Segmented Control */}
           <div className="space-y-2">
-            <Label htmlFor="action">Hành động khi hết thời gian</Label>
-            <Select
-              value={editData.action}
-              onValueChange={(value: 'close' | 'redirect') => setEditData(prev => ({ ...prev, action: value }))}
-            >
-              <SelectTrigger id="action">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="close">Đóng tab</SelectItem>
-                <SelectItem value="redirect">Chuyển hướng</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Hành động khi hết thời gian</Label>
+            <div className="flex p-1 rounded-lg bg-secondary/50">
+              <button
+                type="button"
+                onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
+                className={cn(
+                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  editData.action === 'close'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                Đóng tab
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
+                className={cn(
+                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  editData.action === 'redirect'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                Chuyển hướng
+              </button>
+            </div>
           </div>
 
-          {/* Redirect URL */}
+          {/* Redirect URL - Segmented Control */}
           {editData.action === 'redirect' && (
             <div className="space-y-2">
-              <Label htmlFor="redirectUrl">URL chuyển hướng</Label>
-              <Select
-                value={editData.redirectUrl === '' ? 'dashboard' : 'custom'}
-                onValueChange={(value) => {
-                  if (value === 'dashboard') {
-                    setEditData(prev => ({ ...prev, redirectUrl: '' }));
-                  } else {
-                    setEditData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }));
-                  }
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn đích chuyển hướng" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="dashboard">Dashboard mặc định</SelectItem>
-                  <SelectItem value="custom">Tùy chỉnh</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label>URL chuyển hướng</Label>
+              <div className="flex p-1 rounded-lg bg-secondary/50">
+                <button
+                  type="button"
+                  onClick={() => setEditData(prev => ({ ...prev, redirectUrl: '' }))}
+                  className={cn(
+                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                    editData.redirectUrl === ''
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  Dashboard
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }))}
+                  className={cn(
+                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                    editData.redirectUrl !== ''
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  Tùy chỉnh
+                </button>
+              </div>
               {editData.redirectUrl !== '' && (
                 <Input
                   id="redirectUrl"

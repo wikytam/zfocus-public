@@ -1,46 +1,20 @@
-import { useEffect } from 'react';
-import { Clock, Ban } from 'lucide-react';
 import { useFocusStore } from './hooks/useFocusStore';
 import { Header } from './components/Header';
-import { StatCard } from './components/StatCard';
 import { PauseControl } from './components/PauseControl';
-import { ActiveTimerDisplay } from './components/ActiveTimerDisplay';
 import './index.css';
 
 const Popup = () => {
   const {
     settings,
-    stats,
-    activeTimers,
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
-    setActiveTimers,
   } = useFocusStore();
 
   const withinHours = isWithinWorkHours();
 
-  // Simulate some active timers for demo
-  useEffect(() => {
-    if (withinHours && !settings.isPaused) {
-      setActiveTimers([
-        { siteId: '1', siteName: 'facebook.com', remainingSeconds: 180, totalSeconds: 300 },
-        { siteId: '2', siteName: 'youtube.com', remainingSeconds: 45, totalSeconds: 600 },
-      ]);
-    } else {
-      setActiveTimers([]);
-    }
-  }, [withinHours, settings.isPaused, setActiveTimers]);
-
-  const formatTimeSaved = (minutes: number) => {
-    if (minutes < 60) return `${minutes}m`;
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
-  };
-
   return (
-    <div className="w-[380px] min-h-[480px] max-h-[600px] bg-background overflow-y-auto">
+    <div className="w-[380px] min-h-[300px] bg-background overflow-y-auto">
       {/* Decorative background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/8 rounded-full blur-3xl" />
@@ -53,25 +27,6 @@ const Popup = () => {
 
         {/* Dashboard Content */}
         <div className="space-y-3 mt-4">
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <StatCard
-              icon={<Ban className="w-4 h-4" />}
-              label="Lượt chặn hôm nay"
-              value={stats.blockedAttempts}
-              subValue="trang web"
-              variant="success"
-              delay={0}
-            />
-            <StatCard
-              icon={<Clock className="w-4 h-4" />}
-              label="Thời gian tiết kiệm"
-              value={formatTimeSaved(stats.timeSavedMinutes)}
-              variant="accent"
-              delay={100}
-            />
-          </div>
-
           {/* Pause Control */}
           <PauseControl
             isPaused={settings.isPaused}
@@ -80,15 +35,6 @@ const Popup = () => {
             onPause={pauseBlocking}
             onResume={resumeBlocking}
           />
-
-          {/* Active Timers */}
-          <ActiveTimerDisplay
-            timers={activeTimers}
-            onCloseTimer={siteId => {
-              setActiveTimers(activeTimers.filter(t => t.siteId !== siteId));
-            }}
-          />
-
         </div>
       </div>
     </div>

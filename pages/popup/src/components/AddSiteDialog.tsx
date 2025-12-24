@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, ChevronDown, ChevronUp, Globe, HelpCircle } from 'lucide-react';
+import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -14,13 +14,13 @@ interface AddSiteDialogProps {
 }
 
 const DAYS = [
-  { value: 1, label: 'T2' },
-  { value: 2, label: 'T3' },
-  { value: 3, label: 'T4' },
-  { value: 4, label: 'T5' },
-  { value: 5, label: 'T6' },
-  { value: 6, label: 'T7' },
-  { value: 0, label: 'CN' },
+  { value: 1, label: 'T2', fullLabel: 'Thứ hai' },
+  { value: 2, label: 'T3', fullLabel: 'Thứ ba' },
+  { value: 3, label: 'T4', fullLabel: 'Thứ tư' },
+  { value: 4, label: 'T5', fullLabel: 'Thứ năm' },
+  { value: 5, label: 'T6', fullLabel: 'Thứ sáu' },
+  { value: 6, label: 'T7', fullLabel: 'Thứ bảy' },
+  { value: 0, label: 'CN', fullLabel: 'Chủ nhật' },
 ];
 
 const TIME_INTERVALS = [
@@ -32,24 +32,17 @@ const TIME_INTERVALS = [
 
 export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const [open, setOpen] = useState(false);
-  const [isAdvanced, setIsAdvanced] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [formData, setFormData] = useState<{
-    title: string;
-    urls: string;
-    allowedMinutes: number;
-    timeInterval: number;
-    action: 'close' | 'redirect';
-    redirectUrl: string;
-    activeDays: number[];
-  }>({
+  const [formData, setFormData] = useState({
     title: '',
     urls: '',
     allowedMinutes: 5,
     timeInterval: 60,
-    action: 'redirect',
+    action: 'redirect' as 'close' | 'redirect',
     redirectUrl: '',
     activeDays: [1, 2, 3, 4, 5],
+    startTime: '08:00',
+    endTime: '17:00',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -68,8 +61,8 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       redirectUrl: formData.redirectUrl || undefined,
       isActive: true,
       schedule: {
-        startTime: '08:00',
-        endTime: '17:00',
+        startTime: formData.startTime,
+        endTime: formData.endTime,
         workDays: formData.activeDays,
         allowOutsideHours: true,
       },
@@ -83,7 +76,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
       action: 'redirect',
       redirectUrl: '',
       activeDays: [1, 2, 3, 4, 5],
+      startTime: '08:00',
+      endTime: '17:00',
     });
+    setShowHelp(false);
     setOpen(false);
   };
 
@@ -111,6 +107,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Title */}
           <div className="space-y-2">
             <Label htmlFor="add-title">Tên nhóm</Label>
             <Input
@@ -122,107 +119,51 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             />
           </div>
 
-          {/* Toggle Advanced Mode */}
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="w-full justify-between text-muted-foreground hover:text-foreground"
-            onClick={() => setIsAdvanced(!isAdvanced)}
-          >
-            <span className="flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              {isAdvanced ? 'Chế độ nâng cao' : 'Hiển thị nâng cao'}
-            </span>
-            {isAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </Button>
-
-          {!isAdvanced ? (
-            /* Basic Mode */
-            <div className="space-y-2">
-              <Label htmlFor="add-urls">Danh sách URL</Label>
-              <Textarea
-                id="add-urls"
-                value={formData.urls}
-                onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
-                placeholder="facebook.com&#10;twitter.com&#10;instagram.com"
-                rows={6}
-                className="font-mono text-base min-h-[150px]"
-                required
-              />
-              <p className="text-xs text-muted-foreground">Mỗi dòng một URL, chỉ cần nhập domain</p>
-            </div>
-          ) : (
-            /* Advanced Mode */
-            <div className="space-y-4">
-              {/* URL Input with Wildcard Support */}
-              <div className="space-y-2">
-                <Label htmlFor="add-urls-advanced">Danh sách URL</Label>
-                <Textarea
-                  id="add-urls-advanced"
-                  value={formData.urls}
-                  onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
-                  placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
-                  rows={4}
-                  className="font-mono text-sm"
-                />
-                
-                {/* Expandable Help */}
-                <button
-                  type="button"
-                  onClick={() => setShowHelp(!showHelp)}
-                  className="flex items-center gap-1 text-[11px] text-primary hover:underline"
-                >
-                  <HelpCircle className="w-3 h-3" />
-                  Xem cú pháp hỗ trợ
-                  {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                </button>
-                
-                {showHelp && (
-                  <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
-                    <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
-                      <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
-                      <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
-                      <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
-                      <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
-                      
-                      <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
-                      <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Active Days */}
-              <div className="space-y-2">
-                <Label>Áp dụng chặn theo ngày</Label>
-                <div className="flex gap-1.5">
-                  {DAYS.map(day => (
-                    <button
-                      key={day.value}
-                      type="button"
-                      onClick={() => toggleDay(day.value)}
-                      className={cn(
-                        'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
-                        formData.activeDays.includes(day.value)
-                          ? 'gradient-primary text-primary-foreground shadow-md'
-                          : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                      )}
-                    >
-                      {day.label}
-                    </button>
-                  ))}
+          {/* URL Input */}
+          <div className="space-y-2">
+            <Label htmlFor="add-urls">Danh sách URL</Label>
+            <Textarea
+              id="add-urls"
+              value={formData.urls}
+              onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
+              placeholder="facebook.com&#10;*.youtube.com&#10;+exception.com"
+              rows={4}
+              className="font-mono text-sm"
+              required
+            />
+            
+            {/* Expandable Help */}
+            <button
+              type="button"
+              onClick={() => setShowHelp(!showHelp)}
+              className="flex items-center gap-1 text-[11px] text-primary hover:underline"
+            >
+              <HelpCircle className="w-3 h-3" />
+              Xem cú pháp hỗ trợ
+              {showHelp ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+            
+            {showHelp && (
+              <div className="p-3 rounded-lg bg-secondary/50 text-[11px] space-y-2">
+                <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5">
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">*</code>
+                  <span className="text-muted-foreground">Wildcard: <code className="text-foreground">*.youtube.com</code> = tất cả subdomain</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">**</code>
+                  <span className="text-muted-foreground">Double wildcard: <code className="text-foreground">youtube.com/**</code> = tất cả path</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">+</code>
+                  <span className="text-muted-foreground">Ngoại lệ: <code className="text-foreground">+youtube.com/learn</code> = cho phép</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">&gt;</code>
+                  <span className="text-muted-foreground">Referrer: <code className="text-foreground">&gt;facebook.com</code> = chặn từ nguồn</span>
+                  
+                  <code className="px-1 py-0.5 bg-background rounded font-mono">~</code>
+                  <span className="text-muted-foreground">Từ khóa: <code className="text-foreground">~game</code> = chặn URL chứa "game"</span>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Time Allowed with Interval */}
           <div className="space-y-2">
@@ -260,47 +201,70 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             </div>
           </div>
 
-          {/* Action */}
+          {/* Action - Segmented Control */}
           <div className="space-y-2">
-            <Label htmlFor="add-action">Hành động khi hết thời gian</Label>
-            <Select
-              value={formData.action}
-              onValueChange={(value: 'close' | 'redirect') => setFormData(prev => ({ ...prev, action: value }))}
-            >
-              <SelectTrigger id="add-action">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="close">Đóng tab</SelectItem>
-                <SelectItem value="redirect">Chuyển hướng</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label>Hành động khi hết thời gian</Label>
+            <div className="flex p-1 rounded-lg bg-secondary/50">
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, action: 'close' }))}
+                className={cn(
+                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  formData.action === 'close'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                Đóng tab
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, action: 'redirect' }))}
+                className={cn(
+                  'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                  formData.action === 'redirect'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                Chuyển hướng
+              </button>
+            </div>
           </div>
 
+          {/* Redirect URL - Segmented Control */}
           {formData.action === 'redirect' && (
             <div className="space-y-2">
-              <Label htmlFor="add-redirectUrl">URL chuyển hướng</Label>
-              <Select
-                value={formData.redirectUrl === '' ? 'dashboard' : 'custom'}
-                onValueChange={(value) => {
-                  if (value === 'dashboard') {
-                    setFormData(prev => ({ ...prev, redirectUrl: '' }));
-                  } else {
-                    setFormData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }));
-                  }
-                }}
-              >
-                <SelectTrigger id="add-redirectUrl">
-                  <SelectValue placeholder="Chọn đích chuyển hướng" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="dashboard">Dashboard mặc định</SelectItem>
-                  <SelectItem value="custom">Tùy chỉnh</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label>URL chuyển hướng</Label>
+              <div className="flex p-1 rounded-lg bg-secondary/50">
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, redirectUrl: '' }))}
+                  className={cn(
+                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                    formData.redirectUrl === ''
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  Dashboard
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, redirectUrl: prev.redirectUrl || 'https://notion.so' }))}
+                  className={cn(
+                    'flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all',
+                    formData.redirectUrl !== ''
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  Tùy chỉnh
+                </button>
+              </div>
               {formData.redirectUrl !== '' && (
                 <Input
-                  id="add-redirectUrl-custom"
+                  id="add-redirectUrl"
                   value={formData.redirectUrl}
                   onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
                   placeholder="https://notion.so"
@@ -308,6 +272,61 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               )}
             </div>
           )}
+
+          {/* Schedule Section */}
+          <div className="space-y-4 pt-4 border-t border-border">
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <Clock className="w-4 h-4 text-primary" />
+              Lịch chặn
+            </div>
+
+            {/* Time Range */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="add-startTime">Bắt đầu</Label>
+                <Input
+                  id="add-startTime"
+                  type="time"
+                  value={formData.startTime}
+                  onChange={e => setFormData(prev => ({ ...prev, startTime: e.target.value }))}
+                  className="text-center"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="add-endTime">Kết thúc</Label>
+                <Input
+                  id="add-endTime"
+                  type="time"
+                  value={formData.endTime}
+                  onChange={e => setFormData(prev => ({ ...prev, endTime: e.target.value }))}
+                  className="text-center"
+                />
+              </div>
+            </div>
+
+            {/* Work Days */}
+            <div className="space-y-2">
+              <Label>Áp dụng chặn theo ngày</Label>
+              <div className="flex gap-1.5">
+                {DAYS.map(day => (
+                  <button
+                    key={day.value}
+                    type="button"
+                    onClick={() => toggleDay(day.value)}
+                    className={cn(
+                      'flex-1 py-2 px-1 rounded-lg text-xs font-medium transition-all duration-200',
+                      formData.activeDays.includes(day.value)
+                        ? 'gradient-primary text-primary-foreground shadow-md'
+                        : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                    )}
+                    title={day.fullLabel}
+                  >
+                    {day.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <div className="flex justify-end gap-3 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
