@@ -760,8 +760,22 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       activeTabTimers.forEach((timer, tabId) => {
         clearInterval(timer);
         activeTabTimers.delete(tabId);
+        // Clear badge for this tab
+        clearBadge(tabId);
       });
       tabSiteMapping.clear();
+
+      // Send CLEAR_TIMER message to all tabs to hide overlays
+      const tabs = await chrome.tabs.query({});
+      for (const tab of tabs) {
+        if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
+          try {
+            await chrome.tabs.sendMessage(tab.id, { type: 'CLEAR_TIMER' });
+          } catch {
+            // Content script might not be loaded
+          }
+        }
+      }
 
       sendResponse({ success: true });
     })();

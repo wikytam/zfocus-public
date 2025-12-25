@@ -12,13 +12,21 @@ export default function App() {
   const [timerData, setTimerData] = useState<TimerData | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [showCountdown, setShowCountdown] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
-  // Load showBadgeCountdown setting
+  // Load settings and check pause state
   useEffect(() => {
     const loadSettings = async () => {
       const result = await chrome.storage.sync.get(['focus-settings']);
       const settings = result['focus-settings'];
       setShowCountdown(settings?.showBadgeCountdown !== false);
+      setIsPaused(settings?.isPaused === true);
+
+      // If paused, clear timer data
+      if (settings?.isPaused === true) {
+        console.log('[FocusGuard Content-UI] Extension is paused, clearing timer');
+        setTimerData(null);
+      }
     };
 
     loadSettings();
@@ -28,21 +36,38 @@ export default function App() {
       if (changes['focus-settings']) {
         const newSettings = changes['focus-settings'].newValue;
         setShowCountdown(newSettings?.showBadgeCountdown !== false);
+
+        // Check if pause state changed
+        const wasPaused = isPaused;
+        const isNowPaused = newSettings?.isPaused === true;
+        setIsPaused(isNowPaused);
+
+        if (isNowPaused && !wasPaused) {
+          // Just paused - clear timer
+          console.log('[FocusGuard Content-UI] Extension paused via storage change, clearing timer');
+          setTimerData(null);
+        }
       }
     };
 
     chrome.storage.sync.onChanged.addListener(handleStorageChange);
     return () => chrome.storage.sync.onChanged.removeListener(handleStorageChange);
-  }, []);
+  }, [isPaused]);
 
   useEffect(() => {
-    const handleMessage = (message: { type: string; data: TimerData }) => {
-      if (message.type === 'TIMER_UPDATE') {
+    const handleMessage = (message: { type: string; data?: TimerData }) => {
+      console.log('[FocusGuard Content-UI] Received message:', message.type);
+      if (message.type === 'TIMER_UPDATE' && message.data) {
         setTimerData(message.data);
         // Auto-show when time is running low
         if (message.data.remainingSeconds <= 60) {
           setDismissed(false);
         }
+      } else if (message.type === 'CLEAR_TIMER') {
+        // Clear timer when paused or timer stopped
+        console.log('[FocusGuard Content-UI] Clearing timer overlay');
+        setTimerData(null);
+        setDismissed(false);
       }
     };
 
