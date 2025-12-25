@@ -329,7 +329,7 @@
     "message": "Keywords in URL"
   },
   "keywordsInUrlDesc": {
-    "message": "Block URLs containing these keywords (one per line)"
+    "message": "Block all URLs containing these keywords (applies to any link, not just URL List above)"
   },
   "allowedTimeMinutes": {
     "message": "Allowed Time (minutes)"

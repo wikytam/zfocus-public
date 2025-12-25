@@ -329,7 +329,7 @@
     "message": "URL中的关键词"
   },
   "keywordsInUrlDesc": {
-    "message": "屏蔽包含这些关键词的URL（每行一个）"
+    "message": "屏蔽包含这些关键词的所有URL（适用于任何链接，不依赖于上面的URL列表）"
   },
   "allowedTimeMinutes": {
     "message": "允许时间（分钟）"

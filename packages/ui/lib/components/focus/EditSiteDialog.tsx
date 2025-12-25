@@ -53,6 +53,11 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
   ];
   const [open, setOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+
+  // Track if title was modified by user
+  const [isTitleModified, setIsTitleModified] = useState(false);
+  const originalI18nKey = site.title.startsWith('seedGroup') ? site.title : null;
+
   const [editData, setEditData] = useState<{
     title: string;
     urls: string;
@@ -100,6 +105,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       endTime: site.schedule?.endTime || '17:00',
     });
     setShowHelp(false);
+    setIsTitleModified(false); // Reset title modification tracking when dialog opens
   }, [site, open]);
 
   const handleSave = () => {
@@ -123,8 +129,20 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       .map(u => u.trim())
       .filter(Boolean);
 
+    // Determine final title: if user didn't modify and it was an i18n key, keep the key
+    // Otherwise use the edited title
+    let finalTitle = editData.title;
+    if (!isTitleModified && originalI18nKey) {
+      // User didn't modify title, keep original i18n key
+      finalTitle = originalI18nKey;
+    } else if (originalI18nKey && editData.title === getDisplayTitle(originalI18nKey)) {
+      // User's current title matches the translated version of original key
+      // Keep the i18n key
+      finalTitle = originalI18nKey;
+    }
+
     onSave({
-      title: editData.title,
+      title: finalTitle,
       urls: allUrls,
       exceptions: exceptions.length > 0 ? exceptions : undefined,
       referrers: referrers.length > 0 ? referrers : undefined,
@@ -187,7 +205,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               <Input
                 id="title"
                 value={editData.title}
-                onChange={e => setEditData(prev => ({ ...prev, title: e.target.value }))}
+                onChange={e => {
+                  setEditData(prev => ({ ...prev, title: e.target.value }));
+                  setIsTitleModified(true);
+                }}
                 placeholder={t('groupName')}
               />
             </div>
@@ -232,7 +253,8 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                     <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
                   </div>
 
-                  <div className="space-y-2">
+                  {/* Temporarily hidden - Block from Source (Referrer) */}
+                  {/* <div className="space-y-2">
                     <Label htmlFor="edit-referrer" className="text-xs">
                       {t('blockFromReferrer')}
                     </Label>
@@ -245,7 +267,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                       className="font-mono text-xs"
                     />
                     <p className="text-muted-foreground text-[10px]">{t('blockFromReferrerDesc')}</p>
-                  </div>
+                  </div> */}
 
                   <div className="space-y-2">
                     <Label htmlFor="edit-keywords" className="text-xs">

@@ -329,7 +329,7 @@
     "message": "URLのキーワード"
   },
   "keywordsInUrlDesc": {
-    "message": "これらのキーワードを含むURLをブロック（1行に1つ）"
+    "message": "これらのキーワードを含むすべてのURLをブロック（上記のURLリストに依存せず、すべてのリンクに適用）"
   },
   "allowedTimeMinutes": {
     "message": "許可時間（分）"

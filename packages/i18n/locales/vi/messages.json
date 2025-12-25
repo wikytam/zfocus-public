@@ -329,7 +329,7 @@
     "message": "Từ khóa trong URL"
   },
   "keywordsInUrlDesc": {
-    "message": "Chặn URL chứa các từ khóa này (mỗi từ một dòng)"
+    "message": "Chặn tất cả URL chứa các từ khóa này (áp dụng cho mọi link, không phụ thuộc vào danh sách URL ở trên)"
   },
   "allowedTimeMinutes": {
     "message": "Thời gian cho phép (phút)"

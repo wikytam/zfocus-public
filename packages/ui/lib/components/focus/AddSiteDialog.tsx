@@ -204,7 +204,8 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                   <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
                 </div>
 
-                <div className="space-y-2">
+                {/* Temporarily hidden - Block from Source (Referrer) */}
+                {/* <div className="space-y-2">
                   <Label htmlFor="add-referrer" className="text-xs">
                     {t('blockFromReferrer')}
                   </Label>
@@ -217,7 +218,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     className="font-mono text-xs"
                   />
                   <p className="text-muted-foreground text-[10px]">{t('blockFromReferrerDesc')}</p>
-                </div>
+                </div> */}
 
                 <div className="space-y-2">
                   <Label htmlFor="add-keywords" className="text-xs">

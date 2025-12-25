@@ -287,21 +287,25 @@ const clearBadge = async (tabId: number) => {
 
 // Check if URL matches a blocked site
 const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean => {
+  const isDev = process.env.NODE_ENV === 'development';
+
   try {
     const urlObj = new URL(url);
     const hostname = urlObj.hostname.replace(/^www\./, '').toLowerCase();
     const fullPath = hostname + urlObj.pathname.toLowerCase();
     const fullUrl = url.toLowerCase();
 
-    console.log(`[FocusGuard] Checking URL: ${url} for site: ${site.title}`);
-    console.log(`[FocusGuard] Referrer: ${referrer || 'none'}`);
+    if (isDev) {
+      console.log(`[FocusGuard] Checking URL: ${url} for site: ${site.title}`);
+      console.log(`[FocusGuard] Referrer: ${referrer || 'none'}`);
+    }
 
     // 1. Check exceptions - if URL matches any exception, allow access immediately
     if (site.exceptions && site.exceptions.length > 0) {
       for (const exception of site.exceptions) {
         const cleanException = exception.trim().toLowerCase();
         if (cleanException && (fullPath.includes(cleanException) || fullUrl.includes(cleanException))) {
-          console.log(`[FocusGuard] Exception matched: ${cleanException} - allowing access`);
+          if (isDev) console.log(`[FocusGuard] Exception matched: ${cleanException} - allowing access`);
           return false; // Don't block
         }
       }
@@ -314,16 +318,27 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
         for (const referrerDomain of site.referrers) {
           const cleanReferrer = referrerDomain.trim().toLowerCase();
           if (cleanReferrer && refHost.includes(cleanReferrer)) {
-            console.log(`[FocusGuard] Referrer matched: ${cleanReferrer} - blocking ANY external link`);
+            if (isDev) console.log(`[FocusGuard] Referrer matched: ${cleanReferrer} - blocking ANY external link`);
             return true; // Block ANY link from this referrer
           }
         }
       } catch {
-        console.log(`[FocusGuard] Invalid referrer URL`);
+        if (isDev) console.log(`[FocusGuard] Invalid referrer URL`);
       }
     }
 
-    // 3. Check if URL matches main site patterns
+    // 3. Check keywords FIRST - applies to ALL URLs, not just those in URL list
+    if (site.keywords && site.keywords.length > 0) {
+      for (const keyword of site.keywords) {
+        const cleanKeyword = keyword.trim().toLowerCase();
+        if (cleanKeyword && fullUrl.includes(cleanKeyword)) {
+          if (isDev) console.log(`[FocusGuard] Keyword matched: ${cleanKeyword} - blocking (applies to all URLs)`);
+          return true; // Block
+        }
+      }
+    }
+
+    // 4. Check if URL matches main site patterns
     let matchesMainUrl = false;
     for (const pattern of site.urls) {
       const cleanPattern = pattern.trim().toLowerCase();
@@ -341,7 +356,7 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
 
         const regex = new RegExp(regexPattern, 'i');
         if (regex.test(hostname) || regex.test(fullPath)) {
-          console.log(`[FocusGuard] Wildcard matched: ${pattern} -> ${fullPath}`);
+          if (isDev) console.log(`[FocusGuard] Wildcard matched: ${pattern} -> ${fullPath}`);
           matchesMainUrl = true;
           break;
         }
@@ -350,59 +365,71 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
 
       // Simple domain match (default - matches all subdomains and paths)
       if (hostname.includes(cleanPattern) || fullPath.startsWith(cleanPattern)) {
-        console.log(`[FocusGuard] Domain matched: ${cleanPattern}`);
+        if (isDev) console.log(`[FocusGuard] Domain matched: ${cleanPattern}`);
         matchesMainUrl = true;
         break;
       }
     }
 
-    // If URL doesn't match main patterns, don't block
-    if (!matchesMainUrl) {
-      console.log(`[FocusGuard] URL doesn't match main patterns - not blocking`);
-      return false;
+    // 5. If URL matches main patterns, block
+    if (matchesMainUrl) {
+      if (isDev) console.log(`[FocusGuard] Main URL matched - blocking`);
+      return true;
     }
 
-    // 4. Check keywords - if URL contains keyword, block
-    if (site.keywords && site.keywords.length > 0) {
-      for (const keyword of site.keywords) {
-        const cleanKeyword = keyword.trim().toLowerCase();
-        if (cleanKeyword && fullUrl.includes(cleanKeyword)) {
-          console.log(`[FocusGuard] Keyword matched: ${cleanKeyword} - blocking`);
-          return true; // Block
-        }
-      }
-    }
-
-    // 5. Main URL matched, no keywords, block
-    console.log(`[FocusGuard] Main URL matched - blocking`);
-    return true;
+    // If URL doesn't match main patterns and no keywords matched, don't block
+    if (isDev) console.log(`[FocusGuard] URL doesn't match any blocking rules - not blocking`);
+    return false;
   } catch (e) {
-    console.error('[FocusGuard] Error matching URL:', e);
+    if (isDev) console.error('[FocusGuard] Error matching URL:', e);
     return false;
   }
 };
 
 // Check if current time is within work hours
 const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
-  // If allowOutsideHours is true, always block
-  if (schedule.allowOutsideHours) {
-    return true;
-  }
-
   const now = new Date();
   const currentDay = now.getDay();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  const isDev = process.env.NODE_ENV === 'development';
 
-  if (!schedule.workDays.includes(currentDay)) {
-    return false;
+  if (isDev) {
+    console.log(`[FocusGuard Schedule] Current time: ${now.toLocaleTimeString()}, Day: ${currentDay}`);
+    console.log(
+      `[FocusGuard Schedule] Work days: ${schedule.workDays}, Time: ${schedule.startTime} - ${schedule.endTime}`,
+    );
+    console.log(`[FocusGuard Schedule] Allow outside hours: ${schedule.allowOutsideHours}`);
   }
 
+  // Check if current day is a work day
+  if (!schedule.workDays.includes(currentDay)) {
+    if (isDev) console.log(`[FocusGuard Schedule] ❌ Not a work day`);
+    // If allowOutsideHours is true, allow access outside work days
+    return !schedule.allowOutsideHours;
+  }
+
+  // Check if current time is within work hours
   const [startHour, startMin] = schedule.startTime.split(':').map(Number);
   const [endHour, endMin] = schedule.endTime.split(':').map(Number);
   const startMinutes = startHour * 60 + startMin;
   const endMinutes = endHour * 60 + endMin;
 
-  return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+  const isWithinTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+
+  if (isDev) {
+    console.log(`[FocusGuard Schedule] Current minutes: ${currentMinutes}, Range: ${startMinutes} - ${endMinutes}`);
+    console.log(`[FocusGuard Schedule] Within time range: ${isWithinTime}`);
+  }
+
+  // If within work hours, block. If outside work hours, check allowOutsideHours
+  if (isWithinTime) {
+    if (isDev) console.log(`[FocusGuard Schedule] ✅ Within work hours - BLOCK`);
+    return true;
+  } else {
+    // Outside work hours
+    if (isDev) console.log(`[FocusGuard Schedule] Outside work hours - Allow: ${!schedule.allowOutsideHours}`);
+    return !schedule.allowOutsideHours;
+  }
 };
 
 // Find matching blocked site for URL
@@ -610,7 +637,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // Handle tab updates
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  console.log(`[FocusGuard] Tab ${tabId} updated:`, changeInfo.status, tab.url);
+  const isDev = process.env.NODE_ENV === 'development';
+
+  if (isDev) console.log(`[FocusGuard] Tab ${tabId} updated:`, changeInfo.status, tab.url);
 
   if (changeInfo.status !== 'complete' || !tab.url) return;
 
@@ -620,14 +649,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     return;
   }
 
-  console.log(`[FocusGuard] Checking URL: ${tab.url}`);
+  if (isDev) console.log(`[FocusGuard] Checking URL: ${tab.url}`);
   const referrer = tabReferrers.get(tabId);
   const site = await findBlockedSite(tab.url, referrer);
   if (site) {
-    console.log(`[FocusGuard] ✅ MATCHED! Detected blocked site: ${site.title} on ${tab.url}`);
+    if (isDev) console.log(`[FocusGuard] ✅ MATCHED! Detected blocked site: ${site.title} on ${tab.url}`);
     await startTabTimer(tabId, site);
   } else {
-    console.log(`[FocusGuard] ❌ No match for: ${tab.url}`);
+    if (isDev) console.log(`[FocusGuard] ❌ No match for: ${tab.url}`);
     clearTabTimer(tabId);
   }
 
