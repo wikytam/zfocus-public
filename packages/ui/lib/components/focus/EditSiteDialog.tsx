@@ -197,7 +197,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           <DialogDescription className="sr-only">{t('editWebsiteGroupDesc')}</DialogDescription>
         </DialogHeader>
 
-        <ScrollArea className="max-h-[60vh]">
+        <ScrollArea className="max-h-[60vh]" enableBodyScroll>
           <div className="space-y-4 px-4 py-4">
             {/* Title */}
             <div className="space-y-2">

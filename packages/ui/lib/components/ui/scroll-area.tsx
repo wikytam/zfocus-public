@@ -1,17 +1,54 @@
 import { cn } from '../../utils';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import {
+  disableBodyScroll,
+  enableBodyScroll as enableBodyScrollFn,
+  clearAllBodyScrollLocks,
+} from 'body-scroll-lock-upgrade';
 import * as React from 'react';
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
->(({ className, children, ...props }, ref) => (
-  <ScrollAreaPrimitive.Root ref={ref} className={cn('relative overflow-hidden', className)} {...props}>
-    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">{children}</ScrollAreaPrimitive.Viewport>
-    <ScrollBar />
-    <ScrollAreaPrimitive.Corner />
-  </ScrollAreaPrimitive.Root>
-));
+  React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & {
+    enableBodyScroll?: boolean;
+  }
+>(({ className, children, enableBodyScroll = false, ...props }, ref) => {
+  const viewportRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (enableBodyScroll && viewportRef.current) {
+      const viewport = viewportRef.current;
+      disableBodyScroll(viewport, {
+        reserveScrollBarGap: true,
+      });
+
+      return () => {
+        enableBodyScrollFn(viewport);
+      };
+    }
+    return undefined;
+  }, [enableBodyScroll]);
+
+  // Cleanup on unmount
+  React.useEffect(
+    () => () => {
+      if (enableBodyScroll) {
+        clearAllBodyScrollLocks();
+      }
+    },
+    [enableBodyScroll],
+  );
+
+  return (
+    <ScrollAreaPrimitive.Root ref={ref} className={cn('relative overflow-hidden', className)} {...props}>
+      <ScrollAreaPrimitive.Viewport ref={viewportRef} className="h-full w-full rounded-[inherit]">
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  );
+});
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
 
 const ScrollBar = React.forwardRef<
