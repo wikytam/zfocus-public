@@ -486,5 +486,14 @@
   },
   "minutes": {
     "message": "phút"
+  },
+  "seedGroupSocialMedia": {
+    "message": "Mạng xã hội"
+  },
+  "seedGroupEntertainment": {
+    "message": "Giải trí"
+  },
+  "seedGroupForums": {
+    "message": "Diễn đàn"
   }
 }

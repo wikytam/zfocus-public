@@ -486,5 +486,14 @@
   },
   "minutes": {
     "message": "分"
+  },
+  "seedGroupSocialMedia": {
+    "message": "ソーシャルメディア"
+  },
+  "seedGroupEntertainment": {
+    "message": "エンターテインメント"
+  },
+  "seedGroupForums": {
+    "message": "フォーラム"
   }
 }

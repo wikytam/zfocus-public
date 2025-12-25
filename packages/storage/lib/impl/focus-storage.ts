@@ -71,7 +71,7 @@ const DEFAULT_SCHEDULE = {
 const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
   {
     id: '1',
-    title: 'Mạng xã hội',
+    title: 'seedGroupSocialMedia',
     urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
     allowedMinutesPerHour: 5, // 5 minutes per hour
     action: 'redirect',
@@ -80,7 +80,7 @@ const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
   },
   {
     id: '2',
-    title: 'Giải trí',
+    title: 'seedGroupEntertainment',
     urls: ['youtube.com', 'netflix.com', 'twitch.tv'],
     allowedMinutesPerHour: 10,
     action: 'close',
@@ -89,7 +89,7 @@ const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
   },
   {
     id: '3',
-    title: 'Diễn đàn',
+    title: 'seedGroupForums',
     urls: ['reddit.com', 'quora.com'],
     allowedMinutesPerHour: 3,
     action: 'redirect',

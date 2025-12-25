@@ -24,6 +24,16 @@ export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: Blocked
     onRemove(site.id);
   };
 
+  // Helper function to translate title if it's an i18n key
+  const getDisplayTitle = (title: string) => {
+    // Check if title is an i18n key (starts with seedGroup)
+    if (title.startsWith('seedGroup')) {
+      // Type assertion for i18n keys
+      return t(title as 'seedGroupSocialMedia' | 'seedGroupEntertainment' | 'seedGroupForums');
+    }
+    return title;
+  };
+
   return (
     <Card
       variant="glass"
@@ -36,7 +46,7 @@ export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: Blocked
 
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex items-center gap-2">
-            <h4 className="truncate font-semibold">{site.title}</h4>
+            <h4 className="truncate font-semibold">{getDisplayTitle(site.title)}</h4>
             {site.isActive && (
               <span className="bg-success/10 text-success rounded-full px-2 py-0.5 text-xs font-medium">
                 {t('blocking')}

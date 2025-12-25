@@ -9,8 +9,9 @@ import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
 import { useI18n } from '@extension/i18n';
 import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { BlockedSite } from '@extension/storage';
+import type React from 'react';
 
 interface EditSiteDialogProps {
   site: BlockedSite;
@@ -21,6 +22,18 @@ interface EditSiteDialogProps {
 
 export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDialogProps) => {
   const { t } = useI18n();
+
+  // Helper to translate title if it's an i18n key
+  const getDisplayTitle = useCallback(
+    (title: string) => {
+      if (title.startsWith('seedGroup')) {
+        // Type assertion for i18n keys
+        return t(title as 'seedGroupSocialMedia' | 'seedGroupEntertainment' | 'seedGroupForums');
+      }
+      return title;
+    },
+    [t],
+  );
 
   const DAYS = [
     { value: 1, label: t('monday'), fullLabel: t('mondayFull') },
@@ -55,7 +68,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     startTime: string;
     endTime: string;
   }>({
-    title: site.title,
+    title: getDisplayTitle(site.title),
     urls: site.urls.join('\n'),
     exceptions: (site.exceptions || []).join('\n'),
     referrers: (site.referrers || []).join('\n'),
@@ -72,7 +85,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
 
   useEffect(() => {
     setEditData({
-      title: site.title,
+      title: getDisplayTitle(site.title),
       urls: site.urls.join('\n'),
       exceptions: (site.exceptions || []).join('\n'),
       referrers: (site.referrers || []).join('\n'),

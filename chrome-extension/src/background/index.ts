@@ -1,6 +1,49 @@
 import 'webextension-polyfill';
+// Import i18n messages
+import enMessages from '../../../packages/i18n/locales/en/messages.json';
+import jaMessages from '../../../packages/i18n/locales/ja/messages.json';
+import koMessages from '../../../packages/i18n/locales/ko/messages.json';
+import viMessages from '../../../packages/i18n/locales/vi/messages.json';
+import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
 
 console.log('[FocusGuard] Background script loaded');
+
+// i18n helper for background script
+const MESSAGES: Record<string, Record<string, { message: string }>> = {
+  en: enMessages,
+  en_US: enMessages,
+  en_GB: enMessages,
+  ko: koMessages,
+  ko_KR: koMessages,
+  zh_CN: zhMessages,
+  zh: zhMessages,
+  ja: jaMessages,
+  ja_JP: jaMessages,
+  vi: viMessages,
+  vi_VN: viMessages,
+};
+
+const translateTitle = async (title: string): Promise<string> => {
+  // If title doesn't start with seedGroup, return as-is
+  if (!title.startsWith('seedGroup')) {
+    return title;
+  }
+
+  try {
+    // Get user's language preference from settings
+    const result = await chrome.storage.sync.get(['focus-settings']);
+    const settings = result['focus-settings'];
+    const userLang = settings?.language || chrome.i18n.getUILanguage();
+
+    // Normalize locale
+    const normalizedLocale = userLang.replace('-', '_');
+    const messages = MESSAGES[normalizedLocale] || MESSAGES[userLang.split(/[-_]/)[0]] || MESSAGES.en;
+
+    return messages[title]?.message || title;
+  } catch {
+    return title;
+  }
+};
 
 // Migration helper for moving from local to sync storage
 const migrateFromLocalToSync = async () => {
@@ -98,7 +141,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   blockedSites: [
     {
       id: '1',
-      title: 'Mạng xã hội',
+      title: 'seedGroupSocialMedia',
       urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
       allowedMinutesPerHour: 5, // 5 minutes per hour
       action: 'redirect',
@@ -107,7 +150,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
     },
     {
       id: '2',
-      title: 'Giải trí',
+      title: 'seedGroupEntertainment',
       urls: ['youtube.com', 'netflix.com', 'twitch.tv'],
       allowedMinutesPerHour: 10,
       action: 'close',
@@ -116,7 +159,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
     },
     {
       id: '3',
-      title: 'Diễn đàn',
+      title: 'seedGroupForums',
       urls: ['reddit.com', 'quora.com'],
       allowedMinutesPerHour: 3,
       action: 'redirect',
@@ -532,11 +575,12 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 
       // Send message to content script with remaining time
       try {
+        const translatedTitle = await translateTitle(site.title);
         await chrome.tabs.sendMessage(tabId, {
           type: 'TIMER_UPDATE',
           data: {
             siteId: site.id,
-            siteName: site.title,
+            siteName: translatedTitle,
             usedSeconds: newUsedSeconds,
             allowedSeconds: currentTimer.allowedSeconds,
             remainingSeconds,

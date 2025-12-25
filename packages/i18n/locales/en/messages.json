@@ -486,5 +486,14 @@
   },
   "minutes": {
     "message": "minutes"
+  },
+  "seedGroupSocialMedia": {
+    "message": "Social Media"
+  },
+  "seedGroupEntertainment": {
+    "message": "Entertainment"
+  },
+  "seedGroupForums": {
+    "message": "Forums"
   }
 }

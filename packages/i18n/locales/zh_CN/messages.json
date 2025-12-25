@@ -486,5 +486,14 @@
   },
   "minutes": {
     "message": "分钟"
+  },
+  "seedGroupSocialMedia": {
+    "message": "社交媒体"
+  },
+  "seedGroupEntertainment": {
+    "message": "娱乐"
+  },
+  "seedGroupForums": {
+    "message": "论坛"
   }
 }

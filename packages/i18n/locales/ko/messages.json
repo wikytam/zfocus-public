@@ -337,21 +337,6 @@
   "minutesPer": {
     "message": "분 당"
   },
-  "countOnlyActiveTabLabel": {
-    "message": "활성 탭만 계산"
-  },
-  "countOnlyActiveTabTooltip": {
-    "message": "예: 백그라운드에서 YouTube 음악을 들으면 계산되지 않습니다"
-  },
-  "scheduleLabel": {
-    "message": "차단 일정"
-  },
-  "redirectUrlLabel": {
-    "message": "리디렉션 URL"
-  },
-  "redirectUrlDescription": {
-    "message": "비워두면 확장 프로그램 팝업으로 리디렉션됩니다"
-  },
   "addGroup": {
     "message": "그룹 추가"
   },
@@ -394,97 +379,13 @@
   "sundayFull": {
     "message": "일요일"
   },
-  "overview": {
-    "message": "개요"
+  "seedGroupSocialMedia": {
+    "message": "소셜 미디어"
   },
-  "fullSettings": {
-    "message": "전체 설정"
+  "seedGroupEntertainment": {
+    "message": "엔터테인먼트"
   },
-  "protecting": {
-    "message": "집중력 보호 중"
-  },
-  "paused": {
-    "message": "일시 중지됨"
-  },
-  "outsideWorkHours": {
-    "message": "근무 시간 외"
-  },
-  "blocking": {
-    "message": "차단 중"
-  },
-  "minutesPerHour": {
-    "message": "분/시간"
-  },
-  "closeTab": {
-    "message": "탭 닫기"
-  },
-  "redirect": {
-    "message": "리디렉션"
-  },
-  "continue": {
-    "message": "계속"
-  },
-  "active": {
-    "message": "활성"
-  },
-  "blockingDistractingSites": {
-    "message": "방해 웹사이트 차단"
-  },
-  "noWebsites": {
-    "message": "아직 추가된 웹사이트가 없습니다"
-  },
-  "clickAddToStart": {
-    "message": "\"새 그룹 추가\"를 클릭하여 시작하세요"
-  },
-  "invalidWebsite": {
-    "message": "웹사이트 #$1이(가) 유효하지 않습니다"
-  },
-  "pauseTimeMustBe": {
-    "message": "일시 중지 시간은 1-120분이어야 합니다"
-  },
-  "5minutes": {
-    "message": "5분"
-  },
-  "10minutes": {
-    "message": "10분"
-  },
-  "15minutes": {
-    "message": "15분"
-  },
-  "30minutes": {
-    "message": "30분"
-  },
-  "1hour": {
-    "message": "1시간"
-  },
-  "remaining": {
-    "message": "남은 시간"
-  },
-  "pause": {
-    "message": "일시 중지"
-  },
-  "more": {
-    "message": "더 보기"
-  },
-  "manageWebsites": {
-    "message": "웹사이트 관리"
-  },
-  "manageWebsitesDesc": {
-    "message": "차단할 웹사이트 추가 및 구성"
-  },
-  "timeRemaining": {
-    "message": "남은 시간"
-  },
-  "blocksToday": {
-    "message": "오늘 차단"
-  },
-  "websites": {
-    "message": "웹사이트"
-  },
-  "timeSaved": {
-    "message": "절약된 시간"
-  },
-  "minutes": {
-    "message": "분"
+  "seedGroupForums": {
+    "message": "포럼"
   }
 }
