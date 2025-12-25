@@ -168,7 +168,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-lg">

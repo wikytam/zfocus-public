@@ -57,6 +57,7 @@ const Popup = () => {
             hardLockMode={settings.hardLockMode}
             onPause={pauseBlocking}
             onResume={resumeBlocking}
+            compact={true}
           />
         </div>
       </div>

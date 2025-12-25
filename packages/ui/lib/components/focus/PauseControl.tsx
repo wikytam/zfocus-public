@@ -13,9 +13,17 @@ interface PauseControlProps {
   hardLockMode: boolean;
   onPause: (minutes: number) => void;
   onResume: () => void;
+  compact?: boolean; // true for popup, false for options page
 }
 
-export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, onResume }: PauseControlProps) => {
+export const PauseControl = ({
+  isPaused,
+  pauseEndTime,
+  hardLockMode,
+  onPause,
+  onResume,
+  compact = false,
+}: PauseControlProps) => {
   const { t } = useI18n();
   const [selectedMinutes, setSelectedMinutes] = useState('15');
   const [remainingTime, setRemainingTime] = useState<string>('');
@@ -94,7 +102,43 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
             {t('continue')}
           </Button>
         </div>
+      ) : compact ? (
+        // Compact layout for popup
+        <div className="space-y-3">
+          <div className="flex items-center gap-2.5">
+            <div className="bg-success/10 shrink-0 rounded-lg p-2">
+              <Play className="text-success h-4 w-4" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium leading-tight">{t('active')}</p>
+              <p className="text-muted-foreground text-xs leading-tight">{t('blockingDistractingSites')}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Select value={selectedMinutes} onValueChange={setSelectedMinutes}>
+              <SelectTrigger className="h-9 flex-1 text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {PAUSE_OPTIONS.map(opt => (
+                  <SelectItem key={opt.value} value={opt.value.toString()}>
+                    {t(opt.labelKey as MessageKeyType)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              variant="warning"
+              size="sm"
+              onClick={() => onPause(parseInt(selectedMinutes))}
+              className="h-9 flex-1">
+              <Pause className="mr-1.5 h-4 w-4" />
+              {t('pause')}
+            </Button>
+          </div>
+        </div>
       ) : (
+        // Full layout for options page
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 flex-1 items-center gap-2.5">
             <div className="bg-success/10 shrink-0 rounded-lg p-2">
@@ -107,7 +151,7 @@ export const PauseControl = ({ isPaused, pauseEndTime, hardLockMode, onPause, on
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
             <Select value={selectedMinutes} onValueChange={setSelectedMinutes}>
-              <SelectTrigger className="h-8 w-[85px] text-xs">
+              <SelectTrigger className="h-8 w-[110px] text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

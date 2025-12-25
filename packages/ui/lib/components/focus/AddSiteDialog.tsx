@@ -144,7 +144,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           {t('addNewGroup')}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{t('addWebsiteGroup')}</DialogTitle>
           <DialogDescription>{t('addWebsiteGroupDesc')}</DialogDescription>
