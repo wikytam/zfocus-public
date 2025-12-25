@@ -47,7 +47,9 @@ export const PauseControl = ({
       const remaining = pauseEndTime - now;
 
       if (remaining <= 0) {
-        onResume();
+        setRemainingTime('0:00');
+        // Don't call onResume here - let the background script handle it
+        // The background script already checks pause expiration every 10 seconds
         return;
       }
 
@@ -59,7 +61,7 @@ export const PauseControl = ({
     updateRemaining();
     const interval = setInterval(updateRemaining, 1000);
     return () => clearInterval(interval);
-  }, [isPaused, pauseEndTime, onResume]);
+  }, [isPaused, pauseEndTime]);
 
   if (hardLockMode) {
     return (

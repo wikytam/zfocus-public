@@ -538,6 +538,13 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   // Start interval to track time
   const interval = setInterval(async () => {
     try {
+      // Check if blocking is paused
+      const settings = await getSettings();
+      if (settings.isPaused) {
+        // Don't count time while paused, but keep the interval running
+        return;
+      }
+
       // Check if tab still exists
       const tab = await chrome.tabs.get(tabId).catch(() => null);
       if (!tab) {
