@@ -180,6 +180,31 @@ export async function getStorageDataFromPage(page: Page, key: string): Promise<a
 }
 
 /**
+ * Sets storage data on a specific page
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function setStorageDataFromPage(page: Page, key: string, value: any): Promise<void> {
+  try {
+    await waitForStorageReady(page);
+    await page.evaluate(
+      ({ storageKey, storageValue }) =>
+        new Promise<void>(resolve => {
+          if (typeof chrome !== 'undefined' && chrome.storage) {
+            chrome.storage.sync.set({ [storageKey]: storageValue }, () => {
+              resolve();
+            });
+          } else {
+            resolve();
+          }
+        }),
+      { storageKey: key, storageValue: value },
+    );
+  } catch {
+    console.warn(`[Storage Helper] Could not set storage data for key "${key}"`);
+  }
+}
+
+/**
  * Gets storage data (legacy - uses first page in context)
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -192,32 +217,13 @@ export async function getStorageData(context: BrowserContext, key: string): Prom
 }
 
 /**
- * Sets storage data
+ * Sets storage data (legacy - uses first page in context)
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function setStorageData(context: BrowserContext, key: string, value: any): Promise<void> {
   const pages = context.pages();
   if (pages.length > 0) {
-    try {
-      // Wait for storage to be ready first
-      await waitForStorageReady(pages[0]);
-
-      await pages[0].evaluate(
-        ({ storageKey, storageValue }) =>
-          new Promise<void>(resolve => {
-            if (typeof chrome !== 'undefined' && chrome.storage) {
-              chrome.storage.sync.set({ [storageKey]: storageValue }, () => {
-                resolve();
-              });
-            } else {
-              resolve();
-            }
-          }),
-        { storageKey: key, storageValue: value },
-      );
-    } catch {
-      console.warn(`[Storage Helper] Could not set storage data for key "${key}"`);
-    }
+    await setStorageDataFromPage(pages[0], key, value);
   }
 }
 
