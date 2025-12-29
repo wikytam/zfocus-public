@@ -279,9 +279,14 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
 // Clear badge for a tab
 const clearBadge = async (tabId: number) => {
   try {
+    // Check if tab still exists before clearing badge
+    await chrome.tabs.get(tabId);
     await chrome.action.setBadgeText({ text: '', tabId });
   } catch (error) {
-    console.error('[FocusGuard] Clear badge error:', error);
+    // Silently ignore if tab doesn't exist anymore
+    if (error instanceof Error && !error.message.includes('No tab with id')) {
+      console.error('[FocusGuard] Clear badge error:', error);
+    }
   }
 };
 

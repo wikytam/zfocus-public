@@ -30,7 +30,7 @@ const configs = Object.entries(getContentScriptEntries(matchesDir)).map(([name, 
       outDir: resolve(rootDir, '..', '..', 'dist', 'content-ui'),
       emptyOutDir: false,
     },
-  }), 
+  }),
 }));
 
 const builds = configs.map(async ({ name, config }) => {
