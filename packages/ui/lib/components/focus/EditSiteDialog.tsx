@@ -106,7 +106,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     });
     setShowHelp(false);
     setIsTitleModified(false); // Reset title modification tracking when dialog opens
-  }, [site, open]);
+  }, [site, open, getDisplayTitle]);
 
   const handleSave = () => {
     const allUrls = editData.urls

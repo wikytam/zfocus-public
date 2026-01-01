@@ -13,9 +13,9 @@
         background: hsl(220 20% 97%); 
         color-scheme: light;
       }
-      /* Hide content until React loads */
-      #app-container { opacity: 0; transition: opacity 0.1s; }
-      #app-container.loaded { opacity: 1; }
+      /* Hide content until React loads - use visibility instead of aria-hidden */
+      #app-container { opacity: 0; transition: opacity 0.1s; visibility: hidden; }
+      #app-container.loaded { opacity: 1; visibility: visible; }
     </style>
   </head>
 

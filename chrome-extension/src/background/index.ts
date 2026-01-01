@@ -212,12 +212,47 @@ const updateStats = async (updates: Partial<DailyStats>): Promise<void> => {
 };
 
 const getTimers = async (): Promise<Record<string, SiteTimer>> => {
+  // Return cache if available
+  if (Object.keys(timerCache).length > 0) {
+    return timerCache;
+  }
   const result = await chrome.storage.sync.get([STORAGE_KEYS.timers]);
-  return result[STORAGE_KEYS.timers] ?? {};
+  const timers = result[STORAGE_KEYS.timers] ?? {};
+  // Update cache
+  Object.assign(timerCache, timers);
+  return timers;
 };
 
 const setTimers = async (timers: Record<string, SiteTimer>): Promise<void> => {
+  // Update cache immediately
+  Object.assign(timerCache, timers);
+  // Write to storage (this will be batched)
   await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timers });
+};
+
+// Batch timer updates to reduce storage writes
+let pendingTimerUpdate: NodeJS.Timeout | null = null;
+const TIMER_BATCH_INTERVAL = 10000; // Write to storage every 10 seconds instead of every second
+
+const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
+  // Update in-memory cache immediately
+  if (timerCache[siteId]) {
+    timerCache[siteId] = { ...timerCache[siteId], ...updates };
+  }
+
+  // Debounce storage write
+  if (pendingTimerUpdate) {
+    clearTimeout(pendingTimerUpdate);
+  }
+
+  pendingTimerUpdate = setTimeout(async () => {
+    try {
+      await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timerCache });
+      pendingTimerUpdate = null;
+    } catch (error) {
+      console.error('[FocusGuard] Batch timer update error:', error);
+    }
+  }, TIMER_BATCH_INTERVAL);
 };
 
 // Track active tabs and their timers
@@ -226,6 +261,9 @@ const tabSiteMapping: Map<number, string> = new Map();
 
 // Track referrers for each tab
 const tabReferrers: Map<number, string> = new Map();
+
+// In-memory timer cache to reduce storage writes
+const timerCache: Record<string, SiteTimer> = {};
 
 // Update badge with countdown timer
 const updateBadge = async (tabId: number, remainingSeconds: number) => {
@@ -567,9 +605,8 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         }
       }
 
-      // Get current timers
-      const timers = await getTimers();
-      const currentTimer = timers[site.id];
+      // Get current timer from cache (no storage read needed)
+      const currentTimer = timerCache[site.id];
       if (!currentTimer) {
         clearTabTimer(tabId);
         return;
@@ -577,12 +614,12 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 
       // Increment used time
       const newUsedSeconds = currentTimer.usedSeconds + 1;
-      timers[site.id] = {
-        ...currentTimer,
+
+      // Use batched update instead of writing every second
+      batchUpdateTimer(site.id, {
         usedSeconds: newUsedSeconds,
         lastUpdate: Date.now(),
-      };
-      await setTimers(timers);
+      });
 
       // Track stats every minute
       if (newUsedSeconds % 60 === 0) {
@@ -809,6 +846,8 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
   if (message.type === 'RESET_TIMERS') {
     (async () => {
+      // Clear cache
+      Object.keys(timerCache).forEach(key => delete timerCache[key]);
       await setTimers({});
       sendResponse({ success: true });
     })();
@@ -827,6 +866,8 @@ const scheduleHourlyReset = () => {
 
   setTimeout(async () => {
     console.log('[FocusGuard] Hourly reset');
+    // Clear cache
+    Object.keys(timerCache).forEach(key => delete timerCache[key]);
     await setTimers({});
     scheduleHourlyReset();
   }, msUntilNextHour);
