@@ -26,12 +26,12 @@ export default function App() {
 
         // If paused, clear timer data
         if (settings?.isPaused === true) {
-          console.log('[FocusGuard Content-UI] Extension is paused, clearing timer');
+          console.log('[ZFocus Content-UI] Extension is paused, clearing timer');
           setTimerData(null);
         }
       } catch {
         // Extension context invalidated - ignore
-        console.log('[FocusGuard Content-UI] Extension context invalidated during loadSettings');
+        console.log('[ZFocus Content-UI] Extension context invalidated during loadSettings');
       }
     };
 
@@ -50,11 +50,11 @@ export default function App() {
 
         if (isNowPaused && !wasPaused) {
           // Just paused - clear timer
-          console.log('[FocusGuard Content-UI] Extension paused via storage change, clearing timer');
+          console.log('[ZFocus Content-UI] Extension paused via storage change, clearing timer');
           setTimerData(null);
         } else if (!isNowPaused && wasPaused) {
           // Just resumed - reset dismissed state so timer can show again
-          console.log('[FocusGuard Content-UI] Extension resumed, resetting dismissed state');
+          console.log('[ZFocus Content-UI] Extension resumed, resetting dismissed state');
           setDismissed(false);
         }
       }
@@ -66,7 +66,7 @@ export default function App() {
 
   useEffect(() => {
     const handleMessage = (message: { type: string; data?: TimerData }) => {
-      console.log('[FocusGuard Content-UI] Received message:', message.type);
+      console.log('[ZFocus Content-UI] Received message:', message.type);
       if (message.type === 'TIMER_UPDATE' && message.data) {
         setTimerData(message.data);
         // Auto-show when time is running low
@@ -75,7 +75,7 @@ export default function App() {
         }
       } else if (message.type === 'CLEAR_TIMER') {
         // Clear timer when paused or timer stopped
-        console.log('[FocusGuard Content-UI] Clearing timer overlay');
+        console.log('[ZFocus Content-UI] Clearing timer overlay');
         setTimerData(null);
         setDismissed(false);
       }
@@ -124,7 +124,7 @@ export default function App() {
       setDismissed(true);
     } catch {
       // Extension context invalidated - page will reload
-      console.log('[FocusGuard Content-UI] Extension context invalidated');
+      console.log('[ZFocus Content-UI] Extension context invalidated');
     }
   };
 
@@ -192,7 +192,7 @@ export default function App() {
               }}>
               <img
                 src={chrome.runtime.getURL('icon-34.png')}
-                alt="FocusGuard"
+                alt="ZFocus"
                 style={{
                   width: '24px',
                   height: '24px',

@@ -4,11 +4,11 @@ console.log('[CEB] All content script loaded');
 
 void sampleFunction();
 
-// FocusGuard: Capture and send referrer to background script
-console.log('[FocusGuard Content] Referrer tracker loaded');
+// ZFocus: Capture and send referrer to background script
+console.log('[ZFocus Content] Referrer tracker loaded');
 
 if (document.referrer) {
-  console.log(`[FocusGuard Content] Sending referrer: ${document.referrer} for URL: ${window.location.href}`);
+  console.log(`[ZFocus Content] Sending referrer: ${document.referrer} for URL: ${window.location.href}`);
   chrome.runtime
     .sendMessage({
       type: 'REFERRER_CAPTURED',
@@ -16,8 +16,8 @@ if (document.referrer) {
       url: window.location.href,
     })
     .catch(error => {
-      console.error('[FocusGuard Content] Failed to send referrer:', error);
+      console.error('[ZFocus Content] Failed to send referrer:', error);
     });
 } else {
-  console.log('[FocusGuard Content] No referrer found for URL:', window.location.href);
+  console.log('[ZFocus Content] No referrer found for URL:', window.location.href);
 }

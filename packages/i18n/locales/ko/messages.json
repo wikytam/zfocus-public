@@ -5,10 +5,10 @@
   },
   "extensionName": {
     "description": "Extension name",
-    "message": "FocusGuard"
+    "message": "ZFocus"
   },
   "appName": {
-    "message": "FocusGuard"
+    "message": "ZFocus"
   },
   "appTagline": {
     "message": "집중력 보호 중"

@@ -6,7 +6,7 @@ import koMessages from '../../../packages/i18n/locales/ko/messages.json';
 import viMessages from '../../../packages/i18n/locales/vi/messages.json';
 import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
 
-console.log('[FocusGuard] Background script loaded');
+console.log('[ZFocus] Background script loaded');
 
 // i18n helper for background script
 const MESSAGES: Record<string, Record<string, { message: string }>> = {
@@ -58,15 +58,15 @@ const migrateFromLocalToSync = async () => {
 
     // If local has data but sync doesn't, migrate
     if (hasLocalData && !hasSyncData) {
-      console.log('[FocusGuard] Migrating data from local to sync storage...');
+      console.log('[ZFocus] Migrating data from local to sync storage...');
       await chrome.storage.sync.set(localData);
-      console.log('[FocusGuard] Migration completed successfully');
+      console.log('[ZFocus] Migration completed successfully');
 
       // Optionally clear local storage after migration
       // await chrome.storage.local.clear();
     }
   } catch (error) {
-    console.error('[FocusGuard] Migration error:', error);
+    console.error('[ZFocus] Migration error:', error);
   }
 };
 
@@ -250,7 +250,7 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
       await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timerCache });
       pendingTimerUpdate = null;
     } catch (error) {
-      console.error('[FocusGuard] Batch timer update error:', error);
+      console.error('[ZFocus] Batch timer update error:', error);
     }
   }, TIMER_BATCH_INTERVAL);
 };
@@ -271,7 +271,7 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
     const settings = await getSettings();
 
     console.log(
-      `[FocusGuard] updateBadge called for tab ${tabId}, remaining: ${remainingSeconds}s, showBadge: ${settings.showBadgeCountdown}`,
+      `[ZFocus] updateBadge called for tab ${tabId}, remaining: ${remainingSeconds}s, showBadge: ${settings.showBadgeCountdown}`,
     );
 
     if (!settings.showBadgeCountdown) {
@@ -308,9 +308,9 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
     await chrome.action.setBadgeBackgroundColor({ color, tabId });
     await chrome.action.setBadgeText({ text: badgeText, tabId });
 
-    console.log(`[FocusGuard] Badge updated: "${badgeText}" with color`, color);
+    console.log(`[ZFocus] Badge updated: "${badgeText}" with color`, color);
   } catch (error) {
-    console.error('[FocusGuard] Badge update error:', error);
+    console.error('[ZFocus] Badge update error:', error);
   }
 };
 
@@ -323,7 +323,7 @@ const clearBadge = async (tabId: number) => {
   } catch (error) {
     // Silently ignore if tab doesn't exist anymore
     if (error instanceof Error && !error.message.includes('No tab with id')) {
-      console.error('[FocusGuard] Clear badge error:', error);
+      console.error('[ZFocus] Clear badge error:', error);
     }
   }
 };
@@ -339,8 +339,8 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
     const fullUrl = url.toLowerCase();
 
     if (isDev) {
-      console.log(`[FocusGuard] Checking URL: ${url} for site: ${site.title}`);
-      console.log(`[FocusGuard] Referrer: ${referrer || 'none'}`);
+      console.log(`[ZFocus] Checking URL: ${url} for site: ${site.title}`);
+      console.log(`[ZFocus] Referrer: ${referrer || 'none'}`);
     }
 
     // 1. Check exceptions - if URL matches any exception, allow access immediately
@@ -348,7 +348,7 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
       for (const exception of site.exceptions) {
         const cleanException = exception.trim().toLowerCase();
         if (cleanException && (fullPath.includes(cleanException) || fullUrl.includes(cleanException))) {
-          if (isDev) console.log(`[FocusGuard] Exception matched: ${cleanException} - allowing access`);
+          if (isDev) console.log(`[ZFocus] Exception matched: ${cleanException} - allowing access`);
           return false; // Don't block
         }
       }
@@ -361,12 +361,12 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
         for (const referrerDomain of site.referrers) {
           const cleanReferrer = referrerDomain.trim().toLowerCase();
           if (cleanReferrer && refHost.includes(cleanReferrer)) {
-            if (isDev) console.log(`[FocusGuard] Referrer matched: ${cleanReferrer} - blocking ANY external link`);
+            if (isDev) console.log(`[ZFocus] Referrer matched: ${cleanReferrer} - blocking ANY external link`);
             return true; // Block ANY link from this referrer
           }
         }
       } catch {
-        if (isDev) console.log(`[FocusGuard] Invalid referrer URL`);
+        if (isDev) console.log(`[ZFocus] Invalid referrer URL`);
       }
     }
 
@@ -375,7 +375,7 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
       for (const keyword of site.keywords) {
         const cleanKeyword = keyword.trim().toLowerCase();
         if (cleanKeyword && fullUrl.includes(cleanKeyword)) {
-          if (isDev) console.log(`[FocusGuard] Keyword matched: ${cleanKeyword} - blocking (applies to all URLs)`);
+          if (isDev) console.log(`[ZFocus] Keyword matched: ${cleanKeyword} - blocking (applies to all URLs)`);
           return true; // Block
         }
       }
@@ -399,7 +399,7 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
 
         const regex = new RegExp(regexPattern, 'i');
         if (regex.test(hostname) || regex.test(fullPath)) {
-          if (isDev) console.log(`[FocusGuard] Wildcard matched: ${pattern} -> ${fullPath}`);
+          if (isDev) console.log(`[ZFocus] Wildcard matched: ${pattern} -> ${fullPath}`);
           matchesMainUrl = true;
           break;
         }
@@ -408,7 +408,7 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
 
       // Simple domain match (default - matches all subdomains and paths)
       if (hostname.includes(cleanPattern) || fullPath.startsWith(cleanPattern)) {
-        if (isDev) console.log(`[FocusGuard] Domain matched: ${cleanPattern}`);
+        if (isDev) console.log(`[ZFocus] Domain matched: ${cleanPattern}`);
         matchesMainUrl = true;
         break;
       }
@@ -416,15 +416,15 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
 
     // 5. If URL matches main patterns, block
     if (matchesMainUrl) {
-      if (isDev) console.log(`[FocusGuard] Main URL matched - blocking`);
+      if (isDev) console.log(`[ZFocus] Main URL matched - blocking`);
       return true;
     }
 
     // If URL doesn't match main patterns and no keywords matched, don't block
-    if (isDev) console.log(`[FocusGuard] URL doesn't match any blocking rules - not blocking`);
+    if (isDev) console.log(`[ZFocus] URL doesn't match any blocking rules - not blocking`);
     return false;
   } catch (e) {
-    if (isDev) console.error('[FocusGuard] Error matching URL:', e);
+    if (isDev) console.error('[ZFocus] Error matching URL:', e);
     return false;
   }
 };
@@ -523,7 +523,7 @@ const getOrCreateTimer = async (site: BlockedSite): Promise<SiteTimer> => {
 
 // Handle blocking action
 const handleBlocking = async (tabId: number, site: BlockedSite) => {
-  console.log(`[FocusGuard] Blocking ${site.title} - Action: ${site.action}`);
+  console.log(`[ZFocus] Blocking ${site.title} - Action: ${site.action}`);
 
   // Increment blocked attempts
   const stats = await getStats();
@@ -533,14 +533,14 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
     try {
       await chrome.tabs.remove(tabId);
     } catch (e) {
-      console.error('[FocusGuard] Failed to close tab:', e);
+      console.error('[ZFocus] Failed to close tab:', e);
     }
   } else if (site.action === 'redirect') {
     const redirectUrl = site.redirectUrl || chrome.runtime.getURL('options/index.html');
     try {
       await chrome.tabs.update(tabId, { url: redirectUrl });
     } catch (e) {
-      console.error('[FocusGuard] Failed to redirect tab:', e);
+      console.error('[ZFocus] Failed to redirect tab:', e);
     }
   }
 
@@ -574,9 +574,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   // Update badge immediately when starting timer
   const initialRemainingSeconds = Math.max(0, timer.allowedSeconds - timer.usedSeconds);
   await updateBadge(tabId, initialRemainingSeconds);
-  console.log(
-    `[FocusGuard] Started timer for tab ${tabId}, site: ${site.title}, remaining: ${initialRemainingSeconds}s`,
-  );
+  console.log(`[ZFocus] Started timer for tab ${tabId}, site: ${site.title}, remaining: ${initialRemainingSeconds}s`);
 
   // Start interval to track time
   const interval = setInterval(async () => {
@@ -666,7 +664,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         // Content script might not be ready
       }
     } catch (e) {
-      console.error('[FocusGuard] Timer error:', e);
+      console.error('[ZFocus] Timer error:', e);
       clearTabTimer(tabId);
     }
   }, 1000);
@@ -677,7 +675,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 // Listen for referrer messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'REFERRER_CAPTURED' && sender.tab?.id) {
-    console.log(`[FocusGuard] Received referrer from content script for tab ${sender.tab.id}: ${message.referrer}`);
+    console.log(`[ZFocus] Received referrer from content script for tab ${sender.tab.id}: ${message.referrer}`);
     tabReferrers.set(sender.tab.id, message.referrer);
     sendResponse({ received: true });
   }
@@ -688,7 +686,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   const isDev = process.env.NODE_ENV === 'development';
 
-  if (isDev) console.log(`[FocusGuard] Tab ${tabId} updated:`, changeInfo.status, tab.url);
+  if (isDev) console.log(`[ZFocus] Tab ${tabId} updated:`, changeInfo.status, tab.url);
 
   if (changeInfo.status !== 'complete' || !tab.url) return;
 
@@ -698,14 +696,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     return;
   }
 
-  if (isDev) console.log(`[FocusGuard] Checking URL: ${tab.url}`);
+  if (isDev) console.log(`[ZFocus] Checking URL: ${tab.url}`);
   const referrer = tabReferrers.get(tabId);
   const site = await findBlockedSite(tab.url, referrer);
   if (site) {
-    if (isDev) console.log(`[FocusGuard] ✅ MATCHED! Detected blocked site: ${site.title} on ${tab.url}`);
+    if (isDev) console.log(`[ZFocus] ✅ MATCHED! Detected blocked site: ${site.title} on ${tab.url}`);
     await startTabTimer(tabId, site);
   } else {
-    if (isDev) console.log(`[FocusGuard] ❌ No match for: ${tab.url}`);
+    if (isDev) console.log(`[ZFocus] ❌ No match for: ${tab.url}`);
     clearTabTimer(tabId);
   }
 
@@ -728,7 +726,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
       await startTabTimer(tabId, site);
     }
   } catch (e) {
-    console.error('[FocusGuard] Tab activation error:', e);
+    console.error('[ZFocus] Tab activation error:', e);
   }
 });
 
@@ -865,7 +863,7 @@ const scheduleHourlyReset = () => {
   const msUntilNextHour = nextHour.getTime() - now.getTime();
 
   setTimeout(async () => {
-    console.log('[FocusGuard] Hourly reset');
+    console.log('[ZFocus] Hourly reset');
     // Clear cache
     Object.keys(timerCache).forEach(key => delete timerCache[key]);
     await setTimers({});
@@ -880,7 +878,7 @@ setInterval(async () => {
   const settings = await getSettings();
   if (settings.isPaused && settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
     await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-    console.log('[FocusGuard] Pause expired, resuming blocking');
+    console.log('[ZFocus] Pause expired, resuming blocking');
 
     // Re-check all tabs
     const tabs = await chrome.tabs.query({});
@@ -903,14 +901,14 @@ setInterval(async () => {
   const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
   if (!result[STORAGE_KEYS.settings]) {
     await setSettings(DEFAULT_SETTINGS);
-    console.log('[FocusGuard] Initialized default settings');
+    console.log('[ZFocus] Initialized default settings');
   } else {
     const settings = result[STORAGE_KEYS.settings];
-    console.log('[FocusGuard] Loaded settings with', settings.blockedSites?.length || 0, 'blocked sites');
+    console.log('[ZFocus] Loaded settings with', settings.blockedSites?.length || 0, 'blocked sites');
     settings.blockedSites?.forEach((site: BlockedSite) => {
-      console.log(`[FocusGuard] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);
+      console.log(`[ZFocus] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);
     });
   }
 })();
 
-console.log('[FocusGuard] Background script initialized');
+console.log('[ZFocus] Background script initialized');

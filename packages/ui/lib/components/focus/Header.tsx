@@ -27,14 +27,14 @@ export const Header = ({ isWithinWorkHours, isPaused, showSettingsButton = true 
       <div className="flex items-center gap-2.5">
         <div className="relative">
           <div className={cn('flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300')}>
-            <img src="/icon-34.png" alt="FocusGuard" className="h-10 w-10" />
+            <img src="/icon-34.png" alt="ZFocus" className="h-10 w-10" />
           </div>
           {isWithinWorkHours && !isPaused && (
             <span className="bg-success animate-pulse-soft absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full" />
           )}
         </div>
         <div>
-          <h1 className="text-lg font-bold leading-tight tracking-tight">FocusGuard</h1>
+          <h1 className="text-lg font-bold leading-tight tracking-tight">{t('appName')}</h1>
           <p className="text-muted-foreground text-xs leading-tight">{getStatusText()}</p>
         </div>
       </div>
