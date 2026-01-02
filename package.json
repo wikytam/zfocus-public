@@ -1,7 +1,7 @@
 {
   "name": "zfocus",
   "version": "0.5.0",
-  "description": "ZFocus - Chrome extension to manage time and block distracting websites",
+  "description": "ZFocus - Extension to manage time and block distracting websites",
   "license": "MIT",
   "private": true,
   "sideEffects": false,
