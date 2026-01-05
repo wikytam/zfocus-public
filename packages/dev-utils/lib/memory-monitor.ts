@@ -6,6 +6,40 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ListenerFunction = (...args: any[]) => void;
 
+interface MemorySnapshot {
+  timestamp: number;
+  jsHeapSizeLimit?: number;
+  totalJSHeapSize?: number;
+  usedJSHeapSize?: number;
+  heapSize: number;
+  heapLimit?: number;
+  usedHeapPercentage: number;
+  intervals?: number;
+  timeouts?: number;
+  listeners?: number;
+  intervalCount: number;
+  timeoutCount: number;
+  eventListenerCount: number;
+}
+
+interface MemoryReport {
+  duration: number;
+  snapshots: MemorySnapshot[];
+  leakDetected: boolean;
+  leakSeverity: string;
+  growthRate: number;
+  recommendations: string[];
+  summary: {
+    avgMemoryUsage: number;
+    maxMemoryUsage: number;
+    memoryGrowth: number;
+    totalIntervals: number;
+    totalTimeouts: number;
+    totalListeners: number;
+  };
+  warnings: string[];
+}
+
 class MemoryMonitor {
   private snapshots: MemorySnapshot[] = [];
   private intervalId: NodeJS.Timeout | null = null;
@@ -165,11 +199,21 @@ class MemoryMonitor {
   generateReport(): MemoryReport {
     if (this.snapshots.length < 2) {
       return {
+        duration: Date.now() - this.startTime,
         snapshots: this.snapshots,
         leakDetected: false,
         leakSeverity: 'none',
         recommendations: ['Not enough data. Continue monitoring.'],
         growthRate: 0,
+        summary: {
+          avgMemoryUsage: 0,
+          maxMemoryUsage: 0,
+          memoryGrowth: 0,
+          totalIntervals: 0,
+          totalTimeouts: 0,
+          totalListeners: 0,
+        },
+        warnings: [],
       };
     }
 
@@ -227,11 +271,21 @@ class MemoryMonitor {
     }
 
     return {
+      duration: Date.now() - this.startTime,
       snapshots: this.snapshots,
       leakDetected,
       leakSeverity,
       recommendations,
       growthRate,
+      summary: {
+        avgMemoryUsage: this.snapshots.reduce((sum, s) => sum + s.heapSize, 0) / this.snapshots.length,
+        maxMemoryUsage: Math.max(...this.snapshots.map(s => s.heapSize)),
+        memoryGrowth: lastSnapshot.heapSize - firstSnapshot.heapSize,
+        totalIntervals: lastSnapshot.intervalCount,
+        totalTimeouts: lastSnapshot.timeoutCount,
+        totalListeners: lastSnapshot.eventListenerCount,
+      },
+      warnings: [],
     };
   }
 
@@ -273,7 +327,7 @@ class MemoryMonitor {
     }
 
     console.group('Recommendations:');
-    report.recommendations.forEach(rec => console.log(`- ${rec}`));
+    report.recommendations.forEach((rec: string) => console.log(`- ${rec}`));
     console.groupEnd();
 
     console.groupEnd();

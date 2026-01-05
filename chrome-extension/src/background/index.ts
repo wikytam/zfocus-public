@@ -238,7 +238,13 @@ const TIMER_BATCH_INTERVAL = 10000; // Write to storage every 10 seconds instead
 const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
   // Update in-memory cache immediately
   if (timerCache[siteId]) {
+    const oldValue = timerCache[siteId].usedSeconds;
     timerCache[siteId] = { ...timerCache[siteId], ...updates };
+    console.log(
+      `[ZFocus DEBUG] Batch update cache: ${siteId}, usedSeconds: ${oldValue} -> ${timerCache[siteId].usedSeconds}`,
+    );
+  } else {
+    console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch update called for missing cache entry: ${siteId}`);
   }
 
   // Enforce cache size limit
@@ -251,10 +257,14 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
 
   pendingTimerUpdate = setTimeout(async () => {
     try {
+      console.log(
+        `[ZFocus DEBUG ${new Date().toISOString()}] Writing timer cache to storage after ${TIMER_BATCH_INTERVAL}ms:`,
+        timerCache,
+      );
       await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timerCache });
       pendingTimerUpdate = null;
     } catch (error) {
-      console.error('[ZFocus] Batch timer update error:', error);
+      console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch timer update error:`, error);
     }
   }, TIMER_BATCH_INTERVAL);
 };
@@ -262,6 +272,8 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
 // Track active tabs and their timers
 const activeTabTimers: Map<number, ReturnType<typeof setInterval>> = new Map();
 const tabSiteMapping: Map<number, string> = new Map();
+// CRITICAL: Prevent race condition when multiple startTabTimer calls happen simultaneously
+const timerInitializationInProgress = new Set<number>();
 
 // Track referrers for each tab
 const tabReferrers: Map<number, string> = new Map();
@@ -570,8 +582,14 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
 const clearTabTimer = (tabId: number) => {
   const existingTimer = activeTabTimers.get(tabId);
   if (existingTimer) {
+    console.log(
+      `[ZFocus DEBUG ${new Date().toISOString()}] Clearing timer for tab ${tabId}. Active timers before: ${activeTabTimers.size}`,
+    );
     clearInterval(existingTimer);
     activeTabTimers.delete(tabId);
+    console.log(
+      `[ZFocus DEBUG ${new Date().toISOString()}] Timer cleared for tab ${tabId}. Active timers after: ${activeTabTimers.size}`,
+    );
   }
   tabSiteMapping.delete(tabId);
   clearBadge(tabId);
@@ -579,14 +597,52 @@ const clearTabTimer = (tabId: number) => {
 
 // Start tracking time for a tab
 const startTabTimer = async (tabId: number, site: BlockedSite) => {
+  // CRITICAL FIX: Set flag IMMEDIATELY before any other operations (even logging)
+  // This MUST be the first synchronous operation to prevent race conditions
+  if (timerInitializationInProgress.has(tabId)) {
+    console.log(
+      `[ZFocus DEBUG ${new Date().toISOString()}] BLOCKED: Timer initialization ALREADY IN PROGRESS for tab ${tabId}. Ignoring duplicate call.`,
+    );
+    return;
+  }
+  timerInitializationInProgress.add(tabId);
+
+  const caller = new Error().stack?.split('\n')[2]?.trim() || 'unknown';
+  console.log(
+    `[ZFocus DEBUG ${new Date().toISOString()}] startTabTimer called for tab ${tabId}, site: ${site.id} FROM: ${caller}`,
+  );
+
+  // CRITICAL FIX: If timer already exists for same site, DON'T restart it
+  const existingTimer = activeTabTimers.get(tabId);
+  const existingSiteId = tabSiteMapping.get(tabId);
+
+  if (existingTimer && existingSiteId === site.id) {
+    console.log(
+      `[ZFocus DEBUG ${new Date().toISOString()}] Tab ${tabId} already has timer for site ${site.id}. Ignoring duplicate call.`,
+    );
+    timerInitializationInProgress.delete(tabId); // Clean up flag
+    return;
+  }
+
+  if (existingTimer) {
+    console.warn(
+      `[ZFocus WARN ${new Date().toISOString()}] Tab ${tabId} switching from site ${existingSiteId} to ${site.id}. Clearing old timer.`,
+    );
+  }
+
   clearTabTimer(tabId);
   tabSiteMapping.set(tabId, site.id);
 
   const timer = await getOrCreateTimer(site);
 
+  // CRITICAL FIX: Initialize timer cache immediately to prevent timer from being cleared
+  timerCache[site.id] = timer;
+  console.log(`[ZFocus DEBUG ${new Date().toISOString()}] Timer cache initialized for ${site.id}:`, timer);
+
   // Check if already exceeded time
   if (timer.usedSeconds >= timer.allowedSeconds) {
     await handleBlocking(tabId, site);
+    timerInitializationInProgress.delete(tabId); // Clean up flag on early exit
     return;
   }
 
@@ -625,12 +681,18 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
       // Get current timer from cache (no storage read needed)
       const currentTimer = timerCache[site.id];
       if (!currentTimer) {
+        console.error(
+          `[ZFocus ERROR ${new Date().toISOString()}] Timer cache missing for ${site.id}! This should never happen!`,
+        );
         clearTabTimer(tabId);
         return;
       }
 
-      // Increment used time
+      // Increment used time by 1 second
       const newUsedSeconds = currentTimer.usedSeconds + 1;
+      console.log(
+        `[ZFocus DEBUG ${new Date().toISOString()}] Timer tick: ${site.id}, used: ${currentTimer.usedSeconds} -> ${newUsedSeconds}, allowed: ${currentTimer.allowedSeconds}`,
+      );
 
       // Use batched update instead of writing every second
       batchUpdateTimer(site.id, {
@@ -683,12 +745,18 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         }
       }
     } catch (e) {
-      console.error('[ZFocus] Timer error:', e);
+      console.error(`[ZFocus ERROR ${new Date().toISOString()}] Timer error:`, e);
       clearTabTimer(tabId);
     }
   }, 1000);
 
   activeTabTimers.set(tabId, interval);
+  console.log(
+    `[ZFocus DEBUG ${new Date().toISOString()}] Interval created and stored for tab ${tabId}. Total active timers: ${activeTabTimers.size}`,
+  );
+
+  // CRITICAL: Clear initialization flag AFTER timer is fully set up
+  timerInitializationInProgress.delete(tabId);
 };
 
 // Listen for referrer messages from content script
