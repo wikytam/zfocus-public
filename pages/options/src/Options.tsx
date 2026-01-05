@@ -2,8 +2,8 @@ import { Navigation } from './components/Navigation';
 import { SettingsPanel } from './components/SettingsPanel';
 import { useFocusStore } from './hooks/useFocusStore';
 import { useI18n } from '@extension/i18n';
-import { Header, StatCard, PauseControl, BlockedSiteItem, AddSiteDialog } from '@extension/ui';
-import { Ban, Clock } from 'lucide-react';
+import { Header, StatCard, PauseControl, BlockedSiteItem, AddSiteDialog, Card } from '@extension/ui';
+import { Ban, Clock, Globe } from 'lucide-react';
 import { useState } from 'react';
 import './index.css';
 
@@ -26,11 +26,33 @@ const Options = () => {
 
   const withinHours = isWithinWorkHours();
 
-  const formatTimeSaved = (minutes: number) => {
-    if (minutes < 60) return `${minutes} ${t('minutes')}`;
+  const formatTimePause = (seconds: number) => {
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    if (minutes < 60) return `${minutes}m ${secs}s`;
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
+  };
+
+  const formatTime = (seconds: number) => {
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
+
+  const formatTimeOnWebsite = (sitesAccessed: Record<string, number>) => {
+    const totalSeconds = Object.values(sitesAccessed).reduce((sum, seconds) => sum + seconds, 0);
+    return formatTime(totalSeconds);
+  };
+
+  const getSiteName = (siteId: string) => {
+    const site = settings.blockedSites.find(s => s.id === siteId);
+    return site ? t(site.title) : siteId;
   };
 
   return (
@@ -63,8 +85,8 @@ const Options = () => {
               />
               <StatCard
                 icon={<Clock className="h-5 w-5" />}
-                label={t('timeSaved')}
-                value={formatTimeSaved(stats.timeSavedMinutes)}
+                label={t('timePause')}
+                value={formatTimePause(stats.timePausedSeconds)}
                 variant="accent"
                 delay={100}
               />
@@ -78,6 +100,32 @@ const Options = () => {
               onPause={pauseBlocking}
               onResume={resumeBlocking}
             />
+
+            {/* Time on Website */}
+            <Card variant="glass" className="p-4">
+              <div className="mb-3 flex items-center gap-2.5">
+                <div className="bg-primary/10 rounded-lg p-2">
+                  <Globe className="text-primary h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{t('timeOnWebsite')}</p>
+                  <p className="text-muted-foreground text-xs">{formatTimeOnWebsite(stats.sitesAccessed)}</p>
+                </div>
+              </div>
+              {Object.keys(stats.sitesAccessed).length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(stats.sitesAccessed).map(([siteId, seconds]) => (
+                    <div
+                      key={siteId}
+                      className="bg-primary/10 text-primary flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm">
+                      <span className="font-medium">{getSiteName(siteId)}</span>
+                      <span className="text-primary/70">·</span>
+                      <span className="text-primary/90">{formatTime(seconds)}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
           </div>
         )}
 

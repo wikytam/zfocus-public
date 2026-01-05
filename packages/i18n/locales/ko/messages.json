@@ -34,8 +34,11 @@
   "blockedAttempts": {
     "message": "오늘 차단"
   },
-  "timeSaved": {
-    "message": "절약된 시간"
+  "timePause": {
+    "message": "일시 정지 시간"
+  },
+  "timeOnWebsite": {
+    "message": "웹사이트 시간"
   },
   "pauseBlocking": {
     "message": "차단 일시 중지"
@@ -481,7 +484,7 @@
   "websites": {
     "message": "웹사이트"
   },
-  "timeSaved": {
+  "timePause": {
     "message": "절약된 시간"
   },
   "minutes": {

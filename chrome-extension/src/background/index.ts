@@ -110,7 +110,7 @@ interface FocusSettings {
 interface DailyStats {
   date: string;
   blockedAttempts: number;
-  timeSavedMinutes: number;
+  timePausedSeconds: number;
   sitesAccessed: Record<string, number>;
 }
 
@@ -178,7 +178,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
 const getDefaultStats = (): DailyStats => ({
   date: new Date().toISOString().split('T')[0],
   blockedAttempts: 0,
-  timeSavedMinutes: 0,
+  timePausedSeconds: 0,
   sitesAccessed: {},
 });
 
@@ -264,6 +264,9 @@ const tabReferrers: Map<number, string> = new Map();
 
 // In-memory timer cache to reduce storage writes
 const timerCache: Record<string, SiteTimer> = {};
+
+// Track pause start time for accurate pause duration tracking
+let pauseStartTime: number | null = null;
 
 // Update badge with countdown timer
 const updateBadge = async (tabId: number, remainingSeconds: number) => {
@@ -632,11 +635,6 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 
       // Check if time exceeded
       if (newUsedSeconds >= currentTimer.allowedSeconds) {
-        // Add saved time to stats
-        const savedMinutes = Math.ceil(currentTimer.allowedSeconds / 60);
-        const stats = await getStats();
-        await updateStats({ timeSavedMinutes: stats.timeSavedMinutes + savedMinutes });
-
         await handleBlocking(tabId, site);
         return;
       }
@@ -794,6 +792,10 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     (async () => {
       const settings = await getSettings();
       const endTime = Date.now() + message.minutes * 60 * 1000;
+
+      // Track pause start time
+      pauseStartTime = Date.now();
+
       await setSettings({ ...settings, isPaused: true, pauseEndTime: endTime });
 
       // Clear all active timers
@@ -825,6 +827,17 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'RESUME_BLOCKING') {
     (async () => {
       const settings = await getSettings();
+
+      // Calculate and record pause duration
+      if (pauseStartTime !== null) {
+        const pauseDurationSeconds = Math.floor((Date.now() - pauseStartTime) / 1000);
+        const stats = await getStats();
+        await updateStats({
+          timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
+        });
+        pauseStartTime = null;
+      }
+
       await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
 
       // Re-check all tabs
@@ -877,6 +890,16 @@ scheduleHourlyReset();
 setInterval(async () => {
   const settings = await getSettings();
   if (settings.isPaused && settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
+    // Calculate and record pause duration
+    if (pauseStartTime !== null) {
+      const pauseDurationSeconds = Math.floor((Date.now() - pauseStartTime) / 1000);
+      const stats = await getStats();
+      await updateStats({
+        timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
+      });
+      pauseStartTime = null;
+    }
+
     await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
     console.log('[ZFocus] Pause expired, resuming blocking');
 

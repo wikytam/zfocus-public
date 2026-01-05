@@ -150,7 +150,7 @@ test.describe('Popup Page Tests', () => {
               const stats = result['focus-stats'] || {
                 date: new Date().toISOString().split('T')[0],
                 blockedAttempts: 0,
-                timeSavedMinutes: 0,
+                timePausedSeconds: 0,
                 sitesAccessed: {},
               };
 

@@ -303,7 +303,7 @@ test.describe('Integration Tests - End to End Workflows', () => {
                 'focus-stats': {
                   date: yesterdayStr,
                   blockedAttempts: 50,
-                  timeSavedMinutes: 120,
+                  timePausedSeconds: 7200,
                   sitesAccessed: {},
                 },
               },
@@ -326,7 +326,7 @@ test.describe('Integration Tests - End to End Workflows', () => {
 
     expect(stats?.date).toBe(today);
     expect(stats?.blockedAttempts).toBe(0);
-    expect(stats?.timeSavedMinutes).toBe(0);
+    expect(stats?.timePausedSeconds).toBe(0);
 
     await popup.close();
   });

@@ -34,8 +34,11 @@
   "blockedAttempts": {
     "message": "今日拦截次数"
   },
-  "timeSaved": {
-    "message": "节省时间"
+  "timePause": {
+    "message": "暂停时间"
+  },
+  "timeOnWebsite": {
+    "message": "网站时间"
   },
   "pauseBlocking": {
     "message": "暂停拦截"
@@ -481,7 +484,7 @@
   "websites": {
     "message": "网站"
   },
-  "timeSaved": {
+  "timePause": {
     "message": "节省时间"
   },
   "minutes": {

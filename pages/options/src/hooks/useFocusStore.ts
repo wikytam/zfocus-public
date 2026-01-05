@@ -59,7 +59,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
 const getDefaultStats = (): DailyStats => ({
   date: new Date().toISOString().split('T')[0],
   blockedAttempts: 0,
-  timeSavedMinutes: 0,
+  timePausedSeconds: 0,
   sitesAccessed: {},
 });
 
@@ -288,11 +288,11 @@ export const useFocusStore = () => {
     await setToStorage(STORAGE_KEYS.stats, newStats);
   }, [stats]);
 
-  const addTimeSaved = useCallback(
-    async (minutes: number) => {
+  const addTimePaused = useCallback(
+    async (seconds: number) => {
       const newStats = {
         ...stats,
-        timeSavedMinutes: stats.timeSavedMinutes + minutes,
+        timePausedSeconds: stats.timePausedSeconds + seconds,
       };
       setStats(newStats);
       await setToStorage(STORAGE_KEYS.stats, newStats);
@@ -331,7 +331,7 @@ export const useFocusStore = () => {
     pauseBlocking,
     resumeBlocking,
     incrementBlockedAttempts,
-    addTimeSaved,
+    addTimePaused,
     isWithinWorkHours,
     setActiveTimers,
   };

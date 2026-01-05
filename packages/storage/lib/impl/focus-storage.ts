@@ -41,7 +41,7 @@ interface FocusSettings {
 interface DailyStats {
   date: string;
   blockedAttempts: number;
-  timeSavedMinutes: number;
+  timePausedSeconds: number;
   sitesAccessed: Record<string, number>;
 }
 
@@ -112,7 +112,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
 const getDefaultStats = (): DailyStats => ({
   date: new Date().toISOString().split('T')[0],
   blockedAttempts: 0,
-  timeSavedMinutes: 0,
+  timePausedSeconds: 0,
   sitesAccessed: {},
 });
 
@@ -211,10 +211,10 @@ export const focusStatsStorage = {
     }));
   },
 
-  addTimeSaved: async (minutes: number) => {
+  addTimePaused: async (seconds: number) => {
     await statsStorage.set(prev => ({
       ...prev,
-      timeSavedMinutes: prev.timeSavedMinutes + minutes,
+      timePausedSeconds: prev.timePausedSeconds + seconds,
     }));
   },
 

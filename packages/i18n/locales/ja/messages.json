@@ -34,8 +34,11 @@
   "blockedAttempts": {
     "message": "今日のブロック回数"
   },
-  "timeSaved": {
-    "message": "節約した時間"
+  "timePause": {
+    "message": "一時停止時間"
+  },
+  "timeOnWebsite": {
+    "message": "ウェブサイトの時間"
   },
   "pauseBlocking": {
     "message": "ブロックを一時停止"
@@ -481,7 +484,7 @@
   "websites": {
     "message": "ウェブサイト"
   },
-  "timeSaved": {
+  "timePause": {
     "message": "節約した時間"
   },
   "minutes": {

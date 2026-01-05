@@ -34,8 +34,11 @@
   "blockedAttempts": {
     "message": "Lượt chặn hôm nay"
   },
-  "timeSaved": {
-    "message": "Thời gian tiết kiệm"
+  "timePause": {
+    "message": "Thời gian tạm dừng"
+  },
+  "timeOnWebsite": {
+    "message": "Thời gian trên Website"
   },
   "pauseBlocking": {
     "message": "Tạm dừng chặn"
@@ -481,7 +484,7 @@
   "websites": {
     "message": "trang web"
   },
-  "timeSaved": {
+  "timePause": {
     "message": "Thời gian tiết kiệm"
   },
   "minutes": {

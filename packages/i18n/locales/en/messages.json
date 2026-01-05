@@ -34,8 +34,11 @@
   "blockedAttempts": {
     "message": "Blocked Today"
   },
-  "timeSaved": {
-    "message": "Time Saved"
+  "timePause": {
+    "message": "Time Pause"
+  },
+  "timeOnWebsite": {
+    "message": "Time on Website"
   },
   "pauseBlocking": {
     "message": "Pause Blocking"
@@ -481,8 +484,8 @@
   "websites": {
     "message": "websites"
   },
-  "timeSaved": {
-    "message": "Time Saved"
+  "timePause": {
+    "message": "Time Pause"
   },
   "minutes": {
     "message": "minutes"
