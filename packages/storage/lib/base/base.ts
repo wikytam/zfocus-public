@@ -148,10 +148,20 @@ export const createStorage = <D = string>(
     chrome?.storage[storageEnum].onChanged.addListener(_updateFromStorageOnChanged);
   }
 
+  const dispose = () => {
+    if (liveUpdate) {
+      chrome?.storage[storageEnum].onChanged.removeListener(_updateFromStorageOnChanged);
+    }
+    listeners = [];
+    cache = null;
+    initialCache = false;
+  };
+
   return {
     get,
     set,
     getSnapshot,
     subscribe,
+    dispose,
   };
 };

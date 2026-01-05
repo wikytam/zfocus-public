@@ -1,5 +1,6 @@
 import 'webextension-polyfill';
 // Import i18n messages
+import { cleanupRegistry } from './cleanup-registry';
 import enMessages from '../../../packages/i18n/locales/en/messages.json';
 import jaMessages from '../../../packages/i18n/locales/ja/messages.json';
 import koMessages from '../../../packages/i18n/locales/ko/messages.json';
@@ -240,6 +241,9 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
     timerCache[siteId] = { ...timerCache[siteId], ...updates };
   }
 
+  // Enforce cache size limit
+  enforceCacheLimit();
+
   // Debounce storage write
   if (pendingTimerUpdate) {
     clearTimeout(pendingTimerUpdate);
@@ -264,6 +268,18 @@ const tabReferrers: Map<number, string> = new Map();
 
 // In-memory timer cache to reduce storage writes
 const timerCache: Record<string, SiteTimer> = {};
+const MAX_CACHE_SIZE = 50;
+
+// Helper to enforce cache size limit
+const enforceCacheLimit = () => {
+  const keys = Object.keys(timerCache);
+  if (keys.length > MAX_CACHE_SIZE) {
+    // Remove oldest entries (first 10)
+    const toRemove = keys.slice(0, 10);
+    toRemove.forEach(key => delete timerCache[key]);
+    console.log(`[ZFocus] Cache limit reached, removed ${toRemove.length} old entries`);
+  }
+};
 
 // Track pause start time for accurate pause duration tracking
 let pauseStartTime: number | null = null;
@@ -646,20 +662,25 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
       await updateBadge(tabId, remainingSeconds);
 
       // Send message to content script with remaining time
-      try {
-        const translatedTitle = await translateTitle(site.title);
-        await chrome.tabs.sendMessage(tabId, {
-          type: 'TIMER_UPDATE',
-          data: {
-            siteId: site.id,
-            siteName: translatedTitle,
-            usedSeconds: newUsedSeconds,
-            allowedSeconds: currentTimer.allowedSeconds,
-            remainingSeconds,
-          },
-        });
-      } catch {
-        // Content script might not be ready
+      // Only send every 5 seconds OR when time is critical (< 60s)
+      const shouldSendMessage = newUsedSeconds % 5 === 0 || remainingSeconds < 60;
+
+      if (shouldSendMessage) {
+        try {
+          const translatedTitle = await translateTitle(site.title);
+          await chrome.tabs.sendMessage(tabId, {
+            type: 'TIMER_UPDATE',
+            data: {
+              siteId: site.id,
+              siteName: translatedTitle,
+              usedSeconds: newUsedSeconds,
+              allowedSeconds: currentTimer.allowedSeconds,
+              remainingSeconds,
+            },
+          });
+        } catch {
+          // Content script might not be ready
+        }
       }
     } catch (e) {
       console.error('[ZFocus] Timer error:', e);
@@ -875,46 +896,50 @@ const scheduleHourlyReset = () => {
   nextHour.setHours(now.getHours() + 1, 0, 0, 0);
   const msUntilNextHour = nextHour.getTime() - now.getTime();
 
-  setTimeout(async () => {
-    console.log('[ZFocus] Hourly reset');
-    // Clear cache
-    Object.keys(timerCache).forEach(key => delete timerCache[key]);
-    await setTimers({});
-    scheduleHourlyReset();
-  }, msUntilNextHour);
+  cleanupRegistry.registerTimeout(
+    setTimeout(async () => {
+      console.log('[ZFocus] Hourly reset');
+      // Clear cache
+      Object.keys(timerCache).forEach(key => delete timerCache[key]);
+      await setTimers({});
+      scheduleHourlyReset();
+    }, msUntilNextHour),
+  );
 };
 
 scheduleHourlyReset();
 
 // Check pause expiration periodically
-setInterval(async () => {
-  const settings = await getSettings();
-  if (settings.isPaused && settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
-    // Calculate and record pause duration
-    if (pauseStartTime !== null) {
-      const pauseDurationSeconds = Math.floor((Date.now() - pauseStartTime) / 1000);
-      const stats = await getStats();
-      await updateStats({
-        timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
-      });
-      pauseStartTime = null;
-    }
+cleanupRegistry.registerInterval(
+  setInterval(async () => {
+    const settings = await getSettings();
+    if (settings.isPaused && settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
+      // Calculate and record pause duration
+      if (pauseStartTime !== null) {
+        const pauseDurationSeconds = Math.floor((Date.now() - pauseStartTime) / 1000);
+        const stats = await getStats();
+        await updateStats({
+          timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
+        });
+        pauseStartTime = null;
+      }
 
-    await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-    console.log('[ZFocus] Pause expired, resuming blocking');
+      await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
+      console.log('[ZFocus] Pause expired, resuming blocking');
 
-    // Re-check all tabs
-    const tabs = await chrome.tabs.query({});
-    for (const tab of tabs) {
-      if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
-        const site = await findBlockedSite(tab.url);
-        if (site) {
-          await startTabTimer(tab.id, site);
+      // Re-check all tabs
+      const tabs = await chrome.tabs.query({});
+      for (const tab of tabs) {
+        if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
+          const site = await findBlockedSite(tab.url);
+          if (site) {
+            await startTabTimer(tab.id, site);
+          }
         }
       }
     }
-  }
-}, 10000);
+  }, 10000),
+);
 
 // Initialize default settings if not present
 (async () => {
@@ -933,5 +958,25 @@ setInterval(async () => {
     });
   }
 })();
+
+// Cleanup on extension suspend/unload
+chrome.runtime.onSuspend?.addListener(() => {
+  console.log('[ZFocus] Extension suspending, cleaning up...');
+  cleanupRegistry.cleanup();
+});
+
+// Log stats periodically in development
+if (process.env.NODE_ENV === 'development') {
+  cleanupRegistry.registerInterval(
+    setInterval(() => {
+      const stats = cleanupRegistry.getStats();
+      console.log('[ZFocus Stats]', {
+        ...stats,
+        activeTabTimers: activeTabTimers.size,
+        cachedTimers: Object.keys(timerCache).length,
+      });
+    }, 60000),
+  );
+}
 
 console.log('[ZFocus] Background script initialized');
