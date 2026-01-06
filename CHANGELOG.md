@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-01-05
+## [Unreleased] - 2026-01-06
+
+### Changed
+- Migrated state management to Zustand for better performance and developer experience
+- Centralized store logic in packages/shared for reusability across pages
+- Removed duplicate useFocusStore hooks from popup and options pages
 
 ### Fixed
 - Reduced TIMER_UPDATE message frequency by 89% (from every 1s to every 5s, or every 1s when < 60s remaining)
@@ -17,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - Automatic cleanup on extension suspend
 - Development stats logger (60s interval, dev mode only)
 - Cache eviction when limit reached (removes oldest 10 entries)
+- Zustand state management library for improved state handling
 
 ### Performance
 - CPU usage reduced by approximately 40%

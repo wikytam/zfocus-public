@@ -1,10 +1,10 @@
 import { Navigation } from './components/Navigation';
 import { SettingsPanel } from './components/SettingsPanel';
-import { useFocusStore } from './hooks/useFocusStore';
 import { useI18n } from '@extension/i18n';
+import { useFocusStore } from '@extension/shared';
 import { Header, StatCard, PauseControl, BlockedSiteItem, AddSiteDialog, Card } from '@extension/ui';
 import { Ban, Clock, Globe } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css';
 
 type TabType = 'dashboard' | 'sites' | 'settings';
@@ -15,6 +15,7 @@ const Options = () => {
   const {
     settings,
     stats,
+    loading,
     updateSettings,
     addBlockedSite,
     updateBlockedSite,
@@ -22,7 +23,32 @@ const Options = () => {
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
+    loadInitialData,
+    setupListeners,
   } = useFocusStore();
+
+  useEffect(() => {
+    loadInitialData();
+    const cleanup = setupListeners();
+    return cleanup;
+  }, [loadInitialData, setupListeners]);
+
+  useEffect(() => {
+    if (loading) return;
+
+    const root = document.documentElement;
+    if (settings.theme === 'dark') {
+      root.classList.add('dark');
+    } else if (settings.theme === 'light') {
+      root.classList.remove('dark');
+    } else {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  }, [settings.theme, loading]);
 
   const withinHours = isWithinWorkHours();
 
@@ -52,7 +78,7 @@ const Options = () => {
 
   const getSiteName = (siteId: string) => {
     const site = settings.blockedSites.find(s => s.id === siteId);
-    return site ? t(site.title) : siteId;
+    return site ? t(site.title as keyof typeof t) : siteId;
   };
 
   return (

@@ -1,12 +1,45 @@
-import { useFocusStore } from './hooks/useFocusStore';
 import { useI18n } from '@extension/i18n';
+import { useFocusStore } from '@extension/shared';
 import { Header, StatCard, PauseControl, Card } from '@extension/ui';
 import { Clock, Ban, Globe } from 'lucide-react';
+import { useEffect } from 'react';
 import './index.css';
 
 const Popup = () => {
   const { t } = useI18n();
-  const { settings, stats, pauseBlocking, resumeBlocking, isWithinWorkHours } = useFocusStore();
+  const {
+    settings,
+    stats,
+    loading,
+    pauseBlocking,
+    resumeBlocking,
+    isWithinWorkHours,
+    loadInitialData,
+    setupListeners,
+  } = useFocusStore();
+
+  useEffect(() => {
+    loadInitialData();
+    const cleanup = setupListeners();
+    return cleanup;
+  }, [loadInitialData, setupListeners]);
+
+  useEffect(() => {
+    if (loading) return;
+
+    const root = document.documentElement;
+    if (settings.theme === 'dark') {
+      root.classList.add('dark');
+    } else if (settings.theme === 'light') {
+      root.classList.remove('dark');
+    } else {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  }, [settings.theme, loading]);
 
   const withinHours = isWithinWorkHours();
 
@@ -36,7 +69,7 @@ const Popup = () => {
 
   const getSiteName = (siteId: string) => {
     const site = settings.blockedSites.find(s => s.id === siteId);
-    return site ? t(site.title) : siteId;
+    return site ? t(site.title as keyof typeof t) : siteId;
   };
 
   return (
