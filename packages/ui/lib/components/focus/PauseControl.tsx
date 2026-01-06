@@ -123,7 +123,7 @@ export const PauseControl = ({
               </SelectTrigger>
               <SelectContent>
                 {PAUSE_OPTIONS.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value.toString()}>
+                  <SelectItem key={`pause-${opt.value}`} value={opt.value.toString()}>
                     {t(opt.labelKey as MessageKeyType)}
                   </SelectItem>
                 ))}
@@ -158,7 +158,7 @@ export const PauseControl = ({
               </SelectTrigger>
               <SelectContent>
                 {PAUSE_OPTIONS.map(opt => (
-                  <SelectItem key={opt.value} value={opt.value.toString()}>
+                  <SelectItem key={`pause-${opt.value}`} value={opt.value.toString()}>
                     {t(opt.labelKey as MessageKeyType)}
                   </SelectItem>
                 ))}

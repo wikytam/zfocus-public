@@ -74,39 +74,40 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     endTime: string;
   }>({
     title: getDisplayTitle(site.title),
-    urls: site.urls.join('\n'),
-    exceptions: (site.exceptions || []).join('\n'),
-    referrers: (site.referrers || []).join('\n'),
-    keywords: (site.keywords || []).join('\n'),
-    allowedMinutes: site.allowedMinutesPerHour,
+    urls: Array.isArray(site.urls) ? site.urls.join('\n') : '',
+    exceptions: (site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : []).join('\n'),
+    referrers: (site.referrers && Array.isArray(site.referrers) ? site.referrers : []).join('\n'),
+    keywords: (site.keywords && Array.isArray(site.keywords) ? site.keywords : []).join('\n'),
+    allowedMinutes: site.allowedMinutesPerHour || 5,
     timeInterval: 60,
     countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
-    action: site.action,
+    action: site.action || 'redirect',
     redirectUrl: site.redirectUrl || '',
-    activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
-    startTime: site.schedule?.startTime || '08:00',
-    endTime: site.schedule?.endTime || '17:00',
+    activeDays: site.schedule && Array.isArray(site.schedule.workDays) ? site.schedule.workDays : [1, 2, 3, 4, 5],
+    startTime: (site.schedule && site.schedule.startTime) || '08:00',
+    endTime: (site.schedule && site.schedule.endTime) || '17:00',
   });
 
   useEffect(() => {
     setEditData({
       title: getDisplayTitle(site.title),
-      urls: site.urls.join('\n'),
-      exceptions: (site.exceptions || []).join('\n'),
-      referrers: (site.referrers || []).join('\n'),
-      keywords: (site.keywords || []).join('\n'),
-      allowedMinutes: site.allowedMinutesPerHour,
+      urls: Array.isArray(site.urls) ? site.urls.join('\n') : '',
+      exceptions: (site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : []).join('\n'),
+      referrers: (site.referrers && Array.isArray(site.referrers) ? site.referrers : []).join('\n'),
+      keywords: (site.keywords && Array.isArray(site.keywords) ? site.keywords : []).join('\n'),
+      allowedMinutes: site.allowedMinutesPerHour || 5,
       timeInterval: 60,
       countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
-      action: site.action,
+      action: site.action || 'redirect',
       redirectUrl: site.redirectUrl || '',
-      activeDays: site.schedule?.workDays || [1, 2, 3, 4, 5],
-      startTime: site.schedule?.startTime || '08:00',
-      endTime: site.schedule?.endTime || '17:00',
+      activeDays: site.schedule && Array.isArray(site.schedule.workDays) ? site.schedule.workDays : [1, 2, 3, 4, 5],
+      startTime: (site.schedule && site.schedule.startTime) || '08:00',
+      endTime: (site.schedule && site.schedule.endTime) || '17:00',
     });
     setShowHelp(false);
     setIsTitleModified(false); // Reset title modification tracking when dialog opens
-  }, [site, open, getDisplayTitle]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [site.id, open]);
 
   const handleSave = () => {
     const allUrls = editData.urls
@@ -323,7 +324,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                   </SelectTrigger>
                   <SelectContent>
                     {TIME_INTERVALS.map(opt => (
-                      <SelectItem key={opt.value} value={opt.value.toString()}>
+                      <SelectItem key={`interval-${opt.value}`} value={opt.value.toString()}>
                         {opt.label}
                       </SelectItem>
                     ))}
@@ -386,7 +387,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 <div className="flex gap-1.5">
                   {DAYS.map(day => (
                     <button
-                      key={day.value}
+                      key={`day-${day.value}`}
                       type="button"
                       onClick={() => toggleDay(day.value)}
                       className={cn(

@@ -276,7 +276,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                   </SelectTrigger>
                   <SelectContent>
                     {TIME_INTERVALS.map(opt => (
-                      <SelectItem key={opt.value} value={opt.value.toString()}>
+                      <SelectItem key={`add-interval-${opt.value}`} value={opt.value.toString()}>
                         {opt.label}
                       </SelectItem>
                     ))}
@@ -339,7 +339,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 <div className="flex gap-1.5">
                   {DAYS.map(day => (
                     <button
-                      key={day.value}
+                      key={`add-day-${day.value}`}
                       type="button"
                       onClick={() => toggleDay(day.value)}
                       className={cn(
