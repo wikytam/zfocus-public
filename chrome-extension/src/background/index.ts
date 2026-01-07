@@ -562,7 +562,20 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
 
   if (site.action === 'close') {
     try {
-      await chrome.tabs.remove(tabId);
+      // Check if this is the last tab in the window
+      const tab = await chrome.tabs.get(tabId);
+      const windowId = tab.windowId;
+      const tabsInWindow = await chrome.tabs.query({ windowId });
+
+      if (tabsInWindow.length === 1) {
+        // Last tab in window - navigate to dashboard instead of closing
+        console.log('[ZFocus] Last tab in window - redirecting to dashboard instead of closing');
+        const dashboardUrl = chrome.runtime.getURL('options/index.html');
+        await chrome.tabs.update(tabId, { url: dashboardUrl });
+      } else {
+        // Not the last tab - proceed with closing
+        await chrome.tabs.remove(tabId);
+      }
     } catch (e) {
       console.error('[ZFocus] Failed to close tab:', e);
     }
