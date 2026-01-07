@@ -1,10 +1,11 @@
 import { create } from 'zustand';
-import type { FocusSettings, DailyStats, BlockedSite, ActiveTimer } from '@extension/storage';
+import type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer } from '@extension/storage';
 
 const STORAGE_KEYS = {
   settings: 'focus-settings',
   stats: 'focus-stats',
   timers: 'focus-timers',
+  historicalStats: 'focus-historical-stats',
 };
 
 const DEFAULT_SCHEDULE = {
@@ -88,10 +89,12 @@ const setToStorage = async <T>(key: string, value: T): Promise<void> => {
 interface FocusStoreState {
   settings: FocusSettings;
   stats: DailyStats;
+  historicalStats: HistoricalStats;
   activeTimers: ActiveTimer[];
   loading: boolean;
   setSettings: (settings: FocusSettings) => void;
   setStats: (stats: DailyStats) => void;
+  setHistoricalStats: (stats: HistoricalStats) => void;
   setActiveTimers: (timers: ActiveTimer[]) => void;
   setLoading: (loading: boolean) => void;
   updateSettings: (updates: Partial<FocusSettings>) => Promise<void>;
@@ -104,17 +107,20 @@ interface FocusStoreState {
   addTimePaused: (seconds: number) => Promise<void>;
   isWithinWorkHours: () => boolean;
   loadInitialData: () => Promise<void>;
+  loadHistoricalStats: () => Promise<void>;
   setupListeners: () => () => void;
 }
 
 export const useFocusStore = create<FocusStoreState>((set, get) => ({
   settings: DEFAULT_SETTINGS,
   stats: getDefaultStats(),
+  historicalStats: {},
   activeTimers: [],
   loading: true,
 
   setSettings: (settings: FocusSettings) => set({ settings }),
   setStats: (stats: DailyStats) => set({ stats }),
+  setHistoricalStats: (historicalStats: HistoricalStats) => set({ historicalStats }),
   setActiveTimers: (activeTimers: ActiveTimer[]) => set({ activeTimers }),
   setLoading: (loading: boolean) => set({ loading }),
 
@@ -158,6 +164,16 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
     }
   },
 
+  loadHistoricalStats: async () => {
+    try {
+      const result = await chrome.storage.local.get([STORAGE_KEYS.historicalStats]);
+      const historicalStats = result[STORAGE_KEYS.historicalStats] || {};
+      set({ historicalStats });
+    } catch (e) {
+      console.error('[FocusGuard] Failed to load historical stats:', e);
+    }
+  },
+
   setupListeners: () => {
     const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
       if (changes[STORAGE_KEYS.settings]?.newValue) {
@@ -168,7 +184,14 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       }
     };
 
+    const handleLocalStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+      if (changes[STORAGE_KEYS.historicalStats]?.newValue) {
+        set({ historicalStats: changes[STORAGE_KEYS.historicalStats].newValue });
+      }
+    };
+
     chrome.storage.sync.onChanged.addListener(handleStorageChange);
+    chrome.storage.local.onChanged.addListener(handleLocalStorageChange);
 
     const timerInterval = setInterval(() => {
       try {
@@ -184,6 +207,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
     return () => {
       chrome.storage.sync.onChanged.removeListener(handleStorageChange);
+      chrome.storage.local.onChanged.removeListener(handleLocalStorageChange);
       clearInterval(timerInterval);
     };
   },
@@ -307,4 +331,4 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
   },
 }));
 
-export type { FocusSettings, DailyStats, BlockedSite, ActiveTimer };
+export type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer };

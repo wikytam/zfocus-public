@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Migrated state management to Zustand for better performance and developer experience
 - Centralized store logic in packages/shared for reusability across pages
 - Removed duplicate useFocusStore hooks from popup and options pages
+- Deleted old hook files and empty hooks directories for cleaner codebase
 - Modified tab close behavior to prevent closing last tab in window
 
 ### Fixed
@@ -26,6 +27,13 @@ All notable changes to this project will be documented in this file.
 - Cache eviction when limit reached (removes oldest 10 entries)
 - Zustand state management library for improved state handling
 - Smart tab close prevention: when closing the last tab in a window, redirect to dashboard instead
+- Historical stats storage: 30-day data retention for Time Pause and Blocked Attempts
+- StatsChart component with week/month view using shadcn/ui Chart components
+- Interactive charts in Popup and Options pages showing statistics trends
+- Integrated shadcn/ui chart components for consistent design system
+- SeedDataButton dev tool for testing dashboard with sample data
+- URL tab navigation: ?tab=overview, ?tab=websites, ?tab=settings for Options page
+- Browser history integration for tab navigation with back/forward support
 
 ### Performance
 - CPU usage reduced by approximately 40%

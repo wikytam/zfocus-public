@@ -52,6 +52,14 @@
     --shadow-md: 0 4px 6px -1px hsl(220 25% 10% / 0.05), 0 2px 4px -2px hsl(220 25% 10% / 0.05);
     --shadow-lg: 0 10px 15px -3px hsl(220 25% 10% / 0.08), 0 4px 6px -4px hsl(220 25% 10% / 0.05);
     --shadow-glow: 0 0 20px hsl(152 60% 45% / 0.15);
+
+    /* Chart colors */
+    --chart-1: 152 60% 45%;
+    --chart-2: 38 95% 55%;
+    --chart-2: 38 95% 55%;
+    --chart-3: 217 91% 60%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 
   .dark {
@@ -97,6 +105,14 @@
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.3), 0 2px 4px -2px hsl(0 0% 0% / 0.2);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(0 0% 0% / 0.3);
     --shadow-glow: 0 0 30px hsl(152 55% 50% / 0.2);
+
+    /* Chart colors - dark mode */
+    --chart-1: 152 55% 50%;
+    --chart-2: 38 90% 60%;
+    --chart-2: 38 90% 50%;
+    --chart-3: 217 91% 65%;
+    --chart-4: 280 65% 65%;
+    --chart-5: 340 75% 60%;
   }
 }
 

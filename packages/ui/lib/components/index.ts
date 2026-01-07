@@ -7,3 +7,4 @@ export * from './ui';
 
 // FocusGuard components
 export * from './focus';
+export * from './dev';

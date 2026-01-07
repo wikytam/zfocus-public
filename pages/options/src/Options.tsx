@@ -2,7 +2,16 @@ import { Navigation } from './components/Navigation';
 import { SettingsPanel } from './components/SettingsPanel';
 import { useI18n } from '@extension/i18n';
 import { useFocusStore } from '@extension/shared';
-import { Header, StatCard, PauseControl, BlockedSiteItem, AddSiteDialog, Card } from '@extension/ui';
+import {
+  Header,
+  StatCard,
+  PauseControl,
+  BlockedSiteItem,
+  AddSiteDialog,
+  Card,
+  StatsChart,
+  SeedDataButton,
+} from '@extension/ui';
 import { Ban, Clock, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import './index.css';
@@ -15,6 +24,7 @@ const Options = () => {
   const {
     settings,
     stats,
+    historicalStats,
     loading,
     updateSettings,
     addBlockedSite,
@@ -24,14 +34,38 @@ const Options = () => {
     resumeBlocking,
     isWithinWorkHours,
     loadInitialData,
+    loadHistoricalStats,
     setupListeners,
   } = useFocusStore();
 
+  // Read tab from URL query parameter on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab');
+    if (tab === 'overview' || tab === 'dashboard') {
+      setActiveTab('dashboard');
+    } else if (tab === 'websites' || tab === 'sites') {
+      setActiveTab('sites');
+    } else if (tab === 'settings') {
+      setActiveTab('settings');
+    }
+  }, []);
+
+  // Update URL when tab changes
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    const tabName = tab === 'dashboard' ? 'overview' : tab === 'sites' ? 'websites' : 'settings';
+    const url = new URL(window.location.href);
+    url.searchParams.set('tab', tabName);
+    window.history.pushState({}, '', url.toString());
+  };
+
   useEffect(() => {
     loadInitialData();
+    loadHistoricalStats();
     const cleanup = setupListeners();
     return cleanup;
-  }, [loadInitialData, setupListeners]);
+  }, [loadInitialData, loadHistoricalStats, setupListeners]);
 
   useEffect(() => {
     if (loading) return;
@@ -93,7 +127,7 @@ const Options = () => {
         <Header isWithinWorkHours={withinHours} isPaused={settings.isPaused} showSettingsButton={false} />
 
         <div className="my-4 flex justify-center">
-          <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+          <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
 
         {/* Dashboard Tab */}
@@ -152,6 +186,16 @@ const Options = () => {
                 </div>
               )}
             </Card>
+
+            {/* Stats Chart */}
+            <StatsChart
+              historicalStats={historicalStats}
+              currentStats={{
+                blockedAttempts: stats.blockedAttempts,
+                timePausedSeconds: stats.timePausedSeconds,
+              }}
+              currentDate={stats.date}
+            />
           </div>
         )}
 
@@ -195,6 +239,7 @@ const Options = () => {
           </div>
         )}
       </div>
+      <SeedDataButton />
     </div>
   );
 };

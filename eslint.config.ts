@@ -6,13 +6,13 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactPlugin from 'eslint-plugin-react';
 import { browser, es2020, node } from 'globals';
-import { config, configs as tsConfigs, parser as tsParser } from 'typescript-eslint';
+import { config, configs, parser } from 'typescript-eslint';
 import type { FixupConfigArray } from '@eslint/compat';
 
 export default config(
   // Shared configs
   js.configs.recommended,
-  ...tsConfigs.recommended,
+  ...configs.recommended,
   jsxA11y.flatConfigs.recommended,
   importXFlatConfig.recommended,
   importXFlatConfig.typescript,
@@ -25,12 +25,19 @@ export default config(
   },
   // Custom config
   {
-    ignores: ['**/build/**', '**/dist/**', '**/node_modules/**', 'chrome-extension/manifest.js'],
+    ignores: [
+      '**/build/**',
+      '**/dist/**',
+      '**/node_modules/**',
+      'chrome-extension/manifest.js',
+      'scripts/**/*.js',
+      '**/components.json',
+    ],
   },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: tsParser,
+      parser: parser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
@@ -100,6 +107,12 @@ export default config(
     files: ['**/packages/shared/**/*.ts'],
     rules: {
       'no-restricted-imports': 'off',
+    },
+  },
+  {
+    files: ['eslint.config.ts'],
+    rules: {
+      'import-x/no-deprecated': 'off',
     },
   },
 );

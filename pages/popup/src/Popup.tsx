@@ -1,6 +1,6 @@
 import { useI18n } from '@extension/i18n';
 import { useFocusStore } from '@extension/shared';
-import { Header, StatCard, PauseControl, Card } from '@extension/ui';
+import { Header, StatCard, PauseControl, Card, StatsChart, SeedDataButton } from '@extension/ui';
 import { Clock, Ban, Globe } from 'lucide-react';
 import { useEffect } from 'react';
 import './index.css';
@@ -10,19 +10,22 @@ const Popup = () => {
   const {
     settings,
     stats,
+    historicalStats,
     loading,
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
     loadInitialData,
+    loadHistoricalStats,
     setupListeners,
   } = useFocusStore();
 
   useEffect(() => {
     loadInitialData();
+    loadHistoricalStats();
     const cleanup = setupListeners();
     return cleanup;
-  }, [loadInitialData, setupListeners]);
+  }, [loadInitialData, loadHistoricalStats, setupListeners]);
 
   useEffect(() => {
     if (loading) return;
@@ -140,8 +143,19 @@ const Popup = () => {
               </div>
             )}
           </Card>
+
+          {/* Stats Chart */}
+          <StatsChart
+            historicalStats={historicalStats}
+            currentStats={{
+              blockedAttempts: stats.blockedAttempts,
+              timePausedSeconds: stats.timePausedSeconds,
+            }}
+            currentDate={stats.date}
+          />
         </div>
       </div>
+      <SeedDataButton />
     </div>
   );
 };

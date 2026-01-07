@@ -200,6 +200,28 @@ const getStats = async (): Promise<DailyStats> => {
   // Reset if new day
   const today = new Date().toISOString().split('T')[0];
   if (stats.date !== today) {
+    // Save old stats to historical data
+    if (stats.blockedAttempts > 0 || stats.timePausedSeconds > 0 || Object.keys(stats.sitesAccessed).length > 0) {
+      const historicalResult = await chrome.storage.local.get(['focus-historical-stats']);
+      const historicalStats = historicalResult['focus-historical-stats'] || {};
+
+      // Add old stats
+      historicalStats[stats.date] = {
+        blockedAttempts: stats.blockedAttempts,
+        timePausedSeconds: stats.timePausedSeconds,
+        sitesAccessed: stats.sitesAccessed,
+      };
+
+      // Keep only last 30 days
+      const dates = Object.keys(historicalStats).sort();
+      if (dates.length > 30) {
+        const toRemove = dates.slice(0, dates.length - 30);
+        toRemove.forEach(date => delete historicalStats[date]);
+      }
+
+      await chrome.storage.local.set({ 'focus-historical-stats': historicalStats });
+    }
+
     const newStats = getDefaultStats();
     await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: newStats });
     return newStats;

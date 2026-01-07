@@ -45,6 +45,14 @@ interface DailyStats {
   sitesAccessed: Record<string, number>;
 }
 
+interface HistoricalStats {
+  [date: string]: {
+    blockedAttempts: number;
+    timePausedSeconds: number;
+    sitesAccessed: Record<string, number>;
+  };
+}
+
 interface SiteTimer {
   siteId: string;
   siteName: string;
@@ -127,6 +135,15 @@ const statsStorage = createStorage<DailyStats>('focus-stats', getDefaultStats(),
   liveUpdate: true,
 });
 
+const historicalStatsStorage = createStorage<HistoricalStats>(
+  'focus-historical-stats',
+  {},
+  {
+    storageEnum: StorageEnum.Local,
+    liveUpdate: true,
+  },
+);
+
 const timersStorage = createStorage<Record<string, SiteTimer>>(
   'focus-timers',
   {},
@@ -200,6 +217,25 @@ export const focusStatsStorage = {
     const stats = await statsStorage.get();
     const today = new Date().toISOString().split('T')[0];
     if (stats.date !== today) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { date: _date, ...oldStats } = stats;
+
+      if (
+        oldStats.blockedAttempts > 0 ||
+        oldStats.timePausedSeconds > 0 ||
+        Object.keys(oldStats.sitesAccessed).length > 0
+      ) {
+        await historicalStatsStorage.set(prev => {
+          const newHistory = { ...prev, [stats.date]: oldStats };
+          const dates = Object.keys(newHistory).sort();
+          if (dates.length > 30) {
+            const toRemove = dates.slice(0, dates.length - 30);
+            toRemove.forEach(date => delete newHistory[date]);
+          }
+          return newHistory;
+        });
+      }
+
       await statsStorage.set(getDefaultStats());
     }
   },
@@ -226,6 +262,34 @@ export const focusStatsStorage = {
         [siteId]: (prev.sitesAccessed[siteId] || 0) + seconds,
       },
     }));
+  },
+};
+
+export const focusHistoricalStatsStorage = {
+  ...historicalStatsStorage,
+
+  getLastNDays: async (days: number = 30): Promise<HistoricalStats> => {
+    const allStats = await historicalStatsStorage.get();
+    const dates = Object.keys(allStats).sort().slice(-days);
+    const result: HistoricalStats = {};
+    dates.forEach(date => {
+      result[date] = allStats[date];
+    });
+    return result;
+  },
+
+  cleanOldData: async () => {
+    await historicalStatsStorage.set(prev => {
+      const dates = Object.keys(prev).sort();
+      if (dates.length > 30) {
+        const newHistory: HistoricalStats = {};
+        dates.slice(-30).forEach(date => {
+          newHistory[date] = prev[date];
+        });
+        return newHistory;
+      }
+      return prev;
+    });
   },
 };
 
@@ -258,4 +322,4 @@ export const focusTimersStorage = {
 };
 
 // Export types at the end
-export type { BlockedSite, FocusSettings, DailyStats, SiteTimer, ActiveTimer };
+export type { BlockedSite, FocusSettings, DailyStats, HistoricalStats, SiteTimer, ActiveTimer };
