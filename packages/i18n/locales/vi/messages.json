@@ -259,6 +259,15 @@
   "saveChanges": {
     "message": "Lưu thay đổi"
   },
+  "siteAdded": {
+    "message": "Đã thêm nhóm website thành công"
+  },
+  "siteUpdated": {
+    "message": "Đã cập nhật nhóm website thành công"
+  },
+  "validationError": {
+    "message": "Vui lòng kiểm tra lại thông tin và thử lại"
+  },
   "add": {
     "message": "Thêm"
   },

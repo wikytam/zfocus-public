@@ -1,71 +1,20 @@
+import { validateHistoricalStats, validateBlockedSite } from '../../../shared/lib/utils/validation.js';
 import { createStorage, StorageEnum } from '../base/index.js';
+import type {
+  FocusSettings,
+  DailyStats,
+  HistoricalStats,
+  ActiveTimer,
+  BlockedSite,
+} from '../../../shared/lib/utils/validation.js';
 
-// Types
-interface BlockedSite {
-  id: string;
-  title: string;
-  urls: string[];
-  exceptions?: string[]; // URLs to allow (whitelist)
-  referrers?: string[]; // Block when coming from these referrers
-  keywords?: string[]; // Block URLs containing these keywords
-  allowedMinutesPerHour: number;
-  countOnlyActiveTab?: boolean;
-  action: 'close' | 'redirect';
-  redirectUrl?: string;
-  isActive: boolean;
-  schedule: {
-    startTime: string;
-    endTime: string;
-    workDays: number[];
-    allowOutsideHours: boolean;
-  };
-}
-
-interface FocusSettings {
-  blockedSites: BlockedSite[];
-  workSchedule: {
-    startTime: string;
-    endTime: string;
-    workDays: number[];
-    allowOutsideHours: boolean;
-  };
-  pauseMinutes: number;
-  isPaused: boolean;
-  pauseEndTime?: number;
-  hardLockMode: boolean;
-  theme: 'light' | 'dark' | 'system';
-  showBadgeCountdown: boolean; // Show countdown timer on extension icon badge
-  language?: string; // User's preferred language (auto-detected by default)
-}
-
-interface DailyStats {
-  date: string;
-  blockedAttempts: number;
-  timePausedSeconds: number;
-  sitesAccessed: Record<string, number>;
-}
-
-interface HistoricalStats {
-  [date: string]: {
-    blockedAttempts: number;
-    timePausedSeconds: number;
-    sitesAccessed: Record<string, number>;
-  };
-}
-
+// Legacy types for backward compatibility
 interface SiteTimer {
   siteId: string;
   siteName: string;
   usedSeconds: number;
   allowedSeconds: number;
   lastUpdate: number;
-}
-
-interface ActiveTimer {
-  siteId: string;
-  siteName: string;
-  remainingSeconds: number;
-  totalSeconds: number;
 }
 
 // Default values
@@ -81,7 +30,7 @@ const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
     id: '1',
     title: 'seedGroupSocialMedia',
     urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-    allowedMinutesPerHour: 5, // 5 minutes per hour
+    allowedMinutesPerHour: 1, // 1 minute per hour
     action: 'redirect',
     isActive: true,
     schedule: { ...DEFAULT_SCHEDULE },
@@ -158,6 +107,10 @@ export const focusSettingsStorage = {
   ...settingsStorage,
 
   updateSettings: async (updates: Partial<FocusSettings>) => {
+    // Validate updates before applying
+    if (updates.blockedSites) {
+      updates.blockedSites.forEach(site => validateBlockedSite(site));
+    }
     await settingsStorage.set(prev => ({ ...prev, ...updates }));
     // Update last sync timestamp for auto-sync
     await chrome.storage.sync.set({ 'focus-last-sync': Date.now() });
@@ -168,6 +121,8 @@ export const focusSettingsStorage = {
       ...site,
       id: Date.now().toString(),
     };
+    // Validate the new site before adding
+    validateBlockedSite(newSite);
     await settingsStorage.set(prev => ({
       ...prev,
       blockedSites: [...prev.blockedSites, newSite],
@@ -179,7 +134,15 @@ export const focusSettingsStorage = {
   updateBlockedSite: async (id: string, updates: Partial<BlockedSite>) => {
     await settingsStorage.set(prev => ({
       ...prev,
-      blockedSites: prev.blockedSites.map(site => (site.id === id ? { ...site, ...updates } : site)),
+      blockedSites: prev.blockedSites.map(site => {
+        if (site.id === id) {
+          const updatedSite = { ...site, ...updates };
+          // Validate the updated site
+          validateBlockedSite(updatedSite);
+          return updatedSite;
+        }
+        return site;
+      }),
     }));
     await chrome.storage.sync.set({ 'focus-last-sync': Date.now() });
   },
@@ -270,12 +233,24 @@ export const focusHistoricalStatsStorage = {
 
   getLastNDays: async (days: number = 30): Promise<HistoricalStats> => {
     const allStats = await historicalStatsStorage.get();
-    const dates = Object.keys(allStats).sort().slice(-days);
+    // Validate all stats data
+    let validatedStats: HistoricalStats;
+    try {
+      validatedStats = validateHistoricalStats(allStats);
+    } catch {
+      validatedStats = {};
+    }
+    const dates = Object.keys(validatedStats).sort().slice(-days);
     const result: HistoricalStats = {};
     dates.forEach(date => {
-      result[date] = allStats[date];
+      result[date] = validatedStats[date];
     });
     return result;
+  },
+
+  get: async (): Promise<HistoricalStats> => {
+    const data = await historicalStatsStorage.get();
+    return validateHistoricalStats(data);
   },
 
   cleanOldData: async () => {

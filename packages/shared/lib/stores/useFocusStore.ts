@@ -1,5 +1,6 @@
+import { validateBlockedSite, validateFocusSettings } from '../utils/validation.js';
 import { create } from 'zustand';
-import type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer } from '@extension/storage';
+import type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer } from '../utils/validation.js';
 
 const STORAGE_KEYS = {
   settings: 'focus-settings',
@@ -20,7 +21,7 @@ const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
     id: '1',
     title: 'seedGroupSocialMedia',
     urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-    allowedMinutesPerHour: 5,
+    allowedMinutesPerHour: 1,
     action: 'redirect',
     isActive: true,
     schedule: { ...DEFAULT_SCHEDULE },
@@ -225,10 +226,14 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       ...site,
       id: Date.now().toString(),
     };
+    // Validate the new site
+    validateBlockedSite(newSite);
     const newSettings = {
       ...settings,
       blockedSites: [...settings.blockedSites, newSite],
     };
+    // Validate the complete settings
+    validateFocusSettings(newSettings);
     set({ settings: newSettings });
     await setToStorage(STORAGE_KEYS.settings, newSettings);
   },
@@ -237,8 +242,18 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
     const { settings } = get();
     const newSettings = {
       ...settings,
-      blockedSites: settings.blockedSites.map(site => (site.id === id ? { ...site, ...updates } : site)),
+      blockedSites: settings.blockedSites.map((site: BlockedSite) => {
+        if (site.id === id) {
+          const updatedSite = { ...site, ...updates };
+          // Validate the updated site
+          validateBlockedSite(updatedSite);
+          return updatedSite;
+        }
+        return site;
+      }),
     };
+    // Validate the complete settings
+    validateFocusSettings(newSettings);
     set({ settings: newSettings });
     await setToStorage(STORAGE_KEYS.settings, newSettings);
   },
@@ -330,5 +345,3 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
     return currentTime >= startMinutes && currentTime <= endMinutes;
   },
 }));
-
-export type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer };

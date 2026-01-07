@@ -7,10 +7,12 @@ import { ScrollArea } from '../ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
+import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
+import { validateAddSiteForm } from '@extension/shared';
 import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { useState } from 'react';
-import type { BlockedSite } from '@extension/storage';
+import type { BlockedSite, AddSiteFormData } from '@extension/shared';
 
 interface AddSiteDialogProps {
   onAdd: (site: Omit<BlockedSite, 'id'>) => void;
@@ -18,6 +20,7 @@ interface AddSiteDialogProps {
 
 export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const { t } = useI18n();
+  const { showToast, ToastContainer } = useToast();
 
   const DAYS = [
     { value: 1, label: t('monday'), fullLabel: t('mondayFull') },
@@ -70,62 +73,99 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const allUrls = formData.urls
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    const exceptions = formData.exceptions
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    const referrers = formData.referrers
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    const keywords = formData.keywords
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    onAdd({
-      title: formData.title,
-      urls: allUrls,
-      exceptions: exceptions.length > 0 ? exceptions : undefined,
-      referrers: referrers.length > 0 ? referrers : undefined,
-      keywords: keywords.length > 0 ? keywords : undefined,
-      allowedMinutesPerHour: Math.max(5, typeof formData.allowedMinutes === 'number' ? formData.allowedMinutes : 5),
-      countOnlyActiveTab: formData.countOnlyActiveTab,
-      action: formData.action,
-      redirectUrl: formData.redirectUrl || undefined,
-      isActive: true,
-      schedule: {
+    try {
+      // Parse and validate form data
+      const formDataToValidate: AddSiteFormData = {
+        title: formData.title,
+        urls: formData.urls,
+        exceptions: formData.exceptions || undefined,
+        referrers: formData.referrers || undefined,
+        keywords: formData.keywords || undefined,
+        allowedMinutes: formData.allowedMinutes === '' ? 1 : Number(formData.allowedMinutes),
+        countOnlyActiveTab: formData.countOnlyActiveTab,
+        action: formData.action,
+        redirectUrl: formData.redirectUrl || undefined,
         startTime: formData.startTime,
         endTime: formData.endTime,
         workDays: formData.activeDays,
         allowOutsideHours: true,
-      },
-    });
+      };
 
-    setFormData({
-      title: '',
-      urls: '',
-      exceptions: '',
-      referrers: '',
-      keywords: '',
-      allowedMinutes: 5,
-      timeInterval: 60,
-      countOnlyActiveTab: true,
-      action: 'redirect',
-      redirectUrl: '',
-      activeDays: [1, 2, 3, 4, 5],
-      startTime: '08:00',
-      endTime: '17:00',
-    });
-    setShowHelp(false);
-    setOpen(false);
+      // Validate with Zod
+      const validatedData = validateAddSiteForm(formDataToValidate);
+
+      // Convert validated data to the format expected by onAdd
+      const allUrls = validatedData.urls
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      const exceptions = (validatedData.exceptions || '')
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      const referrers = (validatedData.referrers || '')
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      const keywords = (validatedData.keywords || '')
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      onAdd({
+        title: validatedData.title,
+        urls: allUrls,
+        exceptions: exceptions.length > 0 ? exceptions : undefined,
+        referrers: referrers.length > 0 ? referrers : undefined,
+        keywords: keywords.length > 0 ? keywords : undefined,
+        allowedMinutesPerHour: validatedData.allowedMinutes,
+        countOnlyActiveTab: validatedData.countOnlyActiveTab,
+        action: validatedData.action,
+        redirectUrl: validatedData.redirectUrl || undefined,
+        isActive: true,
+        schedule: {
+          startTime: validatedData.startTime,
+          endTime: validatedData.endTime,
+          workDays: validatedData.workDays,
+          allowOutsideHours: validatedData.allowOutsideHours,
+        },
+      });
+
+      showToast({
+        message: t('siteAdded'),
+        type: 'success',
+        duration: 3000,
+      });
+
+      setFormData({
+        title: '',
+        urls: '',
+        exceptions: '',
+        referrers: '',
+        keywords: '',
+        allowedMinutes: 5,
+        timeInterval: 60,
+        countOnlyActiveTab: true,
+        action: 'redirect',
+        redirectUrl: '',
+        activeDays: [1, 2, 3, 4, 5],
+        startTime: '08:00',
+        endTime: '17:00',
+      });
+      setShowHelp(false);
+      setOpen(false);
+    } catch (error) {
+      console.error('Form validation failed:', error);
+      showToast({
+        message: t('validationError'),
+        type: 'error',
+        duration: 3000,
+      });
+      return;
+    }
   };
 
   const toggleDay = (day: number) => {
@@ -407,6 +447,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
           </form>
         </ScrollArea>
       </DialogContent>
+      <ToastContainer />
     </Dialog>
   );
 };

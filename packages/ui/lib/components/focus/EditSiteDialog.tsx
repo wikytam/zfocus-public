@@ -7,10 +7,12 @@ import { ScrollArea } from '../ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
+import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
+import { validateEditSiteForm } from '@extension/shared';
 import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
-import type { BlockedSite } from '@extension/storage';
+import type { BlockedSite, EditSiteFormData } from '@extension/shared';
 import type React from 'react';
 
 interface EditSiteDialogProps {
@@ -22,6 +24,7 @@ interface EditSiteDialogProps {
 
 export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDialogProps) => {
   const { t } = useI18n();
+  const { showToast, ToastContainer } = useToast();
 
   // Helper to translate title if it's an i18n key
   const getDisplayTitle = useCallback(
@@ -78,7 +81,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     exceptions: (site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : []).join('\n'),
     referrers: (site.referrers && Array.isArray(site.referrers) ? site.referrers : []).join('\n'),
     keywords: (site.keywords && Array.isArray(site.keywords) ? site.keywords : []).join('\n'),
-    allowedMinutes: site.allowedMinutesPerHour || 5,
+    allowedMinutes: site.allowedMinutesPerHour || 1,
     timeInterval: 60,
     countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
     action: site.action || 'redirect',
@@ -95,7 +98,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       exceptions: (site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : []).join('\n'),
       referrers: (site.referrers && Array.isArray(site.referrers) ? site.referrers : []).join('\n'),
       keywords: (site.keywords && Array.isArray(site.keywords) ? site.keywords : []).join('\n'),
-      allowedMinutes: site.allowedMinutesPerHour || 5,
+      allowedMinutes: site.allowedMinutesPerHour || 1,
       timeInterval: 60,
       countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
       action: site.action || 'redirect',
@@ -110,56 +113,94 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
   }, [site.id, open]);
 
   const handleSave = () => {
-    const allUrls = editData.urls
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    const exceptions = editData.exceptions
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    const referrers = editData.referrers
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    const keywords = editData.keywords
-      .split('\n')
-      .map(u => u.trim())
-      .filter(Boolean);
-
-    // Determine final title: if user didn't modify and it was an i18n key, keep the key
-    // Otherwise use the edited title
-    let finalTitle = editData.title;
-    if (!isTitleModified && originalI18nKey) {
-      // User didn't modify title, keep original i18n key
-      finalTitle = originalI18nKey;
-    } else if (originalI18nKey && editData.title === getDisplayTitle(originalI18nKey)) {
-      // User's current title matches the translated version of original key
-      // Keep the i18n key
-      finalTitle = originalI18nKey;
-    }
-
-    onSave({
-      title: finalTitle,
-      urls: allUrls,
-      exceptions: exceptions.length > 0 ? exceptions : undefined,
-      referrers: referrers.length > 0 ? referrers : undefined,
-      keywords: keywords.length > 0 ? keywords : undefined,
-      allowedMinutesPerHour: Math.max(5, typeof editData.allowedMinutes === 'number' ? editData.allowedMinutes : 5),
-      countOnlyActiveTab: editData.countOnlyActiveTab,
-      action: editData.action,
-      redirectUrl: editData.redirectUrl || undefined,
-      schedule: {
-        workDays: editData.activeDays,
+    try {
+      // Prepare form data for validation
+      const formDataToValidate: EditSiteFormData = {
+        title: editData.title,
+        urls: editData.urls,
+        exceptions: editData.exceptions || undefined,
+        referrers: editData.referrers || undefined,
+        keywords: editData.keywords || undefined,
+        allowedMinutes: editData.allowedMinutes || undefined,
+        countOnlyActiveTab: editData.countOnlyActiveTab,
+        action: editData.action,
+        redirectUrl: editData.redirectUrl || undefined,
         startTime: editData.startTime,
         endTime: editData.endTime,
+        workDays: editData.activeDays,
         allowOutsideHours: true,
-      },
-    });
-    setOpen(false);
+      };
+
+      // Validate with Zod
+      const validatedData = validateEditSiteForm(formDataToValidate);
+
+      // Convert validated data to the format expected by onSave
+      const allUrls = validatedData.urls
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      const exceptions = (validatedData.exceptions || '')
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      const referrers = (validatedData.referrers || '')
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      const keywords = (validatedData.keywords || '')
+        .split('\n')
+        .map(u => u.trim())
+        .filter(Boolean);
+
+      // Determine final title: if user didn't modify and it was an i18n key, keep the key
+      // Otherwise use the edited title
+      let finalTitle = validatedData.title;
+      if (!isTitleModified && originalI18nKey) {
+        // User didn't modify title, keep original i18n key
+        finalTitle = originalI18nKey;
+      } else if (originalI18nKey && validatedData.title === getDisplayTitle(originalI18nKey)) {
+        // User's current title matches the translated version of original key
+        // Keep the i18n key
+        finalTitle = originalI18nKey;
+      }
+
+      onSave({
+        title: finalTitle,
+        urls: allUrls,
+        exceptions: exceptions.length > 0 ? exceptions : undefined,
+        referrers: referrers.length > 0 ? referrers : undefined,
+        keywords: keywords.length > 0 ? keywords : undefined,
+        allowedMinutesPerHour: validatedData.allowedMinutes || site.allowedMinutesPerHour,
+        countOnlyActiveTab: validatedData.countOnlyActiveTab,
+        action: validatedData.action,
+        redirectUrl: validatedData.redirectUrl || undefined,
+        schedule: {
+          workDays: validatedData.workDays,
+          startTime: validatedData.startTime,
+          endTime: validatedData.endTime,
+          allowOutsideHours: validatedData.allowOutsideHours,
+        },
+      });
+
+      showToast({
+        message: t('siteUpdated'),
+        type: 'success',
+        duration: 3000,
+      });
+
+      setOpen(false);
+    } catch (error) {
+      console.error('Form validation failed:', error);
+      showToast({
+        message: t('validationError'),
+        type: 'error',
+        duration: 3000,
+      });
+      return;
+    }
   };
 
   const handleDelete = () => {
@@ -470,6 +511,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
           </Button>
         </div>
       </DialogContent>
+      <ToastContainer />
     </Dialog>
   );
 };

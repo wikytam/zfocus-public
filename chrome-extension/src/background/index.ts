@@ -144,7 +144,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
       id: '1',
       title: 'seedGroupSocialMedia',
       urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-      allowedMinutesPerHour: 5, // 5 minutes per hour
+      allowedMinutesPerHour: 1, // 1 minute per hour
       action: 'redirect',
       isActive: true,
       schedule: { ...DEFAULT_SCHEDULE },

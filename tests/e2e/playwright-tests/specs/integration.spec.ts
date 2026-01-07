@@ -346,7 +346,7 @@ test.describe('Integration Tests - End to End Workflows', () => {
                       id: 'site-1',
                       title: 'Social Media',
                       urls: ['facebook.com'],
-                      allowedMinutesPerHour: 5,
+                      allowedMinutesPerHour: 1,
                       action: 'redirect',
                       isActive: true,
                       schedule: {

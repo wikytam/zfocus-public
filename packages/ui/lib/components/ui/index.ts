@@ -27,3 +27,4 @@ export {
 export { ScrollArea, ScrollBar } from './scroll-area';
 export { Switch } from './switch';
 export { Textarea } from './textarea';
+export { Toast, useToast, type ToastProps, type ToastType } from './toast';

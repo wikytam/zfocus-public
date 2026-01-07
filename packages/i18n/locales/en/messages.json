@@ -259,6 +259,15 @@
   "saveChanges": {
     "message": "Save Changes"
   },
+  "siteAdded": {
+    "message": "Website group added successfully"
+  },
+  "siteUpdated": {
+    "message": "Website group updated successfully"
+  },
+  "validationError": {
+    "message": "Please check your input and try again"
+  },
   "add": {
     "message": "Add"
   },

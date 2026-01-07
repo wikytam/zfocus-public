@@ -76,20 +76,13 @@ export const SeedDataButton = () => {
     setMessage('');
 
     try {
-      await focusHistoricalStatsStorage.set({});
-      await focusStatsStorage.set({
-        date: new Date().toISOString().split('T')[0],
-        blockedAttempts: 0,
-        timePausedSeconds: 0,
-        sitesAccessed: {},
-      });
+      // Clear all storage data by removing the keys
+      await chrome.storage.sync.remove(['focus-settings', 'focus-stats', 'focus-historical-stats', 'focus-timers']);
 
-      setMessage('Data cleared successfully! Reload to see changes.');
+      setMessage('Data cleared successfully! Reloading extension...');
 
-      // Auto reload after 1 second
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // Reload the extension to pick up new defaults
+      chrome.runtime.reload();
     } catch (error) {
       setMessage('Error clearing data: ' + (error as Error).message);
       console.error('Error clearing data:', error);

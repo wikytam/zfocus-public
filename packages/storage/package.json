@@ -9,7 +9,14 @@
     "dist/**"
   ],
   "types": "index.mts",
-  "main": "dist/index.mjs",
+  "main": "dist/storage/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./index.mts",
+      "import": "./dist/storage/index.mjs",
+      "default": "./dist/storage/index.mjs"
+    }
+  },
   "scripts": {
     "clean:bundle": "rimraf dist",
     "clean:node_modules": "pnpx rimraf node_modules",
