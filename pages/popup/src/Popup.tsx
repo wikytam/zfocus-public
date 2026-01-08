@@ -1,6 +1,6 @@
 import { useI18n } from '@extension/i18n';
 import { useFocusStore } from '@extension/shared';
-import { Header, StatCard, PauseControl, Card, StatsChart, SeedDataButton } from '@extension/ui';
+import { Header, StatCard, PauseControl, Card, StatsChart } from '@extension/ui';
 import { Clock, Ban, Globe } from 'lucide-react';
 import { useEffect } from 'react';
 import './index.css';
@@ -155,7 +155,6 @@ const Popup = () => {
           />
         </div>
       </div>
-      <SeedDataButton />
     </div>
   );
 };
