@@ -1001,10 +1001,39 @@ const scheduleHourlyReset = () => {
 
   cleanupRegistry.registerTimeout(
     setTimeout(async () => {
-      console.log('[ZFocus] Hourly reset');
-      // Clear cache
-      Object.keys(timerCache).forEach(key => delete timerCache[key]);
-      await setTimers({});
+      console.log('[ZFocus] Hourly reset - resetting all timers');
+
+      // CRITICAL FIX: Don't clear cache for sites with active timers
+      // Instead, reset their usedSeconds to 0 and update allowedSeconds
+      const settings = await getSettings();
+      const activeSiteIds = new Set(Array.from(tabSiteMapping.values()));
+
+      // Reset all timers in storage
+      const timers = await getTimers();
+      const resetTimers: Record<string, SiteTimer> = {};
+
+      // For each timer, reset usedSeconds to 0
+      Object.keys(timers).forEach(siteId => {
+        const site = settings.blockedSites.find(s => s.id === siteId);
+        if (site) {
+          resetTimers[siteId] = {
+            siteId: site.id,
+            siteName: site.title,
+            usedSeconds: 0,
+            allowedSeconds: site.allowedMinutesPerHour * 60,
+            lastUpdate: Date.now(),
+          };
+        }
+      });
+
+      // Update cache with reset values
+      Object.assign(timerCache, resetTimers);
+      await setTimers(resetTimers);
+
+      console.log(
+        `[ZFocus] Hourly reset complete. Active timers: ${activeSiteIds.size}, Reset timers: ${Object.keys(resetTimers).length}`,
+      );
+
       scheduleHourlyReset();
     }, msUntilNextHour),
   );

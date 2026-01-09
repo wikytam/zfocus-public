@@ -7,6 +7,14 @@ const init = () => {
   if (!appContainer) {
     throw new Error('Can not find #app-container');
   }
+
+  // Ensure we only create the root once
+  if (appContainer.hasAttribute('data-react-root')) {
+    console.warn('[ZFocus Options] React root already initialized, skipping');
+    return;
+  }
+
+  appContainer.setAttribute('data-react-root', 'true');
   const root = createRoot(appContainer);
   root.render(<Options />);
 
@@ -16,4 +24,9 @@ const init = () => {
   });
 };
 
-init();
+// Wait for DOM to be fully loaded before initializing
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

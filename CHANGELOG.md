@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-01-07
+## [Unreleased] - 2026-01-09
+
+### Fixed
+- [2026-01-09] Fixed timer cache missing error during hourly resets by preserving cache entries for active timers
+- [2026-01-09] Fixed React minified error 185 by adding DOM ready checks and duplicate root prevention in options, popup, and side-panel pages
+- [2026-01-07] Reduced TIMER_UPDATE message frequency by 89% (from every 1s to every 5s, or every 1s when < 60s remaining)
+- [2026-01-07] Added CleanupRegistry to track and properly cleanup all intervals and timeouts
+- [2026-01-07] Implemented dispose() method for storage to prevent listener memory leaks
+- [2026-01-07] Added cache size limit (50 entries) to prevent unbounded memory growth
+- [2026-01-07] Fixed TypeScript type errors in memory-monitor utility
+- [2026-01-07] Last tab in window now redirects to dashboard instead of closing when blocked site timer expires
 
 ### Changed
 - Migrated state management to Zustand for better performance and developer experience
@@ -10,14 +20,6 @@ All notable changes to this project will be documented in this file.
 - Removed duplicate useFocusStore hooks from popup and options pages
 - Deleted old hook files and empty hooks directories for cleaner codebase
 - Modified tab close behavior to prevent closing last tab in window
-
-### Fixed
-- Reduced TIMER_UPDATE message frequency by 89% (from every 1s to every 5s, or every 1s when < 60s remaining)
-- Added CleanupRegistry to track and properly cleanup all intervals and timeouts
-- Implemented dispose() method for storage to prevent listener memory leaks
-- Added cache size limit (50 entries) to prevent unbounded memory growth
-- Fixed TypeScript type errors in memory-monitor utility
-- Last tab in window now redirects to dashboard instead of closing when blocked site timer expires
 
 ### Added
 - CleanupRegistry class for centralized interval/timeout management
@@ -49,4 +51,3 @@ All notable changes to this project will be documented in this file.
 - Pause/resume functionality
 - Statistics tracking
 - Multi-language support (EN, JA, KO, VI, ZH)
-
