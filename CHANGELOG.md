@@ -2,9 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-01-09
+## [Unreleased] - 2026-01-10
+
+### Added
+- [2026-01-10] Added TagsInput component for URL list, exceptions, and keywords with interactive tag management (add/remove tags, paste support)
+- [2026-01-10] Added Badge component for visual tag display
+- [2026-01-10] Added week start day preference setting (Monday/Sunday) for better chart viewing experience
+
+### Changed
+- [2026-01-10] Changed pause time options from 15/30/60 minutes to 3/5/10 minutes for shorter break intervals
+- [2026-01-10] Updated default pause selection to 5 minutes (previously 15 minutes)
+- [2026-01-10] Improved URL input UX by replacing textarea with tags input in Add/Edit Site dialogs
+- [2026-01-10] URLs, exceptions, and keywords now display as interactive chips/badges instead of plain text
+- [2026-01-10] Chart now aligns to week start day (Monday or Sunday) based on user preference for consistent weekly view
+- [2026-01-10] Removed redundant URL list description text, added descriptive example for "Count only active tab" feature
+- [2026-01-10] Reduced TagsInput min-height from 80px to 40px for more compact display
 
 ### Fixed
+- [2026-01-10] Fixed chart displaying discontinuous dates by generating continuous 7-day or 30-day date ranges with zero values for missing days
 - [2026-01-09] Fixed timer cache missing error during hourly resets by preserving cache entries for active timers
 - [2026-01-09] Fixed React minified error 185 by adding DOM ready checks and duplicate root prevention in options, popup, and side-panel pages
 - [2026-01-07] Reduced TIMER_UPDATE message frequency by 89% (from every 1s to every 5s, or every 1s when < 60s remaining)

@@ -70,6 +70,15 @@
   "system": {
     "message": "システム"
   },
+  "weekStartsOn": {
+    "message": "週の開始日"
+  },
+  "monday": {
+    "message": "月曜日"
+  },
+  "sunday": {
+    "message": "日曜日"
+  },
   "showBadgeCountdown": {
     "message": "カウントダウンを表示"
   },
@@ -444,6 +453,9 @@
   },
   "pauseTimeMustBe": {
     "message": "一時停止時間は1〜120分である必要があります"
+  },
+  "3minutes": {
+    "message": "3分"
   },
   "5minutes": {
     "message": "5分"

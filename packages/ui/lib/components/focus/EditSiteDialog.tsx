@@ -6,7 +6,7 @@ import { Label } from '../ui/label';
 import { ScrollArea } from '../ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
-import { Textarea } from '../ui/textarea';
+import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
 import { validateEditSiteForm } from '@extension/shared';
@@ -63,10 +63,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
 
   const [editData, setEditData] = useState<{
     title: string;
-    urls: string;
-    exceptions: string;
-    referrers: string;
-    keywords: string;
+    urls: string[];
+    exceptions: string[];
+    referrers: string[];
+    keywords: string[];
     allowedMinutes: number | '';
     timeInterval: number;
     countOnlyActiveTab: boolean;
@@ -77,10 +77,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
     endTime: string;
   }>({
     title: getDisplayTitle(site.title),
-    urls: Array.isArray(site.urls) ? site.urls.join('\n') : '',
-    exceptions: (site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : []).join('\n'),
-    referrers: (site.referrers && Array.isArray(site.referrers) ? site.referrers : []).join('\n'),
-    keywords: (site.keywords && Array.isArray(site.keywords) ? site.keywords : []).join('\n'),
+    urls: Array.isArray(site.urls) ? site.urls : [],
+    exceptions: site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : [],
+    referrers: site.referrers && Array.isArray(site.referrers) ? site.referrers : [],
+    keywords: site.keywords && Array.isArray(site.keywords) ? site.keywords : [],
     allowedMinutes: site.allowedMinutesPerHour || 1,
     timeInterval: 60,
     countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
@@ -94,10 +94,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
   useEffect(() => {
     setEditData({
       title: getDisplayTitle(site.title),
-      urls: Array.isArray(site.urls) ? site.urls.join('\n') : '',
-      exceptions: (site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : []).join('\n'),
-      referrers: (site.referrers && Array.isArray(site.referrers) ? site.referrers : []).join('\n'),
-      keywords: (site.keywords && Array.isArray(site.keywords) ? site.keywords : []).join('\n'),
+      urls: Array.isArray(site.urls) ? site.urls : [],
+      exceptions: site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : [],
+      referrers: site.referrers && Array.isArray(site.referrers) ? site.referrers : [],
+      keywords: site.keywords && Array.isArray(site.keywords) ? site.keywords : [],
       allowedMinutes: site.allowedMinutesPerHour || 1,
       timeInterval: 60,
       countOnlyActiveTab: site.countOnlyActiveTab !== false, // Default to true if not set
@@ -114,13 +114,13 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
 
   const handleSave = () => {
     try {
-      // Prepare form data for validation
+      // Prepare form data for validation (convert arrays to newline-separated strings)
       const formDataToValidate: EditSiteFormData = {
         title: editData.title,
-        urls: editData.urls,
-        exceptions: editData.exceptions || undefined,
-        referrers: editData.referrers || undefined,
-        keywords: editData.keywords || undefined,
+        urls: editData.urls.join('\n'),
+        exceptions: editData.exceptions.length > 0 ? editData.exceptions.join('\n') : undefined,
+        referrers: editData.referrers.length > 0 ? editData.referrers.join('\n') : undefined,
+        keywords: editData.keywords.length > 0 ? editData.keywords.join('\n') : undefined,
         allowedMinutes: editData.allowedMinutes || undefined,
         countOnlyActiveTab: editData.countOnlyActiveTab,
         action: editData.action,
@@ -258,15 +258,11 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
             {/* URL Input */}
             <div className="space-y-2">
               <Label htmlFor="urls">{t('urlList')}</Label>
-              <Textarea
-                id="urls"
+              <TagsInput
                 value={editData.urls}
-                onChange={e => setEditData(prev => ({ ...prev, urls: e.target.value }))}
-                placeholder="facebook.com&#10;youtube.com&#10;twitter.com"
-                rows={4}
-                className="font-mono text-sm"
+                onChange={urls => setEditData(prev => ({ ...prev, urls }))}
+                placeholder="facebook.com, youtube.com, twitter.com"
               />
-              <p className="text-muted-foreground text-xs">{t('urlListDescription')}</p>
 
               {/* Expandable Advanced Options */}
               <button
@@ -284,13 +280,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                     <Label htmlFor="edit-exceptions" className="text-xs">
                       {t('exceptionsLabel')}
                     </Label>
-                    <Textarea
-                      id="edit-exceptions"
+                    <TagsInput
                       value={editData.exceptions}
-                      onChange={e => setEditData(prev => ({ ...prev, exceptions: e.target.value }))}
-                      placeholder="youtube.com/learn&#10;facebook.com/help"
-                      rows={2}
-                      className="font-mono text-xs"
+                      onChange={exceptions => setEditData(prev => ({ ...prev, exceptions }))}
+                      placeholder="youtube.com/learn, facebook.com/help"
                     />
                     <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
                   </div>
@@ -315,13 +308,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                     <Label htmlFor="edit-keywords" className="text-xs">
                       {t('keywordsInUrl')}
                     </Label>
-                    <Textarea
-                      id="edit-keywords"
+                    <TagsInput
                       value={editData.keywords}
-                      onChange={e => setEditData(prev => ({ ...prev, keywords: e.target.value }))}
-                      placeholder="game&#10;video&#10;entertainment"
-                      rows={2}
-                      className="font-mono text-xs"
+                      onChange={keywords => setEditData(prev => ({ ...prev, keywords }))}
+                      placeholder="game, video, entertainment"
                     />
                     <p className="text-muted-foreground text-[10px]">{t('keywordsInUrlDesc')}</p>
                   </div>
@@ -374,20 +364,25 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
               </div>
 
               {/* Count only active tab toggle */}
-              <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
-                <div className="flex items-center gap-2">
-                  <div className="cursor-help" title={t('countOnlyActiveTabTooltip')}>
-                    <Info className="text-muted-foreground h-4 w-4" />
+              <div className="bg-secondary/30 border-border/50 space-y-1.5 rounded-lg border p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="cursor-help" title={t('countOnlyActiveTabTooltip')}>
+                      <Info className="text-muted-foreground h-4 w-4" />
+                    </div>
+                    <Label htmlFor="edit-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
+                      {t('countOnlyActiveTabLabel')}
+                    </Label>
                   </div>
-                  <Label htmlFor="edit-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
-                    {t('countOnlyActiveTabLabel')}
-                  </Label>
+                  <Switch
+                    id="edit-countOnlyActiveTab"
+                    checked={editData.countOnlyActiveTab}
+                    onCheckedChange={checked => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+                  />
                 </div>
-                <Switch
-                  id="edit-countOnlyActiveTab"
-                  checked={editData.countOnlyActiveTab}
-                  onCheckedChange={checked => setEditData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
-                />
+                <p className="text-muted-foreground text-[11px] leading-relaxed">
+                  Example: Allow background music like YouTube
+                </p>
               </div>
             </div>
 

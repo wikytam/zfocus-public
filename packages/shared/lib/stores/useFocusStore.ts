@@ -54,6 +54,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   hardLockMode: false,
   theme: 'dark',
   showBadgeCountdown: true,
+  weekStartsOn: 'monday',
 };
 
 const getDefaultStats = (): DailyStats => ({

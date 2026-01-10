@@ -6,7 +6,7 @@ import { Label } from '../ui/label';
 import { ScrollArea } from '../ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Switch } from '../ui/switch';
-import { Textarea } from '../ui/textarea';
+import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
 import { validateAddSiteForm } from '@extension/shared';
@@ -42,10 +42,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   const [showHelp, setShowHelp] = useState(false);
   const [formData, setFormData] = useState<{
     title: string;
-    urls: string;
-    exceptions: string;
-    referrers: string;
-    keywords: string;
+    urls: string[];
+    exceptions: string[];
+    referrers: string[];
+    keywords: string[];
     allowedMinutes: number | '';
     timeInterval: number;
     countOnlyActiveTab: boolean;
@@ -56,10 +56,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
     endTime: string;
   }>({
     title: '',
-    urls: '',
-    exceptions: '',
-    referrers: '',
-    keywords: '',
+    urls: [],
+    exceptions: [],
+    referrers: [],
+    keywords: [],
     allowedMinutes: 5,
     timeInterval: 60,
     countOnlyActiveTab: true,
@@ -74,13 +74,13 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
     e.preventDefault();
 
     try {
-      // Parse and validate form data
+      // Parse and validate form data (convert arrays to newline-separated strings)
       const formDataToValidate: AddSiteFormData = {
         title: formData.title,
-        urls: formData.urls,
-        exceptions: formData.exceptions || undefined,
-        referrers: formData.referrers || undefined,
-        keywords: formData.keywords || undefined,
+        urls: formData.urls.join('\n'),
+        exceptions: formData.exceptions.length > 0 ? formData.exceptions.join('\n') : undefined,
+        referrers: formData.referrers.length > 0 ? formData.referrers.join('\n') : undefined,
+        keywords: formData.keywords.length > 0 ? formData.keywords.join('\n') : undefined,
         allowedMinutes: formData.allowedMinutes === '' ? 1 : Number(formData.allowedMinutes),
         countOnlyActiveTab: formData.countOnlyActiveTab,
         action: formData.action,
@@ -142,10 +142,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
 
       setFormData({
         title: '',
-        urls: '',
-        exceptions: '',
-        referrers: '',
-        keywords: '',
+        urls: [],
+        exceptions: [],
+        referrers: [],
+        keywords: [],
         allowedMinutes: 5,
         timeInterval: 60,
         countOnlyActiveTab: true,
@@ -208,16 +208,11 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
             {/* URL Input */}
             <div className="space-y-2">
               <Label htmlFor="add-urls">{t('urlList')}</Label>
-              <Textarea
-                id="add-urls"
+              <TagsInput
                 value={formData.urls}
-                onChange={e => setFormData(prev => ({ ...prev, urls: e.target.value }))}
-                placeholder="facebook.com&#10;youtube.com&#10;twitter.com"
-                rows={4}
-                className="font-mono text-sm"
-                required
+                onChange={urls => setFormData(prev => ({ ...prev, urls }))}
+                placeholder="facebook.com, youtube.com, twitter.com"
               />
-              <p className="text-muted-foreground text-xs">{t('urlListDescription')}</p>
 
               {/* Expandable Advanced Options */}
               <button
@@ -235,13 +230,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     <Label htmlFor="add-exceptions" className="text-xs">
                       {t('exceptionsLabel')}
                     </Label>
-                    <Textarea
-                      id="add-exceptions"
+                    <TagsInput
                       value={formData.exceptions}
-                      onChange={e => setFormData(prev => ({ ...prev, exceptions: e.target.value }))}
-                      placeholder="youtube.com/learn&#10;facebook.com/help"
-                      rows={2}
-                      className="font-mono text-xs"
+                      onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
+                      placeholder="youtube.com/learn, facebook.com/help"
                     />
                     <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
                   </div>
@@ -266,13 +258,10 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     <Label htmlFor="add-keywords" className="text-xs">
                       {t('keywordsInUrl')}
                     </Label>
-                    <Textarea
-                      id="add-keywords"
+                    <TagsInput
                       value={formData.keywords}
-                      onChange={e => setFormData(prev => ({ ...prev, keywords: e.target.value }))}
-                      placeholder="game&#10;video&#10;entertainment"
-                      rows={2}
-                      className="font-mono text-xs"
+                      onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
+                      placeholder="game, video, entertainment"
                     />
                     <p className="text-muted-foreground text-[10px]">{t('keywordsInUrlDesc')}</p>
                   </div>
@@ -325,20 +314,25 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
               </div>
 
               {/* Count only active tab toggle */}
-              <div className="bg-secondary/30 border-border/50 flex items-center justify-between rounded-lg border p-3">
-                <div className="flex items-center gap-2">
-                  <div className="cursor-help" title={t('countOnlyActiveTabTooltip')}>
-                    <Info className="text-muted-foreground h-4 w-4" />
+              <div className="bg-secondary/30 border-border/50 space-y-1.5 rounded-lg border p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="cursor-help" title={t('countOnlyActiveTabTooltip')}>
+                      <Info className="text-muted-foreground h-4 w-4" />
+                    </div>
+                    <Label htmlFor="add-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
+                      {t('countOnlyActiveTabLabel')}
+                    </Label>
                   </div>
-                  <Label htmlFor="add-countOnlyActiveTab" className="cursor-pointer text-sm font-medium">
-                    {t('countOnlyActiveTabLabel')}
-                  </Label>
+                  <Switch
+                    id="add-countOnlyActiveTab"
+                    checked={formData.countOnlyActiveTab}
+                    onCheckedChange={checked => setFormData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
+                  />
                 </div>
-                <Switch
-                  id="add-countOnlyActiveTab"
-                  checked={formData.countOnlyActiveTab}
-                  onCheckedChange={checked => setFormData(prev => ({ ...prev, countOnlyActiveTab: checked }))}
-                />
+                <p className="text-muted-foreground text-[11px] leading-relaxed">
+                  Example: Allow background music like YouTube
+                </p>
               </div>
             </div>
 

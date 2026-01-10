@@ -25,15 +25,13 @@ export const PauseControl = ({
   compact = false,
 }: PauseControlProps) => {
   const { t } = useI18n();
-  const [selectedMinutes, setSelectedMinutes] = useState('15');
+  const [selectedMinutes, setSelectedMinutes] = useState('5');
   const [remainingTime, setRemainingTime] = useState<string>('');
 
   const PAUSE_OPTIONS = [
+    { value: 3, labelKey: '3minutes' },
     { value: 5, labelKey: '5minutes' },
     { value: 10, labelKey: '10minutes' },
-    { value: 15, labelKey: '15minutes' },
-    { value: 30, labelKey: '30minutes' },
-    { value: 60, labelKey: '1hour' },
   ];
 
   useEffect(() => {

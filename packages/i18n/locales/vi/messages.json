@@ -70,6 +70,15 @@
   "system": {
     "message": "Hệ thống"
   },
+  "weekStartsOn": {
+    "message": "Tuần bắt đầu từ"
+  },
+  "monday": {
+    "message": "Thứ Hai"
+  },
+  "sunday": {
+    "message": "Chủ Nhật"
+  },
   "showBadgeCountdown": {
     "message": "Hiển thị đếm ngược"
   },
@@ -453,6 +462,9 @@
   },
   "pauseTimeMustBe": {
     "message": "Thời gian tạm dừng phải từ 1-120 phút"
+  },
+  "3minutes": {
+    "message": "3 phút"
   },
   "5minutes": {
     "message": "5 phút"

@@ -195,6 +195,7 @@ const Options = () => {
                 timePausedSeconds: stats.timePausedSeconds,
               }}
               currentDate={stats.date}
+              weekStartsOn={settings.weekStartsOn}
             />
           </div>
         )}

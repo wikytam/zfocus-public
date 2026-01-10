@@ -13,6 +13,7 @@ interface StatsChartProps {
     timePausedSeconds: number;
   };
   currentDate: string;
+  weekStartsOn?: 'sunday' | 'monday';
 }
 
 type ViewMode = 'week' | 'month';
@@ -28,7 +29,12 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export const StatsChart = ({ historicalStats, currentStats, currentDate }: StatsChartProps) => {
+export const StatsChart = ({
+  historicalStats,
+  currentStats,
+  currentDate,
+  weekStartsOn = 'monday',
+}: StatsChartProps) => {
   const [viewMode, setViewMode] = useState<ViewMode>('week');
 
   const chartData = useMemo(() => {
@@ -39,11 +45,44 @@ export const StatsChart = ({ historicalStats, currentStats, currentDate }: Stats
       sitesAccessed: {},
     };
 
-    const dates = Object.keys(allStats).sort();
     const daysToShow = viewMode === 'week' ? 7 : 30;
-    const recentDates = dates.slice(-daysToShow);
 
-    return recentDates.map(date => {
+    // Generate continuous date range (last N days including today)
+    const today = new Date(currentDate);
+    const continuousDates: string[] = [];
+
+    // For week view, align to week start
+    if (viewMode === 'week') {
+      const todayDayOfWeek = today.getDay();
+      const weekStartDay = weekStartsOn === 'sunday' ? 0 : 1;
+
+      // Calculate days since week start
+      let daysSinceWeekStart = todayDayOfWeek - weekStartDay;
+      if (daysSinceWeekStart < 0) {
+        daysSinceWeekStart += 7;
+      }
+
+      // Start from the beginning of the week
+      const weekStart = new Date(today);
+      weekStart.setDate(today.getDate() - daysSinceWeekStart);
+
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(weekStart);
+        date.setDate(weekStart.getDate() + i);
+        const dateStr = date.toISOString().split('T')[0];
+        continuousDates.push(dateStr);
+      }
+    } else {
+      // For month view, show last 30 days
+      for (let i = daysToShow - 1; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        continuousDates.push(dateStr);
+      }
+    }
+
+    return continuousDates.map(date => {
       const stats = allStats[date];
       const dateObj = new Date(date);
       const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
@@ -56,7 +95,7 @@ export const StatsChart = ({ historicalStats, currentStats, currentDate }: Stats
         timePausedMinutes: Math.round((stats?.timePausedSeconds || 0) / 60),
       };
     });
-  }, [historicalStats, currentStats, currentDate, viewMode]);
+  }, [historicalStats, currentStats, currentDate, viewMode, weekStartsOn]);
 
   const maxBlocked = Math.max(...chartData.map(d => d.blockedAttempts), 1);
   const maxPaused = Math.max(...chartData.map(d => d.timePausedMinutes), 1);

@@ -70,6 +70,15 @@
   "system": {
     "message": "System"
   },
+  "weekStartsOn": {
+    "message": "Week starts on"
+  },
+  "monday": {
+    "message": "Monday"
+  },
+  "sunday": {
+    "message": "Sunday"
+  },
   "showBadgeCountdown": {
     "message": "Show Countdown"
   },
@@ -453,6 +462,9 @@
   },
   "pauseTimeMustBe": {
     "message": "Pause time must be 1-120 minutes"
+  },
+  "3minutes": {
+    "message": "3 minutes"
   },
   "5minutes": {
     "message": "5 minutes"

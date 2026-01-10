@@ -53,6 +53,7 @@ export const focusSettingsSchema = z.object({
   theme: z.enum(['light', 'dark', 'system']),
   showBadgeCountdown: z.boolean(),
   language: z.string().optional(),
+  weekStartsOn: z.enum(['sunday', 'monday']).optional(),
 });
 
 // Daily stats schema

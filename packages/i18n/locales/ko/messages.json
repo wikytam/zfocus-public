@@ -70,6 +70,15 @@
   "system": {
     "message": "시스템"
   },
+  "weekStartsOn": {
+    "message": "주 시작 요일"
+  },
+  "monday": {
+    "message": "월요일"
+  },
+  "sunday": {
+    "message": "일요일"
+  },
   "showBadgeCountdown": {
     "message": "카운트다운 표시"
   },
@@ -444,6 +453,9 @@
   },
   "pauseTimeMustBe": {
     "message": "일시 중지 시간은 1-120분이어야 합니다"
+  },
+  "3minutes": {
+    "message": "3분"
   },
   "5minutes": {
     "message": "5분"

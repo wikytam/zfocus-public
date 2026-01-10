@@ -70,6 +70,15 @@
   "system": {
     "message": "系统"
   },
+  "weekStartsOn": {
+    "message": "每周开始于"
+  },
+  "monday": {
+    "message": "星期一"
+  },
+  "sunday": {
+    "message": "星期日"
+  },
   "showBadgeCountdown": {
     "message": "显示倒计时"
   },
@@ -444,6 +453,9 @@
   },
   "pauseTimeMustBe": {
     "message": "暂停时间必须为 1-120 分钟"
+  },
+  "3minutes": {
+    "message": "3分钟"
   },
   "5minutes": {
     "message": "5分钟"

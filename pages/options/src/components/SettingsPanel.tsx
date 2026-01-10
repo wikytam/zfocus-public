@@ -137,6 +137,33 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
           onChange={language => onUpdate({ language })}
         />
 
+        {/* Week Starts On - Inline */}
+        <div className="flex items-center justify-between">
+          <Label className="text-sm">{t('weekStartsOn')}</Label>
+          <div className="flex gap-2">
+            <button
+              onClick={() => onUpdate({ weekStartsOn: 'monday' })}
+              className={cn(
+                'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                (settings.weekStartsOn || 'monday') === 'monday'
+                  ? 'gradient-primary text-primary-foreground shadow-sm'
+                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+              )}>
+              {t('monday')}
+            </button>
+            <button
+              onClick={() => onUpdate({ weekStartsOn: 'sunday' })}
+              className={cn(
+                'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                settings.weekStartsOn === 'sunday'
+                  ? 'gradient-primary text-primary-foreground shadow-sm'
+                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+              )}>
+              {t('sunday')}
+            </button>
+          </div>
+        </div>
+
         {/* Theme Selection */}
         <div className="space-y-3">
           <Label>{t('appearance')}</Label>

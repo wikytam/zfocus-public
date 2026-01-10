@@ -282,7 +282,7 @@ export default function App() {
             <div style={{ fontSize: '12px', opacity: 0.8, marginBottom: '8px', fontWeight: 500 }}>Pause for:</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <button
-                onClick={() => handlePauseFor(15)}
+                onClick={() => handlePauseFor(3)}
                 style={{
                   background: 'rgba(255,255,255,0.1)',
                   border: 'none',
@@ -297,10 +297,10 @@ export default function App() {
                 }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                15 minutes
+                3 minutes
               </button>
               <button
-                onClick={() => handlePauseFor(30)}
+                onClick={() => handlePauseFor(5)}
                 style={{
                   background: 'rgba(255,255,255,0.1)',
                   border: 'none',
@@ -315,10 +315,10 @@ export default function App() {
                 }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                30 minutes
+                5 minutes
               </button>
               <button
-                onClick={() => handlePauseFor(60)}
+                onClick={() => handlePauseFor(10)}
                 style={{
                   background: 'rgba(255,255,255,0.1)',
                   border: 'none',
@@ -333,7 +333,7 @@ export default function App() {
                 }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                1 hour
+                10 minutes
               </button>
             </div>
           </div>

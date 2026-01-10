@@ -106,6 +106,7 @@ interface FocusSettings {
   hardLockMode: boolean;
   theme: 'light' | 'dark' | 'system';
   showBadgeCountdown: boolean;
+  weekStartsOn?: 'sunday' | 'monday';
 }
 
 interface DailyStats {
