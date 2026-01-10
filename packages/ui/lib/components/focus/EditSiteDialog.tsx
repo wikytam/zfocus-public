@@ -321,7 +321,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
 
             {/* Time Allowed with Interval */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Label>{t('allowedTimeMinutes')}</Label>
                 <Input
                   id="allowedMinutes"
@@ -439,18 +439,18 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 </div>
               </div>
             </div>
-            {/* Action - Segmented Control */}
-            <div className="space-y-2">
-              <Label>{t('actionWhenTimeUp')}</Label>
-              <div className="bg-secondary/50 flex rounded-lg p-1">
+            {/* Action - Inline */}
+            <div className="flex items-center justify-between">
+              <Label className="text-sm">{t('actionWhenTimeUp')}</Label>
+              <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
                   className={cn(
-                    'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
+                    'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
                     editData.action === 'close'
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
+                      ? 'gradient-primary text-primary-foreground shadow-sm'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                   )}>
                   {t('closeTab')}
                 </button>
@@ -458,10 +458,10 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                   type="button"
                   onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
                   className={cn(
-                    'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
+                    'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
                     editData.action === 'redirect'
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
+                      ? 'gradient-primary text-primary-foreground shadow-sm'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                   )}>
                   {t('redirect')}
                 </button>
