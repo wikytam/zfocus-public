@@ -18,6 +18,9 @@ All notable changes to this project will be documented in this file.
 - [2026-01-10] Removed redundant URL list description text, added descriptive example for "Count only active tab" feature
 - [2026-01-10] Reduced TagsInput min-height from 80px to 40px for more compact display
 
+### Removed
+- [2026-01-10] Removed example/demo content scripts to reduce extension size by 28% (from 5.0MB to 3.6MB)
+
 ### Fixed
 - [2026-01-10] Fixed chart displaying discontinuous dates by generating continuous 7-day or 30-day date ranges with zero values for missing days
 - [2026-01-09] Fixed timer cache missing error during hourly resets by preserving cache entries for active timers
