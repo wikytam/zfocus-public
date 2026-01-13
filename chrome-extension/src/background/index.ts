@@ -461,7 +461,12 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
       }
 
       // Simple domain match (default - matches all subdomains and paths)
-      if (hostname.includes(cleanPattern) || fullPath.startsWith(cleanPattern)) {
+      // Must match exactly or be a subdomain (ending with .pattern)
+      const isExactMatch = hostname === cleanPattern;
+      const isSubdomain = hostname.endsWith('.' + cleanPattern);
+      const isPathMatch = fullPath.startsWith(cleanPattern + '/') || fullPath === cleanPattern;
+
+      if (isExactMatch || isSubdomain || isPathMatch) {
         if (isDev) console.log(`[ZFocus] Domain matched: ${cleanPattern}`);
         matchesMainUrl = true;
         break;
