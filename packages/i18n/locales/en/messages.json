@@ -355,11 +355,14 @@
   "allowedTimeMinutes": {
     "message": "Allowed Time (minutes)"
   },
+  "allowedTimeLabel": {
+    "message": "Allowed Time"
+  },
   "minutesPer": {
     "message": "minutes per"
   },
   "countOnlyActiveTabLabel": {
-    "message": "Count only active tab"
+    "message": "Active tab only"
   },
   "countOnlyActiveTabTooltip": {
     "message": "Example: YouTube music in background won't count"

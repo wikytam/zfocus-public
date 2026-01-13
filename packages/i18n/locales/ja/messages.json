@@ -346,11 +346,14 @@
   "allowedTimeMinutes": {
     "message": "許可時間（分）"
   },
+  "allowedTimeLabel": {
+    "message": "許可時間"
+  },
   "minutesPer": {
     "message": "分毎"
   },
   "countOnlyActiveTabLabel": {
-    "message": "アクティブなタブのみカウント"
+    "message": "アクティブなタブのみ"
   },
   "countOnlyActiveTabTooltip": {
     "message": "例：バックグラウンドでYouTube音楽を聴いてもカウントされません"

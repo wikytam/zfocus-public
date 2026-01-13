@@ -346,11 +346,14 @@
   "allowedTimeMinutes": {
     "message": "허용 시간 (분)"
   },
+  "allowedTimeLabel": {
+    "message": "허용 시간"
+  },
   "minutesPer": {
     "message": "분 당"
   },
   "countOnlyActiveTabLabel": {
-    "message": "활성 탭만 계산"
+    "message": "활성 탭만"
   },
   "countOnlyActiveTabTooltip": {
     "message": "예: 백그라운드에서 YouTube 음악을 들으면 계산되지 않습니다"

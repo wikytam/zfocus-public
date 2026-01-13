@@ -346,11 +346,14 @@
   "allowedTimeMinutes": {
     "message": "允许时间（分钟）"
   },
+  "allowedTimeLabel": {
+    "message": "允许时间"
+  },
   "minutesPer": {
     "message": "分钟每"
   },
   "countOnlyActiveTabLabel": {
-    "message": "仅计算活动标签页"
+    "message": "仅活动标签页"
   },
   "countOnlyActiveTabTooltip": {
     "message": "例如：后台播放YouTube音乐不计入"

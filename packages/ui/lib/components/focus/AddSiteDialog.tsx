@@ -271,8 +271,8 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
 
             {/* Time Allowed with Interval */}
             <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Label>{t('allowedTimeMinutes')}</Label>
+              <Label>
+                {t('allowedTimeLabel')}{' '}
                 <Input
                   id="add-allowedMinutes"
                   type="number"
@@ -294,13 +294,13 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                       }));
                     }
                   }}
-                  className="w-20"
-                />
-                <span className="text-muted-foreground text-sm">{t('minutesPer')}</span>
+                  className="mx-1 inline-flex w-16"
+                />{' '}
+                {t('minutes')} /{' '}
                 <Select
                   value={formData.timeInterval.toString()}
                   onValueChange={value => setFormData(prev => ({ ...prev, timeInterval: parseInt(value) }))}>
-                  <SelectTrigger className="w-28">
+                  <SelectTrigger className="mx-1 inline-flex w-24">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -311,7 +311,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </Label>
 
               {/* Count only active tab toggle */}
               <div className="bg-secondary/30 border-border/50 space-y-1.5 rounded-lg border p-3">

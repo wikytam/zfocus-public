@@ -355,11 +355,14 @@
   "allowedTimeMinutes": {
     "message": "Thời gian cho phép (phút)"
   },
+  "allowedTimeLabel": {
+    "message": "Thời gian cho phép"
+  },
   "minutesPer": {
     "message": "phút mỗi"
   },
   "countOnlyActiveTabLabel": {
-    "message": "Chỉ ghi nhận tab active"
+    "message": "Chỉ tab active"
   },
   "countOnlyActiveTabTooltip": {
     "message": "Ví dụ: nghe nhạc Youtube Background thì không tính vào"

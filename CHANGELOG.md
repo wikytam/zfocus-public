@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-01-10
+## [Unreleased] - 2026-01-13
 
 ### Added
 - [2026-01-10] Added TagsInput component for URL list, exceptions, and keywords with interactive tag management (add/remove tags, paste support)
@@ -10,12 +10,15 @@ All notable changes to this project will be documented in this file.
 - [2026-01-10] Added week start day preference setting (Monday/Sunday) for better chart viewing experience
 
 ### Changed
+- [2026-01-13] Fixed hardcoded English text in time limit display, now properly uses i18n for "Allowed Time" and "minutes"
+- [2026-01-13] Updated label from "Count only active tab" to "Active tab only" for better clarity and conciseness
+- [2026-01-13] Updated time limit display format to inline style: "Allowed Time 3 minutes / 1 hour" for improved readability
 - [2026-01-10] Changed pause time options from 15/30/60 minutes to 3/5/10 minutes for shorter break intervals
 - [2026-01-10] Updated default pause selection to 5 minutes (previously 15 minutes)
 - [2026-01-10] Improved URL input UX by replacing textarea with tags input in Add/Edit Site dialogs
 - [2026-01-10] URLs, exceptions, and keywords now display as interactive chips/badges instead of plain text
 - [2026-01-10] Chart now aligns to week start day (Monday or Sunday) based on user preference for consistent weekly view
-- [2026-01-10] Removed redundant URL list description text, added descriptive example for "Count only active tab" feature
+- [2026-01-10] Removed redundant URL list description text, added descriptive example for "Active tab only" feature
 - [2026-01-10] Reduced TagsInput min-height from 80px to 40px for more compact display
 
 ### Removed
