@@ -92,7 +92,7 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
   });
 
   useEffect(() => {
-    setEditData({
+    const newEditData = {
       title: getDisplayTitle(site.title),
       urls: Array.isArray(site.urls) ? site.urls : [],
       exceptions: site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : [],
@@ -106,8 +106,17 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
       activeDays: site.schedule && Array.isArray(site.schedule.workDays) ? site.schedule.workDays : [1, 2, 3, 4, 5],
       startTime: (site.schedule && site.schedule.startTime) || '08:00',
       endTime: (site.schedule && site.schedule.endTime) || '17:00',
-    });
-    setShowHelp(false);
+    };
+
+    setEditData(newEditData);
+
+    // Auto-expand Advanced Options if any advanced field has data
+    const hasAdvancedData =
+      (newEditData.exceptions && newEditData.exceptions.length > 0) ||
+      (newEditData.keywords && newEditData.keywords.length > 0) ||
+      newEditData.action === 'redirect';
+
+    setShowHelp(hasAdvancedData);
     setIsTitleModified(false); // Reset title modification tracking when dialog opens
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site.id, open]);
@@ -263,60 +272,6 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 onChange={urls => setEditData(prev => ({ ...prev, urls }))}
                 placeholder="facebook.com, youtube.com, twitter.com"
               />
-
-              {/* Expandable Advanced Options */}
-              <button
-                type="button"
-                onClick={() => setShowHelp(!showHelp)}
-                className="text-primary flex items-center gap-1 text-[11px] hover:underline">
-                <HelpCircle className="h-3 w-3" />
-                {t('advancedOptionsToggle')}
-                {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-              </button>
-
-              {showHelp && (
-                <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-exceptions" className="text-xs">
-                      {t('exceptionsLabel')}
-                    </Label>
-                    <TagsInput
-                      value={editData.exceptions}
-                      onChange={exceptions => setEditData(prev => ({ ...prev, exceptions }))}
-                      placeholder="youtube.com/learn, facebook.com/help"
-                    />
-                    <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
-                  </div>
-
-                  {/* Temporarily hidden - Block from Source (Referrer) */}
-                  {/* <div className="space-y-2">
-                    <Label htmlFor="edit-referrer" className="text-xs">
-                      {t('blockFromReferrer')}
-                    </Label>
-                    <Textarea
-                      id="edit-referrer"
-                      value={editData.referrers}
-                      onChange={e => setEditData(prev => ({ ...prev, referrers: e.target.value }))}
-                      placeholder="facebook.com&#10;twitter.com"
-                      rows={2}
-                      className="font-mono text-xs"
-                    />
-                    <p className="text-muted-foreground text-[10px]">{t('blockFromReferrerDesc')}</p>
-                  </div> */}
-
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-keywords" className="text-xs">
-                      {t('keywordsInUrl')}
-                    </Label>
-                    <TagsInput
-                      value={editData.keywords}
-                      onChange={keywords => setEditData(prev => ({ ...prev, keywords }))}
-                      placeholder="game, video, entertainment"
-                    />
-                    <p className="text-muted-foreground text-[10px]">{t('keywordsInUrlDesc')}</p>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Time Allowed with Interval */}
@@ -439,48 +394,91 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
                 </div>
               </div>
             </div>
-            {/* Action - Inline */}
-            <div className="flex items-center justify-between">
-              <Label className="text-sm">{t('actionWhenTimeUp')}</Label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
-                  className={cn(
-                    'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
-                    editData.action === 'close'
-                      ? 'gradient-primary text-primary-foreground shadow-sm'
-                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                  )}>
-                  {t('closeTab')}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
-                  className={cn(
-                    'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
-                    editData.action === 'redirect'
-                      ? 'gradient-primary text-primary-foreground shadow-sm'
-                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                  )}>
-                  {t('redirect')}
-                </button>
-              </div>
-            </div>
 
-            {/* Redirect URL */}
-            {editData.action === 'redirect' && (
-              <div className="space-y-2">
-                <Label>{t('redirectUrlLabel')}</Label>
-                <Input
-                  id="redirectUrl"
-                  value={editData.redirectUrl}
-                  onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
-                  placeholder="https://notion.so"
-                />
-                <p className="text-muted-foreground text-xs">{t('redirectUrlDescription')}</p>
-              </div>
-            )}
+            {/* Advanced Options - Moved to bottom */}
+            <div className="border-border space-y-2 border-t pt-4">
+              <button
+                type="button"
+                onClick={() => setShowHelp(!showHelp)}
+                className="text-primary flex items-center gap-1 text-sm font-medium hover:underline">
+                <HelpCircle className="h-4 w-4" />
+                {t('advancedOptionsToggle')}
+                {showHelp ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </button>
+
+              {showHelp && (
+                <div className="space-y-4">
+                  {/* Exceptions */}
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-exceptions" className="text-sm">
+                      {t('exceptionsLabel')}
+                    </Label>
+                    <TagsInput
+                      value={editData.exceptions}
+                      onChange={exceptions => setEditData(prev => ({ ...prev, exceptions }))}
+                      placeholder="youtube.com/learn, facebook.com/help"
+                    />
+                    <p className="text-muted-foreground text-xs">{t('exceptionsDescription')}</p>
+                  </div>
+
+                  {/* Keywords */}
+                  <div className="space-y-2">
+                    <Label htmlFor="edit-keywords" className="text-sm">
+                      {t('keywordsInUrl')}
+                    </Label>
+                    <TagsInput
+                      value={editData.keywords}
+                      onChange={keywords => setEditData(prev => ({ ...prev, keywords }))}
+                      placeholder="game, video, entertainment"
+                    />
+                    <p className="text-muted-foreground text-xs">{t('keywordsInUrlDesc')}</p>
+                  </div>
+
+                  {/* Action - Inline */}
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">{t('actionWhenTimeUp')}</Label>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setEditData(prev => ({ ...prev, action: 'close' }))}
+                        className={cn(
+                          'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                          editData.action === 'close'
+                            ? 'gradient-primary text-primary-foreground shadow-sm'
+                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                        )}>
+                        {t('closeTab')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditData(prev => ({ ...prev, action: 'redirect' }))}
+                        className={cn(
+                          'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                          editData.action === 'redirect'
+                            ? 'gradient-primary text-primary-foreground shadow-sm'
+                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                        )}>
+                        {t('redirect')}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Redirect URL */}
+                  {editData.action === 'redirect' && (
+                    <div className="space-y-2">
+                      <Label>{t('redirectUrlLabel')}</Label>
+                      <Input
+                        id="redirectUrl"
+                        value={editData.redirectUrl}
+                        onChange={e => setEditData(prev => ({ ...prev, redirectUrl: e.target.value }))}
+                        placeholder="https://notion.so"
+                      />
+                      <p className="text-muted-foreground text-xs">{t('redirectUrlDescription')}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </ScrollArea>
 

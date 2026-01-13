@@ -326,7 +326,7 @@
     "message": "詳細オプション"
   },
   "exceptionsLabel": {
-    "message": "例外（許可）"
+    "message": "許可"
   },
   "exceptionsDescription": {
     "message": "これらのURLは許可されます"

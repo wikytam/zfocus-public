@@ -335,7 +335,7 @@
     "message": "Advanced Options"
   },
   "exceptionsLabel": {
-    "message": "Exceptions (Allow)"
+    "message": "Allow"
   },
   "exceptionsDescription": {
     "message": "These URLs will be allowed"

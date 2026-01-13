@@ -213,60 +213,6 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 onChange={urls => setFormData(prev => ({ ...prev, urls }))}
                 placeholder="facebook.com, youtube.com, twitter.com"
               />
-
-              {/* Expandable Advanced Options */}
-              <button
-                type="button"
-                onClick={() => setShowHelp(!showHelp)}
-                className="text-primary flex items-center gap-1 text-[11px] hover:underline">
-                <HelpCircle className="h-3 w-3" />
-                {t('advancedOptionsToggle')}
-                {showHelp ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-              </button>
-
-              {showHelp && (
-                <div className="bg-secondary/50 space-y-3 rounded-lg p-3 text-xs">
-                  <div className="space-y-2">
-                    <Label htmlFor="add-exceptions" className="text-xs">
-                      {t('exceptionsLabel')}
-                    </Label>
-                    <TagsInput
-                      value={formData.exceptions}
-                      onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
-                      placeholder="youtube.com/learn, facebook.com/help"
-                    />
-                    <p className="text-muted-foreground text-[10px]">{t('exceptionsDescription')}</p>
-                  </div>
-
-                  {/* Temporarily hidden - Block from Source (Referrer) */}
-                  {/* <div className="space-y-2">
-                  <Label htmlFor="add-referrer" className="text-xs">
-                    {t('blockFromReferrer')}
-                  </Label>
-                  <Textarea
-                    id="add-referrer"
-                    value={formData.referrers}
-                    onChange={e => setFormData(prev => ({ ...prev, referrers: e.target.value }))}
-                    placeholder="facebook.com&#10;twitter.com"
-                    rows={2}
-                    className="font-mono text-xs"
-                  />
-                  <p className="text-muted-foreground text-[10px]">{t('blockFromReferrerDesc')}</p>
-                </div> */}
-
-                  <div className="space-y-2">
-                    <Label htmlFor="add-keywords" className="text-xs">
-                      {t('keywordsInUrl')}
-                    </Label>
-                    <TagsInput
-                      value={formData.keywords}
-                      onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
-                      placeholder="game, video, entertainment"
-                    />
-                    <p className="text-muted-foreground text-[10px]">{t('keywordsInUrlDesc')}</p>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Time Allowed with Interval */}
@@ -389,48 +335,91 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 </div>
               </div>
             </div>
-            {/* Action - Segmented Control */}
-            <div className="space-y-2">
-              <Label>{t('actionWhenTimeUp')}</Label>
-              <div className="bg-secondary/50 flex rounded-lg p-1">
-                <button
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, action: 'close' }))}
-                  className={cn(
-                    'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
-                    formData.action === 'close'
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}>
-                  {t('closeTab')}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, action: 'redirect' }))}
-                  className={cn(
-                    'flex-1 rounded-md px-3 py-2 text-sm font-medium transition-all',
-                    formData.action === 'redirect'
-                      ? 'bg-background text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )}>
-                  {t('redirect')}
-                </button>
-              </div>
-            </div>
 
-            {/* Redirect URL */}
-            {formData.action === 'redirect' && (
-              <div className="space-y-2">
-                <Label>{t('redirectUrlLabel')}</Label>
-                <Input
-                  id="add-redirectUrl"
-                  value={formData.redirectUrl}
-                  onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
-                  placeholder="https://notion.so"
-                />
-                <p className="text-muted-foreground text-xs">{t('redirectUrlDescription')}</p>
-              </div>
-            )}
+            {/* Advanced Options - Moved to bottom */}
+            <div className="border-border space-y-2 border-t pt-4">
+              <button
+                type="button"
+                onClick={() => setShowHelp(!showHelp)}
+                className="text-primary flex items-center gap-1 text-sm font-medium hover:underline">
+                <HelpCircle className="h-4 w-4" />
+                {t('advancedOptionsToggle')}
+                {showHelp ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </button>
+
+              {showHelp && (
+                <div className="space-y-4">
+                  {/* Exceptions */}
+                  <div className="space-y-2">
+                    <Label htmlFor="add-exceptions" className="text-sm">
+                      {t('exceptionsLabel')}
+                    </Label>
+                    <TagsInput
+                      value={formData.exceptions}
+                      onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
+                      placeholder="youtube.com/learn, facebook.com/help"
+                    />
+                    <p className="text-muted-foreground text-xs">{t('exceptionsDescription')}</p>
+                  </div>
+
+                  {/* Keywords */}
+                  <div className="space-y-2">
+                    <Label htmlFor="add-keywords" className="text-sm">
+                      {t('keywordsInUrl')}
+                    </Label>
+                    <TagsInput
+                      value={formData.keywords}
+                      onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
+                      placeholder="game, video, entertainment"
+                    />
+                    <p className="text-muted-foreground text-xs">{t('keywordsInUrlDesc')}</p>
+                  </div>
+
+                  {/* Action - Inline */}
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm">{t('actionWhenTimeUp')}</Label>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, action: 'close' }))}
+                        className={cn(
+                          'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                          formData.action === 'close'
+                            ? 'gradient-primary text-primary-foreground shadow-sm'
+                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                        )}>
+                        {t('closeTab')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, action: 'redirect' }))}
+                        className={cn(
+                          'rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200',
+                          formData.action === 'redirect'
+                            ? 'gradient-primary text-primary-foreground shadow-sm'
+                            : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                        )}>
+                        {t('redirect')}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Redirect URL */}
+                  {formData.action === 'redirect' && (
+                    <div className="space-y-2">
+                      <Label>{t('redirectUrlLabel')}</Label>
+                      <Input
+                        id="add-redirectUrl"
+                        value={formData.redirectUrl}
+                        onChange={e => setFormData(prev => ({ ...prev, redirectUrl: e.target.value }))}
+                        placeholder="https://notion.so"
+                      />
+                      <p className="text-muted-foreground text-xs">{t('redirectUrlDescription')}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             <div className="flex justify-end gap-3 pt-2">
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>

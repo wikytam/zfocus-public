@@ -326,7 +326,7 @@
     "message": "高级选项"
   },
   "exceptionsLabel": {
-    "message": "例外（允许）"
+    "message": "允许"
   },
   "exceptionsDescription": {
     "message": "这些URL将被允许"

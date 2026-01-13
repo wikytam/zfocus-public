@@ -335,7 +335,7 @@
     "message": "Tùy chọn nâng cao"
   },
   "exceptionsLabel": {
-    "message": "Ngoại lệ (cho phép)"
+    "message": "Cho phép"
   },
   "exceptionsDescription": {
     "message": "Các URL này sẽ được cho phép truy cập"

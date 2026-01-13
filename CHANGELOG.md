@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - [2026-01-10] Added week start day preference setting (Monday/Sunday) for better chart viewing experience
 
 ### Changed
+- [2026-01-13] Moved Advanced Options section to bottom of Add/Edit dialogs with smart auto-expand for Edit dialog
 - [2026-01-13] Fixed hardcoded English text in time limit display, now properly uses i18n for "Allowed Time" and "minutes"
 - [2026-01-13] Updated label from "Count only active tab" to "Active tab only" for better clarity and conciseness
 - [2026-01-13] Updated time limit display format to inline style: "Allowed Time 3 minutes / 1 hour" for improved readability

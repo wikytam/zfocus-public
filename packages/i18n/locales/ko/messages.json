@@ -326,7 +326,7 @@
     "message": "고급 옵션"
   },
   "exceptionsLabel": {
-    "message": "예외 (허용)"
+    "message": "허용"
   },
   "exceptionsDescription": {
     "message": "이 URL은 허용됩니다"
