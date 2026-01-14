@@ -863,21 +863,75 @@ chrome.tabs.onRemoved.addListener(tabId => {
   clearTabTimer(tabId);
 });
 
-// Listen for storage changes to update badges
-chrome.storage.sync.onChanged.addListener(changes => {
+// Listen for storage changes to update badges and reset timers
+chrome.storage.sync.onChanged.addListener(async changes => {
   if (changes['focus-settings']) {
+    const oldSettings = changes['focus-settings'].oldValue as FocusSettings | undefined;
     const newSettings = changes['focus-settings'].newValue as FocusSettings;
 
-    // If badge countdown was disabled, clear all badges
-    if (!newSettings.showBadgeCountdown) {
-      chrome.tabs.query({}).then(tabs => {
+    console.log('[ZFocus] Settings changed, checking for website info updates...');
+
+    // Detect if blocked sites configuration changed
+    const blockedSitesChanged =
+      !oldSettings || JSON.stringify(oldSettings.blockedSites) !== JSON.stringify(newSettings.blockedSites);
+
+    if (blockedSitesChanged) {
+      console.log('[ZFocus] Blocked sites configuration changed - clearing all timers and badges');
+
+      // Clear all active timers
+      activeTabTimers.forEach((timer, tabId) => {
+        clearInterval(timer);
+        activeTabTimers.delete(tabId);
+        clearBadge(tabId);
+      });
+
+      // Clear timer initialization flags
+      timerInitializationInProgress.clear();
+
+      // Clear tab-site mappings
+      tabSiteMapping.clear();
+
+      // Clear timer cache
+      Object.keys(timerCache).forEach(key => delete timerCache[key]);
+
+      // Send CLEAR_TIMER message to all tabs to hide overlays
+      const tabs = await chrome.tabs.query({});
+      for (const tab of tabs) {
+        if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
+          try {
+            await chrome.tabs.sendMessage(tab.id, { type: 'CLEAR_TIMER' });
+          } catch {
+            // Content script might not be loaded
+          }
+        }
+      }
+
+      // Re-check all tabs with new settings (unless paused)
+      if (!newSettings.isPaused) {
+        console.log('[ZFocus] Re-checking all tabs with new blocked site settings...');
+        for (const tab of tabs) {
+          if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
+            const referrer = tabReferrers.get(tab.id);
+            const site = await findBlockedSite(tab.url, referrer);
+            if (site) {
+              console.log(`[ZFocus] Starting timer for tab ${tab.id} with site: ${site.title}`);
+              await startTabTimer(tab.id, site);
+            }
+          }
+        }
+      }
+    }
+    // Handle badge countdown toggle
+    else if (oldSettings && oldSettings.showBadgeCountdown !== newSettings.showBadgeCountdown) {
+      // If badge countdown was disabled, clear all badges
+      if (!newSettings.showBadgeCountdown) {
+        const tabs = await chrome.tabs.query({});
         tabs.forEach(tab => {
           if (tab.id) clearBadge(tab.id);
         });
-      });
-    } else {
-      // If enabled, update badges for active timers
-      chrome.tabs.query({}).then(async tabs => {
+      } else {
+        // If enabled, update badges for active timers
+        const tabs = await chrome.tabs.query({});
         const timers = await getTimers();
         tabs.forEach(tab => {
           if (tab.id && tabSiteMapping.has(tab.id)) {
@@ -889,7 +943,7 @@ chrome.storage.sync.onChanged.addListener(changes => {
             }
           }
         });
-      });
+      }
     }
   }
 });
