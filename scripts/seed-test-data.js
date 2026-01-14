@@ -1,4 +1,4 @@
-// Script to seed test data for Z-Guard dashboard
+// Script to seed test data for ZFocus dashboard
 // Run this in Chrome DevTools Console on the extension popup/options page
 
 /* eslint-env browser */
