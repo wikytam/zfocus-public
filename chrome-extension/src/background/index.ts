@@ -1054,6 +1054,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 // Reset timers at the start of each hour using chrome.alarms API
 const HOURLY_RESET_ALARM = 'hourly-timer-reset';
+const SCHEDULE_CHECK_ALARM = 'schedule-check';
 
 const performHourlyReset = async () => {
   console.log('[ZFocus] Hourly reset - resetting all timers');
@@ -1090,6 +1091,40 @@ const performHourlyReset = async () => {
   );
 };
 
+// Check all tabs for schedule changes (entering/exiting work hours)
+const performScheduleCheck = async () => {
+  const settings = await getSettings();
+
+  // Skip if paused
+  if (settings.isPaused) {
+    return;
+  }
+
+  console.log('[ZFocus] Schedule check - evaluating all tabs for work hours changes');
+
+  const tabs = await chrome.tabs.query({});
+
+  for (const tab of tabs) {
+    if (!tab.id || !tab.url) continue;
+    if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) continue;
+
+    const referrer = tabReferrers.get(tab.id);
+    const site = await findBlockedSite(tab.url, referrer);
+    const hasActiveTimer = activeTabTimers.has(tab.id);
+
+    // Case 1: Site should be blocked but no timer exists - start timer
+    if (site && !hasActiveTimer) {
+      console.log(`[ZFocus] Schedule check: Starting timer for tab ${tab.id}, site: ${site.title}`);
+      await startTabTimer(tab.id, site);
+    }
+    // Case 2: Timer exists but site is no longer in work hours - clear timer
+    else if (!site && hasActiveTimer) {
+      console.log(`[ZFocus] Schedule check: Clearing timer for tab ${tab.id} (outside work hours)`);
+      clearTabTimer(tab.id);
+    }
+  }
+};
+
 // Setup hourly reset alarm (persists across service worker restarts)
 const setupHourlyResetAlarm = async () => {
   // Clear any existing alarm first to prevent duplicates
@@ -1109,14 +1144,31 @@ const setupHourlyResetAlarm = async () => {
   console.log(`[ZFocus] Hourly reset alarm scheduled. Next reset in ${Math.round(delayInMinutes)} minutes`);
 };
 
+// Setup schedule check alarm to run every minute
+const setupScheduleCheckAlarm = async () => {
+  // Clear any existing alarm first to prevent duplicates
+  await chrome.alarms.clear(SCHEDULE_CHECK_ALARM);
+
+  // Create alarm that fires every minute to check for schedule changes
+  await chrome.alarms.create(SCHEDULE_CHECK_ALARM, {
+    delayInMinutes: 1,
+    periodInMinutes: 1, // Check every minute
+  });
+
+  console.log('[ZFocus] Schedule check alarm created - will check every minute for work hours changes');
+};
+
 // Listen for alarm events
 chrome.alarms.onAlarm.addListener(alarm => {
   if (alarm.name === HOURLY_RESET_ALARM) {
     performHourlyReset();
+  } else if (alarm.name === SCHEDULE_CHECK_ALARM) {
+    performScheduleCheck();
   }
 });
 
 setupHourlyResetAlarm();
+setupScheduleCheckAlarm();
 
 // Check pause expiration periodically
 cleanupRegistry.registerInterval(
