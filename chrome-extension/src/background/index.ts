@@ -837,6 +837,10 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
   // Clean up referrer after use
   tabReferrers.delete(tabId);
+
+  // CRITICAL: Also check ALL other tabs when any tab updates
+  // This ensures timers start when entering work hours
+  performScheduleCheck();
 });
 
 // Handle tab activation
@@ -853,6 +857,10 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     if (site && !activeTabTimers.has(tabId)) {
       await startTabTimer(tabId, site);
     }
+
+    // CRITICAL: Also check ALL other tabs when switching tabs
+    // This ensures timers start when entering work hours
+    performScheduleCheck();
   } catch (e) {
     console.error('[ZFocus] Tab activation error:', e);
   }
@@ -921,8 +929,14 @@ chrome.storage.sync.onChanged.addListener(async changes => {
         }
       }
     }
+    // Handle ANY settings change - also run schedule check to catch schedule changes
+    else if (oldSettings) {
+      console.log('[ZFocus] Settings changed - running schedule check...');
+      performScheduleCheck();
+    }
+
     // Handle badge countdown toggle
-    else if (oldSettings && oldSettings.showBadgeCountdown !== newSettings.showBadgeCountdown) {
+    if (oldSettings && oldSettings.showBadgeCountdown !== newSettings.showBadgeCountdown) {
       // If badge countdown was disabled, clear all badges
       if (!newSettings.showBadgeCountdown) {
         const tabs = await chrome.tabs.query({});
@@ -1054,7 +1068,6 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 // Reset timers at the start of each hour using chrome.alarms API
 const HOURLY_RESET_ALARM = 'hourly-timer-reset';
-const SCHEDULE_CHECK_ALARM = 'schedule-check';
 
 const performHourlyReset = async () => {
   console.log('[ZFocus] Hourly reset - resetting all timers');
@@ -1093,36 +1106,62 @@ const performHourlyReset = async () => {
 
 // Check all tabs for schedule changes (entering/exiting work hours)
 const performScheduleCheck = async () => {
+  const now = new Date();
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+  console.log(`[ZFocus Schedule Check ${timeStr}] ========== Starting schedule check ==========`);
+
   const settings = await getSettings();
 
   // Skip if paused
   if (settings.isPaused) {
+    console.log(`[ZFocus Schedule Check ${timeStr}] Extension is paused, skipping check`);
     return;
   }
 
-  console.log('[ZFocus] Schedule check - evaluating all tabs for work hours changes');
-
   const tabs = await chrome.tabs.query({});
+  console.log(`[ZFocus Schedule Check ${timeStr}] Found ${tabs.length} total tabs`);
+
+  let checkedCount = 0;
+  let startedCount = 0;
+  let clearedCount = 0;
 
   for (const tab of tabs) {
     if (!tab.id || !tab.url) continue;
     if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) continue;
 
+    checkedCount++;
+    console.log(`[ZFocus Schedule Check ${timeStr}] Checking tab ${tab.id}: ${tab.url}`);
+
     const referrer = tabReferrers.get(tab.id);
     const site = await findBlockedSite(tab.url, referrer);
     const hasActiveTimer = activeTabTimers.has(tab.id);
 
+    console.log(
+      `[ZFocus Schedule Check ${timeStr}] Tab ${tab.id} - Site found: ${site ? site.title : 'none'}, Has timer: ${hasActiveTimer}`,
+    );
+
     // Case 1: Site should be blocked but no timer exists - start timer
     if (site && !hasActiveTimer) {
-      console.log(`[ZFocus] Schedule check: Starting timer for tab ${tab.id}, site: ${site.title}`);
+      console.log(`[ZFocus Schedule Check ${timeStr}] ✅ Starting timer for tab ${tab.id}, site: ${site.title}`);
       await startTabTimer(tab.id, site);
+      startedCount++;
     }
     // Case 2: Timer exists but site is no longer in work hours - clear timer
     else if (!site && hasActiveTimer) {
-      console.log(`[ZFocus] Schedule check: Clearing timer for tab ${tab.id} (outside work hours)`);
+      console.log(`[ZFocus Schedule Check ${timeStr}] ❌ Clearing timer for tab ${tab.id} (outside work hours)`);
       clearTabTimer(tab.id);
+      clearedCount++;
+    } else if (site && hasActiveTimer) {
+      console.log(`[ZFocus Schedule Check ${timeStr}] ⏱️  Tab ${tab.id} already has timer for ${site.title}`);
+    } else {
+      console.log(`[ZFocus Schedule Check ${timeStr}] ⚪ Tab ${tab.id} - no action needed`);
     }
   }
+
+  console.log(
+    `[ZFocus Schedule Check ${timeStr}] ========== Check complete: ${checkedCount} tabs checked, ${startedCount} timers started, ${clearedCount} timers cleared ==========`,
+  );
 };
 
 // Setup hourly reset alarm (persists across service worker restarts)
@@ -1144,31 +1183,43 @@ const setupHourlyResetAlarm = async () => {
   console.log(`[ZFocus] Hourly reset alarm scheduled. Next reset in ${Math.round(delayInMinutes)} minutes`);
 };
 
-// Setup schedule check alarm to run every minute
-const setupScheduleCheckAlarm = async () => {
-  // Clear any existing alarm first to prevent duplicates
-  await chrome.alarms.clear(SCHEDULE_CHECK_ALARM);
+// Setup schedule check using setInterval (more reliable than alarms for service workers)
+const setupScheduleCheckInterval = () => {
+  const now = new Date();
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  // Create alarm that fires every minute to check for schedule changes
-  await chrome.alarms.create(SCHEDULE_CHECK_ALARM, {
-    delayInMinutes: 1,
-    periodInMinutes: 1, // Check every minute
-  });
+  console.log(`[ZFocus ${timeStr}] Setting up schedule check interval (every 60 seconds)`);
 
-  console.log('[ZFocus] Schedule check alarm created - will check every minute for work hours changes');
+  // Run immediate check
+  console.log(`[ZFocus ${timeStr}] Running immediate schedule check...`);
+  performScheduleCheck();
+
+  // Setup interval to check every minute
+  const scheduleCheckInterval = setInterval(() => {
+    performScheduleCheck();
+  }, 60000); // 60 seconds
+
+  // Register with cleanup registry to prevent memory leaks
+  cleanupRegistry.registerInterval(scheduleCheckInterval);
+
+  console.log(`[ZFocus ${timeStr}] Schedule check interval registered`);
 };
 
-// Listen for alarm events
+// Listen for alarm events (keep hourly reset on alarms)
 chrome.alarms.onAlarm.addListener(alarm => {
+  const now = new Date();
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+  console.log(`[ZFocus ${timeStr}] ⏰ Alarm fired: ${alarm.name}`);
+
   if (alarm.name === HOURLY_RESET_ALARM) {
+    console.log(`[ZFocus ${timeStr}] Executing hourly reset...`);
     performHourlyReset();
-  } else if (alarm.name === SCHEDULE_CHECK_ALARM) {
-    performScheduleCheck();
   }
 });
 
 setupHourlyResetAlarm();
-setupScheduleCheckAlarm();
+setupScheduleCheckInterval();
 
 // Check pause expiration periodically
 cleanupRegistry.registerInterval(
