@@ -18,9 +18,9 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   componentDidCatch(error: Error) {
     // Log error but don't show UI - extension will reload
     if (error.message.includes('Extension context invalidated')) {
-      console.log('[FocusGuard Content-UI] Extension context invalidated, will reload');
+      console.log('[ZFocus Content-UI] Extension context invalidated, will reload');
     } else {
-      console.error('[FocusGuard Content-UI] Error:', error);
+      console.error('[ZFocus Content-UI] Error:', error);
     }
   }
 

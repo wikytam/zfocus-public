@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 import { makeEntryPointPlugin } from '@extension/hmr';
-import { getContentScriptEntries, withPageConfig } from '@extension/vite-config';
+import { getContentScriptEntries, withPageConfig, cspSafeWrapper } from '@extension/vite-config';
 import { IS_DEV } from '@extension/env';
 import { build } from 'vite';
 import { build as buildTW } from 'tailwindcss/lib/cli/build';
@@ -19,7 +19,7 @@ const configs = Object.entries(getContentScriptEntries(matchesDir)).map(([name, 
       },
     },
     publicDir: resolve(rootDir, 'public'),
-    plugins: [IS_DEV && makeEntryPointPlugin()],
+    plugins: [IS_DEV && makeEntryPointPlugin(), cspSafeWrapper()],
     build: {
       lib: {
         name: name,

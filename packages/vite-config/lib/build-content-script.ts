@@ -1,4 +1,5 @@
 import { withPageConfig } from './index.js';
+import { cspSafeWrapper } from './csp-safe-wrapper.js';
 import { IS_DEV } from '@extension/env';
 import { makeEntryPointPlugin } from '@extension/hmr';
 import { build as buildTW } from 'tailwindcss/lib/cli/build';
@@ -47,7 +48,7 @@ const configsBuilder = ({ matchesDir, srcDir, rootDir, contentName }: BuilderPro
         },
       },
       publicDir: resolve(rootDir, 'public'),
-      plugins: [IS_DEV && makeEntryPointPlugin()],
+      plugins: [IS_DEV && makeEntryPointPlugin(), cspSafeWrapper()],
       build: {
         lib: {
           name: name,
