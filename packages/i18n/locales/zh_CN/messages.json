@@ -513,5 +513,50 @@
   },
   "seedGroupForums": {
     "message": "论坛"
+  },
+  "onboardingWelcome": {
+    "message": "欢迎使用 ZFocus"
+  },
+  "onboardingWelcomeDesc": {
+    "message": "让我们通过几个简单的步骤来设置您的专注环境"
+  },
+  "onboardingSelectLanguage": {
+    "message": "选择语言"
+  },
+  "onboardingSelectLanguageDesc": {
+    "message": "选择界面显示语言"
+  },
+  "onboardingAutoDetected": {
+    "message": "从系统自动检测"
+  },
+  "onboardingAddFirstGroup": {
+    "message": "添加第一个网站组"
+  },
+  "onboardingAddFirstGroupDesc": {
+    "message": "创建一个您想要限制的网站组。您可以稍后添加更多。"
+  },
+  "onboardingSkip": {
+    "message": "暂时跳过"
+  },
+  "onboardingNext": {
+    "message": "下一步"
+  },
+  "onboardingBack": {
+    "message": "返回"
+  },
+  "onboardingFinish": {
+    "message": "开始使用"
+  },
+  "onboardingStepOf": {
+    "message": "第 $1 步，共 $2 步"
+  },
+  "urlRequired": {
+    "message": "至少需要一个 URL"
+  },
+  "urlEmpty": {
+    "message": "URL 不能为空"
+  },
+  "urlInvalid": {
+    "message": "无效的 URL 或域名格式"
   }
 }

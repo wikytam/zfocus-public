@@ -11,16 +11,21 @@ import {
   Card,
   StatsChart,
   SeedDataButton,
+  OnboardingWizard,
 } from '@extension/ui';
 import { Ban, Clock, Globe } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './index.css';
+
+const ONBOARDING_COMPLETED_KEY = 'zfocus-onboarding-completed';
 
 type TabType = 'dashboard' | 'sites' | 'settings';
 
 const Options = () => {
   const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<TabType>('sites');
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
   const {
     settings,
     stats,
@@ -37,6 +42,38 @@ const Options = () => {
     loadHistoricalStats,
     setupListeners,
   } = useFocusStore();
+
+  // Check if onboarding should be shown
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      try {
+        const result = await chrome.storage.local.get(ONBOARDING_COMPLETED_KEY);
+        if (!result[ONBOARDING_COMPLETED_KEY]) {
+          setShowOnboarding(true);
+        }
+      } catch (e) {
+        console.error('[ZFocus] Failed to check onboarding status:', e);
+      }
+      setOnboardingChecked(true);
+    };
+    checkOnboarding();
+  }, []);
+
+  const handleOnboardingComplete = useCallback(async () => {
+    try {
+      await chrome.storage.local.set({ [ONBOARDING_COMPLETED_KEY]: true });
+    } catch (e) {
+      console.error('[ZFocus] Failed to save onboarding status:', e);
+    }
+    setShowOnboarding(false);
+  }, []);
+
+  const handleOnboardingLanguageChange = useCallback(
+    (language: string) => {
+      updateSettings({ language });
+    },
+    [updateSettings],
+  );
 
   // Read tab from URL query parameter on mount
   useEffect(() => {
@@ -115,8 +152,27 @@ const Options = () => {
     return site ? t(site.title as keyof typeof t) : siteId;
   };
 
+  // Don't render until onboarding check is complete
+  if (!onboardingChecked) {
+    return (
+      <div className="bg-background flex min-h-screen items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-background min-h-screen">
+      {/* Onboarding Wizard */}
+      {showOnboarding && (
+        <OnboardingWizard
+          onComplete={handleOnboardingComplete}
+          onLanguageChange={handleOnboardingLanguageChange}
+          onAddSite={addBlockedSite}
+          currentLanguage={settings.language}
+        />
+      )}
+
       {/* Decorative background */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="bg-primary/5 absolute right-0 top-0 h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 transform rounded-full blur-3xl" />

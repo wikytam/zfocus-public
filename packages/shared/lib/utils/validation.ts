@@ -1,22 +1,44 @@
 import { z } from 'zod';
 
-// Custom URL/domain validator that accepts both full URLs and domain names
-const urlOrDomainSchema = z.string().refine(
-  val => {
-    if (!val || val.trim() === '') return false;
+// URL/domain validation function (reusable)
+const isValidUrlOrDomain = (val: string): boolean => {
+  if (!val || val.trim() === '') return false;
 
-    // Accept full URLs with protocol
-    try {
-      new URL(val);
-      return true;
-    } catch {
-      // Accept domain patterns like: example.com, sub.example.com, *.example.com
-      const domainPattern = /^(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
-      return domainPattern.test(val) || /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(val);
+  // Accept full URLs with protocol
+  try {
+    new URL(val);
+    return true;
+  } catch {
+    // Accept domain patterns like: example.com, sub.example.com, *.example.com
+    const domainPattern = /^(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
+    return domainPattern.test(val) || /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(val);
+  }
+};
+
+// Custom URL/domain validator that accepts both full URLs and domain names
+const urlOrDomainSchema = z.string().refine(isValidUrlOrDomain, {
+  message: 'Invalid URL or domain format',
+});
+
+// Validate multiple URLs and return errors for each invalid one
+export interface UrlValidationError {
+  index: number;
+  url: string;
+  message: string;
+}
+
+export const validateUrls = (urls: string[]): UrlValidationError[] => {
+  const errors: UrlValidationError[] = [];
+  urls.forEach((url, index) => {
+    const trimmed = url.trim();
+    if (!trimmed) {
+      errors.push({ index, url, message: 'URL cannot be empty' });
+    } else if (!isValidUrlOrDomain(trimmed)) {
+      errors.push({ index, url: trimmed, message: 'Invalid URL or domain format' });
     }
-  },
-  { message: 'Invalid URL or domain format' },
-);
+  });
+  return errors;
+};
 
 // Schedule schema
 export const scheduleSchema = z.object({
@@ -143,3 +165,6 @@ export const safeValidateFocusSettings = (data: unknown): FocusSettings | null =
     return null;
   }
 };
+
+// Re-export isValidUrlOrDomain at the end
+export { isValidUrlOrDomain };

@@ -522,5 +522,50 @@
   },
   "seedGroupForums": {
     "message": "Diễn đàn"
+  },
+  "onboardingWelcome": {
+    "message": "Chào mừng đến với ZFocus"
+  },
+  "onboardingWelcomeDesc": {
+    "message": "Hãy thiết lập môi trường tập trung của bạn qua vài bước đơn giản"
+  },
+  "onboardingSelectLanguage": {
+    "message": "Chọn ngôn ngữ"
+  },
+  "onboardingSelectLanguageDesc": {
+    "message": "Chọn ngôn ngữ ưa thích cho giao diện"
+  },
+  "onboardingAutoDetected": {
+    "message": "Tự động nhận diện từ hệ thống"
+  },
+  "onboardingAddFirstGroup": {
+    "message": "Thêm nhóm website đầu tiên"
+  },
+  "onboardingAddFirstGroupDesc": {
+    "message": "Tạo nhóm các website bạn muốn giới hạn. Bạn có thể thêm sau."
+  },
+  "onboardingSkip": {
+    "message": "Bỏ qua"
+  },
+  "onboardingNext": {
+    "message": "Tiếp theo"
+  },
+  "onboardingBack": {
+    "message": "Quay lại"
+  },
+  "onboardingFinish": {
+    "message": "Bắt đầu"
+  },
+  "onboardingStepOf": {
+    "message": "Bước $1 / $2"
+  },
+  "urlRequired": {
+    "message": "Cần ít nhất một URL"
+  },
+  "urlEmpty": {
+    "message": "URL không được để trống"
+  },
+  "urlInvalid": {
+    "message": "Định dạng URL hoặc domain không hợp lệ"
   }
 }

@@ -513,5 +513,50 @@
   },
   "seedGroupForums": {
     "message": "フォーラム"
+  },
+  "onboardingWelcome": {
+    "message": "ZFocusへようこそ"
+  },
+  "onboardingWelcomeDesc": {
+    "message": "いくつかの簡単なステップで集中環境を設定しましょう"
+  },
+  "onboardingSelectLanguage": {
+    "message": "言語を選択"
+  },
+  "onboardingSelectLanguageDesc": {
+    "message": "インターフェースに使用する言語を選択してください"
+  },
+  "onboardingAutoDetected": {
+    "message": "システムから自動検出"
+  },
+  "onboardingAddFirstGroup": {
+    "message": "最初のウェブサイトグループを追加"
+  },
+  "onboardingAddFirstGroupDesc": {
+    "message": "制限したいウェブサイトのグループを作成します。後で追加することもできます。"
+  },
+  "onboardingSkip": {
+    "message": "スキップ"
+  },
+  "onboardingNext": {
+    "message": "次へ"
+  },
+  "onboardingBack": {
+    "message": "戻る"
+  },
+  "onboardingFinish": {
+    "message": "始める"
+  },
+  "onboardingStepOf": {
+    "message": "ステップ $1 / $2"
+  },
+  "urlRequired": {
+    "message": "少なくとも1つのURLが必要です"
+  },
+  "urlEmpty": {
+    "message": "URLを空にすることはできません"
+  },
+  "urlInvalid": {
+    "message": "無効なURLまたはドメイン形式です"
   }
 }

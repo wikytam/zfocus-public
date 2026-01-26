@@ -7,3 +7,4 @@ export { PauseControl } from './PauseControl';
 export { Header } from './Header';
 export { ActiveTimerDisplay } from './ActiveTimerDisplay';
 export { StatsChart } from './StatsChart';
+export { OnboardingWizard } from './OnboardingWizard';

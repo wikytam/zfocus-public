@@ -9,10 +9,10 @@ import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
-import { validateAddSiteForm } from '@extension/shared';
-import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { useState } from 'react';
-import type { BlockedSite, AddSiteFormData } from '@extension/shared';
+import { validateAddSiteForm, validateUrls } from '@extension/shared';
+import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info, AlertCircle } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import type { BlockedSite, AddSiteFormData, UrlValidationError } from '@extension/shared';
 
 interface AddSiteDialogProps {
   onAdd: (site: Omit<BlockedSite, 'id'>) => void;
@@ -70,8 +70,30 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
     endTime: '17:00',
   });
 
+  // Real-time URL validation
+  const urlErrors: UrlValidationError[] = useMemo(() => {
+    if (formData.urls.length === 0) return [];
+    return validateUrls(formData.urls);
+  }, [formData.urls]);
+
+  // Check if form can be submitted
+  const canSubmit = useMemo(
+    () => formData.title.trim() !== '' && formData.urls.length > 0 && urlErrors.length === 0,
+    [formData.title, formData.urls.length, urlErrors.length],
+  );
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check for validation errors before proceeding
+    if (!canSubmit) {
+      showToast({
+        message: t('validationError'),
+        type: 'error',
+        duration: 3000,
+      });
+      return;
+    }
 
     try {
       // Parse and validate form data (convert arrays to newline-separated strings)
@@ -212,7 +234,21 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 value={formData.urls}
                 onChange={urls => setFormData(prev => ({ ...prev, urls }))}
                 placeholder="facebook.com, youtube.com, twitter.com"
+                className={urlErrors.length > 0 ? 'border-destructive' : ''}
               />
+              {/* Inline validation errors for each URL */}
+              {urlErrors.length > 0 && (
+                <div className="space-y-1">
+                  {urlErrors.map((error, idx) => (
+                    <div key={idx} className="text-destructive flex items-center gap-1.5 text-xs">
+                      <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                      <span>
+                        <span className="font-medium">"{error.url}"</span>: {error.message}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Time Allowed with Interval */}
@@ -420,15 +456,22 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
                 </div>
               )}
             </div>
-
-            <div className="flex justify-end gap-3 pt-2">
-              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-                {t('cancel')}
-              </Button>
-              <Button type="submit">{t('addGroup')}</Button>
-            </div>
           </form>
         </ScrollArea>
+
+        {/* Footer Buttons - Outside ScrollArea to always be visible */}
+        <div className="flex items-center justify-end gap-2 pt-2">
+          <Button type="button" variant="outline" size="sm" onClick={() => setOpen(false)}>
+            {t('cancel')}
+          </Button>
+          <Button
+            size="sm"
+            onClick={handleSubmit}
+            disabled={!canSubmit}
+            className={!canSubmit ? 'cursor-not-allowed opacity-50' : ''}>
+            {t('addGroup')}
+          </Button>
+        </div>
       </DialogContent>
       <ToastContainer />
     </Dialog>

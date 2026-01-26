@@ -522,5 +522,50 @@
   },
   "seedGroupForums": {
     "message": "Forums"
+  },
+  "onboardingWelcome": {
+    "message": "Welcome to ZFocus"
+  },
+  "onboardingWelcomeDesc": {
+    "message": "Let's set up your focus environment in a few simple steps"
+  },
+  "onboardingSelectLanguage": {
+    "message": "Select Your Language"
+  },
+  "onboardingSelectLanguageDesc": {
+    "message": "Choose your preferred language for the interface"
+  },
+  "onboardingAutoDetected": {
+    "message": "Auto-detected from system"
+  },
+  "onboardingAddFirstGroup": {
+    "message": "Add Your First Website Group"
+  },
+  "onboardingAddFirstGroupDesc": {
+    "message": "Create a group of websites you want to limit. You can add more later."
+  },
+  "onboardingSkip": {
+    "message": "Skip for now"
+  },
+  "onboardingNext": {
+    "message": "Next"
+  },
+  "onboardingBack": {
+    "message": "Back"
+  },
+  "onboardingFinish": {
+    "message": "Get Started"
+  },
+  "onboardingStepOf": {
+    "message": "Step $1 of $2"
+  },
+  "urlRequired": {
+    "message": "At least one URL is required"
+  },
+  "urlEmpty": {
+    "message": "URL cannot be empty"
+  },
+  "urlInvalid": {
+    "message": "Invalid URL or domain format"
   }
 }
