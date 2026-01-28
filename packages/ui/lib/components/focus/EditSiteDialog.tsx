@@ -202,7 +202,11 @@ export const EditSiteDialog = ({ site, onSave, onDelete, trigger }: EditSiteDial
 
       setOpen(false);
     } catch (error) {
-      console.error('Form validation failed:', error);
+      // Validation errors are expected user input errors, not application errors
+      // Use debug level to avoid polluting Chrome Extension Errors tab
+      if (process.env.NODE_ENV === 'development') {
+        console.debug('[EditSite] Validation failed:', error);
+      }
       showToast({
         message: t('validationError'),
         type: 'error',
