@@ -1,10 +1,19 @@
 import { Button } from '../ui/button';
+import { testSentryConnection, isSentryReady } from '@extension/shared';
 import { focusHistoricalStatsStorage, focusStatsStorage } from '@extension/storage';
 import { useState } from 'react';
+
+// Check dev mode directly from process.env to avoid tailwind build issues
+const IS_DEV = process.env['CLI_CEB_DEV'] === 'true';
 
 export const SeedDataButton = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  // Only render in development mode
+  if (!IS_DEV) {
+    return null;
+  }
 
   const seedData = async () => {
     setLoading(true);
@@ -91,21 +100,41 @@ export const SeedDataButton = () => {
     }
   };
 
-  // Always show for now (can be controlled via build flag later)
-  // In production, this component won't be included in the bundle
+  const testSentry = async () => {
+    setLoading(true);
+    setMessage('');
+
+    try {
+      if (!isSentryReady()) {
+        setMessage('Sentry not initialized. Check CEB_SENTRY_DSN in .env');
+        return;
+      }
+
+      const result = await testSentryConnection();
+      setMessage(result.message);
+    } catch (error) {
+      setMessage('Error testing Sentry: ' + (error as Error).message);
+      console.error('Error testing Sentry:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="border-border bg-muted/50 fixed bottom-4 right-4 z-50 rounded-lg border p-4 shadow-lg">
       <div className="mb-2 text-xs font-semibold">Dev Tools</div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button onClick={seedData} disabled={loading} size="sm" variant="outline">
           {loading ? 'Loading...' : 'Seed Test Data'}
         </Button>
         <Button onClick={clearData} disabled={loading} size="sm" variant="outline">
           Clear Data
         </Button>
+        <Button onClick={testSentry} disabled={loading} size="sm" variant="outline">
+          Test Sentry
+        </Button>
       </div>
-      {message && <div className="text-muted-foreground mt-2 text-xs">{message}</div>}
+      {message && <div className="text-muted-foreground mt-2 max-w-xs text-xs">{message}</div>}
     </div>
   );
 };

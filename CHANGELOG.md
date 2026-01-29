@@ -2,9 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-01-13
+## [Unreleased] - 2026-01-29
 
 ### Added
+- [2026-01-29] Integrated GlitchTip/Sentry error monitoring across all extension contexts (background, popup, options, side-panel, content scripts)
+- [2026-01-29] Added "Test Sentry" button in Dev Tools panel to verify error reporting connection
+- [2026-01-29] Added CEB_SENTRY_DSN environment variable for configurable error monitoring DSN
+
+### Changed
+- [2026-01-29] Dev Tools panel (Seed Data, Clear Data, Test Sentry) now only visible in development mode
+- [2026-01-29] Console logs for Sentry initialization now hidden in production builds
 - [2026-01-10] Added TagsInput component for URL list, exceptions, and keywords with interactive tag management (add/remove tags, paste support)
 - [2026-01-10] Added Badge component for visual tag display
 - [2026-01-10] Added week start day preference setting (Monday/Sunday) for better chart viewing experience

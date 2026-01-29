@@ -1,6 +1,10 @@
+// Initialize Sentry/GlitchTip error monitoring as early as possible
+import { initSentry } from '@extension/shared';
 import '@src/index.css';
 import SidePanel from '@src/SidePanel';
 import { createRoot } from 'react-dom/client';
+
+initSentry({ context: 'side-panel' });
 
 const init = () => {
   const appContainer = document.querySelector('#app-container');

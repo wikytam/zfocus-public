@@ -1,6 +1,10 @@
+// Initialize Sentry/GlitchTip error monitoring as early as possible
+import { initSentry } from '@extension/shared';
 import '@src/index.css';
 import Popup from '@src/Popup';
 import { createRoot } from 'react-dom/client';
+
+initSentry({ context: 'popup' });
 
 const init = () => {
   const appContainer = document.querySelector('#app-container');

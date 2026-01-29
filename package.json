@@ -38,6 +38,7 @@
     "postinstall": "pnpm copy-env"
   },
   "dependencies": {
+    "@sentry/browser": "^10.37.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zod": "^4.3.5",

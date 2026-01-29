@@ -1,8 +1,11 @@
+// Initialize Sentry/GlitchTip error monitoring as early as possible
 import inlineCss from '../../../dist/all/index.css?inline';
-import { initAppWithShadow } from '@extension/shared';
+import { initSentry, initAppWithShadow } from '@extension/shared';
 import App from '@src/matches/all/App';
 import { Component } from 'react';
 import type { ReactNode } from 'react';
+
+initSentry({ context: 'content-ui' });
 
 // Error boundary to catch extension context invalidation
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {

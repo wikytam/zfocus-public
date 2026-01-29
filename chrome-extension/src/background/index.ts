@@ -1,4 +1,6 @@
 import 'webextension-polyfill';
+// Initialize Sentry/GlitchTip error monitoring as early as possible
+
 // Import i18n messages
 import { cleanupRegistry } from './cleanup-registry';
 import enMessages from '../../../packages/i18n/locales/en/messages.json';
@@ -6,6 +8,9 @@ import jaMessages from '../../../packages/i18n/locales/ja/messages.json';
 import koMessages from '../../../packages/i18n/locales/ko/messages.json';
 import viMessages from '../../../packages/i18n/locales/vi/messages.json';
 import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
+import { initSentry } from '@extension/shared';
+
+initSentry({ context: 'background' });
 
 console.log('[ZFocus] Background script loaded');
 
