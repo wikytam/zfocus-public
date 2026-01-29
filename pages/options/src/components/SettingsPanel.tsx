@@ -12,6 +12,7 @@ import {
   Button,
   cn,
   LanguageSelector,
+  ActivationCodeDialog,
 } from '@extension/ui';
 import {
   Moon,
@@ -27,6 +28,8 @@ import {
   AlertTriangle,
   CheckCircle,
   Timer,
+  Sparkles,
+  Crown,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import type { FocusSettings } from '@extension/storage';
@@ -34,9 +37,11 @@ import type { FocusSettings } from '@extension/storage';
 interface SettingsPanelProps {
   settings: FocusSettings;
   onUpdate: (updates: Partial<FocusSettings>) => void;
+  isPremium?: boolean;
+  onActivatePremium?: (code: string) => Promise<boolean>;
 }
 
-export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
+export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivatePremium }: SettingsPanelProps) => {
   const { t } = useI18n();
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
   const [syncInfo, setSyncInfo] = useState<string>('');
@@ -48,6 +53,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
     type: null,
     message: '',
   });
+  const [showActivationDialog, setShowActivationDialog] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sync handlers
@@ -131,6 +137,44 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
         <CardDescription>{t('advancedSettingsDesc')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Premium Status */}
+        <div
+          className={cn(
+            'flex items-center justify-between rounded-lg p-4 transition-all duration-200',
+            isPremium ? 'bg-primary/10 border-primary/20 border' : 'bg-secondary/50',
+          )}>
+          <div className="flex items-center gap-3">
+            <div className={cn('rounded-lg p-2', isPremium ? 'bg-primary/20' : 'bg-secondary')}>
+              {isPremium ? (
+                <Crown className="text-primary h-5 w-5" />
+              ) : (
+                <Sparkles className="text-muted-foreground h-5 w-5" />
+              )}
+            </div>
+            <div>
+              <Label className="font-medium">{isPremium ? t('premiumActive') : t('premiumInactive')}</Label>
+              <p className="text-muted-foreground text-xs">
+                {isPremium ? t('premiumActiveDesc') : t('premiumInactiveDesc')}
+              </p>
+            </div>
+          </div>
+          {!isPremium && onActivatePremium && (
+            <Button variant="outline" size="sm" onClick={() => setShowActivationDialog(true)}>
+              <Sparkles className="mr-2 h-4 w-4" />
+              {t('enterCode')}
+            </Button>
+          )}
+        </div>
+
+        {/* Activation Code Dialog */}
+        {onActivatePremium && (
+          <ActivationCodeDialog
+            open={showActivationDialog}
+            onOpenChange={setShowActivationDialog}
+            onActivate={onActivatePremium}
+          />
+        )}
+
         {/* Language Selection */}
         <LanguageSelector
           value={settings.language || getCurrentLocale()}

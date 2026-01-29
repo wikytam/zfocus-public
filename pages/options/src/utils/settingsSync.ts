@@ -91,5 +91,14 @@ export const autoSync = async (
 
 // ===== CLEAR ALL DATA =====
 export const clearAllData = async (): Promise<void> => {
-  await chrome.storage.sync.clear();
+  console.log('[ZFocus] clearAllData: Starting...');
+
+  // Clear both sync and local storage to reset everything including onboarding
+  await Promise.all([chrome.storage.sync.clear(), chrome.storage.local.clear()]);
+
+  // Set a flag to indicate data was cleared - this prevents DEFAULT_SETTINGS from loading
+  // This flag will be checked in loadInitialData to use empty blockedSites
+  await chrome.storage.local.set({ 'zfocus-data-cleared': true });
+
+  console.log('[ZFocus] clearAllData: Completed - data cleared flag set');
 };

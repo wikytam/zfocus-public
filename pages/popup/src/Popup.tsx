@@ -1,12 +1,15 @@
 import { useI18n } from '@extension/i18n';
 import { useFocusStore } from '@extension/shared';
-import { Header, StatCard, PauseControl, Card } from '@extension/ui';
-import { Clock, Ban, Globe } from 'lucide-react';
-import { useEffect } from 'react';
+import { Header, StatCard, PauseControl, Card, Button } from '@extension/ui';
+import { Clock, Ban, Globe, Sparkles, ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import './index.css';
+
+const ONBOARDING_COMPLETED_KEY = 'zfocus-onboarding-completed';
 
 const Popup = () => {
   const { t } = useI18n();
+  const [needsOnboarding, setNeedsOnboarding] = useState<boolean | null>(null);
   const {
     settings,
     stats,
@@ -18,6 +21,20 @@ const Popup = () => {
     loadHistoricalStats,
     setupListeners,
   } = useFocusStore();
+
+  // Check onboarding status
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      try {
+        const result = await chrome.storage.local.get(ONBOARDING_COMPLETED_KEY);
+        setNeedsOnboarding(!result[ONBOARDING_COMPLETED_KEY]);
+      } catch (e) {
+        console.error('[ZFocus] Failed to check onboarding status:', e);
+        setNeedsOnboarding(false);
+      }
+    };
+    checkOnboarding();
+  }, []);
 
   useEffect(() => {
     loadInitialData();
@@ -44,6 +61,42 @@ const Popup = () => {
   }, [settings.theme, loading]);
 
   const withinHours = isWithinWorkHours();
+
+  // Show loading state while checking onboarding
+  if (needsOnboarding === null) {
+    return (
+      <div className="bg-background flex min-h-[300px] w-[380px] items-center justify-center">
+        <div className="text-muted-foreground text-sm">Loading...</div>
+      </div>
+    );
+  }
+
+  // Show onboarding prompt if user hasn't completed setup
+  if (needsOnboarding) {
+    return (
+      <div className="bg-background min-h-[300px] w-[380px] overflow-hidden">
+        {/* Decorative background */}
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="bg-primary/10 absolute -right-20 -top-20 h-40 w-40 rounded-full blur-3xl" />
+          <div className="bg-accent/10 absolute -bottom-20 -left-20 h-32 w-32 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative flex min-h-[300px] flex-col items-center justify-center px-6 py-8 text-center">
+          <div className="bg-primary/10 mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
+            <Sparkles className="text-primary h-8 w-8" />
+          </div>
+          <h2 className="mb-2 text-xl font-semibold">{t('welcomeToZFocus')}</h2>
+          <p className="text-muted-foreground mb-6 text-sm">{t('setupRequiredDesc')}</p>
+          <Button
+            onClick={() => chrome.runtime.openOptionsPage()}
+            className="gradient-primary text-primary-foreground gap-2">
+            {t('startSetup')}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const formatTimePause = (seconds: number) => {
     if (seconds < 60) return `${seconds}s`;

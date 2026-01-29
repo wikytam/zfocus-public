@@ -31,15 +31,19 @@ const Options = () => {
     stats,
     historicalStats,
     loading,
+    isPremium,
     updateSettings,
     addBlockedSite,
     updateBlockedSite,
     removeBlockedSite,
+    clearAllBlockedSites,
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
     loadInitialData,
     loadHistoricalStats,
+    loadPremiumStatus,
+    activatePremium,
     setupListeners,
   } = useFocusStore();
 
@@ -48,8 +52,14 @@ const Options = () => {
     const checkOnboarding = async () => {
       try {
         const result = await chrome.storage.local.get(ONBOARDING_COMPLETED_KEY);
+        console.log('[ZFocus] checkOnboarding: key =', ONBOARDING_COMPLETED_KEY);
+        console.log('[ZFocus] checkOnboarding: result =', result);
+        console.log('[ZFocus] checkOnboarding: value =', result[ONBOARDING_COMPLETED_KEY]);
         if (!result[ONBOARDING_COMPLETED_KEY]) {
+          console.log('[ZFocus] checkOnboarding: Showing onboarding wizard');
           setShowOnboarding(true);
+        } else {
+          console.log('[ZFocus] checkOnboarding: Onboarding already completed');
         }
       } catch (e) {
         console.error('[ZFocus] Failed to check onboarding status:', e);
@@ -61,12 +71,14 @@ const Options = () => {
 
   const handleOnboardingComplete = useCallback(async () => {
     try {
+      // Clear all seed data first - user needs 100% fresh start
+      await clearAllBlockedSites();
       await chrome.storage.local.set({ [ONBOARDING_COMPLETED_KEY]: true });
     } catch (e) {
       console.error('[ZFocus] Failed to save onboarding status:', e);
     }
     setShowOnboarding(false);
-  }, []);
+  }, [clearAllBlockedSites]);
 
   const handleOnboardingLanguageChange = useCallback(
     (language: string) => {
@@ -100,9 +112,10 @@ const Options = () => {
   useEffect(() => {
     loadInitialData();
     loadHistoricalStats();
+    loadPremiumStatus();
     const cleanup = setupListeners();
     return cleanup;
-  }, [loadInitialData, loadHistoricalStats, setupListeners]);
+  }, [loadInitialData, loadHistoricalStats, loadPremiumStatus, setupListeners]);
 
   useEffect(() => {
     if (loading) return;
@@ -170,6 +183,8 @@ const Options = () => {
           onLanguageChange={handleOnboardingLanguageChange}
           onAddSite={addBlockedSite}
           currentLanguage={settings.language}
+          isPremium={isPremium}
+          onActivatePremium={activatePremium}
         />
       )}
 
@@ -264,7 +279,7 @@ const Options = () => {
                 <h2 className="text-xl font-semibold">{t('manageWebsites')}</h2>
                 <p className="text-muted-foreground text-sm">{t('manageWebsitesDesc')}</p>
               </div>
-              <AddSiteDialog onAdd={addBlockedSite} />
+              <AddSiteDialog onAdd={addBlockedSite} isPremium={isPremium} onActivatePremium={activatePremium} />
             </div>
 
             <div className="space-y-4">
@@ -275,6 +290,8 @@ const Options = () => {
                   onUpdate={updateBlockedSite}
                   onRemove={removeBlockedSite}
                   delay={index * 50}
+                  isPremium={isPremium}
+                  onActivatePremium={activatePremium}
                 />
               ))}
 
@@ -292,7 +309,12 @@ const Options = () => {
         {/* Settings Tab */}
         {activeTab === 'settings' && (
           <div className="space-y-6">
-            <SettingsPanel settings={settings} onUpdate={updateSettings} />
+            <SettingsPanel
+              settings={settings}
+              onUpdate={updateSettings}
+              isPremium={isPremium}
+              onActivatePremium={activatePremium}
+            />
           </div>
         )}
       </div>
