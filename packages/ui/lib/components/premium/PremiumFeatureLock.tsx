@@ -1,8 +1,7 @@
 import { ActivationCodeDialog } from './ActivationCodeDialog';
 import { cn } from '../../utils';
-import { Button } from '../ui/button';
 import { useI18n } from '@extension/i18n';
-import { Lock, Sparkles } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { useState } from 'react';
 
 interface PremiumFeatureLockProps {
@@ -32,10 +31,6 @@ export const PremiumFeatureLock = ({ isPremium, onActivate, children, className 
             <Lock className="text-primary h-5 w-5" />
           </div>
           <p className="text-foreground mb-1 text-sm font-medium">{t('premiumFeature')}</p>
-          <Button variant="outline" size="sm" onClick={() => setShowActivationDialog(true)} className="mt-2 gap-1.5">
-            <Sparkles className="h-3.5 w-3.5" />
-            {t('unlockPremium')}
-          </Button>
         </div>
       </div>
 
