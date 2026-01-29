@@ -567,5 +567,65 @@
   },
   "urlInvalid": {
     "message": "Định dạng URL hoặc domain không hợp lệ"
+  },
+  "welcomeToZFocus": {
+    "message": "Chào mừng đến ZFocus"
+  },
+  "setupRequired": {
+    "message": "Cần thiết lập để bắt đầu chặn các trang web gây mất tập trung"
+  },
+  "setupRequiredDesc": {
+    "message": "Cấu hình nhóm website đầu tiên để bắt đầu"
+  },
+  "startSetup": {
+    "message": "Bắt đầu thiết lập"
+  },
+  "openSettings": {
+    "message": "Mở cài đặt"
+  },
+  "premiumFeature": {
+    "message": "Tính năng Premium"
+  },
+  "premiumFeatureDesc": {
+    "message": "Tính năng này yêu cầu mã kích hoạt premium"
+  },
+  "enterActivationCode": {
+    "message": "Nhập mã kích hoạt"
+  },
+  "activationCode": {
+    "message": "Mã kích hoạt"
+  },
+  "activationCodePlaceholder": {
+    "message": "ZFOCUS-PREMIUM-2025"
+  },
+  "activate": {
+    "message": "Kích hoạt"
+  },
+  "invalidCode": {
+    "message": "Mã kích hoạt không hợp lệ"
+  },
+  "premiumActivated": {
+    "message": "Tính năng Premium đã được kích hoạt!"
+  },
+  "unlockPremium": {
+    "message": "Mở khóa Premium"
+  },
+  "premiumStatus": {
+    "message": "Trạng thái Premium"
+  },
+  "premiumActive": {
+    "message": "Premium hoạt động"
+  },
+  "premiumActiveDesc": {
+    "message": "Tất cả tính năng premium đã được mở khóa"
+  },
+  "premiumInactive": {
+    "message": "Phiên bản miễn phí"
+  },
+  "premiumInactiveDesc": {
+    "message": "Nhập mã kích hoạt để mở khóa tính năng premium"
+  },
+  "enterCode": {
+    "message": "Nhập mã"
   }
 }

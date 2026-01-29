@@ -567,5 +567,65 @@
   },
   "urlInvalid": {
     "message": "Invalid URL or domain format"
+  },
+  "welcomeToZFocus": {
+    "message": "Welcome to ZFocus"
+  },
+  "setupRequired": {
+    "message": "Setup required to start blocking distracting websites"
+  },
+  "setupRequiredDesc": {
+    "message": "Configure your first website group to get started"
+  },
+  "startSetup": {
+    "message": "Start Setup"
+  },
+  "openSettings": {
+    "message": "Open Settings"
+  },
+  "premiumFeature": {
+    "message": "Premium Feature"
+  },
+  "premiumFeatureDesc": {
+    "message": "This feature requires a premium activation code"
+  },
+  "enterActivationCode": {
+    "message": "Enter Activation Code"
+  },
+  "activationCode": {
+    "message": "Activation Code"
+  },
+  "activationCodePlaceholder": {
+    "message": "ZFOCUS-PREMIUM-2025"
+  },
+  "activate": {
+    "message": "Activate"
+  },
+  "invalidCode": {
+    "message": "Invalid activation code"
+  },
+  "premiumActivated": {
+    "message": "Premium features activated!"
+  },
+  "unlockPremium": {
+    "message": "Unlock Premium"
+  },
+  "premiumStatus": {
+    "message": "Premium Status"
+  },
+  "premiumActive": {
+    "message": "Premium Active"
+  },
+  "premiumActiveDesc": {
+    "message": "All premium features are unlocked"
+  },
+  "premiumInactive": {
+    "message": "Free Version"
+  },
+  "premiumInactiveDesc": {
+    "message": "Enter activation code to unlock premium features"
+  },
+  "enterCode": {
+    "message": "Enter Code"
   }
 }

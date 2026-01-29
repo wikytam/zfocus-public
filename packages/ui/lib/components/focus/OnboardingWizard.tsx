@@ -1,4 +1,6 @@
 import { cn } from '../../utils';
+import { ActivationCodeDialog } from '../premium/ActivationCodeDialog';
+import { PremiumFeatureLock } from '../premium/PremiumFeatureLock';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
@@ -38,6 +40,8 @@ interface OnboardingWizardProps {
   onLanguageChange: (language: string) => void;
   onAddSite: (site: Omit<BlockedSite, 'id'>) => void;
   currentLanguage?: string;
+  isPremium?: boolean;
+  onActivatePremium?: (code: string) => Promise<boolean>;
 }
 
 export const OnboardingWizard = ({
@@ -45,6 +49,8 @@ export const OnboardingWizard = ({
   onLanguageChange,
   onAddSite,
   currentLanguage,
+  isPremium = false,
+  onActivatePremium,
 }: OnboardingWizardProps) => {
   const { t } = useI18n();
   const [step, setStep] = useState(1);
@@ -78,6 +84,7 @@ export const OnboardingWizard = ({
   ];
 
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showActivationDialog, setShowActivationDialog] = useState(false);
   const [formData, setFormData] = useState<{
     title: string;
     urls: string[];
@@ -415,31 +422,74 @@ export const OnboardingWizard = ({
 
                     {showAdvanced && (
                       <div className="space-y-4">
-                        {/* Exceptions */}
+                        {/* Exceptions - Premium Feature */}
                         <div className="space-y-2">
-                          <Label htmlFor="onboard-exceptions" className="text-sm">
-                            {t('exceptionsLabel')}
-                          </Label>
-                          <TagsInput
-                            value={formData.exceptions}
-                            onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
-                            placeholder="youtube.com/learn, facebook.com/help"
-                          />
+                          <div className="flex items-center justify-between">
+                            <Label htmlFor="onboard-exceptions" className="text-sm">
+                              {t('exceptionsLabel')}
+                            </Label>
+                            {!isPremium && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setShowActivationDialog(true)}
+                                className="text-primary hover:bg-primary/10 h-auto gap-1 px-2 py-1 text-xs">
+                                <Sparkles className="h-3 w-3" />
+                                {t('unlockPremium')}
+                              </Button>
+                            )}
+                          </div>
+                          <PremiumFeatureLock
+                            isPremium={isPremium}
+                            onActivate={onActivatePremium || (async () => false)}>
+                            <TagsInput
+                              value={formData.exceptions}
+                              onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
+                              placeholder="youtube.com/learn, facebook.com/help"
+                            />
+                          </PremiumFeatureLock>
                           <p className="text-muted-foreground text-xs">{t('exceptionsDescription')}</p>
                         </div>
 
-                        {/* Keywords */}
+                        {/* Keywords - Premium Feature */}
                         <div className="space-y-2">
-                          <Label htmlFor="onboard-keywords" className="text-sm">
-                            {t('keywordsInUrl')}
-                          </Label>
-                          <TagsInput
-                            value={formData.keywords}
-                            onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
-                            placeholder="game, video, entertainment"
-                          />
+                          <div className="flex items-center justify-between">
+                            <Label htmlFor="onboard-keywords" className="text-sm">
+                              {t('keywordsInUrl')}
+                            </Label>
+                            {!isPremium && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setShowActivationDialog(true)}
+                                className="text-primary hover:bg-primary/10 h-auto gap-1 px-2 py-1 text-xs">
+                                <Sparkles className="h-3 w-3" />
+                                {t('unlockPremium')}
+                              </Button>
+                            )}
+                          </div>
+                          <PremiumFeatureLock
+                            isPremium={isPremium}
+                            onActivate={onActivatePremium || (async () => false)}>
+                            <TagsInput
+                              value={formData.keywords}
+                              onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
+                              placeholder="game, video, entertainment"
+                            />
+                          </PremiumFeatureLock>
                           <p className="text-muted-foreground text-xs">{t('keywordsInUrlDesc')}</p>
                         </div>
+
+                        {/* Activation Code Dialog */}
+                        {onActivatePremium && (
+                          <ActivationCodeDialog
+                            open={showActivationDialog}
+                            onOpenChange={setShowActivationDialog}
+                            onActivate={onActivatePremium}
+                          />
+                        )}
 
                         {/* Action */}
                         <div className="flex items-center justify-between">

@@ -11,9 +11,18 @@ interface BlockedSiteItemProps {
   onUpdate: (id: string, updates: Partial<BlockedSite>) => void;
   onRemove: (id: string) => void;
   delay?: number;
+  isPremium?: boolean;
+  onActivatePremium?: (code: string) => Promise<boolean>;
 }
 
-export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: BlockedSiteItemProps) => {
+export const BlockedSiteItem = ({
+  site,
+  onUpdate,
+  onRemove,
+  delay = 0,
+  isPremium = false,
+  onActivatePremium,
+}: BlockedSiteItemProps) => {
   const { t } = useI18n();
 
   const handleEditSave = (updates: Partial<BlockedSite>) => {
@@ -73,7 +82,13 @@ export const BlockedSiteItem = ({ site, onUpdate, onRemove, delay = 0 }: Blocked
 
         <div className="flex items-center gap-2">
           <Switch checked={site.isActive} onCheckedChange={checked => onUpdate(site.id, { isActive: checked })} />
-          <EditSiteDialog site={site} onSave={handleEditSave} onDelete={handleDelete} />
+          <EditSiteDialog
+            site={site}
+            onSave={handleEditSave}
+            onDelete={handleDelete}
+            isPremium={isPremium}
+            onActivatePremium={onActivatePremium}
+          />
         </div>
       </div>
     </Card>

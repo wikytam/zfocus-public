@@ -94,15 +94,18 @@ interface FocusStoreState {
   historicalStats: HistoricalStats;
   activeTimers: ActiveTimer[];
   loading: boolean;
+  isPremium: boolean;
   setSettings: (settings: FocusSettings) => void;
   setStats: (stats: DailyStats) => void;
   setHistoricalStats: (stats: HistoricalStats) => void;
   setActiveTimers: (timers: ActiveTimer[]) => void;
   setLoading: (loading: boolean) => void;
+  setIsPremium: (isPremium: boolean) => void;
   updateSettings: (updates: Partial<FocusSettings>) => Promise<void>;
   addBlockedSite: (site: Omit<BlockedSite, 'id'>) => Promise<void>;
   updateBlockedSite: (id: string, updates: Partial<BlockedSite>) => Promise<void>;
   removeBlockedSite: (id: string) => Promise<void>;
+  clearAllBlockedSites: () => Promise<void>;
   pauseBlocking: (minutes: number) => Promise<void>;
   resumeBlocking: () => Promise<void>;
   incrementBlockedAttempts: () => Promise<void>;
@@ -110,8 +113,13 @@ interface FocusStoreState {
   isWithinWorkHours: () => boolean;
   loadInitialData: () => Promise<void>;
   loadHistoricalStats: () => Promise<void>;
+  loadPremiumStatus: () => Promise<void>;
+  activatePremium: (code: string) => Promise<boolean>;
   setupListeners: () => () => void;
 }
+
+// Premium activation codes
+const VALID_PREMIUM_CODES = ['ZFOCUS-PREMIUM-2025', 'ZFOCUS-PREMIUM-2026', 'EARLY-ADOPTER-001', 'ZFOCUS-BETA-TESTER'];
 
 export const useFocusStore = create<FocusStoreState>((set, get) => ({
   settings: DEFAULT_SETTINGS,
@@ -119,17 +127,37 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
   historicalStats: {},
   activeTimers: [],
   loading: true,
+  isPremium: false,
 
   setSettings: (settings: FocusSettings) => set({ settings }),
   setStats: (stats: DailyStats) => set({ stats }),
   setHistoricalStats: (historicalStats: HistoricalStats) => set({ historicalStats }),
   setActiveTimers: (activeTimers: ActiveTimer[]) => set({ activeTimers }),
   setLoading: (loading: boolean) => set({ loading }),
+  setIsPremium: (isPremium: boolean) => set({ isPremium }),
 
   loadInitialData: async () => {
     try {
+      // Check if data was cleared - if so, use empty blockedSites instead of defaults
+      const localData = await chrome.storage.local.get(['zfocus-data-cleared']);
+      const dataWasCleared = !!localData['zfocus-data-cleared'];
+
+      if (dataWasCleared) {
+        console.log('[ZFocus] loadInitialData: Data was cleared, using empty settings');
+        // Clear the flag so it doesn't persist forever
+        await chrome.storage.local.remove('zfocus-data-cleared');
+      }
+
+      // Use empty settings if data was cleared, otherwise use defaults
+      const emptySettings: FocusSettings = {
+        ...DEFAULT_SETTINGS,
+        blockedSites: [],
+      };
+
+      const defaultToUse = dataWasCleared ? emptySettings : DEFAULT_SETTINGS;
+
       const [settingsData, statsData] = await Promise.all([
-        getFromStorage(STORAGE_KEYS.settings, DEFAULT_SETTINGS),
+        getFromStorage(STORAGE_KEYS.settings, defaultToUse),
         getFromStorage(STORAGE_KEYS.stats, getDefaultStats()),
       ]);
 
@@ -269,6 +297,24 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
     await setToStorage(STORAGE_KEYS.settings, newSettings);
   },
 
+  clearAllBlockedSites: async () => {
+    const { settings } = get();
+    const newSettings = {
+      ...settings,
+      blockedSites: [],
+    };
+    set({ settings: newSettings });
+    await setToStorage(STORAGE_KEYS.settings, newSettings);
+
+    // Also reset timers
+    try {
+      await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: {} });
+      chrome.runtime.sendMessage({ type: 'RESET_TIMERS' });
+    } catch {
+      // Ignore errors
+    }
+  },
+
   pauseBlocking: async (minutes: number) => {
     const { settings } = get();
     if (settings.hardLockMode) return;
@@ -344,5 +390,34 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
     const endMinutes = endHour * 60 + endMin;
 
     return currentTime >= startMinutes && currentTime <= endMinutes;
+  },
+
+  loadPremiumStatus: async () => {
+    try {
+      const result = await chrome.storage.sync.get(['zfocus-premium']);
+      const isPremium = !!result['zfocus-premium'];
+      console.log('[ZFocus] loadPremiumStatus: result =', result);
+      console.log('[ZFocus] loadPremiumStatus: isPremium =', isPremium);
+      set({ isPremium });
+    } catch (e) {
+      console.error('[ZFocus] loadPremiumStatus error:', e);
+      set({ isPremium: false });
+    }
+  },
+
+  activatePremium: async (code: string) => {
+    const normalizedCode = code.trim().toUpperCase();
+    const isValid = VALID_PREMIUM_CODES.includes(normalizedCode);
+
+    if (isValid) {
+      try {
+        await chrome.storage.sync.set({ 'zfocus-premium': true, 'zfocus-premium-code': normalizedCode });
+        set({ isPremium: true });
+        return true;
+      } catch {
+        return false;
+      }
+    }
+    return false;
   },
 }));

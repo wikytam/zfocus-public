@@ -1,4 +1,6 @@
 import { cn } from '../../utils';
+import { ActivationCodeDialog } from '../premium/ActivationCodeDialog';
+import { PremiumFeatureLock } from '../premium/PremiumFeatureLock';
 import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Input } from '../ui/input';
@@ -10,17 +12,22 @@ import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
 import { validateAddSiteForm, validateUrls } from '@extension/shared';
-import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info, AlertCircle } from 'lucide-react';
+import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info, AlertCircle, Sparkles } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import type { BlockedSite, AddSiteFormData, UrlValidationError } from '@extension/shared';
 
 interface AddSiteDialogProps {
   onAdd: (site: Omit<BlockedSite, 'id'>) => void;
+  isPremium?: boolean;
+  onActivatePremium?: (code: string) => Promise<boolean>;
 }
 
-export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
+export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: AddSiteDialogProps) => {
   const { t } = useI18n();
   const { showToast, ToastContainer } = useToast();
+
+  // Debug log
+  console.log('[ZFocus] AddSiteDialog: isPremium =', isPremium);
 
   const DAYS = [
     { value: 1, label: t('monday'), fullLabel: t('mondayFull') },
@@ -40,6 +47,7 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
   ];
   const [open, setOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showActivationDialog, setShowActivationDialog] = useState(false);
   const [formData, setFormData] = useState<{
     title: string;
     urls: string[];
@@ -389,31 +397,70 @@ export const AddSiteDialog = ({ onAdd }: AddSiteDialogProps) => {
 
               {showHelp && (
                 <div className="space-y-4">
-                  {/* Exceptions */}
+                  {/* Exceptions - Premium Feature */}
                   <div className="space-y-2">
-                    <Label htmlFor="add-exceptions" className="text-sm">
-                      {t('exceptionsLabel')}
-                    </Label>
-                    <TagsInput
-                      value={formData.exceptions}
-                      onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
-                      placeholder="youtube.com/learn, facebook.com/help"
-                    />
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="add-exceptions" className="text-sm">
+                        {t('exceptionsLabel')}
+                      </Label>
+                      {!isPremium && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowActivationDialog(true)}
+                          className="text-primary hover:bg-primary/10 h-auto gap-1 px-2 py-1 text-xs">
+                          <Sparkles className="h-3 w-3" />
+                          {t('unlockPremium')}
+                        </Button>
+                      )}
+                    </div>
+                    <PremiumFeatureLock isPremium={isPremium} onActivate={onActivatePremium || (async () => false)}>
+                      <TagsInput
+                        value={formData.exceptions}
+                        onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
+                        placeholder="youtube.com/learn, facebook.com/help"
+                      />
+                    </PremiumFeatureLock>
                     <p className="text-muted-foreground text-xs">{t('exceptionsDescription')}</p>
                   </div>
 
-                  {/* Keywords */}
+                  {/* Keywords - Premium Feature */}
                   <div className="space-y-2">
-                    <Label htmlFor="add-keywords" className="text-sm">
-                      {t('keywordsInUrl')}
-                    </Label>
-                    <TagsInput
-                      value={formData.keywords}
-                      onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
-                      placeholder="game, video, entertainment"
-                    />
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="add-keywords" className="text-sm">
+                        {t('keywordsInUrl')}
+                      </Label>
+                      {!isPremium && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowActivationDialog(true)}
+                          className="text-primary hover:bg-primary/10 h-auto gap-1 px-2 py-1 text-xs">
+                          <Sparkles className="h-3 w-3" />
+                          {t('unlockPremium')}
+                        </Button>
+                      )}
+                    </div>
+                    <PremiumFeatureLock isPremium={isPremium} onActivate={onActivatePremium || (async () => false)}>
+                      <TagsInput
+                        value={formData.keywords}
+                        onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
+                        placeholder="game, video, entertainment"
+                      />
+                    </PremiumFeatureLock>
                     <p className="text-muted-foreground text-xs">{t('keywordsInUrlDesc')}</p>
                   </div>
+
+                  {/* Activation Code Dialog */}
+                  {onActivatePremium && (
+                    <ActivationCodeDialog
+                      open={showActivationDialog}
+                      onOpenChange={setShowActivationDialog}
+                      onActivate={onActivatePremium}
+                    />
+                  )}
 
                   {/* Action - Inline */}
                   <div className="flex items-center justify-between">
