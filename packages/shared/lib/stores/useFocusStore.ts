@@ -16,38 +16,8 @@ const DEFAULT_SCHEDULE = {
   allowOutsideHours: true,
 };
 
-const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
-  {
-    id: '1',
-    title: 'seedGroupSocialMedia',
-    urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-    allowedMinutesPerHour: 1,
-    action: 'redirect',
-    isActive: true,
-    schedule: { ...DEFAULT_SCHEDULE },
-  },
-  {
-    id: '2',
-    title: 'seedGroupEntertainment',
-    urls: ['youtube.com', 'netflix.com', 'twitch.tv'],
-    allowedMinutesPerHour: 10,
-    action: 'close',
-    isActive: true,
-    schedule: { ...DEFAULT_SCHEDULE },
-  },
-  {
-    id: '3',
-    title: 'seedGroupForums',
-    urls: ['reddit.com', 'quora.com'],
-    allowedMinutesPerHour: 3,
-    action: 'redirect',
-    isActive: false,
-    schedule: { ...DEFAULT_SCHEDULE },
-  },
-];
-
 const DEFAULT_SETTINGS: FocusSettings = {
-  blockedSites: DEFAULT_BLOCKED_SITES,
+  blockedSites: [],
   workSchedule: { ...DEFAULT_SCHEDULE },
   pauseMinutes: 15,
   isPaused: false,
@@ -138,26 +108,8 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
   loadInitialData: async () => {
     try {
-      // Check if data was cleared - if so, use empty blockedSites instead of defaults
-      const localData = await chrome.storage.local.get(['zfocus-data-cleared']);
-      const dataWasCleared = !!localData['zfocus-data-cleared'];
-
-      if (dataWasCleared) {
-        console.log('[ZFocus] loadInitialData: Data was cleared, using empty settings');
-        // Clear the flag so it doesn't persist forever
-        await chrome.storage.local.remove('zfocus-data-cleared');
-      }
-
-      // Use empty settings if data was cleared, otherwise use defaults
-      const emptySettings: FocusSettings = {
-        ...DEFAULT_SETTINGS,
-        blockedSites: [],
-      };
-
-      const defaultToUse = dataWasCleared ? emptySettings : DEFAULT_SETTINGS;
-
       const [settingsData, statsData] = await Promise.all([
-        getFromStorage(STORAGE_KEYS.settings, defaultToUse),
+        getFromStorage(STORAGE_KEYS.settings, DEFAULT_SETTINGS),
         getFromStorage(STORAGE_KEYS.stats, getDefaultStats()),
       ]);
 

@@ -80,26 +80,6 @@ export const SeedDataButton = () => {
     }
   };
 
-  const clearData = async () => {
-    setLoading(true);
-    setMessage('');
-
-    try {
-      // Clear all storage data by removing the keys
-      await chrome.storage.sync.remove(['focus-settings', 'focus-stats', 'focus-historical-stats', 'focus-timers']);
-
-      setMessage('Data cleared successfully! Reloading extension...');
-
-      // Reload the extension to pick up new defaults
-      chrome.runtime.reload();
-    } catch (error) {
-      setMessage('Error clearing data: ' + (error as Error).message);
-      console.error('Error clearing data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const testSentry = async () => {
     setLoading(true);
     setMessage('');
@@ -126,9 +106,6 @@ export const SeedDataButton = () => {
       <div className="flex flex-wrap gap-2">
         <Button onClick={seedData} disabled={loading} size="sm" variant="outline">
           {loading ? 'Loading...' : 'Seed Test Data'}
-        </Button>
-        <Button onClick={clearData} disabled={loading} size="sm" variant="outline">
-          Clear Data
         </Button>
         <Button onClick={testSentry} disabled={loading} size="sm" variant="outline">
           Test Sentry

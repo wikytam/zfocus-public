@@ -25,38 +25,8 @@ const DEFAULT_SCHEDULE = {
   allowOutsideHours: true,
 };
 
-const DEFAULT_BLOCKED_SITES: BlockedSite[] = [
-  {
-    id: '1',
-    title: 'seedGroupSocialMedia',
-    urls: ['facebook.com', 'twitter.com', 'instagram.com', 'tiktok.com'],
-    allowedMinutesPerHour: 1, // 1 minute per hour
-    action: 'redirect',
-    isActive: true,
-    schedule: { ...DEFAULT_SCHEDULE },
-  },
-  {
-    id: '2',
-    title: 'seedGroupEntertainment',
-    urls: ['youtube.com', 'netflix.com', 'twitch.tv'],
-    allowedMinutesPerHour: 10,
-    action: 'close',
-    isActive: true,
-    schedule: { ...DEFAULT_SCHEDULE },
-  },
-  {
-    id: '3',
-    title: 'seedGroupForums',
-    urls: ['reddit.com', 'quora.com'],
-    allowedMinutesPerHour: 3,
-    action: 'redirect',
-    isActive: false,
-    schedule: { ...DEFAULT_SCHEDULE },
-  },
-];
-
 const DEFAULT_SETTINGS: FocusSettings = {
-  blockedSites: DEFAULT_BLOCKED_SITES,
+  blockedSites: [],
   workSchedule: { ...DEFAULT_SCHEDULE },
   pauseMinutes: 15,
   isPaused: false,

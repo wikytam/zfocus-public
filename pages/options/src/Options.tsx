@@ -36,7 +36,6 @@ const Options = () => {
     addBlockedSite,
     updateBlockedSite,
     removeBlockedSite,
-    clearAllBlockedSites,
     pauseBlocking,
     resumeBlocking,
     isWithinWorkHours,
@@ -71,14 +70,14 @@ const Options = () => {
 
   const handleOnboardingComplete = useCallback(async () => {
     try {
-      // Clear all seed data first - user needs 100% fresh start
-      await clearAllBlockedSites();
+      // Note: Do NOT clear blocked sites here - user may have added a site during onboarding
+      // The seed data is only added on first install before onboarding completes
       await chrome.storage.local.set({ [ONBOARDING_COMPLETED_KEY]: true });
     } catch (e) {
       console.error('[ZFocus] Failed to save onboarding status:', e);
     }
     setShowOnboarding(false);
-  }, [clearAllBlockedSites]);
+  }, []);
 
   const handleOnboardingLanguageChange = useCallback(
     (language: string) => {
