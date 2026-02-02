@@ -1,6 +1,6 @@
 import { exportSettings as exportSettingsFile, parseImportFile } from '../utils/settingsExportImport';
 import { checkSyncStatus as checkSync, autoSync, clearAllData } from '../utils/settingsSync';
-import { getCurrentLocale, useI18n } from '@extension/i18n';
+import { getLanguageCode, useI18n } from '@extension/i18n';
 import {
   Card,
   CardContent,
@@ -34,6 +34,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
+import type { MessageKeyType } from '@extension/i18n';
 import type { FocusSettings } from '@extension/storage';
 
 interface SettingsPanelProps {
@@ -113,10 +114,10 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
     }
   };
 
-  const themes = [
-    { value: 'light' as const, icon: Sun, labelKey: 'light' },
-    { value: 'dark' as const, icon: Moon, labelKey: 'dark' },
-    { value: 'system' as const, icon: Monitor, labelKey: 'system' },
+  const themes: { value: 'light' | 'dark' | 'system'; icon: typeof Sun; labelKey: MessageKeyType }[] = [
+    { value: 'light', icon: Sun, labelKey: 'light' },
+    { value: 'dark', icon: Moon, labelKey: 'dark' },
+    { value: 'system', icon: Monitor, labelKey: 'system' },
   ];
 
   return (
@@ -179,7 +180,7 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
 
         {/* Language Selection */}
         <LanguageSelector
-          value={settings.language || getCurrentLocale()}
+          value={settings.language || getLanguageCode()}
           onChange={language => onUpdate({ language })}
         />
 

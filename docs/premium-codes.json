@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2025-01-29",
+  "codes": [
+    {
+      "code": "ZFOCUS-PREMIUM-2025",
+      "description": "Premium code for 2025",
+      "validUntil": "2025-12-31",
+      "features": ["keywords", "referrers"]
+    },
+    {
+      "code": "ZFOCUS-PREMIUM-2026",
+      "description": "Premium code for 2026",
+      "validUntil": "2026-12-31",
+      "features": ["keywords", "referrers"]
+    },
+    {
+      "code": "EARLY-ADOPTER-001",
+      "description": "Special code for early adopters",
+      "validUntil": "2027-12-31",
+      "features": ["keywords", "referrers", "advanced-stats"]
+    },
+    {
+      "code": "ZFOCUS-BETA-TESTER",
+      "description": "Code for beta testers",
+      "validUntil": "2026-06-30",
+      "features": ["keywords", "referrers"]
+    }
+  ],
+  "instructions": {
+    "howToUse": "Enter the code in ZFocus Settings > Premium > Enter Activation Code",
+    "support": "Contact hvdtam@gmail.com for premium code issues"
+  }
+}

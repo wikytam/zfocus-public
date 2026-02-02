@@ -3,7 +3,6 @@ import { ActivationCodeDialog } from '../premium/ActivationCodeDialog';
 import { PremiumFeatureLock } from '../premium/PremiumFeatureLock';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { ScrollArea } from '../ui/scroll-area';
@@ -24,7 +23,8 @@ import {
   Info,
   AlertCircle,
   Sparkles,
-  Bug,
+  ShieldCheck,
+  ShieldAlert,
 } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
 import type { BlockedSite, UrlValidationError } from '@extension/shared';
@@ -262,26 +262,31 @@ export const OnboardingWizard = ({
 
                   {/* Error Reporting Consent */}
                   <div className="border-border mt-6 space-y-3 border-t pt-6">
-                    <div className="bg-secondary/30 border-border/50 rounded-lg border p-4">
-                      <div className="flex items-start gap-3">
-                        <Checkbox
-                          id="onboard-error-reporting"
-                          checked={errorReportingEnabled}
-                          onCheckedChange={checked => setErrorReportingEnabled(checked === true)}
-                          className="mt-0.5"
-                        />
-                        <div className="flex-1 space-y-1">
+                    <div
+                      className={cn(
+                        'flex items-center justify-between rounded-lg p-4 transition-all duration-200',
+                        errorReportingEnabled ? 'bg-primary/10 border-primary/20 border' : 'bg-secondary/30',
+                      )}>
+                      <div className="flex items-center gap-3">
+                        <div className={cn('rounded-lg p-2', errorReportingEnabled ? 'bg-primary/20' : 'bg-secondary')}>
+                          {errorReportingEnabled ? (
+                            <ShieldCheck className="text-primary h-5 w-5" />
+                          ) : (
+                            <ShieldAlert className="text-muted-foreground h-5 w-5" />
+                          )}
+                        </div>
+                        <div>
                           <Label htmlFor="onboard-error-reporting" className="cursor-pointer text-sm font-medium">
-                            <div className="flex items-center gap-2">
-                              <Bug className="h-4 w-4" />
-                              {t('errorReportingLabel')}
-                            </div>
+                            {t('errorReportingLabel')}
                           </Label>
-                          <p className="text-muted-foreground text-xs leading-relaxed">
-                            {t('errorReportingOnboardingDesc')}
-                          </p>
+                          <p className="text-muted-foreground text-xs">{t('errorReportingOnboardingDesc')}</p>
                         </div>
                       </div>
+                      <Switch
+                        id="onboard-error-reporting"
+                        checked={errorReportingEnabled}
+                        onCheckedChange={setErrorReportingEnabled}
+                      />
                     </div>
                   </div>
                 </div>
