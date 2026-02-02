@@ -34,6 +34,7 @@ const DEFAULT_SETTINGS: FocusSettings = {
   theme: 'dark',
   showBadgeCountdown: true, // Default: show countdown on badge
   language: undefined, // Auto-detect by default
+  errorReportingEnabled: false, // Default: off - user must opt-in during onboarding
 };
 
 const getDefaultStats = (): DailyStats => ({

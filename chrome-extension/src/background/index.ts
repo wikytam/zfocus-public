@@ -8,8 +8,9 @@ import jaMessages from '../../../packages/i18n/locales/ja/messages.json';
 import koMessages from '../../../packages/i18n/locales/ko/messages.json';
 import viMessages from '../../../packages/i18n/locales/vi/messages.json';
 import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
-import { initSentry } from '@extension/shared';
+import { initSentry, updateErrorReportingConsent } from '@extension/shared';
 
+// Initialize Sentry (will check for user consent before actually initializing)
 initSentry({ context: 'background' });
 
 console.log('[ZFocus] Background script loaded');
@@ -855,6 +856,16 @@ chrome.storage.sync.onChanged.addListener(async changes => {
     const newSettings = changes['focus-settings'].newValue as FocusSettings;
 
     console.log('[ZFocus] Settings changed, checking for website info updates...');
+
+    // Check if error reporting consent changed
+    const oldErrorReporting = (oldSettings as FocusSettings & { errorReportingEnabled?: boolean })
+      ?.errorReportingEnabled;
+    const newErrorReporting = (newSettings as FocusSettings & { errorReportingEnabled?: boolean })
+      ?.errorReportingEnabled;
+    if (oldErrorReporting !== newErrorReporting) {
+      console.log(`[ZFocus] Error reporting consent changed: ${oldErrorReporting} -> ${newErrorReporting}`);
+      await updateErrorReportingConsent(newErrorReporting === true, 'background');
+    }
 
     // Detect if blocked sites configuration changed
     const blockedSitesChanged =

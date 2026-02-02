@@ -627,5 +627,26 @@
   },
   "enterCode": {
     "message": "Enter Code"
+  },
+  "errorReporting": {
+    "message": "Error Reporting"
+  },
+  "errorReportingLabel": {
+    "message": "Help improve ZFocus"
+  },
+  "errorReportingDesc": {
+    "message": "Allow anonymous error reporting to help us fix bugs"
+  },
+  "errorReportingOnboardingDesc": {
+    "message": "We only collect error data to improve the extension. No personal data or browsing history is collected."
+  },
+  "errorReportingSettingsDesc": {
+    "message": "Only error data is collected. We do not access or store any of your personal data or browsing history."
+  },
+  "errorReportingEnabled": {
+    "message": "Error reporting enabled"
+  },
+  "errorReportingDisabled": {
+    "message": "Error reporting disabled"
   }
 }

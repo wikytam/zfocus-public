@@ -30,6 +30,8 @@ import {
   Timer,
   Sparkles,
   Crown,
+  ShieldAlert,
+  ShieldCheck,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import type { FocusSettings } from '@extension/storage';
@@ -274,6 +276,34 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
             id="hardLock"
             checked={settings.hardLockMode}
             onCheckedChange={checked => onUpdate({ hardLockMode: checked })}
+          />
+        </div>
+
+        {/* Error Reporting */}
+        <div
+          className={cn(
+            'flex items-center justify-between rounded-lg p-4 transition-all duration-200',
+            settings.errorReportingEnabled ? 'bg-primary/10 border-primary/20 border' : 'bg-secondary/50',
+          )}>
+          <div className="flex items-center gap-3">
+            <div className={cn('rounded-lg p-2', settings.errorReportingEnabled ? 'bg-primary/20' : 'bg-secondary')}>
+              {settings.errorReportingEnabled ? (
+                <ShieldCheck className="text-primary h-5 w-5" />
+              ) : (
+                <ShieldAlert className="text-muted-foreground h-5 w-5" />
+              )}
+            </div>
+            <div>
+              <Label htmlFor="errorReporting" className="cursor-pointer">
+                {t('errorReportingLabel')}
+              </Label>
+              <p className="text-muted-foreground text-xs">{t('errorReportingSettingsDesc')}</p>
+            </div>
+          </div>
+          <Switch
+            id="errorReporting"
+            checked={settings.errorReportingEnabled || false}
+            onCheckedChange={checked => onUpdate({ errorReportingEnabled: checked })}
           />
         </div>
 

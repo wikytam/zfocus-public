@@ -3,6 +3,7 @@ import { ActivationCodeDialog } from '../premium/ActivationCodeDialog';
 import { PremiumFeatureLock } from '../premium/PremiumFeatureLock';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { ScrollArea } from '../ui/scroll-area';
@@ -23,6 +24,7 @@ import {
   Info,
   AlertCircle,
   Sparkles,
+  Bug,
 } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
 import type { BlockedSite, UrlValidationError } from '@extension/shared';
@@ -36,7 +38,7 @@ const LANGUAGES = [
 ];
 
 interface OnboardingWizardProps {
-  onComplete: () => void;
+  onComplete: (options?: { errorReportingEnabled?: boolean }) => void;
   onLanguageChange: (language: string) => void;
   onAddSite: (site: Omit<BlockedSite, 'id'>) => void;
   currentLanguage?: string;
@@ -64,6 +66,9 @@ export const OnboardingWizard = ({
     const found = LANGUAGES.find(l => browserLang.startsWith(l.code));
     return found?.code || 'en';
   });
+
+  // Step 1: Error reporting consent (default off)
+  const [errorReportingEnabled, setErrorReportingEnabled] = useState(false);
 
   // Step 2: Add Website Group
   const DAYS = [
@@ -163,11 +168,11 @@ export const OnboardingWizard = ({
         },
       });
     }
-    onComplete();
+    onComplete({ errorReportingEnabled });
   };
 
   const handleSkip = () => {
-    onComplete();
+    onComplete({ errorReportingEnabled });
   };
 
   const toggleDay = (day: number) => {
@@ -253,6 +258,31 @@ export const OnboardingWizard = ({
                       </SelectContent>
                     </Select>
                     <p className="text-muted-foreground text-center text-xs">{t('onboardingAutoDetected')}</p>
+                  </div>
+
+                  {/* Error Reporting Consent */}
+                  <div className="border-border mt-6 space-y-3 border-t pt-6">
+                    <div className="bg-secondary/30 border-border/50 rounded-lg border p-4">
+                      <div className="flex items-start gap-3">
+                        <Checkbox
+                          id="onboard-error-reporting"
+                          checked={errorReportingEnabled}
+                          onCheckedChange={checked => setErrorReportingEnabled(checked === true)}
+                          className="mt-0.5"
+                        />
+                        <div className="flex-1 space-y-1">
+                          <Label htmlFor="onboard-error-reporting" className="cursor-pointer text-sm font-medium">
+                            <div className="flex items-center gap-2">
+                              <Bug className="h-4 w-4" />
+                              {t('errorReportingLabel')}
+                            </div>
+                          </Label>
+                          <p className="text-muted-foreground text-xs leading-relaxed">
+                            {t('errorReportingOnboardingDesc')}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

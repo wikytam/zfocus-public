@@ -76,6 +76,7 @@ export const focusSettingsSchema = z.object({
   showBadgeCountdown: z.boolean(),
   language: z.string().optional(),
   weekStartsOn: z.enum(['sunday', 'monday']).optional(),
+  errorReportingEnabled: z.boolean().optional(),
 });
 
 // Daily stats schema

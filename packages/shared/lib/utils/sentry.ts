@@ -21,12 +21,15 @@ const SENTRY_DSN = process.env['CEB_SENTRY_DSN'] || '';
 // Track if Sentry has been initialized to prevent double initialization
 let isInitialized = false;
 let currentContext = '';
+// Track if user has given consent (loaded from storage)
+let hasUserConsent = false;
 
 // Client and scope for manual capture (browser extension best practice)
 let sentryClient: BrowserClient | null = null;
 let sentryScope: Scope | null = null;
 
-export interface SentryConfig {
+// Type definitions (exported at end of file per import-x/exports-last rule)
+interface SentryConfig {
   /** Context name for identifying where errors come from (e.g., 'background', 'popup', 'options') */
   context: string;
   /** Enable debug mode (default: false in production) */
@@ -36,14 +39,37 @@ export interface SentryConfig {
 }
 
 /**
+ * Check if user has consented to error reporting
+ * Reads from chrome.storage.sync
+ */
+const checkUserConsent = async (): Promise<boolean> => {
+  try {
+    if (typeof chrome === 'undefined' || !chrome.storage) {
+      return false;
+    }
+    const result = await chrome.storage.sync.get(['focus-settings']);
+    const settings = result['focus-settings'];
+    return settings?.errorReportingEnabled === true;
+  } catch (error) {
+    if (IS_DEV) {
+      console.warn('[ZFocus Sentry] Failed to check user consent:', error);
+    }
+    return false;
+  }
+};
+
+/**
  * Initialize Sentry/GlitchTip error monitoring for browser extension
  * Uses BrowserClient and Scope manually instead of Sentry.init()
  * to avoid conflicts with websites that may also use Sentry.
  *
+ * IMPORTANT: This function now checks for user consent before initializing.
+ * Error reporting is OFF by default and must be enabled by the user.
+ *
  * @see https://docs.sentry.io/platforms/javascript/best-practices/shared-environments/
  * @param config - Configuration options
  */
-export const initSentry = (config: SentryConfig): void => {
+export const initSentry = async (config: SentryConfig): Promise<void> => {
   if (isInitialized) {
     if (IS_DEV) {
       console.log(`[ZFocus Sentry] Already initialized, skipping for context: ${config.context}`);
@@ -55,6 +81,15 @@ export const initSentry = (config: SentryConfig): void => {
   if (!SENTRY_DSN) {
     if (IS_DEV) {
       console.warn('[ZFocus Sentry] DSN not configured, error monitoring disabled');
+    }
+    return;
+  }
+
+  // Check user consent before initializing
+  hasUserConsent = await checkUserConsent();
+  if (!hasUserConsent) {
+    if (IS_DEV) {
+      console.log('[ZFocus Sentry] User has not consented to error reporting, skipping initialization');
     }
     return;
   }
@@ -131,6 +166,14 @@ export const initSentry = (config: SentryConfig): void => {
  * @param context - Additional context information
  */
 export const captureException = (error: Error | unknown, context?: Record<string, unknown>): void => {
+  // Check for user consent before capturing
+  if (!hasUserConsent) {
+    if (IS_DEV) {
+      console.log('[ZFocus Sentry] User has not consented to error reporting, skipping exception capture');
+    }
+    return;
+  }
+
   if (!isInitialized || !sentryScope) {
     if (IS_DEV) {
       console.warn('[ZFocus Sentry] Not initialized, cannot capture exception');
@@ -156,6 +199,14 @@ export const captureMessage = (
   level: 'info' | 'warning' | 'error' = 'info',
   context?: Record<string, unknown>,
 ): void => {
+  // Check for user consent before capturing
+  if (!hasUserConsent) {
+    if (IS_DEV) {
+      console.log('[ZFocus Sentry] User has not consented to error reporting, skipping message capture');
+    }
+    return;
+  }
+
   if (!isInitialized || !sentryScope) {
     if (IS_DEV) {
       console.warn('[ZFocus Sentry] Not initialized, cannot capture message');
@@ -253,6 +304,38 @@ export const testSentryConnection = async (): Promise<{ success: boolean; messag
 export const isSentryReady = (): boolean => isInitialized;
 
 /**
+ * Update error reporting consent status
+ * If consent is granted and Sentry is not initialized, initialize it
+ * If consent is revoked, we can't un-initialize Sentry but we disable further reporting
+ *
+ * @param enabled - Whether error reporting is enabled
+ * @param context - Context name for Sentry initialization
+ */
+export const updateErrorReportingConsent = async (enabled: boolean, context: string): Promise<void> => {
+  hasUserConsent = enabled;
+
+  if (enabled && !isInitialized) {
+    // User enabled error reporting, initialize Sentry
+    await initSentry({ context });
+    if (IS_DEV) {
+      console.log('[ZFocus Sentry] Error reporting enabled by user, Sentry initialized');
+    }
+  } else if (!enabled) {
+    // User disabled error reporting
+    // We can't truly "uninitialize" Sentry, but we can stop sending events
+    // by checking hasUserConsent before capture
+    if (IS_DEV) {
+      console.log('[ZFocus Sentry] Error reporting disabled by user');
+    }
+  }
+};
+
+/**
+ * Check if user has given consent for error reporting
+ */
+export const hasErrorReportingConsent = (): boolean => hasUserConsent;
+
+/**
  * Get current Sentry status
  */
 export const getSentryStatus = (): { initialized: boolean; context: string; dsn: string } => ({
@@ -272,3 +355,6 @@ export const getSentryScope = (): Scope | null => sentryScope;
  * Use this if you need direct access to the Sentry client
  */
 export const getSentryClient = (): BrowserClient | null => sentryClient;
+
+// Export types at end of file (import-x/exports-last rule)
+export type { SentryConfig };

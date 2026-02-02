@@ -627,5 +627,26 @@
   },
   "enterCode": {
     "message": "Nhập mã"
+  },
+  "errorReporting": {
+    "message": "Ghi nhận lỗi"
+  },
+  "errorReportingLabel": {
+    "message": "Giúp cải thiện ZFocus"
+  },
+  "errorReportingDesc": {
+    "message": "Cho phép gửi báo cáo lỗi an toàn để giúp chúng tôi sửa lỗi"
+  },
+  "errorReportingOnboardingDesc": {
+    "message": "Chúng tôi chỉ thu thập dữ liệu lỗi để cải thiện extension. Không thu thập dữ liệu cá nhân hay lịch sử duyệt web của bạn."
+  },
+  "errorReportingSettingsDesc": {
+    "message": "Chi thu thap du lieu loi. Chung toi khong truy cap hay luu tru bat ky du lieu ca nhan hoac lich su duyet web cua ban."
+  },
+  "errorReportingEnabled": {
+    "message": "Đã bật ghi nhận lỗi"
+  },
+  "errorReportingDisabled": {
+    "message": "Đã tắt ghi nhận lỗi"
   }
 }
