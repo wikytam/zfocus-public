@@ -10,12 +10,16 @@ interface TagsInputProps {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  id?: string;
 }
 
-const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
-  ({ value, onChange, placeholder, className, disabled }, ref) => {
+const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
+  ({ value, onChange, placeholder, className, disabled, id }, ref) => {
     const [inputValue, setInputValue] = React.useState('');
-    const inputRef = React.useRef<HTMLInputElement>(null);
+    const internalInputRef = React.useRef<HTMLInputElement>(null);
+
+    // Expose focus method via imperative handle
+    React.useImperativeHandle(ref, () => internalInputRef.current as HTMLInputElement, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
@@ -57,34 +61,33 @@ const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
     };
 
     const handleContainerClick = () => {
-      inputRef.current?.focus();
-    };
-
-    const handleContainerKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
+      internalInputRef.current?.focus();
     };
 
     return (
       <div
-        ref={ref}
         role="button"
-        tabIndex={0}
+        tabIndex={disabled ? -1 : 0}
         className={cn(
           'border-input ring-offset-background focus-within:ring-ring flex min-h-[40px] w-full flex-wrap gap-2 rounded-md border bg-transparent px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-offset-2',
           disabled && 'cursor-not-allowed opacity-50',
+          !disabled && 'cursor-pointer',
           className,
         )}
         onClick={handleContainerClick}
-        onKeyDown={handleContainerKeyDown}>
+        onKeyDown={e => {
+          if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            internalInputRef.current?.focus();
+          }
+        }}>
         {value.map((tag, index) => (
           <Badge key={index} variant="secondary" className="gap-1 pr-1">
             <span className="max-w-[200px] truncate font-mono text-xs">{tag}</span>
             {!disabled && (
               <button
                 type="button"
+                tabIndex={-1}
                 onClick={e => {
                   e.stopPropagation();
                   removeTag(index);
@@ -97,7 +100,8 @@ const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
           </Badge>
         ))}
         <Input
-          ref={inputRef}
+          ref={internalInputRef}
+          id={id}
           type="text"
           value={inputValue}
           onChange={handleInputChange}

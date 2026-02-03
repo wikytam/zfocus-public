@@ -243,6 +243,7 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
             <div className="space-y-2">
               <Label htmlFor="add-urls">{t('urlList')}</Label>
               <TagsInput
+                id="add-urls"
                 value={formData.urls}
                 onChange={urls => setFormData(prev => ({ ...prev, urls }))}
                 placeholder="facebook.com, youtube.com, twitter.com"
@@ -417,6 +418,7 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
                     </div>
                     <PremiumFeatureLock isPremium={isPremium} onActivate={onActivatePremium || (async () => false)}>
                       <TagsInput
+                        id="add-exceptions"
                         value={formData.exceptions}
                         onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
                         placeholder="youtube.com/learn, facebook.com/help"
@@ -445,6 +447,7 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
                     </div>
                     <PremiumFeatureLock isPremium={isPremium} onActivate={onActivatePremium || (async () => false)}>
                       <TagsInput
+                        id="add-keywords"
                         value={formData.keywords}
                         onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
                         placeholder="game, video, entertainment"

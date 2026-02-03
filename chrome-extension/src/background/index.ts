@@ -300,6 +300,14 @@ let pauseStartTime: number | null = null;
 // Update badge with countdown timer
 const updateBadge = async (tabId: number, remainingSeconds: number) => {
   try {
+    // Check if tab still exists before updating badge
+    try {
+      await chrome.tabs.get(tabId);
+    } catch {
+      // Tab doesn't exist, silently ignore
+      return;
+    }
+
     const settings = await getSettings();
 
     console.log(
@@ -342,7 +350,10 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
 
     console.log(`[ZFocus] Badge updated: "${badgeText}" with color`, color);
   } catch (error) {
-    console.error('[ZFocus] Badge update error:', error);
+    // Silently ignore "No tab with id" errors, log others
+    if (error instanceof Error && !error.message.includes('No tab with id')) {
+      console.error('[ZFocus] Badge update error:', error);
+    }
   }
 };
 
@@ -526,7 +537,10 @@ const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedS
     }
   }
 
-  for (const site of settings.blockedSites) {
+  // Guard against undefined blockedSites
+  const blockedSites = settings.blockedSites || [];
+
+  for (const site of blockedSites) {
     if (!site.isActive) continue;
     if (!isWithinWorkHours(site.schedule)) continue;
     if (matchesUrl(url, site, referrer)) {
@@ -1070,8 +1084,9 @@ const performHourlyReset = async () => {
   const resetTimers: Record<string, SiteTimer> = {};
 
   // For each timer, reset usedSeconds to 0
+  const blockedSites = settings.blockedSites || [];
   Object.keys(timers).forEach(siteId => {
-    const site = settings.blockedSites.find(s => s.id === siteId);
+    const site = blockedSites.find(s => s.id === siteId);
     if (site) {
       resetTimers[siteId] = {
         siteId: site.id,

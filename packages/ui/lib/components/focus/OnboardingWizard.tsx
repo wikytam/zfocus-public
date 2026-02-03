@@ -263,8 +263,17 @@ export const OnboardingWizard = ({
                   {/* Error Reporting Consent */}
                   <div className="border-border mt-6 space-y-3 border-t pt-6">
                     <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setErrorReportingEnabled(!errorReportingEnabled)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setErrorReportingEnabled(!errorReportingEnabled);
+                        }
+                      }}
                       className={cn(
-                        'flex items-center justify-between rounded-lg p-4 transition-all duration-200',
+                        'flex cursor-pointer items-center justify-between rounded-lg p-4 transition-all duration-200',
                         errorReportingEnabled ? 'bg-primary/10 border-primary/20 border' : 'bg-secondary/30',
                       )}>
                       <div className="flex items-center gap-3">
@@ -315,6 +324,7 @@ export const OnboardingWizard = ({
                   <div className="space-y-2">
                     <Label htmlFor="onboard-urls">{t('urlList')}</Label>
                     <TagsInput
+                      id="onboard-urls"
                       value={formData.urls}
                       onChange={urls => setFormData(prev => ({ ...prev, urls }))}
                       placeholder="facebook.com, youtube.com, twitter.com"
@@ -479,6 +489,7 @@ export const OnboardingWizard = ({
                             isPremium={isPremium}
                             onActivate={onActivatePremium || (async () => false)}>
                             <TagsInput
+                              id="onboard-exceptions"
                               value={formData.exceptions}
                               onChange={exceptions => setFormData(prev => ({ ...prev, exceptions }))}
                               placeholder="youtube.com/learn, facebook.com/help"
@@ -509,6 +520,7 @@ export const OnboardingWizard = ({
                             isPremium={isPremium}
                             onActivate={onActivatePremium || (async () => false)}>
                             <TagsInput
+                              id="onboard-keywords"
                               value={formData.keywords}
                               onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
                               placeholder="game, video, entertainment"

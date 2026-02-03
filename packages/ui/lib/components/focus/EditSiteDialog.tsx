@@ -282,8 +282,9 @@ export const EditSiteDialog = ({
 
             {/* URL Input */}
             <div className="space-y-2">
-              <Label htmlFor="urls">{t('urlList')}</Label>
+              <Label htmlFor="edit-urls">{t('urlList')}</Label>
               <TagsInput
+                id="edit-urls"
                 value={editData.urls}
                 onChange={urls => setEditData(prev => ({ ...prev, urls }))}
                 placeholder="facebook.com, youtube.com, twitter.com"
@@ -444,6 +445,7 @@ export const EditSiteDialog = ({
                     </div>
                     <PremiumFeatureLock isPremium={isPremium} onActivate={onActivatePremium || (async () => false)}>
                       <TagsInput
+                        id="edit-exceptions"
                         value={editData.exceptions}
                         onChange={exceptions => setEditData(prev => ({ ...prev, exceptions }))}
                         placeholder="youtube.com/learn, facebook.com/help"
@@ -472,6 +474,7 @@ export const EditSiteDialog = ({
                     </div>
                     <PremiumFeatureLock isPremium={isPremium} onActivate={onActivatePremium || (async () => false)}>
                       <TagsInput
+                        id="edit-keywords"
                         value={editData.keywords}
                         onChange={keywords => setEditData(prev => ({ ...prev, keywords }))}
                         placeholder="game, video, entertainment"
