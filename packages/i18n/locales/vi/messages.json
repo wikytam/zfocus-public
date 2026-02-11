@@ -167,7 +167,7 @@
     "message": "Ngoại lệ"
   },
   "exceptionsPlaceholder": {
-    "message": "facebook.com/marketplace\nfacebook.com/events"
+    "message": "youtube.com/learn\nfacebook.com/help"
   },
   "exceptionsDesc": {
     "message": "Các URL sẽ KHÔNG bị chặn (mỗi dòng một URL)"
@@ -335,10 +335,10 @@
     "message": "Tùy chọn nâng cao"
   },
   "exceptionsLabel": {
-    "message": "Cho phép"
+    "message": "Danh sách trắng"
   },
   "exceptionsDescription": {
-    "message": "Các URL này sẽ được cho phép truy cập"
+    "message": "Các URL này sẽ không bị chặn"
   },
   "blockFromReferrer": {
     "message": "Chặn từ nguồn (Referrer)"

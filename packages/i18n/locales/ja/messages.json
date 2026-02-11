@@ -167,7 +167,7 @@
     "message": "例外"
   },
   "exceptionsPlaceholder": {
-    "message": "facebook.com/marketplace\nfacebook.com/events"
+    "message": "youtube.com/learn\nfacebook.com/help"
   },
   "exceptionsDesc": {
     "message": "これらのURLはブロックされません（1行に1つのURL）"
@@ -326,10 +326,10 @@
     "message": "詳細オプション"
   },
   "exceptionsLabel": {
-    "message": "許可"
+    "message": "ホワイトリスト"
   },
   "exceptionsDescription": {
-    "message": "これらのURLは許可されます"
+    "message": "これらのURLはブロックされません"
   },
   "blockFromReferrer": {
     "message": "ソースからブロック（リファラー）"

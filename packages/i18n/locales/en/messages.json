@@ -167,7 +167,7 @@
     "message": "Exceptions"
   },
   "exceptionsPlaceholder": {
-    "message": "facebook.com/marketplace\nfacebook.com/events"
+    "message": "youtube.com/learn\nfacebook.com/help"
   },
   "exceptionsDesc": {
     "message": "These URLs will NOT be blocked (one per line)"
@@ -335,10 +335,10 @@
     "message": "Advanced Options"
   },
   "exceptionsLabel": {
-    "message": "Allow"
+    "message": "Whitelist"
   },
   "exceptionsDescription": {
-    "message": "These URLs will be allowed"
+    "message": "These URLs will not be blocked"
   },
   "blockFromReferrer": {
     "message": "Block from Source (Referrer)"

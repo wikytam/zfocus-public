@@ -167,7 +167,7 @@
     "message": "예외"
   },
   "exceptionsPlaceholder": {
-    "message": "facebook.com/marketplace\nfacebook.com/events"
+    "message": "youtube.com/learn\nfacebook.com/help"
   },
   "exceptionsDesc": {
     "message": "이 URL은 차단되지 않습니다 (한 줄에 하나씩)"
@@ -326,10 +326,10 @@
     "message": "고급 옵션"
   },
   "exceptionsLabel": {
-    "message": "허용"
+    "message": "화이트리스트"
   },
   "exceptionsDescription": {
-    "message": "이 URL은 허용됩니다"
+    "message": "이 URL은 차단되지 않습니다"
   },
   "blockFromReferrer": {
     "message": "소스에서 차단 (리퍼러)"
