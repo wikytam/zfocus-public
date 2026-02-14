@@ -35,8 +35,16 @@ export const PauseControl = ({
   ];
 
   useEffect(() => {
-    if (!isPaused || !pauseEndTime) {
+    if (!isPaused) {
       setRemainingTime('');
+      return;
+    }
+
+    // If isPaused=true but no pauseEndTime, this is a stale/invalid state
+    // Auto-resume immediately to fix the stuck pause bug
+    if (!pauseEndTime) {
+      setRemainingTime('');
+      onResume();
       return;
     }
 
@@ -46,8 +54,9 @@ export const PauseControl = ({
 
       if (remaining <= 0) {
         setRemainingTime('0:00');
-        // Don't call onResume here - let the background script handle it
-        // The background script already checks pause expiration every 10 seconds
+        // Auto-resume when pause timer has expired
+        // This acts as a safety net in case the background script hasn't caught it yet
+        onResume();
         return;
       }
 
@@ -59,7 +68,7 @@ export const PauseControl = ({
     updateRemaining();
     const interval = setInterval(updateRemaining, 1000);
     return () => clearInterval(interval);
-  }, [isPaused, pauseEndTime]);
+  }, [isPaused, pauseEndTime, onResume]);
 
   if (hardLockMode) {
     return (

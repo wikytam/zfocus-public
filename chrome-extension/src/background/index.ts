@@ -1228,10 +1228,19 @@ setupScheduleCheckInterval();
 cleanupRegistry.registerInterval(
   setInterval(async () => {
     const settings = await getSettings();
-    if (settings.isPaused && settings.pauseEndTime && Date.now() > settings.pauseEndTime) {
+    if (!settings.isPaused) return;
+
+    const now = Date.now();
+    const shouldResume =
+      // Case 1: pauseEndTime exists and has expired
+      (settings.pauseEndTime && now > settings.pauseEndTime) ||
+      // Case 2: isPaused=true but pauseEndTime is missing (invalid state)
+      !settings.pauseEndTime;
+
+    if (shouldResume) {
       // Calculate and record pause duration
       if (pauseStartTime !== null) {
-        const pauseDurationSeconds = Math.floor((Date.now() - pauseStartTime) / 1000);
+        const pauseDurationSeconds = Math.floor((now - pauseStartTime) / 1000);
         const stats = await getStats();
         await updateStats({
           timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
@@ -1240,7 +1249,9 @@ cleanupRegistry.registerInterval(
       }
 
       await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-      console.log('[ZFocus] Pause expired, resuming blocking');
+      console.log(
+        `[ZFocus] Pause auto-resumed. Reason: ${!settings.pauseEndTime ? 'missing pauseEndTime' : 'expired'}`,
+      );
 
       // Re-check all tabs
       const tabs = await chrome.tabs.query({});
@@ -1255,6 +1266,42 @@ cleanupRegistry.registerInterval(
     }
   }, 10000),
 );
+
+// Clear stale pause state on startup
+// This fixes the bug where isPaused persists across days/browser restarts
+const clearStalePauseState = async () => {
+  const settings = await getSettings();
+  if (!settings.isPaused) return;
+
+  const now = Date.now();
+
+  // Case 1: pauseEndTime exists and has expired - auto-resume
+  if (settings.pauseEndTime && now > settings.pauseEndTime) {
+    console.log('[ZFocus] Startup: Pause expired while browser was closed. Auto-resuming.');
+    await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
+    return;
+  }
+
+  // Case 2: pauseEndTime is undefined/missing - invalid state, auto-resume
+  if (!settings.pauseEndTime) {
+    console.log('[ZFocus] Startup: isPaused=true but no pauseEndTime. Clearing stale pause state.');
+    await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
+    return;
+  }
+
+  // Case 3: pauseEndTime is in the future but unreasonably far (> 24 hours)
+  // This catches corrupted data or timezone issues
+  const maxPauseDuration = 24 * 60 * 60 * 1000; // 24 hours
+  if (settings.pauseEndTime - now > maxPauseDuration) {
+    console.log('[ZFocus] Startup: pauseEndTime is unreasonably far in the future. Clearing stale pause state.');
+    await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
+    return;
+  }
+
+  // Case 4: Pause is still valid - log remaining time
+  const remainingMinutes = Math.round((settings.pauseEndTime - now) / 60000);
+  console.log(`[ZFocus] Startup: Pause is still active. ${remainingMinutes} minutes remaining.`);
+};
 
 // Initialize default settings if not present
 (async () => {
@@ -1272,6 +1319,9 @@ cleanupRegistry.registerInterval(
       console.log(`[ZFocus] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);
     });
   }
+
+  // Clear stale pause state after settings are loaded
+  await clearStalePauseState();
 })();
 
 // Cleanup on extension suspend/unload
