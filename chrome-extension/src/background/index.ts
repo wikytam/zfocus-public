@@ -8,7 +8,7 @@ import jaMessages from '../../../packages/i18n/locales/ja/messages.json';
 import koMessages from '../../../packages/i18n/locales/ko/messages.json';
 import viMessages from '../../../packages/i18n/locales/vi/messages.json';
 import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
-import { initSentry, updateErrorReportingConsent } from '@extension/shared';
+import { initSentry, updateErrorReportingConsent, captureException, captureMessage } from '@extension/shared';
 
 // Initialize Sentry (will check for user consent before actually initializing)
 initSentry({ context: 'background' });
@@ -74,6 +74,7 @@ const migrateFromLocalToSync = async () => {
     }
   } catch (error) {
     console.error('[ZFocus] Migration error:', error);
+    captureException(error, { operation: 'migrateFromLocalToSync' });
   }
 };
 
@@ -246,6 +247,10 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
     );
   } else {
     console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch update called for missing cache entry: ${siteId}`);
+    captureMessage('Batch update called for missing cache entry', 'error', {
+      siteId,
+      cacheKeys: Object.keys(timerCache),
+    });
   }
 
   // Enforce cache size limit
@@ -266,6 +271,7 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
       pendingTimerUpdate = null;
     } catch (error) {
       console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch timer update error:`, error);
+      captureException(error, { operation: 'batchUpdateTimer', cacheSize: Object.keys(timerCache).length });
     }
   }, TIMER_BATCH_INTERVAL);
 };
@@ -353,6 +359,7 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
     // Silently ignore "No tab with id" errors, log others
     if (error instanceof Error && !error.message.includes('No tab with id')) {
       console.error('[ZFocus] Badge update error:', error);
+      captureException(error, { operation: 'updateBadge', tabId, remainingSeconds });
     }
   }
 };
@@ -367,6 +374,7 @@ const clearBadge = async (tabId: number) => {
     // Silently ignore if tab doesn't exist anymore
     if (error instanceof Error && !error.message.includes('No tab with id')) {
       console.error('[ZFocus] Clear badge error:', error);
+      captureException(error, { operation: 'clearBadge', tabId });
     }
   }
 };
@@ -598,6 +606,7 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
       }
     } catch (e) {
       console.error('[ZFocus] Failed to close tab:', e);
+      captureException(e, { operation: 'handleBlocking.closeTab', tabId, siteId: site.id });
     }
   } else if (site.action === 'redirect') {
     const redirectUrl = site.redirectUrl || chrome.runtime.getURL('options/index.html');
@@ -605,6 +614,7 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
       await chrome.tabs.update(tabId, { url: redirectUrl });
     } catch (e) {
       console.error('[ZFocus] Failed to redirect tab:', e);
+      captureException(e, { operation: 'handleBlocking.redirectTab', tabId, siteId: site.id });
     }
   }
 
@@ -717,6 +727,12 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         console.error(
           `[ZFocus ERROR ${new Date().toISOString()}] Timer cache missing for ${site.id}! This should never happen!`,
         );
+        captureMessage('Timer cache missing - this should never happen', 'error', {
+          siteId: site.id,
+          tabId,
+          cacheKeys: Object.keys(timerCache),
+          activeTimerCount: activeTabTimers.size,
+        });
         clearTabTimer(tabId);
         return;
       }
@@ -779,6 +795,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
       }
     } catch (e) {
       console.error(`[ZFocus ERROR ${new Date().toISOString()}] Timer error:`, e);
+      captureException(e, { operation: 'timerInterval', tabId, siteId: site.id });
       clearTabTimer(tabId);
     }
   }, 1000);
@@ -855,6 +872,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     performScheduleCheck();
   } catch (e) {
     console.error('[ZFocus] Tab activation error:', e);
+    captureException(e, { operation: 'tabActivation', tabId });
   }
 });
 
@@ -1248,10 +1266,13 @@ cleanupRegistry.registerInterval(
         pauseStartTime = null;
       }
 
+      const reason = !settings.pauseEndTime ? 'missing_pauseEndTime' : 'expired';
       await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-      console.log(
-        `[ZFocus] Pause auto-resumed. Reason: ${!settings.pauseEndTime ? 'missing pauseEndTime' : 'expired'}`,
-      );
+      console.log(`[ZFocus] Pause auto-resumed. Reason: ${reason}`);
+      captureMessage('Pause auto-resumed by interval check', 'info', {
+        reason,
+        pauseEndTime: settings.pauseEndTime,
+      });
 
       // Re-check all tabs
       const tabs = await chrome.tabs.query({});
@@ -1277,7 +1298,13 @@ const clearStalePauseState = async () => {
 
   // Case 1: pauseEndTime exists and has expired - auto-resume
   if (settings.pauseEndTime && now > settings.pauseEndTime) {
+    const expiredAgo = Math.round((now - settings.pauseEndTime) / 60000);
     console.log('[ZFocus] Startup: Pause expired while browser was closed. Auto-resuming.');
+    captureMessage('Stale pause state detected on startup: pauseEndTime expired', 'warning', {
+      pauseEndTime: settings.pauseEndTime,
+      expiredMinutesAgo: expiredAgo,
+      reason: 'pauseEndTime_expired',
+    });
     await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
     return;
   }
@@ -1285,6 +1312,10 @@ const clearStalePauseState = async () => {
   // Case 2: pauseEndTime is undefined/missing - invalid state, auto-resume
   if (!settings.pauseEndTime) {
     console.log('[ZFocus] Startup: isPaused=true but no pauseEndTime. Clearing stale pause state.');
+    captureMessage('Stale pause state detected on startup: missing pauseEndTime', 'warning', {
+      reason: 'missing_pauseEndTime',
+      isPaused: settings.isPaused,
+    });
     await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
     return;
   }
@@ -1294,6 +1325,11 @@ const clearStalePauseState = async () => {
   const maxPauseDuration = 24 * 60 * 60 * 1000; // 24 hours
   if (settings.pauseEndTime - now > maxPauseDuration) {
     console.log('[ZFocus] Startup: pauseEndTime is unreasonably far in the future. Clearing stale pause state.');
+    captureMessage('Stale pause state detected on startup: unreasonable pauseEndTime', 'warning', {
+      pauseEndTime: settings.pauseEndTime,
+      hoursInFuture: Math.round((settings.pauseEndTime - now) / 3600000),
+      reason: 'unreasonable_pauseEndTime',
+    });
     await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
     return;
   }
