@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Bảng promo_codes - Luu tru ma khuyen mai va so luong con lai
+model PromoCode {
+  id            String    @id @default(uuid()) @db.Uuid
+  code          String    @unique @db.VarChar(50)
+  description   String?   @db.Text
+  totalUses     Int       @default(1) @map("total_uses")
+  remainingUses Int       @default(1) @map("remaining_uses")
+  isActive      Boolean   @default(true) @map("is_active")
+  expiresAt     DateTime? @map("expires_at") @db.Timestamptz
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  redemptions PromoRedemption[]
+
+  @@index([code], name: "idx_promo_codes_code")
+  @@map("promo_codes")
+}
+
+/// Bảng promo_redemptions - Nhật ký kiểm toán mỗi lần redeem
+model PromoRedemption {
+  id          String   @id @default(uuid()) @db.Uuid
+  promoCodeId String   @map("promo_code_id") @db.Uuid
+  ipAddress   String   @map("ip_address") @db.VarChar(45)
+  userAgent   String?  @map("user_agent") @db.Text
+  browserId   String?  @map("browser_id") @db.VarChar(255)
+  fingerprint String?  @db.VarChar(255)
+  redeemedAt  DateTime @default(now()) @map("redeemed_at") @db.Timestamptz
+
+  promoCode PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+
+  @@index([promoCodeId], name: "idx_redemptions_promo_code_id")
+  @@index([ipAddress], name: "idx_redemptions_ip_address")
+  @@index([browserId], name: "idx_redemptions_browser_id")
+  @@map("promo_redemptions")
+}

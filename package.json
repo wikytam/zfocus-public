@@ -35,6 +35,12 @@
     "copy-env": "bash bash-scripts/copy_env.sh",
     "set-global-env": "bash bash-scripts/set_global_env.sh",
     "module-manager": "pnpm -F module-manager start",
+    "website:dev": "pnpm -F @zfocus/website dev",
+    "website:build": "pnpm -F @zfocus/website build",
+    "website:start": "pnpm -F @zfocus/website start",
+    "website:deploy": "pnpm -F @zfocus/website deploy",
+    "website:db:migrate": "pnpm -F @zfocus/website db:migrate",
+    "website:db:studio": "pnpm -F @zfocus/website db:studio",
     "postinstall": "pnpm copy-env"
   },
   "dependencies": {
@@ -90,7 +96,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix --no-warn-ignored"
     ]
   },
   "packageManager": "pnpm@10.11.0",

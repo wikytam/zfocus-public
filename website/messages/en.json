@@ -1,0 +1,204 @@
+{
+  "nav": {
+    "features": "Features",
+    "faq": "FAQ",
+    "useCases": "Use Cases",
+    "pricing": "Pricing"
+  },
+  "hero": {
+    "title": "Reduce Distractions, Stay Focused",
+    "subtitle": "The most powerful website blocker with unique features to boost your productivity"
+  },
+  "smartBlocking": {
+    "title": "Smart Blocking",
+    "subtitle": "Block Smarter, Not Harder",
+    "exceptionPattern": {
+      "badge": "Unique Feature",
+      "title": "Exception Pattern",
+      "block": "Block: youtube.com",
+      "allow1": "Allow: +youtube.com/learn",
+      "allow2": "Allow: +youtube.com/@freecodecamp",
+      "description": "Block entertainment, allow educational channels"
+    },
+    "referrerBlocking": {
+      "title": "Referrer Blocking",
+      "description": "Block links from social media"
+    },
+    "keywordBlocking": {
+      "title": "Keyword Blocking",
+      "description": "Auto-block URLs with keywords"
+    }
+  },
+  "timeControl": {
+    "title": "Time Control",
+    "subtitle": "Focus When It Matters",
+    "schedule": {
+      "title": "Schedule",
+      "monFri": "Mon-Fri",
+      "satSun": "Sat-Sun",
+      "off": "OFF"
+    },
+    "activeTabOnly": {
+      "title": "Active Tab Only",
+      "blockActive": "Block active tab",
+      "allowBackground": "YouTube Music in background"
+    },
+    "quickPause": {
+      "title": "Quick Pause",
+      "description": "3-15 min break"
+    },
+    "timeSaved": "Time saved today"
+  },
+  "advancedActions": {
+    "title": "Advanced Actions",
+    "subtitle": "Beyond Simple Blocking",
+    "closeTab": {
+      "badge": "Unique Feature",
+      "title": "Close Tab",
+      "description": "Automatically close distracting tabs before you get sucked in",
+      "demo": "Tab closed instantly",
+      "or": "or redirect link"
+    },
+    "redirectLink": {
+      "title": "Redirect Link",
+      "description": "Replace distractions with productive destinations",
+      "more": "and more"
+    },
+    "timeBasedBlock": {
+      "title": "Time-Based Block",
+      "description": "Control access frequency and duration",
+      "option1": "5 minutes every hour",
+      "option2": "5 minutes every 30 minutes"
+    }
+  },
+  "privacy": {
+    "title": "Privacy First",
+    "subtitle": "Your Data Stays With You",
+    "localStorage": "100% Local Storage",
+    "zeroTracking": "Zero Tracking",
+    "noAccount": "No Account Required",
+    "quote": "We don't see, don't save, don't know. Really!",
+    "quoteSubtitle": "Your browsing habits are yours alone"
+  },
+  "statistics": {
+    "title": "Smart Statistics",
+    "subtitle": "Track Your Progress",
+    "blocksToday": "Blocks Today",
+    "timeSaved": "Time Saved",
+    "dayStreak": "Day Streak",
+    "weeklyTrends": "Weekly Trends",
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
+  },
+  "cta": {
+    "title": "Ready to Boost Your Productivity?",
+    "users": "Join 500+ users",
+    "timeSaved": "Save 2+ hours daily",
+    "rating": "4.9/5.0",
+    "installChrome": "Install Free - Chrome",
+    "firefox": "Firefox",
+    "manualDownload": "Manual Download",
+    "noRegistration": "No Registration"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about ZFocus",
+    "searchPlaceholder": "Search questions...",
+    "found": "Found",
+    "question": "question",
+    "questions": "questions",
+    "noResults": "No questions found",
+    "tryDifferent": "Try a different search term",
+    "stillHaveQuestions": "Still have questions?",
+    "checkDocs": "Check out our documentation or reach out to the community",
+    "viewDocs": "View Documentation",
+    "joinCommunity": "Join Community"
+  },
+  "useCases": {
+    "title": "Real-World Use Cases",
+    "subtitle": "See how ZFocus helps people like you stay focused and productive",
+    "scenario": "Scenario",
+    "problem": "Problem",
+    "solution": "Solution",
+    "results": "Results",
+    "whichFitsYou": "Which use case fits you?",
+    "whichFitsYouDesc": "ZFocus adapts to your unique workflow. Start with one strategy and customize as you go.",
+    "getStarted": "Get Started Free"
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "subtitle": "Start free, upgrade when you're ready",
+    "freeTrial": {
+      "badge": "Get Started",
+      "title": "Free Trial",
+      "price": "0",
+      "currency": "$",
+      "period": "30 days",
+      "description": "Try all premium features free for 30 days",
+      "features": {
+        "allFeatures": "All premium features",
+        "unlimitedBlocking": "Unlimited blocking rules",
+        "advancedSchedule": "Advanced scheduling",
+        "statistics": "Detailed statistics",
+        "noCardRequired": "No credit card required"
+      },
+      "cta": "Start Free Trial"
+    },
+    "yearly": {
+      "badge": "Most Popular",
+      "title": "Yearly",
+      "price": "9",
+      "currency": "$",
+      "period": "/year",
+      "description": "Best value for committed users",
+      "features": {
+        "allFeatures": "Everything in Free Trial",
+        "prioritySupport": "Priority support",
+        "earlyAccess": "Early access to new features",
+        "cloudSync": "Cloud sync across devices",
+        "autoRenewal": "Auto-renewal, cancel anytime"
+      },
+      "cta": "Subscribe Yearly"
+    },
+    "lifetime": {
+      "badge": "Best Deal",
+      "title": "Lifetime",
+      "price": "29",
+      "currency": "$",
+      "period": "one-time",
+      "description": "Pay once, use forever with all updates",
+      "features": {
+        "allFeatures": "Everything in Yearly",
+        "lifetimeUpdates": "Lifetime updates included",
+        "prioritySupport": "Priority support forever",
+        "noRecurring": "No recurring payments",
+        "earlyAccess": "Lifetime early access"
+      },
+      "cta": "Get Lifetime Access"
+    },
+    "guarantee": "30-day money-back guarantee on all paid plans"
+  },
+  "moreThings": {
+    "title": "More Things",
+    "subtitle": "Beautiful UI & Browser Support",
+    "beautifulUI": {
+      "title": "Beautiful UI",
+      "light": "Light",
+      "dark": "Dark",
+      "auto": "Auto"
+    },
+    "browserSupport": {
+      "title": "Browser Support"
+    },
+    "languages": {
+      "title": "5 Languages"
+    }
+  }
+}

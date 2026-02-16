@@ -1,0 +1,204 @@
+{
+  "nav": {
+    "features": "Tính Năng",
+    "faq": "Câu Hỏi",
+    "useCases": "Tình Huống",
+    "pricing": "Bảng Giá"
+  },
+  "hero": {
+    "title": "Giảm Xao Nhãng, Tập Trung Hiệu Quả",
+    "subtitle": "Công cụ chặn website mạnh mẽ nhất với tính năng độc đáo giúp bạn làm việc hiệu quả hơn"
+  },
+  "smartBlocking": {
+    "title": "Chặn Thông Minh",
+    "subtitle": "Chặn Thông Minh, Không Phức Tạp",
+    "exceptionPattern": {
+      "badge": "Tính Năng Độc Đáo",
+      "title": "Ngoại Lệ Thông Minh",
+      "block": "Chặn: youtube.com",
+      "allow1": "Cho phép: +youtube.com/learn",
+      "allow2": "Cho phép: +youtube.com/@freecodecamp",
+      "description": "Chặn nội dung giải trí, cho phép kênh học tập"
+    },
+    "referrerBlocking": {
+      "title": "Chặn Theo Nguồn",
+      "description": "Chặn các liên kết từ mạng xã hội"
+    },
+    "keywordBlocking": {
+      "title": "Chặn Theo Từ Khóa",
+      "description": "Tự động chặn URL có chứa từ khóa"
+    }
+  },
+  "timeControl": {
+    "title": "Quản Lý Thời Gian",
+    "subtitle": "Tập Trung Đúng Lúc",
+    "schedule": {
+      "title": "Lịch Trình",
+      "monFri": "T2-T6",
+      "satSun": "T7-CN",
+      "off": "TẮT"
+    },
+    "activeTabOnly": {
+      "title": "Chỉ Tab Đang Xem",
+      "blockActive": "Chặn tab đang xem",
+      "allowBackground": "Cho phép YouTube Music chạy nền"
+    },
+    "quickPause": {
+      "title": "Tạm Dừng Nhanh",
+      "description": "Nghỉ giải lao 3-15 phút"
+    },
+    "timeSaved": "Thời gian tiết kiệm hôm nay"
+  },
+  "advancedActions": {
+    "title": "Tính Năng Nâng Cao",
+    "subtitle": "Nhiều Hơn Cả Chặn Website",
+    "closeTab": {
+      "badge": "Tính Năng Độc Đáo",
+      "title": "Đóng Tab Tự Động",
+      "description": "Tự động đóng tab gây mất tập trung trước khi bạn kịp lướt xem",
+      "demo": "Tab đóng ngay lập tức",
+      "or": "hoặc chuyển hướng"
+    },
+    "redirectLink": {
+      "title": "Chuyển Hướng Thông Minh",
+      "description": "Chuyển từ website gây mất tập trung sang trang làm việc",
+      "more": "và nhiều hơn nữa"
+    },
+    "timeBasedBlock": {
+      "title": "Giới Hạn Thời Gian",
+      "description": "Kiểm soát tần suất và thời lượng truy cập",
+      "option1": "5 phút mỗi giờ",
+      "option2": "5 phút mỗi 30 phút"
+    }
+  },
+  "privacy": {
+    "title": "Bảo Mật Tuyệt Đối",
+    "subtitle": "Dữ Liệu Của Bạn Luôn An Toàn",
+    "localStorage": "100% Lưu Trữ Cục Bộ",
+    "zeroTracking": "Không Thu Thập Dữ Liệu",
+    "noAccount": "Không Cần Đăng Ký",
+    "quote": "Chúng tôi không xem, không lưu, không biết. Thật đấy!",
+    "quoteSubtitle": "Thói quen duyệt web của bạn chỉ thuộc về bạn"
+  },
+  "statistics": {
+    "title": "Thống Kê Chi Tiết",
+    "subtitle": "Theo Dõi Tiến Độ Của Bạn",
+    "blocksToday": "Số Lần Chặn",
+    "timeSaved": "Thời Gian Giải Lao",
+    "dayStreak": "Chuỗi Ngày",
+    "weeklyTrends": "Xu Hướng Trong Tuần",
+    "days": {
+      "mon": "T2",
+      "tue": "T3",
+      "wed": "T4",
+      "thu": "T5",
+      "fri": "T6",
+      "sat": "T7",
+      "sun": "CN"
+    }
+  },
+  "cta": {
+    "title": "Sẵn Sàng Nâng Cao Năng Suất?",
+    "users": "Tham gia cùng 500+ người dùng",
+    "timeSaved": "Tiết kiệm hơn 2 giờ mỗi ngày",
+    "rating": "4.9/5.0",
+    "installChrome": "Cài Đặt Miễn Phí - Chrome",
+    "firefox": "Firefox",
+    "manualDownload": "Tải Về Thủ Công",
+    "noRegistration": "Không Cần Đăng Ký"
+  },
+  "faq": {
+    "title": "Câu Hỏi Thường Gặp",
+    "subtitle": "Mọi thứ bạn cần biết về ZFocus",
+    "searchPlaceholder": "Tìm kiếm câu hỏi...",
+    "found": "Tìm thấy",
+    "question": "câu hỏi",
+    "questions": "câu hỏi",
+    "noResults": "Không tìm thấy câu hỏi nào",
+    "tryDifferent": "Thử từ khóa tìm kiếm khác",
+    "stillHaveQuestions": "Vẫn còn thắc mắc?",
+    "checkDocs": "Xem tài liệu hướng dẫn hoặc tham gia cộng đồng",
+    "viewDocs": "Xem Tài Liệu",
+    "joinCommunity": "Tham Gia Cộng Đồng"
+  },
+  "useCases": {
+    "title": "Tình Huống Sử Dụng Thực Tế",
+    "subtitle": "Xem ZFocus giúp mọi người như bạn tập trung và làm việc hiệu quả hơn",
+    "scenario": "Tình Huống",
+    "problem": "Vấn Đề",
+    "solution": "Giải Pháp",
+    "results": "Kết Quả",
+    "whichFitsYou": "Tình huống nào phù hợp với bạn?",
+    "whichFitsYouDesc": "ZFocus thích ứng với phong cách làm việc của bạn. Bắt đầu với một chiến lược và tùy chỉnh theo ý muốn.",
+    "getStarted": "Bắt Đầu Miễn Phí"
+  },
+  "pricing": {
+    "title": "Bảng Giá Đơn Giản, Minh Bạch",
+    "subtitle": "Bắt đầu miễn phí, nâng cấp khi bạn sẵn sàng",
+    "freeTrial": {
+      "badge": "Bắt Đầu Ngay",
+      "title": "Dùng Thử Miễn Phí",
+      "price": "0",
+      "currency": "$",
+      "period": "30 ngày",
+      "description": "Trải nghiệm tất cả tính năng cao cấp miễn phí trong 30 ngày",
+      "features": {
+        "allFeatures": "Tất cả tính năng cao cấp",
+        "unlimitedBlocking": "Quy tắc chặn không giới hạn",
+        "advancedSchedule": "Lịch trình nâng cao",
+        "statistics": "Thống kê chi tiết",
+        "noCardRequired": "Không cần thẻ tín dụng"
+      },
+      "cta": "Dùng Thử Miễn Phí"
+    },
+    "yearly": {
+      "badge": "Phổ Biến Nhất",
+      "title": "Theo Năm",
+      "price": "9",
+      "currency": "$",
+      "period": "/năm",
+      "description": "Giá trị tốt nhất cho người dùng lâu dài",
+      "features": {
+        "allFeatures": "Tất cả tính năng Dùng Thử",
+        "prioritySupport": "Hỗ trợ ưu tiên",
+        "earlyAccess": "Truy cập sớm tính năng mới",
+        "cloudSync": "Đồng bộ đám mây đa thiết bị",
+        "autoRenewal": "Tự động gia hạn, hủy bất cứ lúc nào"
+      },
+      "cta": "Đăng Ký Theo Năm"
+    },
+    "lifetime": {
+      "badge": "Ưu Đãi Tốt Nhất",
+      "title": "Trọn Đời",
+      "price": "29",
+      "currency": "$",
+      "period": "một lần",
+      "description": "Thanh toán một lần, sử dụng mãi mãi với tất cả bản cập nhật",
+      "features": {
+        "allFeatures": "Tất cả tính năng Theo Năm",
+        "lifetimeUpdates": "Cập nhật trọn đời",
+        "prioritySupport": "Hỗ trợ ưu tiên vĩnh viễn",
+        "noRecurring": "Không thanh toán định kỳ",
+        "earlyAccess": "Truy cập sớm trọn đời"
+      },
+      "cta": "Mua Trọn Đời"
+    },
+    "guarantee": "Hoàn tiền trong 30 ngày cho tất cả gói trả phí"
+  },
+  "moreThings": {
+    "title": "Nhiều Tính Năng Khác",
+    "subtitle": "Giao Diện Đẹp & Hỗ Trợ Đa Trình Duyệt",
+    "beautifulUI": {
+      "title": "Giao Diện Đẹp Mắt",
+      "light": "Sáng",
+      "dark": "Tối",
+      "auto": "Tự Động"
+    },
+    "browserSupport": {
+      "title": "Hỗ Trợ Nhiều Trình Duyệt"
+    },
+    "languages": {
+      "title": "5 Ngôn Ngữ"
+    }
+  }
+}
