@@ -11,16 +11,16 @@
   },
   "type": "module",
   "scripts": {
-    "clean:bundle": "rimraf dist && turbo clean:bundle",
+    "clean:bundle": "rimraf dist && turbo clean:bundle --filter='!@zfocus/website'",
     "clean:node_modules": "pnpx rimraf node_modules && pnpx turbo clean:node_modules",
     "clean:turbo": "rimraf .turbo && turbo clean:turbo",
     "clean": "pnpm clean:bundle && pnpm clean:turbo && pnpm clean:node_modules",
     "clean:install": "pnpm clean:node_modules && pnpm install --frozen-lockfile",
     "type-check": "turbo type-check",
-    "base-build": "pnpm clean:bundle && turbo build",
+    "base-build": "pnpm clean:bundle && turbo build --filter='!@zfocus/website'",
     "build": "pnpm set-global-env && pnpm base-build",
     "build:firefox": "pnpm set-global-env CLI_CEB_FIREFOX=true && pnpm base-build",
-    "base-dev": "pnpm clean:bundle && turbo ready && turbo watch dev",
+    "base-dev": "pnpm clean:bundle && turbo ready --filter='!@zfocus/website' && turbo watch dev --filter='!@zfocus/website'",
     "dev": "pnpm set-global-env CLI_CEB_DEV=true && pnpm base-dev",
     "dev:firefox": "pnpm set-global-env CLI_CEB_DEV=true CLI_CEB_FIREFOX=true && pnpm base-dev",
     "zip": "pnpm build && pnpm -F zipper zip",
@@ -45,8 +45,8 @@
   },
   "dependencies": {
     "@sentry/browser": "^10.37.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "zod": "^4.3.5",
     "zustand": "^5.0.9"
   },
@@ -98,6 +98,12 @@
       "prettier --write",
       "eslint --fix --no-warn-ignored"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   },
   "packageManager": "pnpm@10.11.0",
   "engines": {
