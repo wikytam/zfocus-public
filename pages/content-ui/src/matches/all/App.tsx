@@ -110,15 +110,22 @@ export default function App() {
       const result = await chrome.storage.sync.get(['focus-settings']);
       const settings = result['focus-settings'] || {};
 
-      const pauseUntil = Date.now() + minutes * 60 * 1000;
+      const pauseEndTime = Date.now() + minutes * 60 * 1000;
 
       await chrome.storage.sync.set({
         'focus-settings': {
           ...settings,
           isPaused: true,
-          pauseUntil,
+          pauseEndTime,
         },
       });
+
+      // Notify background script to clear timers and schedule alarm
+      try {
+        chrome.runtime.sendMessage({ type: 'PAUSE_BLOCKING', minutes });
+      } catch {
+        // Background might not be ready
+      }
 
       setShowPauseMenu(false);
       setDismissed(true);

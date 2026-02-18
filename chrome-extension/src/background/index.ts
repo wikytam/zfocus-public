@@ -855,6 +855,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 // Handle tab activation
 chrome.tabs.onActivated.addListener(async ({ tabId }) => {
   try {
+    // Safety net: check if pause expired (covers edge cases where alarm/idle missed it)
+    await checkAndResumePause();
+
     const tab = await chrome.tabs.get(tabId);
     if (!tab.url) return;
 
@@ -867,7 +870,7 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
       await startTabTimer(tabId, site);
     }
 
-    // CRITICAL: Also check ALL other tabs when switching tabs
+    // Also check ALL other tabs when switching tabs
     // This ensures timers start when entering work hours
     performScheduleCheck();
   } catch (e) {
@@ -1016,6 +1019,9 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
       await setSettings({ ...settings, isPaused: true, pauseEndTime: endTime });
 
+      // Schedule alarm for pause expiration (reliable across sleep/idle)
+      await schedulePauseExpirationAlarm(endTime);
+
       // Clear all active timers
       activeTabTimers.forEach((timer, tabId) => {
         clearInterval(timer);
@@ -1045,6 +1051,9 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'RESUME_BLOCKING') {
     (async () => {
       const settings = await getSettings();
+
+      // Clear pause expiration alarm
+      await chrome.alarms.clear(PAUSE_EXPIRATION_ALARM);
 
       // Calculate and record pause duration
       if (pauseStartTime !== null) {
@@ -1086,8 +1095,69 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   return false;
 });
 
-// Reset timers at the start of each hour using chrome.alarms API
+// Alarm names
 const HOURLY_RESET_ALARM = 'hourly-timer-reset';
+const PAUSE_EXPIRATION_ALARM = 'pause-expiration';
+
+// Centralized pause expiration check - used by alarm, idle wakeup, and tab activation
+const checkAndResumePause = async (): Promise<boolean> => {
+  const settings = await getSettings();
+  if (!settings.isPaused) return false;
+
+  const now = Date.now();
+  const shouldResume = (settings.pauseEndTime && now > settings.pauseEndTime) || !settings.pauseEndTime;
+
+  if (!shouldResume) return false;
+
+  // Calculate and record pause duration
+  if (pauseStartTime !== null) {
+    const pauseDurationSeconds = Math.floor((now - pauseStartTime) / 1000);
+    const stats = await getStats();
+    await updateStats({
+      timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
+    });
+    pauseStartTime = null;
+  }
+
+  const reason = !settings.pauseEndTime ? 'missing_pauseEndTime' : 'expired';
+  await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
+  console.log(`[ZFocus] Pause auto-resumed. Reason: ${reason}`);
+  captureMessage('Pause auto-resumed', 'info', {
+    reason,
+    pauseEndTime: settings.pauseEndTime,
+    trigger: 'checkAndResumePause',
+  });
+
+  // Clear the pause expiration alarm since we already resumed
+  await chrome.alarms.clear(PAUSE_EXPIRATION_ALARM);
+
+  // Re-check all tabs to restart blocking
+  const tabs = await chrome.tabs.query({});
+  for (const tab of tabs) {
+    if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
+      const site = await findBlockedSite(tab.url);
+      if (site) {
+        await startTabTimer(tab.id, site);
+      }
+    }
+  }
+
+  return true;
+};
+
+// Schedule a chrome.alarms alarm for pause expiration
+const schedulePauseExpirationAlarm = async (pauseEndTime: number) => {
+  await chrome.alarms.clear(PAUSE_EXPIRATION_ALARM);
+  const delayMs = pauseEndTime - Date.now();
+  if (delayMs <= 0) {
+    // Already expired, check immediately
+    await checkAndResumePause();
+    return;
+  }
+  const delayInMinutes = Math.max(delayMs / 60000, 0.1); // minimum 0.1 min (~6s)
+  await chrome.alarms.create(PAUSE_EXPIRATION_ALARM, { delayInMinutes });
+  console.log(`[ZFocus] Pause expiration alarm scheduled in ${Math.round(delayMs / 1000)}s`);
+};
 
 const performHourlyReset = async () => {
   console.log('[ZFocus] Hourly reset - resetting all timers');
@@ -1226,67 +1296,46 @@ const setupScheduleCheckInterval = () => {
   console.log(`[ZFocus ${timeStr}] Schedule check interval registered`);
 };
 
-// Listen for alarm events (keep hourly reset on alarms)
+// Listen for alarm events
 chrome.alarms.onAlarm.addListener(alarm => {
   const now = new Date();
   const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  console.log(`[ZFocus ${timeStr}] ⏰ Alarm fired: ${alarm.name}`);
+  console.log(`[ZFocus ${timeStr}] Alarm fired: ${alarm.name}`);
 
   if (alarm.name === HOURLY_RESET_ALARM) {
     console.log(`[ZFocus ${timeStr}] Executing hourly reset...`);
     performHourlyReset();
+  }
+
+  if (alarm.name === PAUSE_EXPIRATION_ALARM) {
+    console.log(`[ZFocus ${timeStr}] Pause expiration alarm fired - checking pause state...`);
+    checkAndResumePause();
   }
 });
 
 setupHourlyResetAlarm();
 setupScheduleCheckInterval();
 
-// Check pause expiration periodically
-cleanupRegistry.registerInterval(
-  setInterval(async () => {
-    const settings = await getSettings();
-    if (!settings.isPaused) return;
+// Idle state detection - resume pause when user returns from idle/locked screen
+chrome.idle.setDetectionInterval(30); // 30 seconds threshold for idle detection
 
-    const now = Date.now();
-    const shouldResume =
-      // Case 1: pauseEndTime exists and has expired
-      (settings.pauseEndTime && now > settings.pauseEndTime) ||
-      // Case 2: isPaused=true but pauseEndTime is missing (invalid state)
-      !settings.pauseEndTime;
+chrome.idle.onStateChanged.addListener(async newState => {
+  const now = new Date();
+  const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+  console.log(`[ZFocus ${timeStr}] Idle state changed: ${newState}`);
 
-    if (shouldResume) {
-      // Calculate and record pause duration
-      if (pauseStartTime !== null) {
-        const pauseDurationSeconds = Math.floor((now - pauseStartTime) / 1000);
-        const stats = await getStats();
-        await updateStats({
-          timePausedSeconds: stats.timePausedSeconds + pauseDurationSeconds,
-        });
-        pauseStartTime = null;
-      }
-
-      const reason = !settings.pauseEndTime ? 'missing_pauseEndTime' : 'expired';
-      await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-      console.log(`[ZFocus] Pause auto-resumed. Reason: ${reason}`);
-      captureMessage('Pause auto-resumed by interval check', 'info', {
-        reason,
-        pauseEndTime: settings.pauseEndTime,
-      });
-
-      // Re-check all tabs
-      const tabs = await chrome.tabs.query({});
-      for (const tab of tabs) {
-        if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
-          const site = await findBlockedSite(tab.url);
-          if (site) {
-            await startTabTimer(tab.id, site);
-          }
-        }
-      }
+  if (newState === 'active') {
+    // User returned from idle/locked - immediately check pause expiration
+    const resumed = await checkAndResumePause();
+    if (resumed) {
+      console.log(`[ZFocus ${timeStr}] Pause was expired during idle - blocking resumed on wake`);
     }
-  }, 10000),
-);
+
+    // Also run schedule check to catch any missed schedule transitions
+    performScheduleCheck();
+  }
+});
 
 // Clear stale pause state on startup
 // This fixes the bug where isPaused persists across days/browser restarts
@@ -1334,9 +1383,10 @@ const clearStalePauseState = async () => {
     return;
   }
 
-  // Case 4: Pause is still valid - log remaining time
+  // Case 4: Pause is still valid - schedule alarm for expiration and log remaining time
   const remainingMinutes = Math.round((settings.pauseEndTime - now) / 60000);
   console.log(`[ZFocus] Startup: Pause is still active. ${remainingMinutes} minutes remaining.`);
+  await schedulePauseExpirationAlarm(settings.pauseEndTime);
 };
 
 // Initialize default settings if not present
