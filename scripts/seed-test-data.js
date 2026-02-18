@@ -46,8 +46,10 @@
 
   try {
     // Save to Chrome Storage
-    await chrome.storage.sync.set({
+    await chrome.storage.local.set({
       'focus-historical-stats': historicalStats,
+    });
+    await chrome.storage.sync.set({
       'focus-stats': currentStats,
     });
 
