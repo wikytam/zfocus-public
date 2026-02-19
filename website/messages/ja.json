@@ -45,7 +45,7 @@
     },
     "quickPause": {
       "title": "クイック一時停止",
-      "description": "3-15分の休憩"
+      "description": "3、5または10分の休憩"
     },
     "timeSaved": "今日節約した時間"
   },
@@ -55,7 +55,7 @@
     "closeTab": {
       "badge": "ユニーク機能",
       "title": "タブを閉じる",
-      "description": "気を取られる前に自動的にタブを閉じる",
+      "description": "自動的にタブを閉じる。ウィンドウの最後のタブはダッシュボードにリダイレクト",
       "demo": "タブを即座に閉じる",
       "or": "またはリダイレクト"
     },
@@ -82,11 +82,11 @@
   },
   "statistics": {
     "title": "スマート統計",
-    "subtitle": "進捗を追跡",
+    "subtitle": "30日間の履歴で進捗を追跡",
     "blocksToday": "今日のブロック",
     "timeSaved": "節約した時間",
     "dayStreak": "連続日数",
-    "weeklyTrends": "週間トレンド",
+    "weeklyTrends": "週間 / 月間トレンド",
     "days": {
       "mon": "月",
       "tue": "火",

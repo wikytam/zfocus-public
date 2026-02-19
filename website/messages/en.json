@@ -45,7 +45,7 @@
     },
     "quickPause": {
       "title": "Quick Pause",
-      "description": "3-15 min break"
+      "description": "3, 5 or 10 min break"
     },
     "timeSaved": "Time saved today"
   },
@@ -55,7 +55,7 @@
     "closeTab": {
       "badge": "Unique Feature",
       "title": "Close Tab",
-      "description": "Automatically close distracting tabs before you get sucked in",
+      "description": "Automatically close distracting tabs. Last tab in window redirects to dashboard instead",
       "demo": "Tab closed instantly",
       "or": "or redirect link"
     },
@@ -82,11 +82,11 @@
   },
   "statistics": {
     "title": "Smart Statistics",
-    "subtitle": "Track Your Progress",
+    "subtitle": "Track Your Progress with 30-Day History",
     "blocksToday": "Blocks Today",
     "timeSaved": "Time Saved",
     "dayStreak": "Day Streak",
-    "weeklyTrends": "Weekly Trends",
+    "weeklyTrends": "Weekly / Monthly Trends",
     "days": {
       "mon": "Mon",
       "tue": "Tue",

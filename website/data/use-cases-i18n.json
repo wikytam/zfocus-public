@@ -134,11 +134,11 @@
       "zh": "持续的上下文切换破坏流状态和生产力"
     },
     "solution": {
-      "en": "Block all non-work sites during 90-minute deep work sprints. Use Exception Patterns to allow Stack Overflow, GitHub, and docs while blocking other sites. Set Quick Pause for 15-minute breaks between sessions.",
-      "vi": "Chặn tất cả các trang không liên quan đến công việc trong các sprint làm việc sâu 90 phút. Sử dụng Mẫu Ngoại Lệ để cho phép Stack Overflow, GitHub và tài liệu trong khi chặn các trang khác. Đặt Tạm Dừng Nhanh cho nghỉ 15 phút giữa các phiên.",
-      "ko": "90분 딥 워크 스프린트 동안 모든 비업무 사이트를 차단합니다. 예외 패턴을 사용하여 다른 사이트를 차단하면서 Stack Overflow, GitHub 및 문서를 허용합니다. 세션 사이의 15분 휴식을 위해 빠른 일시정지를 설정합니다.",
-      "ja": "90分のディープワークスプリント中にすべての非作業サイトをブロックします。例外パターンを使用して、他のサイトをブロックしながらStack Overflow、GitHub、ドキュメントを許可します。セッション間の15分の休憩にクイック一時停止を設定します。",
-      "zh": "在90分钟的深度工作冲刺期间屏蔽所有非工作网站。使用例外模式允许Stack Overflow、GitHub和文档，同时屏蔽其他网站。为会话之间的15分钟休息设置快速暂停。"
+      "en": "Block all non-work sites during 90-minute deep work sprints. Use Exception Patterns to allow Stack Overflow, GitHub, and docs while blocking other sites. Set Quick Pause for 3-10 minute breaks between sessions.",
+      "vi": "Chặn tất cả các trang không liên quan đến công việc trong các sprint làm việc sâu 90 phút. Sử dụng Mẫu Ngoại Lệ để cho phép Stack Overflow, GitHub và tài liệu trong khi chặn các trang khác. Đặt Tạm Dừng Nhanh cho nghỉ 3-10 phút giữa các phiên.",
+      "ko": "90분 딥 워크 스프린트 동안 모든 비업무 사이트를 차단합니다. 예외 패턴을 사용하여 다른 사이트를 차단하면서 Stack Overflow, GitHub 및 문서를 허용합니다. 세션 사이의 3-10분 휴식을 위해 빠른 일시정지를 설정합니다.",
+      "ja": "90分のディープワークスプリント中にすべての非作業サイトをブロックします。例外パターンを使用して、他のサイトをブロックしながらStack Overflow、GitHub、ドキュメントを許可します。セッション間の3-10分の休憩にクイック一時停止を設定します。",
+      "zh": "在90分钟的深度工作冲刺期间屏蔽所有非工作网站。使用例外模式允许Stack Overflow、GitHub和文档，同时屏蔽其他网站。为会话之间的3-10分钟休息设置快速暂停。"
     },
     "results": [
       {

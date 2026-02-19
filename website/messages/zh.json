@@ -45,7 +45,7 @@
     },
     "quickPause": {
       "title": "快速暂停",
-      "description": "3-15分钟休息"
+      "description": "3、5或10分钟休息"
     },
     "timeSaved": "今天节省的时间"
   },
@@ -55,7 +55,7 @@
     "closeTab": {
       "badge": "独特功能",
       "title": "关闭标签",
-      "description": "在您被吸引之前自动关闭分心的标签",
+      "description": "自动关闭分心的标签。窗口最后一个标签将重定向到仪表板",
       "demo": "立即关闭标签",
       "or": "或重定向"
     },
@@ -82,11 +82,11 @@
   },
   "statistics": {
     "title": "智能统计",
-    "subtitle": "跟踪您的进度",
+    "subtitle": "30天历史记录追踪您的进度",
     "blocksToday": "今日屏蔽",
     "timeSaved": "节省时间",
     "dayStreak": "连续天数",
-    "weeklyTrends": "每周趋势",
+    "weeklyTrends": "每周 / 每月趋势",
     "days": {
       "mon": "周一",
       "tue": "周二",

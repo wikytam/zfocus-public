@@ -45,7 +45,7 @@
     },
     "quickPause": {
       "title": "Tạm Dừng Nhanh",
-      "description": "Nghỉ giải lao 3-15 phút"
+      "description": "Nghỉ 3, 5 hoặc 10 phút"
     },
     "timeSaved": "Thời gian tiết kiệm hôm nay"
   },
@@ -55,7 +55,7 @@
     "closeTab": {
       "badge": "Tính Năng Độc Đáo",
       "title": "Đóng Tab Tự Động",
-      "description": "Tự động đóng tab gây mất tập trung trước khi bạn kịp lướt xem",
+      "description": "Tự động đóng tab gây mất tập trung. Tab cuối cùng sẽ chuyển hướng đến dashboard thay vì đóng",
       "demo": "Tab đóng ngay lập tức",
       "or": "hoặc chuyển hướng"
     },
@@ -82,11 +82,11 @@
   },
   "statistics": {
     "title": "Thống Kê Chi Tiết",
-    "subtitle": "Theo Dõi Tiến Độ Của Bạn",
+    "subtitle": "Theo Dõi Tiến Độ Với Lịch Sử 30 Ngày",
     "blocksToday": "Số Lần Chặn",
     "timeSaved": "Thời Gian Giải Lao",
     "dayStreak": "Chuỗi Ngày",
-    "weeklyTrends": "Xu Hướng Trong Tuần",
+    "weeklyTrends": "Xu Hướng Tuần / Tháng",
     "days": {
       "mon": "T2",
       "tue": "T3",

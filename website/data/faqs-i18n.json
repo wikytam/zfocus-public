@@ -9,11 +9,11 @@
       "zh": "ZFocus是什么？它如何工作？"
     },
     "answer": {
-      "en": "ZFocus is a Chrome extension that helps you manage time and block distracting websites.\n\nIt allows you to set time limits for specific websites (e.g., 5 minutes per hour for social media), and automatically closes or redirects tabs when time runs out.\n\nYou can organize websites into groups, set custom schedules, and track your productivity stats.",
-      "vi": "ZFocus là tiện ích mở rộng Chrome giúp bạn quản lý thời gian và chặn các trang web gây mất tập trung.\n\nNó cho phép bạn đặt giới hạn thời gian cho các trang web cụ thể (ví dụ: 5 phút mỗi giờ cho mạng xã hội), và tự động đóng hoặc chuyển hướng tab khi hết thời gian.\n\nBạn có thể sắp xếp các trang web thành nhóm, đặt lịch trình tùy chỉnh và theo dõi số liệu năng suất của mình.",
-      "ko": "ZFocus는 시간을 관리하고 주의를 산만하게 하는 웹사이트를 차단하는 데 도움이 되는 Chrome 확장 프로그램입니다.\n\n특정 웹사이트에 대한 시간 제한(예: 소셜 미디어의 경우 시간당 5분)을 설정할 수 있으며, 시간이 다 되면 자동으로 탭을 닫거나 리디렉션합니다.\n\n웹사이트를 그룹으로 구성하고, 맞춤 일정을 설정하고, 생산성 통계를 추적할 수 있습니다.",
-      "ja": "ZFocusは、時間を管理し、気を散らすウェブサイトをブロックするのに役立つChrome拡張機能です。\n\n特定のウェブサイトに時間制限を設定でき（例：ソーシャルメディアは1時間あたり5分）、時間切れになると自動的にタブを閉じるかリダイレクトします。\n\nウェブサイトをグループに整理し、カスタムスケジュールを設定し、生産性の統計を追跡できます。",
-      "zh": "ZFocus是一个Chrome扩展程序，可帮助您管理时间并阻止分散注意力的网站。\n\n它允许您为特定网站设置时间限制（例如：社交媒体每小时5分钟），并在时间用完时自动关闭或重定向标签页。\n\n您可以将网站组织成组，设置自定义时间表，并跟踪您的生产力统计数据。"
+      "en": "ZFocus is a Chrome extension that helps you manage time and block distracting websites.\n\nIt allows you to set time limits for specific websites (e.g., 5 minutes per hour for social media), and automatically closes or redirects tabs when time runs out. Timers reset at the start of each new hour.\n\nYou can configure each blocked site with custom schedules, exceptions, keywords, and track your productivity with 30-day statistics charts.",
+      "vi": "ZFocus là tiện ích mở rộng Chrome giúp bạn quản lý thời gian và chặn các trang web gây mất tập trung.\n\nNó cho phép bạn đặt giới hạn thời gian cho các trang web cụ thể (ví dụ: 5 phút mỗi giờ cho mạng xã hội), và tự động đóng hoặc chuyển hướng tab khi hết thời gian. Bộ đếm tự động đặt lại vào đầu mỗi giờ mới.\n\nBạn có thể cấu hình từng trang web bị chặn với lịch trình, ngoại lệ, từ khóa riêng, và theo dõi năng suất với biểu đồ thống kê 30 ngày.",
+      "ko": "ZFocus는 시간을 관리하고 주의를 산만하게 하는 웹사이트를 차단하는 데 도움이 되는 Chrome 확장 프로그램입니다.\n\n특정 웹사이트에 대한 시간 제한(예: 소셜 미디어의 경우 시간당 5분)을 설정할 수 있으며, 시간이 다 되면 자동으로 탭을 닫거나 리디렉션합니다. 타이머는 매 시간 시작 시 자동으로 재설정됩니다.\n\n각 차단된 사이트를 맞춤 일정, 예외, 키워드로 구성하고, 30일 통계 차트로 생산성을 추적할 수 있습니다.",
+      "ja": "ZFocusは、時間を管理し、気を散らすウェブサイトをブロックするのに役立つChrome拡張機能です。\n\n特定のウェブサイトに時間制限を設定でき（例：ソーシャルメディアは1時間あたり5分）、時間切れになると自動的にタブを閉じるかリダイレクトします。タイマーは毎時の開始時に自動的にリセットされます。\n\n各ブロックされたサイトをカスタムスケジュール、例外、キーワードで設定し、30日間の統計チャートで生産性を追跡できます。",
+      "zh": "ZFocus是一个Chrome扩展程序，可帮助您管理时间并阻止分散注意力的网站。\n\n它允许您为特定网站设置时间限制（例如：社交媒体每小时5分钟），并在时间用完时自动关闭或重定向标签页。计时器在每个新小时开始时自动重置。\n\n您可以为每个被阻止的网站配置自定义时间表、例外和关键字，并使用30天统计图表跟踪生产力。"
     },
     "category": "general"
   },
@@ -63,11 +63,11 @@
       "zh": "我可以暂时暂停阻止吗？"
     },
     "answer": {
-      "en": "Yes! You can pause blocking for 5, 10, 15, 30 minutes, or 1 hour from the popup. During the pause, all blocked sites will be accessible.\n\nHowever, if you enable 'Hard Lock Mode' in settings, you won't be able to pause during your configured work hours, ensuring maximum focus during important times.",
-      "vi": "Có! Bạn có thể tạm dừng chặn trong 5, 10, 15, 30 phút hoặc 1 giờ từ cửa sổ popup. Trong thời gian tạm dừng, tất cả các trang web bị chặn sẽ có thể truy cập được.\n\nTuy nhiên, nếu bạn bật 'Chế độ khóa cứng' trong cài đặt, bạn sẽ không thể tạm dừng trong giờ làm việc đã cấu hình của mình, đảm bảo tập trung tối đa trong thời gian quan trọng.",
-      "ko": "예! 팝업에서 5, 10, 15, 30분 또는 1시간 동안 차단을 일시 중지할 수 있습니다. 일시 중지 중에는 모든 차단된 사이트에 액세스할 수 있습니다. 그러나 설정에서 '하드 락 모드'를 활성화하면 구성된 근무 시간 동안 일시 중지할 수 없어 중요한 시간 동안 최대한 집중할 수 있습니다.",
-      "ja": "はい！ポップアップから5、10、15、30分、または1時間ブロックを一時停止できます。一時停止中は、すべてのブロックされたサイトにアクセスできます。ただし、設定で「ハードロックモード」を有効にすると、設定された勤務時間中は一時停止できなくなり、重要な時間帯に最大限の集中力を確保できます。",
-      "zh": "是的！您可以从弹出窗口暂停阻止5、10、15、30分钟或1小时。在暂停期间，所有被阻止的网站都可以访问。但是，如果您在设置中启用\"硬锁定模式\"，则在配置的工作时间内无法暂停，从而确保在重要时间内最大程度地集中注意力。"
+      "en": "Yes! You can pause blocking for 3, 5, or 10 minutes from the popup (default is 5 minutes). During the pause, all blocked sites will be accessible. The pause automatically expires using a Chrome alarm, and idle detection resumes blocking when you return.\n\nHowever, if you enable 'Hard Lock Mode' in settings, you won't be able to pause during your configured work hours, ensuring maximum focus during important times.",
+      "vi": "Có! Bạn có thể tạm dừng chặn trong 3, 5 hoặc 10 phút từ cửa sổ popup (mặc định là 5 phút). Trong thời gian tạm dừng, tất cả các trang web bị chặn sẽ có thể truy cập được. Tạm dừng tự động hết hạn và tính năng phát hiện nhàn rỗi sẽ khôi phục chặn khi bạn quay lại.\n\nTuy nhiên, nếu bạn bật 'Chế độ khóa cứng' trong cài đặt, bạn sẽ không thể tạm dừng trong giờ làm việc đã cấu hình, đảm bảo tập trung tối đa trong thời gian quan trọng.",
+      "ko": "예! 팝업에서 3, 5 또는 10분 동안 차단을 일시 중지할 수 있습니다(기본값 5분). 일시 중지 중에는 모든 차단된 사이트에 액세스할 수 있습니다. 일시 중지는 자동으로 만료되며, 유휴 감지가 사용자가 돌아오면 차단을 재개합니다. 그러나 설정에서 '하드 락 모드'를 활성화하면 구성된 근무 시간 동안 일시 중지할 수 없어 중요한 시간 동안 최대한 집중할 수 있습니다.",
+      "ja": "はい！ポップアップから3、5、または10分間ブロックを一時停止できます（デフォルトは5分）。一時停止中は、すべてのブロックされたサイトにアクセスできます。一時停止は自動的に期限切れとなり、アイドル検出によりユーザーが戻ると再開されます。ただし、設定で「ハードロックモード」を有効にすると、設定された勤務時間中は一時停止できなくなり、重要な時間帯に最大限の集中力を確保できます。",
+      "zh": "是的！您可以从弹出窗口暂停阻止3、5或10分钟（默认5分钟）。在暂停期间，所有被阻止的网站都可以访问。暂停会自动到期，空闲检测会在您返回时恢复阻止。但是，如果您在设置中启用\"硬锁定模式\"，则在配置的工作时间内无法暂停，从而确保在重要时间内最大程度地集中注意力。"
     },
     "category": "features"
   },
@@ -81,11 +81,11 @@
       "zh": "'关闭标签页'和'重定向'操作有什么区别？"
     },
     "answer": {
-      "en": "When time runs out, 'Close Tab' will automatically close the blocked website's tab.\n\n'Redirect' will navigate the tab to a different URL (you can specify a custom URL like your work dashboard, or leave it empty to redirect to the extension's options page).\n\nRedirect is less disruptive and can guide you back to productive work.",
-      "vi": "Khi hết thời gian, 'Đóng tab' sẽ tự động đóng tab của trang web bị chặn.\n\n'Chuyển hướng' sẽ điều hướng tab đến một URL khác (bạn có thể chỉ định URL tùy chỉnh như bảng điều khiển công việc của mình hoặc để trống để chuyển hướng đến trang tùy chọn của tiện ích).\n\nChuyển hướng ít gây gián đoạn hơn và có thể hướng dẫn bạn quay lại công việc hiệu quả.",
-      "ko": "시간이 다 되면 '탭 닫기'는 차단된 웹사이트의 탭을 자동으로 닫습니다. '리디렉션'은 탭을 다른 URL로 이동합니다(작업 대시보드와 같은 사용자 지정 URL을 지정하거나 비워두어 확장 프로그램의 옵션 페이지로 리디렉션할 수 있습니다). 리디렉션은 덜 방해가 되며 생산적인 작업으로 다시 안내할 수 있습니다.",
-      "ja": "時間切れになると、「タブを閉じる」はブロックされたウェブサイトのタブを自動的に閉じます。「リダイレクト」はタブを別のURLに移動します（作業ダッシュボードなどのカスタムURLを指定するか、空のままにして拡張機能のオプションページにリダイレクトできます）。リダイレクトは中断が少なく、生産的な作業に戻すことができます。",
-      "zh": "当时间用完时，'关闭标签页'将自动关闭被阻止网站的标签页。'重定向'将把标签页导航到不同的URL（您可以指定自定义URL，如您的工作仪表板，或留空以重定向到扩展程序的选项页面）。重定向干扰较小，可以引导您回到高效工作。"
+      "en": "When time runs out, 'Close Tab' will automatically close the blocked website's tab. If it's the last tab in the window, ZFocus redirects to the dashboard instead of closing the window.\n\n'Redirect' will navigate the tab to a different URL (you can specify a custom URL like your work dashboard, or leave it empty to redirect to the extension's dashboard).\n\nRedirect is less disruptive and can guide you back to productive work.",
+      "vi": "Khi hết thời gian, 'Đóng tab' sẽ tự động đóng tab của trang web bị chặn. Nếu đó là tab cuối cùng trong cửa sổ, ZFocus sẽ chuyển hướng đến dashboard thay vì đóng cửa sổ.\n\n'Chuyển hướng' sẽ điều hướng tab đến một URL khác (bạn có thể chỉ định URL tùy chỉnh như bảng điều khiển công việc hoặc để trống để chuyển hướng đến dashboard của tiện ích).\n\nChuyển hướng ít gây gián đoạn hơn và có thể hướng dẫn bạn quay lại công việc hiệu quả.",
+      "ko": "시간이 다 되면 '탭 닫기'는 차단된 웹사이트의 탭을 자동으로 닫습니다. 창의 마지막 탭인 경우 ZFocus는 창을 닫는 대신 대시보드로 리디렉션합니다. '리디렉션'은 탭을 다른 URL로 이동합니다(작업 대시보드와 같은 사용자 지정 URL을 지정하거나 비워두어 확장 프로그램의 대시보드로 리디렉션할 수 있습니다). 리디렉션은 덜 방해가 되며 생산적인 작업으로 다시 안내할 수 있습니다.",
+      "ja": "時間切れになると、「タブを閉じる」はブロックされたウェブサイトのタブを自動的に閉じます。ウィンドウの最後のタブの場合、ZFocusはウィンドウを閉じる代わりにダッシュボードにリダイレクトします。「リダイレクト」はタブを別のURLに移動します（作業ダッシュボードなどのカスタムURLを指定するか、空のままにして拡張機能のダッシュボードにリダイレクトできます）。リダイレクトは中断が少なく、生産的な作業に戻すことができます。",
+      "zh": "当时间用完时，'关闭标签页'将自动关闭被阻止网站的标签页。如果是窗口中的最后一个标签页，ZFocus会重定向到仪表板而不是关闭窗口。'重定向'将把标签页导航到不同的URL（您可以指定自定义URL，如您的工作仪表板，或留空以重定向到扩展程序的仪表板）。重定向干扰较小，可以引导您回到高效工作。"
     },
     "category": "features"
   },
@@ -99,11 +99,11 @@
       "zh": "如何设置工作时间表？"
     },
     "answer": {
-      "en": "Each website group has its own schedule settings. You can select which days of the week to apply blocking (e.g., Monday-Friday), set start and end times (e.g., 9:00-17:00), and choose whether to allow access outside these hours.\n\nThis lets you block distracting sites only during work hours while allowing free access during evenings and weekends.",
-      "vi": "Mỗi nhóm trang web có cài đặt lịch trình riêng. Bạn có thể chọn những ngày trong tuần để áp dụng chặn (ví dụ: Thứ Hai-Thứ Sáu), đặt thời gian bắt đầu và kết thúc (ví dụ: 9:00-17:00) và chọn có cho phép truy cập bên ngoài những giờ này hay không.\n\nĐiều này cho phép bạn chặn các trang web gây mất tập trung chỉ trong giờ làm việc trong khi cho phép truy cập tự do vào buổi tối và cuối tuần.",
-      "ko": "각 웹사이트 그룹에는 자체 일정 설정이 있습니다. 차단을 적용할 요일(예: 월요일-금요일)을 선택하고, 시작 및 종료 시간(예: 9:00-17:00)을 설정하고, 이 시간 외에 액세스를 허용할지 여부를 선택할 수 있습니다. 이를 통해 근무 시간 동안만 주의를 산만하게 하는 사이트를 차단하면서 저녁과 주말에는 자유롭게 액세스할 수 있습니다.",
-      "ja": "各ウェブサイトグループには独自のスケジュール設定があります。ブロックを適用する曜日（例：月曜日から金曜日）を選択し、開始時刻と終了時刻（例：9:00〜17:00）を設定し、これらの時間外にアクセスを許可するかどうかを選択できます。これにより、勤務時間中のみ気を散らすサイトをブロックし、夕方や週末には自由にアクセスできます。",
-      "zh": "每个网站组都有自己的时间表设置。您可以选择一周中的哪几天应用阻止（例如：周一至周五），设置开始和结束时间（例如：9:00-17:00），并选择是否允许在这些时间之外访问。这使您可以仅在工作时间内阻止分散注意力的网站，同时允许在晚上和周末自由访问。"
+      "en": "Each blocked website has its own schedule settings. You can select which days of the week to apply blocking (e.g., Monday-Friday), set start and end times (e.g., 9:00-17:00), and choose whether to allow access outside these hours.\n\nSchedules are checked every 60 seconds, and timers reset hourly via Chrome alarms. This lets you block distracting sites only during work hours while allowing free access during evenings and weekends.",
+      "vi": "Mỗi trang web bị chặn có cài đặt lịch trình riêng. Bạn có thể chọn những ngày trong tuần để áp dụng chặn (ví dụ: Thứ Hai-Thứ Sáu), đặt thời gian bắt đầu và kết thúc (ví dụ: 9:00-17:00) và chọn có cho phép truy cập bên ngoài những giờ này hay không.\n\nLịch trình được kiểm tra mỗi 60 giây và bộ đếm đặt lại theo giờ. Điều này cho phép bạn chặn các trang web gây mất tập trung chỉ trong giờ làm việc trong khi cho phép truy cập tự do vào buổi tối và cuối tuần.",
+      "ko": "각 차단된 웹사이트에는 자체 일정 설정이 있습니다. 차단을 적용할 요일(예: 월요일-금요일)을 선택하고, 시작 및 종료 시간(예: 9:00-17:00)을 설정하고, 이 시간 외에 액세스를 허용할지 여부를 선택할 수 있습니다. 일정은 60초마다 확인되며, 타이머는 매시간 재설정됩니다. 이를 통해 근무 시간 동안만 주의를 산만하게 하는 사이트를 차단하면서 저녁과 주말에는 자유롭게 액세스할 수 있습니다.",
+      "ja": "各ブロックされたウェブサイトには独自のスケジュール設定があります。ブロックを適用する曜日（例：月曜日から金曜日）を選択し、開始時刻と終了時刻（例：9:00〜17:00）を設定し、これらの時間外にアクセスを許可するかどうかを選択できます。スケジュールは60秒ごとにチェックされ、タイマーは毎時リセットされます。これにより、勤務時間中のみ気を散らすサイトをブロックし、夕方や週末には自由にアクセスできます。",
+      "zh": "每个被阻止的网站都有自己的时间表设置。您可以选择一周中的哪几天应用阻止（例如：周一至周五），设置开始和结束时间（例如：9:00-17:00），并选择是否允许在这些时间之外访问。时间表每60秒检查一次，计时器每小时重置。这使您可以仅在工作时间内阻止分散注意力的网站，同时允许在晚上和周末自由访问。"
     },
     "category": "features"
   },
@@ -171,11 +171,11 @@
       "zh": "如何跟踪我的生产力统计数据？"
     },
     "answer": {
-      "en": "ZFocus tracks two main metrics: 'Blocks Today' (how many times you tried to access blocked sites after time ran out) and 'Time Saved' (estimated time saved by blocking distractions).\n\nThese stats are displayed in the popup and reset daily. They help you understand your browsing habits and see the impact of using ZFocus.",
-      "vi": "ZFocus theo dõi hai chỉ số chính: 'Chặn hôm nay' (bao nhiêu lần bạn cố gắng truy cập các trang web bị chặn sau khi hết thời gian) và 'Thời gian tiết kiệm' (thời gian ước tính được tiết kiệm bằng cách chặn sự phân tâm).\n\nCác số liệu này được hiển thị trong cửa sổ popup và đặt lại hàng ngày. Chúng giúp bạn hiểu thói quen duyệt web của mình và thấy tác động của việc sử dụng ZFocus.",
-      "ko": "ZFocus는 두 가지 주요 지표를 추적합니다. '오늘 차단'(시간이 다 된 후 차단된 사이트에 액세스하려고 시도한 횟수) 및 '절약된 시간'(주의를 산만하게 하는 것을 차단하여 절약된 예상 시간). 이러한 통계는 팝업에 표시되며 매일 재설정됩니다. 이를 통해 브라우징 습관을 이해하고 ZFocus 사용의 영향을 확인할 수 있습니다.",
-      "ja": "ZFocusは2つの主要な指標を追跡します：「今日のブロック」（時間切れ後にブロックされたサイトにアクセスしようとした回数）と「節約された時間」（気を散らすものをブロックすることで節約された推定時間）。これらの統計はポップアップに表示され、毎日リセットされます。これらは、ブラウジング習慣を理解し、ZFocusを使用することの影響を確認するのに役立ちます。",
-      "zh": "ZFocus跟踪两个主要指标：'今天阻止'（时间用完后您尝试访问被阻止网站的次数）和'节省的时间'（通过阻止分心估计节省的时间）。这些统计数据显示在弹出窗口中，每天重置。它们帮助您了解浏览习惯并查看使用ZFocus的影响。"
+      "en": "ZFocus tracks daily metrics including blocked attempts and time paused, with 30-day history retention.\n\nView interactive charts (weekly or monthly) in the popup and options page to see your trends over time. You can configure whether the week starts on Monday or Sunday for chart display.\n\nStats help you understand your browsing habits and see the long-term impact of using ZFocus.",
+      "vi": "ZFocus theo dõi các chỉ số hàng ngày bao gồm số lần chặn và thời gian tạm dừng, với lịch sử lưu trữ 30 ngày.\n\nXem biểu đồ tương tác (tuần hoặc tháng) trong popup và trang cài đặt để thấy xu hướng theo thời gian. Bạn có thể cấu hình tuần bắt đầu từ Thứ Hai hoặc Chủ Nhật cho biểu đồ.\n\nThống kê giúp bạn hiểu thói quen duyệt web và thấy tác động dài hạn của việc sử dụng ZFocus.",
+      "ko": "ZFocus는 차단 시도 횟수 및 일시 중지 시간을 포함한 일일 지표를 추적하며, 30일 기록을 보관합니다. 팝업 및 옵션 페이지에서 대화형 차트(주간 또는 월간)를 확인하여 시간에 따른 추세를 파악할 수 있습니다. 차트 표시를 위해 주 시작일을 월요일 또는 일요일로 설정할 수 있습니다. 통계를 통해 브라우징 습관을 이해하고 ZFocus 사용의 장기적인 영향을 확인할 수 있습니다.",
+      "ja": "ZFocusは、ブロック試行回数や一時停止時間を含む日次指標を追跡し、30日間の履歴を保持します。ポップアップとオプションページでインタラクティブチャート（週間または月間）を確認し、時間の経過に伴う傾向を把握できます。チャート表示のために週の開始日を月曜日または日曜日に設定できます。統計は、ブラウジング習慣を理解し、ZFocusの長期的な効果を確認するのに役立ちます。",
+      "zh": "ZFocus跟踪包括阻止尝试次数和暂停时间在内的每日指标，保留30天历史记录。在弹出窗口和选项页面中查看交互式图表（每周或每月），了解随时间变化的趋势。您可以设置周一或周日作为图表显示的周起始日。统计数据帮助您了解浏览习惯并查看使用ZFocus的长期影响。"
     },
     "category": "features"
   },
@@ -189,11 +189,11 @@
       "zh": "我可以在被阻止的网站上看到倒计时器吗？"
     },
     "answer": {
-      "en": "Yes! When you visit a time-limited website, ZFocus displays your remaining time in two places:\n\n(1) as a badge on the extension icon showing minutes/hours left, and\n(2) as an overlay on the website itself.\n\nThe badge color changes from green to orange to red as time runs low. You can disable the badge countdown in settings if you prefer.",
-      "vi": "Có! Khi bạn truy cập một trang web có giới hạn thời gian, ZFocus hiển thị thời gian còn lại của bạn ở hai nơi:\n\n(1) dưới dạng huy hiệu trên biểu tượng tiện ích mở rộng hiển thị phút/giờ còn lại và\n(2) dưới dạng lớp phủ trên chính trang web.\n\nMàu huy hiệu thay đổi từ xanh lá cây sang cam sang đỏ khi thời gian sắp hết. Bạn có thể tắt đếm ngược huy hiệu trong cài đặt nếu bạn muốn.",
-      "ko": "예! 시간 제한이 있는 웹사이트를 방문하면 ZFocus는 남은 시간을 두 곳에 표시합니다. (1) 남은 분/시간을 표시하는 확장 프로그램 아이콘의 배지로, (2) 웹사이트 자체의 오버레이로. 시간이 부족해지면 배지 색상이 녹색에서 주황색, 빨간색으로 변경됩니다. 원하는 경우 설정에서 배지 카운트다운을 비활성화할 수 있습니다.",
-      "ja": "はい！時間制限のあるウェブサイトにアクセスすると、ZFocusは残り時間を2か所に表示します：（1）残りの分/時間を示す拡張機能アイコンのバッジとして、（2）ウェブサイト自体のオーバーレイとして。時間が少なくなると、バッジの色が緑からオレンジ、赤に変わります。必要に応じて、設定でバッジのカウントダウンを無効にできます。",
-      "zh": "是的！当您访问有时间限制的网站时，ZFocus会在两个地方显示您的剩余时间：（1）作为扩展图标上显示剩余分钟/小时的徽章，（2）作为网站本身的覆盖层。随着时间的减少，徽章颜色从绿色变为橙色再变为红色。如果您愿意，可以在设置中禁用徽章倒计时。"
+      "en": "Yes! When you visit a time-limited website, ZFocus displays your remaining time in two places:\n\n(1) as a badge on the extension icon showing minutes left (updates every 5 seconds, or every 1 second when less than 60 seconds remaining), and\n(2) as a floating overlay on the website with a progress ring and countdown.\n\nYou can disable the badge countdown in settings if you prefer.",
+      "vi": "Có! Khi bạn truy cập một trang web có giới hạn thời gian, ZFocus hiển thị thời gian còn lại ở hai nơi:\n\n(1) dưới dạng huy hiệu trên biểu tượng tiện ích hiển thị phút còn lại (cập nhật mỗi 5 giây, hoặc mỗi 1 giây khi còn dưới 60 giây) và\n(2) dưới dạng lớp phủ nổi trên trang web với vòng tiến trình và đếm ngược.\n\nBạn có thể tắt đếm ngược huy hiệu trong cài đặt nếu muốn.",
+      "ko": "예! 시간 제한이 있는 웹사이트를 방문하면 ZFocus는 남은 시간을 두 곳에 표시합니다. (1) 남은 분을 표시하는 확장 프로그램 아이콘의 배지(5초마다 업데이트, 60초 미만일 때 1초마다), (2) 웹사이트의 진행률 링과 카운트다운이 있는 플로팅 오버레이. 원하는 경우 설정에서 배지 카운트다운을 비활성화할 수 있습니다.",
+      "ja": "はい！時間制限のあるウェブサイトにアクセスすると、ZFocusは残り時間を2か所に表示します：（1）残り分を示す拡張機能アイコンのバッジ（5秒ごとに更新、60秒未満の場合は1秒ごと）、（2）プログレスリングとカウントダウンを備えたウェブサイト上のフローティングオーバーレイ。必要に応じて、設定でバッジのカウントダウンを無効にできます。",
+      "zh": "是的！当您访问有时间限制的网站时，ZFocus会在两个地方显示您的剩余时间：（1）作为扩展图标上显示剩余分钟的徽章（每5秒更新，剩余不到60秒时每1秒更新），（2）作为网站上带有进度环和倒计时的浮动覆盖层。如果您愿意，可以在设置中禁用徽章倒计时。"
     },
     "category": "features"
   },
@@ -243,11 +243,11 @@
       "zh": "我可以在URL模式中使用通配符吗？"
     },
     "answer": {
-      "en": "Yes! FocusGuard supports two wildcard types:\n\n'*' (single asterisk) matches any characters except dots and slashes (useful for subdomains like *.example.com), and\n'**' (double asterisk) matches any characters including dots and slashes (useful for complex paths).\n\nBy default, entering just 'example.com' will match all subdomains and paths automatically.",
-      "vi": "Có! FocusGuard hỗ trợ hai loại ký tự đại diện:\n\n'*' (dấu sao đơn) khớp với bất kỳ ký tự nào ngoại trừ dấu chấm và dấu gạch chéo (hữu ích cho tên miền phụ như *.example.com) và\n'**' (dấu sao kép) khớp với bất kỳ ký tự nào bao gồm dấu chấm và dấu gạch chéo (hữu ích cho đường dẫn phức tạp).\n\nTheo mặc định, chỉ nhập 'example.com' sẽ tự động khớp với tất cả các tên miền phụ và đường dẫn.",
-      "ko": "예! FocusGuard는 두 가지 와일드카드 유형을 지원합니다. '*'(단일 별표)는 점과 슬래시를 제외한 모든 문자와 일치합니다(*.example.com과 같은 하위 도메인에 유용). '**'(이중 별표)는 점과 슬래시를 포함한 모든 문자와 일치합니다(복잡한 경로에 유용). 기본적으로 'example.com'만 입력하면 모든 하위 도메인과 경로가 자동으로 일치합니다.",
-      "ja": "はい！FocusGuardは2種類のワイルドカードをサポートしています：'*'（単一のアスタリスク）はドットとスラッシュを除くすべての文字に一致します（*.example.comのようなサブドメインに便利）、'**'（二重のアスタリスク）はドットとスラッシュを含むすべての文字に一致します（複雑なパスに便利）。デフォルトでは、「example.com」だけを入力すると、すべてのサブドメインとパスが自動的に一致します。",
-      "zh": "是的！FocusGuard支持两种通配符类型：'*'（单个星号）匹配除点和斜杠之外的任何字符（对于*.example.com等子域很有用），'**'（双星号）匹配包括点和斜杠在内的任何字符（对于复杂路径很有用）。默认情况下，仅输入'example.com'将自动匹配所有子域和路径。"
+      "en": "Yes! ZFocus supports two wildcard types:\n\n'*' (single asterisk) matches any characters except dots and slashes (useful for subdomains like *.example.com), and\n'**' (double asterisk) matches any characters including dots and slashes (useful for complex paths).\n\nBy default, entering just 'example.com' will match all subdomains and paths automatically.",
+      "vi": "Có! ZFocus hỗ trợ hai loại ký tự đại diện:\n\n'*' (dấu sao đơn) khớp với bất kỳ ký tự nào ngoại trừ dấu chấm và dấu gạch chéo (hữu ích cho tên miền phụ như *.example.com) và\n'**' (dấu sao kép) khớp với bất kỳ ký tự nào bao gồm dấu chấm và dấu gạch chéo (hữu ích cho đường dẫn phức tạp).\n\nTheo mặc định, chỉ nhập 'example.com' sẽ tự động khớp với tất cả các tên miền phụ và đường dẫn.",
+      "ko": "예! ZFocus는 두 가지 와일드카드 유형을 지원합니다. '*'(단일 별표)는 점과 슬래시를 제외한 모든 문자와 일치합니다(*.example.com과 같은 하위 도메인에 유용). '**'(이중 별표)는 점과 슬래시를 포함한 모든 문자와 일치합니다(복잡한 경로에 유용). 기본적으로 'example.com'만 입력하면 모든 하위 도메인과 경로가 자동으로 일치합니다.",
+      "ja": "はい！ZFocusは2種類のワイルドカードをサポートしています：'*'（単一のアスタリスク）はドットとスラッシュを除くすべての文字に一致します（*.example.comのようなサブドメインに便利）、'**'（二重のアスタリスク）はドットとスラッシュを含むすべての文字に一致します（複雑なパスに便利）。デフォルトでは、「example.com」だけを入力すると、すべてのサブドメインとパスが自動的に一致します。",
+      "zh": "是的！ZFocus支持两种通配符类型：'*'（单个星号）匹配除点和斜杠之外的任何字符（对于*.example.com等子域很有用），'**'（双星号）匹配包括点和斜杠在内的任何字符（对于复杂路径很有用）。默认情况下，仅输入'example.com'将自动匹配所有子域和路径。"
     },
     "category": "advanced"
   },
@@ -272,11 +272,11 @@
   {
     "id": "faq-16",
     "question": {
-      "en": "Does FocusGuard work in incognito/private mode?",
-      "vi": "FocusGuard có hoạt động ở chế độ ẩn danh/riêng tư không?",
-      "ko": "FocusGuard는 시크릿/프라이빗 모드에서 작동합니까?",
-      "ja": "FocusGuardはシークレット/プライベートモードで動作しますか？",
-      "zh": "FocusGuard在隐身/隐私模式下工作吗？"
+      "en": "Does ZFocus work in incognito/private mode?",
+      "vi": "ZFocus có hoạt động ở chế độ ẩn danh/riêng tư không?",
+      "ko": "ZFocus는 시크릿/프라이빗 모드에서 작동합니까?",
+      "ja": "ZFocusはシークレット/プライベートモードで動作しますか？",
+      "zh": "ZFocus在隐身/隐私模式下工作吗？"
     },
     "answer": {
       "en": "ZFocus can work in incognito mode, but you need to enable it manually.\n\nGo to chrome://extensions, find ZFocus, click 'Details', and toggle 'Allow in Incognito'.\n\nNote that timers and stats from incognito sessions are kept separate and won't sync with your regular browsing data for privacy reasons.",
