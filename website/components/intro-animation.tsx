@@ -4,6 +4,7 @@ import { useRef, useEffect, useCallback } from 'react';
 
 interface IntroAnimationProps {
   onComplete: () => void;
+  onBeforeFade?: () => void;
 }
 
 const LOGO_SIZE_START = 128;
@@ -33,10 +34,17 @@ const getHeaderLogoRect = (): DOMRect | null => {
   return headerLogo?.getBoundingClientRect() ?? null;
 };
 
-export const IntroAnimation = ({ onComplete }: IntroAnimationProps) => {
+export const IntroAnimation = ({ onComplete, onBeforeFade }: IntroAnimationProps) => {
   const logoRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const completeCalled = useRef(false);
+  const beforeFadeCalled = useRef(false);
+
+  const fireBeforeFade = useCallback(() => {
+    if (beforeFadeCalled.current) return;
+    beforeFadeCalled.current = true;
+    onBeforeFade?.();
+  }, [onBeforeFade]);
 
   const fireComplete = useCallback(() => {
     if (completeCalled.current) return;
@@ -130,13 +138,17 @@ export const IntroAnimation = ({ onComplete }: IntroAnimationProps) => {
       },
     );
 
+    const logoSettleMs = 2100 * 0.43;
+    const mountTimer = setTimeout(fireBeforeFade, logoSettleMs);
+
     overlayAnim.onfinish = fireComplete;
 
     return () => {
+      clearTimeout(mountTimer);
       logoAnim.cancel();
       overlayAnim.cancel();
     };
-  }, [fireComplete]);
+  }, [fireBeforeFade, fireComplete]);
 
   return (
     <>

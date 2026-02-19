@@ -7,7 +7,7 @@ import { IntroAnimation } from '@/components/intro-animation';
 import { useState, useEffect, useCallback } from 'react';
 
 const INTRO_PLAYED_KEY = 'zfocus-intro-played';
-const INTRO_TTL_MS = 30 * 60 * 1000;
+const INTRO_TTL_MS = 0 * 60 * 1000;
 
 const isIntroStillValid = (): boolean => {
   const raw = sessionStorage.getItem(INTRO_PLAYED_KEY);
@@ -16,8 +16,7 @@ const isIntroStillValid = (): boolean => {
   return Date.now() - timestamp < INTRO_TTL_MS;
 };
 
-export default function Home() {
-  const [mounted, setMounted] = useState(false);
+const Home = () => {
   const [showContent, setShowContent] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
 
@@ -28,11 +27,13 @@ export default function Home() {
       sessionStorage.removeItem(INTRO_PLAYED_KEY);
       setShowIntro(true);
     }
-    setMounted(true);
+  }, []);
+
+  const handleBeforeFade = useCallback(() => {
+    setShowContent(true);
   }, []);
 
   const handleIntroComplete = useCallback(() => {
-    setShowContent(true);
     sessionStorage.setItem(INTRO_PLAYED_KEY, String(Date.now()));
     setTimeout(() => {
       setShowIntro(false);
@@ -44,15 +45,17 @@ export default function Home() {
       <Header />
 
       <main className="bg-background min-h-dvh">
-        {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
+        {showIntro && <IntroAnimation onBeforeFade={handleBeforeFade} onComplete={handleIntroComplete} />}
 
-        <div className={`transition-opacity duration-500 ${mounted && showContent ? 'opacity-100' : 'opacity-0'}`}>
+        {showContent && (
           <div className="pt-16">
             <BentoGrid />
             <Footer />
           </div>
-        </div>
+        )}
       </main>
     </>
   );
-}
+};
+
+export default Home;
