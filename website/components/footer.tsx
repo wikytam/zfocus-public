@@ -8,8 +8,8 @@ export const Footer = () => {
   const t = useTranslations();
 
   return (
-    <footer className="border-border bg-card border-t">
-      <div className="mx-auto max-w-6xl px-6 py-16">
+    <footer className="border-border bg-card mt-6 border-t">
+      <div className="mx-auto max-w-6xl px-6 py-8">
         {/* Main footer content */}
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand column */}

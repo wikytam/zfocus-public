@@ -97,28 +97,7 @@
   }
 }
 
-/* Intro animation keyframes */
-@keyframes logo-bounce {
-  0% {
-    transform: translateY(-100vh) scale(0.5);
-    opacity: 0;
-  }
-  60% {
-    transform: translateY(20px) scale(1.05);
-    opacity: 1;
-  }
-  80% {
-    transform: translateY(-8px) scale(0.98);
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
-
-.animate-logo-bounce {
-  animation: logo-bounce 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
+/* Intro animation: driven by Web Animations API in intro-animation.tsx */
 
 /* Bento card animations */
 @keyframes bento-card-reveal {
@@ -396,7 +375,6 @@
 
 /* Accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .animate-logo-bounce,
   .animate-bento-card-reveal,
   .animate-bento-header-reveal,
   .animate-header-content-appear,

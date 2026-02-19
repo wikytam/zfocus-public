@@ -28,7 +28,7 @@ export const Header = () => {
           ? 'bg-card/80 border-border/60 border-b shadow-[0_1px_3px_rgba(0,0,0,0.04)] backdrop-blur-xl'
           : 'bg-background/60 border-b border-transparent backdrop-blur-md'
       } `}>
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2">
         {/* Logo */}
         <button
           type="button"
