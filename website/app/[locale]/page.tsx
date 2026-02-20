@@ -17,27 +17,20 @@ const isIntroStillValid = (): boolean => {
 };
 
 const Home = () => {
-  const [showContent, setShowContent] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
 
   useEffect(() => {
-    if (isIntroStillValid()) {
-      setShowContent(true);
-    } else {
+    if (!isIntroStillValid()) {
       sessionStorage.removeItem(INTRO_PLAYED_KEY);
       setShowIntro(true);
     }
-  }, []);
-
-  const handleBeforeFade = useCallback(() => {
-    setShowContent(true);
   }, []);
 
   const handleIntroComplete = useCallback(() => {
     sessionStorage.setItem(INTRO_PLAYED_KEY, String(Date.now()));
     setTimeout(() => {
       setShowIntro(false);
-    }, 100);
+    }, 50);
   }, []);
 
   return (
@@ -45,14 +38,12 @@ const Home = () => {
       <Header />
 
       <main className="bg-background min-h-dvh">
-        {showIntro && <IntroAnimation onBeforeFade={handleBeforeFade} onComplete={handleIntroComplete} />}
+        {showIntro && <IntroAnimation onComplete={handleIntroComplete} />}
 
-        {showContent && (
-          <div className="pt-16">
-            <BentoGrid />
-            <Footer />
-          </div>
-        )}
+        <div className="animate-header-content-appear pt-16">
+          <BentoGrid />
+          <Footer />
+        </div>
       </main>
     </>
   );
