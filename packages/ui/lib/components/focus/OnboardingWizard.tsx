@@ -70,7 +70,7 @@ export const OnboardingWizard = ({
   // Step 1: Error reporting consent (default off)
   const [errorReportingEnabled, setErrorReportingEnabled] = useState(false);
 
-  // Step 2: Add Website Group
+  // Step 2: Add Focus Zone
   const DAYS = [
     { value: 1, label: t('monday'), fullLabel: t('mondayFull') },
     { value: 2, label: t('tuesday'), fullLabel: t('tuesdayFull') },
@@ -148,7 +148,7 @@ export const OnboardingWizard = ({
   };
 
   const handleFinish = () => {
-    // Add the website group if form is valid
+    // Add the focus zone if form is valid
     if (canSubmitGroup) {
       onAddSite({
         title: formData.title,
@@ -300,7 +300,7 @@ export const OnboardingWizard = ({
                 </div>
               )}
 
-              {/* Step 2: Add Website Group */}
+              {/* Step 2: Add Focus Zone */}
               {step === 2 && (
                 <div className="space-y-4">
                   <div className="text-center">
@@ -308,7 +308,7 @@ export const OnboardingWizard = ({
                     <p className="text-muted-foreground mt-2 text-sm">{t('onboardingAddFirstGroupDesc')}</p>
                   </div>
 
-                  {/* Group Name */}
+                  {/* Zone Name */}
                   <div className="space-y-2">
                     <Label htmlFor="onboard-title">{t('groupName')}</Label>
                     <Input

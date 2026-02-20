@@ -17,19 +17,19 @@
     "message": "概要"
   },
   "websites": {
-    "message": "ウェブサイト"
+    "message": "フォーカスゾーン"
   },
   "settings": {
     "message": "設定"
   },
   "manageWebsites": {
-    "message": "ウェブサイト管理"
+    "message": "フォーカスゾーン"
   },
   "manageWebsitesDesc": {
-    "message": "ブロックするウェブサイトを追加・設定"
+    "message": "フォーカスゾーンを追加・設定して集中力を妨げるサイトをブロック"
   },
   "addNewGroup": {
-    "message": "新しいグループを追加"
+    "message": "フォーカスゾーンを追加"
   },
   "blockedAttempts": {
     "message": "今日のブロック回数"
@@ -38,7 +38,7 @@
     "message": "一時停止時間"
   },
   "timeOnWebsite": {
-    "message": "ウェブサイトの時間"
+    "message": "トラッキング時間"
   },
   "pauseBlocking": {
     "message": "ブロックを一時停止"
@@ -140,16 +140,16 @@
     "message": "ウェブサイトを編集"
   },
   "editWebsiteDesc": {
-    "message": "ウェブサイトグループの設定を編集"
+    "message": "フォーカスゾーンの設定を編集"
   },
   "addWebsite": {
     "message": "ウェブサイトを追加"
   },
   "addWebsiteDesc": {
-    "message": "ブロックするウェブサイトグループを追加"
+    "message": "ブロックするフォーカスゾーンを追加"
   },
   "groupName": {
-    "message": "グループ名"
+    "message": "ゾーン名"
   },
   "urlList": {
     "message": "URLリスト"
@@ -278,10 +278,10 @@
     "message": "一時停止中"
   },
   "noWebsitesAdded": {
-    "message": "ウェブサイトが追加されていません"
+    "message": "フォーカスゾーンが追加されていません"
   },
   "noWebsitesAddedDesc": {
-    "message": "「新しいグループを追加」をクリックして開始"
+    "message": "「フォーカスゾーンを追加」をクリックして開始"
   },
   "website": {
     "message": "ウェブサイト"
@@ -305,16 +305,16 @@
     "message": "再実行"
   },
   "addWebsiteGroup": {
-    "message": "ウェブサイトグループを追加"
+    "message": "フォーカスゾーンを追加"
   },
   "addWebsiteGroupDesc": {
-    "message": "時間を浪費するウェブサイトをブロックする新しいグループを作成"
+    "message": "時間を浪費するウェブサイトをブロックする新しいフォーカスゾーンを作成"
   },
   "editWebsiteGroup": {
-    "message": "ウェブサイトグループを編集"
+    "message": "フォーカスゾーンを編集"
   },
   "editWebsiteGroupDesc": {
-    "message": "ウェブサイトグループの設定を更新"
+    "message": "フォーカスゾーンの設定を更新"
   },
   "groupNamePlaceholder": {
     "message": "例：ソーシャルメディア"
@@ -368,13 +368,13 @@
     "message": "空白の場合は拡張機能のポップアップページに移動"
   },
   "addGroup": {
-    "message": "グループを追加"
+    "message": "ゾーンを追加"
   },
   "deleteGroup": {
-    "message": "グループを削除"
+    "message": "ゾーンを削除"
   },
   "deleteConfirm": {
-    "message": "このグループを削除してもよろしいですか？"
+    "message": "このフォーカスゾーンを削除してもよろしいですか？"
   },
   "tenMinutes": {
     "message": "10分"
@@ -446,10 +446,10 @@
     "message": "時間を浪費するサイトをブロック"
   },
   "noWebsites": {
-    "message": "まだウェブサイトが追加されていません"
+    "message": "フォーカスゾーンが追加されていません"
   },
   "clickAddToStart": {
-    "message": "「新しいグループを追加」をクリックして開始"
+    "message": "「フォーカスゾーンを追加」をクリックして開始"
   },
   "invalidWebsite": {
     "message": "ウェブサイト #$1 は無効です"
@@ -485,10 +485,10 @@
     "message": "その他"
   },
   "manageWebsites": {
-    "message": "ウェブサイトを管理"
+    "message": "フォーカスゾーン"
   },
   "manageWebsitesDesc": {
-    "message": "ブロックするウェブサイトを追加して設定"
+    "message": "フォーカスゾーンを追加・設定して集中力を妨げるサイトをブロック"
   },
   "timeRemaining": {
     "message": "残り時間"
@@ -530,10 +530,10 @@
     "message": "システムから自動検出"
   },
   "onboardingAddFirstGroup": {
-    "message": "最初のウェブサイトグループを追加"
+    "message": "最初のフォーカスゾーンを追加"
   },
   "onboardingAddFirstGroupDesc": {
-    "message": "制限したいウェブサイトのグループを作成します。後で追加することもできます。"
+    "message": "制限したいウェブサイトのフォーカスゾーンを作成します。後で追加することもできます。"
   },
   "onboardingSkip": {
     "message": "スキップ"

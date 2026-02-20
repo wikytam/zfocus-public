@@ -17,19 +17,19 @@
     "message": "Overview"
   },
   "websites": {
-    "message": "Websites"
+    "message": "Focus Zones"
   },
   "settings": {
     "message": "Settings"
   },
   "manageWebsites": {
-    "message": "Manage Websites"
+    "message": "Focus Zones"
   },
   "manageWebsitesDesc": {
-    "message": "Add and configure websites to block"
+    "message": "Add and configure focus zones to block distracting websites"
   },
   "addNewGroup": {
-    "message": "Add New Group"
+    "message": "Add Focus Zone"
   },
   "blockedAttempts": {
     "message": "Blocked Today"
@@ -38,7 +38,7 @@
     "message": "Time Pause"
   },
   "timeOnWebsite": {
-    "message": "Time on Website"
+    "message": "Tracked Time"
   },
   "pauseBlocking": {
     "message": "Pause Blocking"
@@ -140,16 +140,16 @@
     "message": "Edit Website"
   },
   "editWebsiteDesc": {
-    "message": "Edit settings for website group"
+    "message": "Edit settings for focus zone"
   },
   "addWebsite": {
     "message": "Add Website"
   },
   "addWebsiteDesc": {
-    "message": "Add website group to block"
+    "message": "Add focus zone to block"
   },
   "groupName": {
-    "message": "Group Name"
+    "message": "Zone Name"
   },
   "urlList": {
     "message": "URL List"
@@ -269,10 +269,10 @@
     "message": "Save Changes"
   },
   "siteAdded": {
-    "message": "Website group added successfully"
+    "message": "Focus zone added successfully"
   },
   "siteUpdated": {
-    "message": "Website group updated successfully"
+    "message": "Focus zone updated successfully"
   },
   "validationError": {
     "message": "Please check your input and try again"
@@ -287,10 +287,10 @@
     "message": "Paused"
   },
   "noWebsitesAdded": {
-    "message": "No websites added yet"
+    "message": "No focus zones added yet"
   },
   "noWebsitesAddedDesc": {
-    "message": "Click \"Add New Group\" to get started"
+    "message": "Click \"Add Focus Zone\" to get started"
   },
   "website": {
     "message": "website"
@@ -314,16 +314,16 @@
     "message": "Run Again"
   },
   "addWebsiteGroup": {
-    "message": "Add Website Group"
+    "message": "Add Focus Zone"
   },
   "addWebsiteGroupDesc": {
-    "message": "Create a new group to block time-wasting websites"
+    "message": "Create a new focus zone to block time-wasting websites"
   },
   "editWebsiteGroup": {
-    "message": "Edit Website Group"
+    "message": "Edit Focus Zone"
   },
   "editWebsiteGroupDesc": {
-    "message": "Update settings for website group"
+    "message": "Update settings for this focus zone"
   },
   "groupNamePlaceholder": {
     "message": "E.g.: Social Media"
@@ -377,13 +377,13 @@
     "message": "Leave empty to redirect to extension popup"
   },
   "addGroup": {
-    "message": "Add Group"
+    "message": "Add Zone"
   },
   "deleteGroup": {
-    "message": "Delete Group"
+    "message": "Delete Zone"
   },
   "deleteConfirm": {
-    "message": "Are you sure you want to delete this group?"
+    "message": "Are you sure you want to delete this focus zone?"
   },
   "tenMinutes": {
     "message": "10 minutes"
@@ -455,10 +455,10 @@
     "message": "Blocking time-wasting sites"
   },
   "noWebsites": {
-    "message": "No websites added yet"
+    "message": "No focus zones added yet"
   },
   "clickAddToStart": {
-    "message": "Click \"Add New Group\" to start"
+    "message": "Click \"Add Focus Zone\" to start"
   },
   "invalidWebsite": {
     "message": "Website #$1 is invalid"
@@ -494,10 +494,10 @@
     "message": "more"
   },
   "manageWebsites": {
-    "message": "Manage Websites"
+    "message": "Focus Zones"
   },
   "manageWebsitesDesc": {
-    "message": "Add and configure websites to block"
+    "message": "Add and configure focus zones to block distracting websites"
   },
   "timeRemaining": {
     "message": "Time Remaining"
@@ -539,10 +539,10 @@
     "message": "Auto-detected from system"
   },
   "onboardingAddFirstGroup": {
-    "message": "Add Your First Website Group"
+    "message": "Add Your First Focus Zone"
   },
   "onboardingAddFirstGroupDesc": {
-    "message": "Create a group of websites you want to limit. You can add more later."
+    "message": "Create a focus zone for websites you want to limit. You can add more later."
   },
   "onboardingSkip": {
     "message": "Skip for now"
@@ -575,7 +575,7 @@
     "message": "Setup required to start blocking distracting websites"
   },
   "setupRequiredDesc": {
-    "message": "Configure your first website group to get started"
+    "message": "Configure your first focus zone to get started"
   },
   "startSetup": {
     "message": "Start Setup"
