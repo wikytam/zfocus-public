@@ -1,4 +1,4 @@
-import { focusSettingsSchema, isValidUrlOrDomain } from '@extension/shared';
+import { focusSettingsSchema, isValidUrlOrDomain, normalizeUrlPattern } from '@extension/shared';
 import type { FocusSettings } from '@extension/storage';
 import type { z } from 'zod';
 
@@ -17,7 +17,7 @@ const normalizeForImport = (data: z.infer<typeof focusSettingsSchema>): FocusSet
     ...site,
     id: site.id || `imported-${index}-${Date.now()}`,
     title: site.title.trim().substring(0, 200),
-    urls: site.urls.map(url => url.trim().toLowerCase().substring(0, 500)),
+    urls: site.urls.map(url => normalizeUrlPattern(url).substring(0, 500)),
     redirectUrl: site.redirectUrl?.trim().substring(0, 500),
     schedule: {
       ...site.schedule,

@@ -11,7 +11,7 @@ import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
-import { validateEditSiteForm } from '@extension/shared';
+import { validateEditSiteForm, normalizeUrlPatterns } from '@extension/shared';
 import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info, Sparkles } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import type { BlockedSite, EditSiteFormData } from '@extension/shared';
@@ -156,10 +156,8 @@ export const EditSiteDialog = ({
       const validatedData = validateEditSiteForm(formDataToValidate);
 
       // Convert validated data to the format expected by onSave
-      const allUrls = validatedData.urls
-        .split('\n')
-        .map(u => u.trim())
-        .filter(Boolean);
+      // Normalize URLs: strip protocol (https://) and www. prefix
+      const allUrls = normalizeUrlPatterns(validatedData.urls.split('\n').filter(Boolean));
 
       const exceptions = (validatedData.exceptions || '')
         .split('\n')

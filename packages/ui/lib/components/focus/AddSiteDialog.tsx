@@ -11,7 +11,7 @@ import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
-import { validateAddSiteForm, validateUrls } from '@extension/shared';
+import { validateAddSiteForm, validateUrls, normalizeUrlPatterns } from '@extension/shared';
 import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info, AlertCircle, Sparkles } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import type { BlockedSite, AddSiteFormData, UrlValidationError } from '@extension/shared';
@@ -125,10 +125,8 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
       const validatedData = validateAddSiteForm(formDataToValidate);
 
       // Convert validated data to the format expected by onAdd
-      const allUrls = validatedData.urls
-        .split('\n')
-        .map(u => u.trim())
-        .filter(Boolean);
+      // Normalize URLs: strip protocol (https://) and www. prefix
+      const allUrls = normalizeUrlPatterns(validatedData.urls.split('\n').filter(Boolean));
 
       const exceptions = (validatedData.exceptions || '')
         .split('\n')
