@@ -1,5 +1,5 @@
 import { validateHistoricalStats, validateBlockedSite } from '../../../shared/lib/utils/validation.js';
-import { createStorage, StorageEnum } from '../base/index.js';
+import { createStorage, StorageEnum, syncQuotaGuard } from '../base/index.js';
 import type {
   FocusSettings,
   DailyStats,
@@ -84,7 +84,7 @@ export const focusSettingsStorage = {
     }
     await settingsStorage.set(prev => ({ ...prev, ...updates }));
     // Update last sync timestamp for auto-sync
-    await chrome.storage.sync.set({ 'focus-last-sync': Date.now() });
+    await syncQuotaGuard.safeSet('focus-last-sync', Date.now());
   },
 
   addBlockedSite: async (site: Omit<BlockedSite, 'id'>) => {
@@ -98,7 +98,7 @@ export const focusSettingsStorage = {
       ...prev,
       blockedSites: [...prev.blockedSites, newSite],
     }));
-    await chrome.storage.sync.set({ 'focus-last-sync': Date.now() });
+    await syncQuotaGuard.safeSet('focus-last-sync', Date.now());
     return newSite;
   },
 
@@ -115,7 +115,7 @@ export const focusSettingsStorage = {
         return site;
       }),
     }));
-    await chrome.storage.sync.set({ 'focus-last-sync': Date.now() });
+    await syncQuotaGuard.safeSet('focus-last-sync', Date.now());
   },
 
   removeBlockedSite: async (id: string) => {
@@ -123,7 +123,7 @@ export const focusSettingsStorage = {
       ...prev,
       blockedSites: prev.blockedSites.filter(site => site.id !== id),
     }));
-    await chrome.storage.sync.set({ 'focus-last-sync': Date.now() });
+    await syncQuotaGuard.safeSet('focus-last-sync', Date.now());
   },
 
   pauseBlocking: async (minutes: number) => {

@@ -167,7 +167,7 @@
     "message": "例外"
   },
   "exceptionsPlaceholder": {
-    "message": "facebook.com/marketplace\nfacebook.com/events"
+    "message": "youtube.com/learn\nfacebook.com/help"
   },
   "exceptionsDesc": {
     "message": "这些URL将不会被屏蔽（每行一个URL）"
@@ -326,10 +326,10 @@
     "message": "高级选项"
   },
   "exceptionsLabel": {
-    "message": "允许"
+    "message": "白名单"
   },
   "exceptionsDescription": {
-    "message": "这些URL将被允许"
+    "message": "这些URL不会被屏蔽"
   },
   "blockFromReferrer": {
     "message": "从来源屏蔽（引荐来源）"
@@ -558,5 +558,20 @@
   },
   "urlInvalid": {
     "message": "无效的 URL 或域名格式"
+  },
+  "testStorageQuota": {
+    "message": "Test Storage Quota"
+  },
+  "testStorageQuotaDesc": {
+    "message": "Simulate sync storage overflow to verify IndexedDB fallback"
+  },
+  "testStorageQuotaRunning": {
+    "message": "Testing..."
+  },
+  "testStorageQuotaCleanup": {
+    "message": "Clean Test Data"
+  },
+  "storageQuotaStatus": {
+    "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
   }
 }

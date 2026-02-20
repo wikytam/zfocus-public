@@ -21,6 +21,16 @@
       "outputs": ["../../dist/**", "dist/**"],
       "cache": false
     },
+    "@zfocus/website#build": {
+      "dependsOn": [],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "cache": false
+    },
+    "@zfocus/website#dev": {
+      "dependsOn": [],
+      "cache": false,
+      "persistent": true
+    },
     "e2e": {
       "cache": false
     },

@@ -65,9 +65,10 @@ const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
     };
 
     return (
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Composite widget: container delegates focus to inner input
       <div
-        role="button"
-        tabIndex={disabled ? -1 : 0}
+        role="group"
+        tabIndex={-1}
         className={cn(
           'border-input ring-offset-background focus-within:ring-ring flex min-h-[40px] w-full flex-wrap gap-2 rounded-md border bg-transparent px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-offset-2',
           disabled && 'cursor-not-allowed opacity-50',

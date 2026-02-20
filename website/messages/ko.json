@@ -1,0 +1,206 @@
+{
+  "nav": {
+    "features": "기능",
+    "faq": "자주 묻는 질문",
+    "useCases": "사용 사례",
+    "pricing": "가격"
+  },
+  "hero": {
+    "title": "방해 요소 줄이기, 집중력 향상",
+    "subtitle": "생산성을 높이는 독특한 기능을 갖춘 가장 강력한 웹사이트 차단 도구"
+  },
+  "smartBlocking": {
+    "title": "스마트 차단",
+    "subtitle": "더 스마트하게, 더 쉽게 차단",
+    "exceptionPattern": {
+      "badge": "고유 기능",
+      "title": "예외 패턴",
+      "block": "차단: youtube.com",
+      "allow1": "허용: +youtube.com/learn",
+      "allow2": "허용: +youtube.com/@freecodecamp",
+      "description": "엔터테인먼트 차단, 교육 콘텐츠 허용"
+    },
+    "referrerBlocking": {
+      "title": "리퍼러 차단",
+      "description": "소셜 미디어 링크 차단"
+    },
+    "keywordBlocking": {
+      "title": "키워드 차단",
+      "description": "키워드가 포함된 URL 자동 차단"
+    }
+  },
+  "timeControl": {
+    "title": "시간 제어",
+    "subtitle": "중요한 순간에 집중",
+    "schedule": {
+      "title": "일정",
+      "monFri": "월-금",
+      "satSun": "토-일",
+      "off": "끄기"
+    },
+    "activeTabOnly": {
+      "title": "활성 탭만",
+      "blockActive": "활성 탭 차단",
+      "allowBackground": "백그라운드에서 YouTube Music"
+    },
+    "quickPause": {
+      "title": "빠른 일시정지",
+      "description": "3, 5 또는 10분 휴식"
+    },
+    "timeSaved": "오늘 절약한 시간"
+  },
+  "advancedActions": {
+    "title": "고급 작업",
+    "subtitle": "단순 차단을 넘어서",
+    "closeTab": {
+      "badge": "고유 기능",
+      "title": "탭 닫기",
+      "description": "자동으로 방해 탭 닫기. 창의 마지막 탭은 대시보드로 리디렉션",
+      "demo": "탭 즉시 닫힘",
+      "or": "또는 리디렉션"
+    },
+    "redirectLink": {
+      "title": "링크 리디렉션",
+      "description": "방해 요소를 생산적인 목적지로 대체",
+      "more": "그리고 더 많이"
+    },
+    "timeBasedBlock": {
+      "title": "시간 기반 차단",
+      "description": "접근 빈도 및 기간 제어",
+      "option1": "매시간 5분",
+      "option2": "30분마다 5분"
+    }
+  },
+  "privacy": {
+    "title": "프라이버시 우선",
+    "subtitle": "귀하의 데이터는 귀하와 함께",
+    "localStorage": "100% 로컬 저장",
+    "zeroTracking": "추적 없음",
+    "noAccount": "계정 불필요",
+    "optInErrorReporting": "동의 시에만 오류 보고",
+    "optInErrorReportingDesc": "명시적 동의가 있을 때만 익명 충돌 보고서 전송",
+    "quote": "우리는 보지 않고, 저장하지 않고, 알지 못합니다. 정말이에요!",
+    "quoteSubtitle": "귀하의 브라우징 습관은 오직 귀하의 것입니다"
+  },
+  "statistics": {
+    "title": "스마트 통계",
+    "subtitle": "30일 기록으로 진행 상황 추적",
+    "blocksToday": "오늘 차단",
+    "timeSaved": "절약한 시간",
+    "dayStreak": "연속 일수",
+    "weeklyTrends": "주간 / 월간 트렌드",
+    "days": {
+      "mon": "월",
+      "tue": "화",
+      "wed": "수",
+      "thu": "목",
+      "fri": "금",
+      "sat": "토",
+      "sun": "일"
+    }
+  },
+  "cta": {
+    "title": "생산성을 높일 준비가 되셨나요?",
+    "users": "500명 이상의 사용자 참여",
+    "timeSaved": "매일 2시간 이상 절약",
+    "rating": "4.9/5.0",
+    "installChrome": "무료 설치 - Chrome",
+    "firefox": "Firefox",
+    "manualDownload": "수동 다운로드",
+    "noRegistration": "등록 불필요"
+  },
+  "faq": {
+    "title": "자주 묻는 질문",
+    "subtitle": "ZFocus에 대해 알아야 할 모든 것",
+    "searchPlaceholder": "질문 검색...",
+    "found": "찾음",
+    "question": "질문",
+    "questions": "질문",
+    "noResults": "질문을 찾을 수 없습니다",
+    "tryDifferent": "다른 검색어를 시도하세요",
+    "stillHaveQuestions": "아직 질문이 있으신가요?",
+    "checkDocs": "문서를 확인하거나 커뮤니티에 문의하세요",
+    "viewDocs": "문서 보기",
+    "joinCommunity": "커뮤니티 참여"
+  },
+  "useCases": {
+    "title": "실제 사용 사례",
+    "subtitle": "ZFocus가 당신과 같은 사람들이 집중하고 생산적으로 지내도록 돕는 방법을 확인하세요",
+    "scenario": "시나리오",
+    "problem": "문제",
+    "solution": "솔루션",
+    "results": "결과",
+    "whichFitsYou": "어떤 사용 사례가 귀하에게 맞습니까?",
+    "whichFitsYouDesc": "ZFocus는 귀하의 고유한 워크플로에 적응합니다. 하나의 전략으로 시작하여 귀하의 방식대로 맞춤 설정하세요.",
+    "getStarted": "무료로 시작하기"
+  },
+  "pricing": {
+    "title": "간단하고 투명한 가격",
+    "subtitle": "무료로 시작하고, 준비되면 업그레이드하세요",
+    "freeTrial": {
+      "badge": "시작하기",
+      "title": "무료 체험",
+      "price": "0",
+      "currency": "$",
+      "period": "30일",
+      "description": "30일간 모든 프리미엄 기능을 무료로 체험하세요",
+      "features": {
+        "allFeatures": "모든 프리미엄 기능",
+        "unlimitedBlocking": "무제한 차단 규칙",
+        "advancedSchedule": "고급 스케줄링",
+        "statistics": "상세 통계",
+        "noCardRequired": "신용카드 불필요"
+      },
+      "cta": "무료 체험 시작"
+    },
+    "yearly": {
+      "badge": "가장 인기",
+      "title": "연간",
+      "price": "9",
+      "currency": "$",
+      "period": "/년",
+      "description": "장기 사용자를 위한 최고의 가치",
+      "features": {
+        "allFeatures": "무료 체험의 모든 기능",
+        "prioritySupport": "우선 지원",
+        "earlyAccess": "새 기능 조기 액세스",
+        "cloudSync": "기기 간 클라우드 동기화",
+        "autoRenewal": "자동 갱신, 언제든 취소 가능"
+      },
+      "cta": "연간 구독"
+    },
+    "lifetime": {
+      "badge": "최고의 거래",
+      "title": "평생",
+      "price": "29",
+      "currency": "$",
+      "period": "1회",
+      "description": "한 번 결제하고, 모든 업데이트와 함께 영원히 사용하세요",
+      "features": {
+        "allFeatures": "연간의 모든 기능",
+        "lifetimeUpdates": "평생 업데이트 포함",
+        "prioritySupport": "영구 우선 지원",
+        "noRecurring": "반복 결제 없음",
+        "earlyAccess": "평생 조기 액세스"
+      },
+      "cta": "평생 액세스 구매"
+    },
+    "guarantee": "모든 유료 플랜에 30일 환불 보장"
+  },
+  "moreThings": {
+    "title": "더 많은 것들",
+    "subtitle": "아름다운 UI 및 브라우저 지원",
+    "beautifulUI": {
+      "title": "아름다운 UI",
+      "light": "라이트",
+      "dark": "다크",
+      "auto": "자동"
+    },
+    "browserSupport": {
+      "title": "브라우저 지원"
+    },
+    "languages": {
+      "title": "5개 언어"
+    }
+  }
+}

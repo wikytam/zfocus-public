@@ -1,0 +1,56 @@
+[
+  {
+    "id": "use-case-1",
+    "icon": "GraduationCap",
+    "title": "Students & Learners",
+    "scenario": "Staying focused during study sessions",
+    "problem": "Social media and entertainment sites constantly interrupt study time",
+    "solution": "Block distracting sites during study hours (9 AM - 5 PM on weekdays). Use Exception Patterns to allow educational YouTube channels while blocking entertainment content. Set Time-Based Blocking for 5 minutes of social media every hour as a reward.",
+    "results": ["2-3 hours saved daily", "Better grades", "Reduced stress"]
+  },
+  {
+    "id": "use-case-2",
+    "icon": "Briefcase",
+    "title": "Remote Workers",
+    "scenario": "Maintaining productivity while working from home",
+    "problem": "Home environment has more distractions than office",
+    "solution": "Use Schedule Blocking for work hours (9 AM - 6 PM). Enable Active Tab Only mode to keep reference materials accessible in background tabs. Use Referrer Blocking to prevent clicking social media links from Slack/email.",
+    "results": ["40% more productive", "Meet deadlines consistently", "Better work-life balance"]
+  },
+  {
+    "id": "use-case-3",
+    "icon": "Code",
+    "title": "Developers & Designers",
+    "scenario": "Deep work sessions for complex projects",
+    "problem": "Context switching destroys flow state and productivity",
+    "solution": "Block all distractions during deep work blocks (2-4 hour sessions). Use Keyword Blocking to automatically block URLs with 'game', 'shopping', 'streaming'. Quick Pause for legitimate breaks without losing settings.",
+    "results": ["3x longer flow states", "Higher quality code", "Fewer bugs"]
+  },
+  {
+    "id": "use-case-4",
+    "icon": "Users",
+    "title": "Parents & Families",
+    "scenario": "Creating healthy digital habits for the whole family",
+    "problem": "Kids (and adults) spend too much time on entertainment sites",
+    "solution": "Set up family-wide blocking rules. Block gaming and streaming sites during homework time. Use Time-Based Blocking to allow 30 minutes of entertainment after completing tasks. Export/import settings across family devices.",
+    "results": ["Homework done on time", "More family time", "Healthier screen habits"]
+  },
+  {
+    "id": "use-case-5",
+    "icon": "BookOpen",
+    "title": "Content Creators & Writers",
+    "scenario": "Finishing projects without procrastination",
+    "problem": "Research turns into endless browsing and procrastination",
+    "solution": "Use Exception Patterns to allow research sites while blocking entertainment. Redirect social media to writing tools (e.g., twitter.com → notion.so). Track statistics to see time saved and stay motivated.",
+    "results": ["Publish 2x more content", "Meet content deadlines", "Higher quality work"]
+  },
+  {
+    "id": "use-case-6",
+    "icon": "Target",
+    "title": "Anyone Building Better Habits",
+    "scenario": "Breaking addiction to social media and news",
+    "problem": "Compulsive checking of social media and news sites",
+    "solution": "Start with Time-Based Blocking (5 min every 2 hours) to gradually reduce usage. Use Close Tab action for instant blocking. Track progress with statistics to see improvement over time. Celebrate streaks!",
+    "results": ["80% less social media time", "Better mental health", "More present in real life"]
+  }
+]

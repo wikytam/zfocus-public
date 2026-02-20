@@ -1,0 +1,206 @@
+{
+  "nav": {
+    "features": "功能",
+    "faq": "常见问题",
+    "useCases": "使用案例",
+    "pricing": "定价"
+  },
+  "hero": {
+    "title": "减少干扰，保持专注",
+    "subtitle": "功能最强大的网站屏蔽工具，具有独特功能以提高您的生产力"
+  },
+  "smartBlocking": {
+    "title": "智能屏蔽",
+    "subtitle": "更智能，而非更困难",
+    "exceptionPattern": {
+      "badge": "独特功能",
+      "title": "例外模式",
+      "block": "屏蔽: youtube.com",
+      "allow1": "允许: +youtube.com/learn",
+      "allow2": "允许: +youtube.com/@freecodecamp",
+      "description": "屏蔽娱乐，允许教育内容"
+    },
+    "referrerBlocking": {
+      "title": "来源屏蔽",
+      "description": "屏蔽来自社交媒体的链接"
+    },
+    "keywordBlocking": {
+      "title": "关键词屏蔽",
+      "description": "自动屏蔽包含关键词的URL"
+    }
+  },
+  "timeControl": {
+    "title": "时间控制",
+    "subtitle": "在重要时刻保持专注",
+    "schedule": {
+      "title": "日程",
+      "monFri": "周一至周五",
+      "satSun": "周六至周日",
+      "off": "关闭"
+    },
+    "activeTabOnly": {
+      "title": "仅活动标签",
+      "blockActive": "屏蔽活动标签",
+      "allowBackground": "后台YouTube Music"
+    },
+    "quickPause": {
+      "title": "快速暂停",
+      "description": "3、5或10分钟休息"
+    },
+    "timeSaved": "今天节省的时间"
+  },
+  "advancedActions": {
+    "title": "高级操作",
+    "subtitle": "超越简单屏蔽",
+    "closeTab": {
+      "badge": "独特功能",
+      "title": "关闭标签",
+      "description": "自动关闭分心的标签。窗口最后一个标签将重定向到仪表板",
+      "demo": "立即关闭标签",
+      "or": "或重定向"
+    },
+    "redirectLink": {
+      "title": "链接重定向",
+      "description": "用高效目的地替换分心因素",
+      "more": "更多"
+    },
+    "timeBasedBlock": {
+      "title": "基于时间的屏蔽",
+      "description": "控制访问频率和持续时间",
+      "option1": "每小时5分钟",
+      "option2": "每30分钟5分钟"
+    }
+  },
+  "privacy": {
+    "title": "隐私优先",
+    "subtitle": "您的数据与您同在",
+    "localStorage": "100%本地存储",
+    "zeroTracking": "零追踪",
+    "noAccount": "无需账户",
+    "optInErrorReporting": "仅在同意时报告错误",
+    "optInErrorReportingDesc": "仅在您明确同意时发送匿名崩溃报告",
+    "quote": "我们不看、不存、不知道。真的！",
+    "quoteSubtitle": "您的浏览习惯仅属于您"
+  },
+  "statistics": {
+    "title": "智能统计",
+    "subtitle": "30天历史记录追踪您的进度",
+    "blocksToday": "今日屏蔽",
+    "timeSaved": "节省时间",
+    "dayStreak": "连续天数",
+    "weeklyTrends": "每周 / 每月趋势",
+    "days": {
+      "mon": "周一",
+      "tue": "周二",
+      "wed": "周三",
+      "thu": "周四",
+      "fri": "周五",
+      "sat": "周六",
+      "sun": "周日"
+    }
+  },
+  "cta": {
+    "title": "准备好提高生产力了吗？",
+    "users": "加入500多名用户",
+    "timeSaved": "每天节省2小时以上",
+    "rating": "4.9/5.0",
+    "installChrome": "免费安装 - Chrome",
+    "firefox": "Firefox",
+    "manualDownload": "手动下载",
+    "noRegistration": "无需注册"
+  },
+  "faq": {
+    "title": "常见问题",
+    "subtitle": "关于ZFocus您需要了解的一切",
+    "searchPlaceholder": "搜索问题...",
+    "found": "找到",
+    "question": "个问题",
+    "questions": "个问题",
+    "noResults": "未找到问题",
+    "tryDifferent": "尝试不同的搜索词",
+    "stillHaveQuestions": "还有问题吗？",
+    "checkDocs": "查看文档或联系社区",
+    "viewDocs": "查看文档",
+    "joinCommunity": "加入社区"
+  },
+  "useCases": {
+    "title": "真实使用案例",
+    "subtitle": "看看ZFocus如何帮助像您这样的人保持专注和高效",
+    "scenario": "场景",
+    "problem": "问题",
+    "solution": "解决方案",
+    "results": "结果",
+    "whichFitsYou": "哪个使用案例适合您？",
+    "whichFitsYouDesc": "ZFocus适应您独特的工作流程。从一个策略开始，然后根据您的方式进行定制。",
+    "getStarted": "免费开始"
+  },
+  "pricing": {
+    "title": "简单透明的定价",
+    "subtitle": "免费开始，准备好了再升级",
+    "freeTrial": {
+      "badge": "开始使用",
+      "title": "免费试用",
+      "price": "0",
+      "currency": "$",
+      "period": "30天",
+      "description": "免费试用所有高级功能30天",
+      "features": {
+        "allFeatures": "所有高级功能",
+        "unlimitedBlocking": "无限屏蔽规则",
+        "advancedSchedule": "高级日程安排",
+        "statistics": "详细统计",
+        "noCardRequired": "无需信用卡"
+      },
+      "cta": "开始免费试用"
+    },
+    "yearly": {
+      "badge": "最受欢迎",
+      "title": "年度",
+      "price": "9",
+      "currency": "$",
+      "period": "/年",
+      "description": "长期用户的最佳价值",
+      "features": {
+        "allFeatures": "免费试用的所有功能",
+        "prioritySupport": "优先支持",
+        "earlyAccess": "新功能抢先体验",
+        "cloudSync": "跨设备云同步",
+        "autoRenewal": "自动续费，随时取消"
+      },
+      "cta": "年度订阅"
+    },
+    "lifetime": {
+      "badge": "最划算",
+      "title": "终身",
+      "price": "29",
+      "currency": "$",
+      "period": "一次性",
+      "description": "一次付款，永久使用，包含所有更新",
+      "features": {
+        "allFeatures": "年度的所有功能",
+        "lifetimeUpdates": "终身更新",
+        "prioritySupport": "永久优先支持",
+        "noRecurring": "无需定期付款",
+        "earlyAccess": "终身抢先体验"
+      },
+      "cta": "获取终身访问"
+    },
+    "guarantee": "所有付费计划均享30天退款保证"
+  },
+  "moreThings": {
+    "title": "更多功能",
+    "subtitle": "精美UI及浏览器支持",
+    "beautifulUI": {
+      "title": "精美UI",
+      "light": "浅色",
+      "dark": "深色",
+      "auto": "自动"
+    },
+    "browserSupport": {
+      "title": "浏览器支持"
+    },
+    "languages": {
+      "title": "5种语言"
+    }
+  }
+}

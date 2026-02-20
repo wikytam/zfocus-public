@@ -31,6 +31,7 @@ export default config(
       '**/node_modules/**',
       'chrome-extension/manifest.js',
       'scripts/**/*.js',
+      '**/scripts/**/*.js',
       '**/components.json',
     ],
   },

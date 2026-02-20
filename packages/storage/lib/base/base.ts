@@ -1,4 +1,6 @@
 import { SessionAccessLevelEnum, StorageEnum } from './enums.js';
+import { indexedDBAdapter } from './indexeddb-adapter.js';
+import { syncQuotaGuard } from './sync-quota-guard.js';
 import type { BaseStorageType, StorageConfigType, ValueOrUpdateType } from './types.js';
 
 /**
@@ -87,15 +89,21 @@ export const createStorage = <D = string>(
     globalSessionAccessLevelFlag = true;
   }
 
+  const isSyncStorage = storageEnum === StorageEnum.Sync;
+
   // Register life cycle methods
   const get = async (): Promise<D> => {
     checkStoragePermission(storageEnum);
-    const value = await chrome?.storage[storageEnum].get([key]);
 
+    if (isSyncStorage) {
+      const raw = await syncQuotaGuard.safeGet<D>(key);
+      return deserialize(raw as string & D) ?? fallback;
+    }
+
+    const value = await chrome?.storage[storageEnum].get([key]);
     if (!value) {
       return fallback;
     }
-
     return deserialize(value[key]) ?? fallback;
   };
 
@@ -105,7 +113,15 @@ export const createStorage = <D = string>(
     }
     cache = await updateCache(valueOrUpdate, cache);
 
-    await chrome?.storage[storageEnum].set({ [key]: serialize(cache) });
+    if (isSyncStorage) {
+      const backend = await syncQuotaGuard.safeSet(key, serialize(cache));
+      if (backend === 'indexeddb') {
+        console.warn(`[ZFocus Storage] Key "${key}" stored in IndexedDB (sync quota exceeded).`);
+      }
+    } else {
+      await chrome?.storage[storageEnum].set({ [key]: serialize(cache) });
+    }
+
     _emitChange();
   };
 
@@ -144,13 +160,27 @@ export const createStorage = <D = string>(
   });
 
   // Register listener for live updates for our storage area
+  let unsubscribeIDB: (() => void) | null = null;
+
   if (liveUpdate) {
     chrome?.storage[storageEnum].onChanged.addListener(_updateFromStorageOnChanged);
+
+    // For sync storage, also listen for IndexedDB changes (overflow keys)
+    if (isSyncStorage) {
+      unsubscribeIDB = indexedDBAdapter.onChanged((changedKey, newValue) => {
+        if (changedKey !== key) return;
+        const valueOrUpdate = deserialize(newValue as string & D);
+        if (cache === valueOrUpdate) return;
+        cache = valueOrUpdate;
+        _emitChange();
+      });
+    }
   }
 
   const dispose = () => {
     if (liveUpdate) {
       chrome?.storage[storageEnum].onChanged.removeListener(_updateFromStorageOnChanged);
+      unsubscribeIDB?.();
     }
     listeners = [];
     cache = null;

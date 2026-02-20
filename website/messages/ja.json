@@ -1,0 +1,206 @@
+{
+  "nav": {
+    "features": "機能",
+    "faq": "よくある質問",
+    "useCases": "活用事例",
+    "pricing": "料金"
+  },
+  "hero": {
+    "title": "気を散らすものを減らし、集中力を維持",
+    "subtitle": "生産性を向上させるユニークな機能を備えた最も強力なウェブサイトブロッカー"
+  },
+  "smartBlocking": {
+    "title": "スマートブロッキング",
+    "subtitle": "よりスマートに、より簡単にブロック",
+    "exceptionPattern": {
+      "badge": "ユニーク機能",
+      "title": "例外パターン",
+      "block": "ブロック: youtube.com",
+      "allow1": "許可: +youtube.com/learn",
+      "allow2": "許可: +youtube.com/@freecodecamp",
+      "description": "エンターテイメントをブロック、教育コンテンツを許可"
+    },
+    "referrerBlocking": {
+      "title": "リファラーブロッキング",
+      "description": "ソーシャルメディアからのリンクをブロック"
+    },
+    "keywordBlocking": {
+      "title": "キーワードブロッキング",
+      "description": "キーワードを含むURLを自動ブロック"
+    }
+  },
+  "timeControl": {
+    "title": "時間管理",
+    "subtitle": "重要な時に集中",
+    "schedule": {
+      "title": "スケジュール",
+      "monFri": "月-金",
+      "satSun": "土-日",
+      "off": "オフ"
+    },
+    "activeTabOnly": {
+      "title": "アクティブタブのみ",
+      "blockActive": "アクティブタブをブロック",
+      "allowBackground": "バックグラウンドでYouTube Music"
+    },
+    "quickPause": {
+      "title": "クイック一時停止",
+      "description": "3、5または10分の休憩"
+    },
+    "timeSaved": "今日節約した時間"
+  },
+  "advancedActions": {
+    "title": "高度なアクション",
+    "subtitle": "シンプルなブロッキングを超えて",
+    "closeTab": {
+      "badge": "ユニーク機能",
+      "title": "タブを閉じる",
+      "description": "自動的にタブを閉じる。ウィンドウの最後のタブはダッシュボードにリダイレクト",
+      "demo": "タブを即座に閉じる",
+      "or": "またはリダイレクト"
+    },
+    "redirectLink": {
+      "title": "リンクリダイレクト",
+      "description": "気を散らすものを生産的な目的地に置き換える",
+      "more": "その他多数"
+    },
+    "timeBasedBlock": {
+      "title": "時間ベースブロック",
+      "description": "アクセス頻度と期間を制御",
+      "option1": "毎時5分",
+      "option2": "30分ごとに5分"
+    }
+  },
+  "privacy": {
+    "title": "プライバシー第一",
+    "subtitle": "あなたのデータはあなたと共に",
+    "localStorage": "100%ローカルストレージ",
+    "zeroTracking": "トラッキングゼロ",
+    "noAccount": "アカウント不要",
+    "optInErrorReporting": "同意時のみエラー報告",
+    "optInErrorReportingDesc": "明示的な同意がある場合のみ匿名のクラッシュレポートを送信",
+    "quote": "私たちは見ません、保存しません、知りません。本当です！",
+    "quoteSubtitle": "あなたのブラウジング習慣はあなただけのものです"
+  },
+  "statistics": {
+    "title": "スマート統計",
+    "subtitle": "30日間の履歴で進捗を追跡",
+    "blocksToday": "今日のブロック",
+    "timeSaved": "節約した時間",
+    "dayStreak": "連続日数",
+    "weeklyTrends": "週間 / 月間トレンド",
+    "days": {
+      "mon": "月",
+      "tue": "火",
+      "wed": "水",
+      "thu": "木",
+      "fri": "金",
+      "sat": "土",
+      "sun": "日"
+    }
+  },
+  "cta": {
+    "title": "生産性を高める準備はできましたか？",
+    "users": "500人以上のユーザーが参加",
+    "timeSaved": "毎日2時間以上節約",
+    "rating": "4.9/5.0",
+    "installChrome": "無料インストール - Chrome",
+    "firefox": "Firefox",
+    "manualDownload": "手動ダウンロード",
+    "noRegistration": "登録不要"
+  },
+  "faq": {
+    "title": "よくある質問",
+    "subtitle": "ZFocusについて知っておくべきすべて",
+    "searchPlaceholder": "質問を検索...",
+    "found": "見つかりました",
+    "question": "質問",
+    "questions": "質問",
+    "noResults": "質問が見つかりませんでした",
+    "tryDifferent": "別の検索用語を試してください",
+    "stillHaveQuestions": "まだ質問がありますか？",
+    "checkDocs": "ドキュメントをチェックするか、コミュニティに連絡してください",
+    "viewDocs": "ドキュメントを見る",
+    "joinCommunity": "コミュニティに参加"
+  },
+  "useCases": {
+    "title": "実際の使用例",
+    "subtitle": "ZFocusがあなたのような人々が集中して生産的であるのを助ける方法を見てください",
+    "scenario": "シナリオ",
+    "problem": "問題",
+    "solution": "ソリューション",
+    "results": "結果",
+    "whichFitsYou": "どの使用例があなたに合いますか？",
+    "whichFitsYouDesc": "ZFocusはあなたのユニークなワークフローに適応します。1つの戦略から始めて、あなたの方法でカスタマイズしてください。",
+    "getStarted": "無料で始める"
+  },
+  "pricing": {
+    "title": "シンプルで透明な料金",
+    "subtitle": "無料で始めて、準備ができたらアップグレード",
+    "freeTrial": {
+      "badge": "始めましょう",
+      "title": "無料トライアル",
+      "price": "0",
+      "currency": "$",
+      "period": "30日間",
+      "description": "30日間すべてのプレミアム機能を無料でお試しください",
+      "features": {
+        "allFeatures": "すべてのプレミアム機能",
+        "unlimitedBlocking": "無制限のブロッキングルール",
+        "advancedSchedule": "高度なスケジューリング",
+        "statistics": "詳細な統計",
+        "noCardRequired": "クレジットカード不要"
+      },
+      "cta": "無料トライアルを開始"
+    },
+    "yearly": {
+      "badge": "最も人気",
+      "title": "年間",
+      "price": "9",
+      "currency": "$",
+      "period": "/年",
+      "description": "長期ユーザーに最適な価値",
+      "features": {
+        "allFeatures": "無料トライアルのすべて",
+        "prioritySupport": "優先サポート",
+        "earlyAccess": "新機能への早期アクセス",
+        "cloudSync": "デバイス間クラウド同期",
+        "autoRenewal": "自動更新、いつでもキャンセル可能"
+      },
+      "cta": "年間購読"
+    },
+    "lifetime": {
+      "badge": "最もお得",
+      "title": "ライフタイム",
+      "price": "29",
+      "currency": "$",
+      "period": "1回",
+      "description": "一度の支払いで、すべてのアップデートと共に永久に使用",
+      "features": {
+        "allFeatures": "年間のすべて",
+        "lifetimeUpdates": "ライフタイムアップデート付き",
+        "prioritySupport": "永久優先サポート",
+        "noRecurring": "定期支払いなし",
+        "earlyAccess": "ライフタイム早期アクセス"
+      },
+      "cta": "ライフタイムアクセスを購入"
+    },
+    "guarantee": "すべての有料プランに30日間の返金保証"
+  },
+  "moreThings": {
+    "title": "その他",
+    "subtitle": "美しいUI＆ブラウザサポート",
+    "beautifulUI": {
+      "title": "美しいUI",
+      "light": "ライト",
+      "dark": "ダーク",
+      "auto": "自動"
+    },
+    "browserSupport": {
+      "title": "ブラウザサポート"
+    },
+    "languages": {
+      "title": "5つの言語"
+    }
+  }
+}

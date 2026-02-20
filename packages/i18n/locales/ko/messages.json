@@ -167,7 +167,7 @@
     "message": "예외"
   },
   "exceptionsPlaceholder": {
-    "message": "facebook.com/marketplace\nfacebook.com/events"
+    "message": "youtube.com/learn\nfacebook.com/help"
   },
   "exceptionsDesc": {
     "message": "이 URL은 차단되지 않습니다 (한 줄에 하나씩)"
@@ -326,10 +326,10 @@
     "message": "고급 옵션"
   },
   "exceptionsLabel": {
-    "message": "허용"
+    "message": "화이트리스트"
   },
   "exceptionsDescription": {
-    "message": "이 URL은 허용됩니다"
+    "message": "이 URL은 차단되지 않습니다"
   },
   "blockFromReferrer": {
     "message": "소스에서 차단 (리퍼러)"
@@ -558,5 +558,20 @@
   },
   "urlInvalid": {
     "message": "잘못된 URL 또는 도메인 형식입니다"
+  },
+  "testStorageQuota": {
+    "message": "Test Storage Quota"
+  },
+  "testStorageQuotaDesc": {
+    "message": "Simulate sync storage overflow to verify IndexedDB fallback"
+  },
+  "testStorageQuotaRunning": {
+    "message": "Testing..."
+  },
+  "testStorageQuotaCleanup": {
+    "message": "Clean Test Data"
+  },
+  "storageQuotaStatus": {
+    "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
   }
 }
