@@ -484,19 +484,13 @@
   "more": {
     "message": "その他"
   },
-  "manageWebsites": {
-    "message": "フォーカスゾーン"
-  },
-  "manageWebsitesDesc": {
-    "message": "フォーカスゾーンを追加・設定して集中力を妨げるサイトをブロック"
-  },
   "timeRemaining": {
     "message": "残り時間"
   },
   "blocksToday": {
     "message": "今日のブロック"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "ウェブサイト"
   },
   "timePause": {

@@ -217,7 +217,7 @@ const Options = () => {
                 icon={<Ban className="h-5 w-5" />}
                 label={t('blocksToday')}
                 value={stats.blockedAttempts}
-                subValue={t('websites')}
+                subValue={t('websitesUnit')}
                 variant="success"
                 delay={0}
               />

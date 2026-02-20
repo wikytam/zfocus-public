@@ -493,19 +493,13 @@
   "more": {
     "message": "khác"
   },
-  "manageWebsites": {
-    "message": "Focus Zones"
-  },
-  "manageWebsitesDesc": {
-    "message": "Thêm và cấu hình các focus zone để chặn website gây mất tập trung"
-  },
   "timeRemaining": {
     "message": "Thời gian còn lại"
   },
   "blocksToday": {
     "message": "Lượt chặn hôm nay"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "trang web"
   },
   "timePause": {

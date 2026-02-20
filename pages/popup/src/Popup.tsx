@@ -147,7 +147,7 @@ const Popup = () => {
               icon={<Ban className="h-4 w-4" />}
               label={t('blocksToday')}
               value={stats.blockedAttempts}
-              subValue={t('websites')}
+              subValue={t('websitesUnit')}
               variant="success"
               delay={0}
             />

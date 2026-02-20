@@ -493,19 +493,13 @@
   "more": {
     "message": "more"
   },
-  "manageWebsites": {
-    "message": "Focus Zones"
-  },
-  "manageWebsitesDesc": {
-    "message": "Add and configure focus zones to block distracting websites"
-  },
   "timeRemaining": {
     "message": "Time Remaining"
   },
   "blocksToday": {
     "message": "Blocks Today"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "websites"
   },
   "timePause": {

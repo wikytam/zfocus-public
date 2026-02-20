@@ -484,19 +484,13 @@
   "more": {
     "message": "더보기"
   },
-  "manageWebsites": {
-    "message": "포커스 존"
-  },
-  "manageWebsitesDesc": {
-    "message": "포커스 존을 추가하고 구성하여 방해되는 웹사이트 차단"
-  },
   "timeRemaining": {
     "message": "남은 시간"
   },
   "blocksToday": {
     "message": "오늘 차단"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "웹사이트"
   },
   "timePause": {
