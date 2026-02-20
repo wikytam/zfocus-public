@@ -15,7 +15,7 @@
     "db:generate": "npx prisma generate",
     "db:studio": "npx prisma studio",
     "db:push": "npx prisma db push",
-    "lint": "eslint .",
+    "lint": "oxlint .",
     "convert-logo": "node scripts/convert-logo.js",
     "clean:node_modules": "rimraf node_modules",
     "clean:turbo": "rimraf .turbo",
