@@ -60,9 +60,9 @@ export const SmartBlockingCard = () => {
               <h4 className="text-foreground mb-3 font-medium">{t('smartBlocking.referrerBlocking.title')}</h4>
               <div className="space-y-2">
                 {[
-                  { src: '/facebook.svg', alt: 'Facebook', name: 'facebook.com' },
-                  { src: '/x.svg', alt: 'X', name: 'x.com' },
-                  { src: '/instagram.svg', alt: 'Instagram', name: 'instagram.com' },
+                  { src: '/icon/facebook.svg', alt: 'Facebook', name: 'facebook.com' },
+                  { src: '/icon/x.svg', alt: 'X', name: 'x.com' },
+                  { src: '/icon/instagram.svg', alt: 'Instagram', name: 'instagram.com' },
                 ].map(item => (
                   <div
                     key={item.alt}

@@ -9,7 +9,7 @@ const sizes = [
   { size: 800, name: 'icon-128.png' },
   { size: 48, name: 'favicon-48.png' },
 ];
-const inputFile = path.join(__dirname, '../app/logo.svg');
+const inputFile = path.join(__dirname, '../public/icon/logo.svg');
 const outputDir = path.join(__dirname, '../app');
 
 // Check if input file exists

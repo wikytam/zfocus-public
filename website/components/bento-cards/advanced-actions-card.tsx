@@ -54,17 +54,17 @@ export const AdvancedActionsCard = () => {
               <p className="text-muted-foreground mb-3 text-xs">{t('advancedActions.redirectLink.description')}</p>
               <div className="bg-secondary/60 border-border/80 space-y-2.5 rounded-lg border p-4 font-mono text-sm">
                 <div className="flex items-center justify-center gap-2">
-                  <img src="/facebook.svg" alt="Facebook" className="h-4 w-4" />
+                  <img src="/icon/facebook.svg" alt="Facebook" className="h-4 w-4" />
                   <span className="text-foreground line-through opacity-50">facebook.com</span>
                   <ArrowRight className="text-muted-foreground h-4 w-4" />
-                  <img src="/notion.svg" alt="Notion" className="h-4 w-4" />
+                  <img src="/icon/notion.svg" alt="Notion" className="h-4 w-4" />
                   <span className="text-accent font-semibold">notion.so</span>
                 </div>
                 <div className="flex items-center justify-center gap-2">
-                  <img src="/instagram.svg" alt="Instagram" className="h-4 w-4" />
+                  <img src="/icon/instagram.svg" alt="Instagram" className="h-4 w-4" />
                   <span className="text-foreground line-through opacity-50">instagram.com</span>
                   <ArrowRight className="text-muted-foreground h-4 w-4" />
-                  <img src="/mail.svg" alt="Gmail" className="h-4 w-4" />
+                  <img src="/icon/mail.svg" alt="Gmail" className="h-4 w-4" />
                   <span className="text-accent font-semibold">gmail.com</span>
                 </div>
                 <span className="text-muted-foreground flex items-center justify-center gap-2">
