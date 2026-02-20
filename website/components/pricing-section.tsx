@@ -29,9 +29,18 @@ const tiers: PricingTier[] = [
 ];
 
 const featureKeys = {
-  freeTrial: ['allFeatures', 'unlimitedBlocking', 'advancedSchedule', 'statistics', 'noCardRequired'],
-  yearly: ['allFeatures', 'prioritySupport', 'earlyAccess', 'cloudSync', 'autoRenewal'],
-  lifetime: ['allFeatures', 'lifetimeUpdates', 'prioritySupport', 'noRecurring', 'earlyAccess'],
+  freeTrial: [
+    'urlBlocking',
+    'exceptionPatterns',
+    'keywordBlocking',
+    'schedule',
+    'timeLimits',
+    'closeTabRedirect',
+    'statistics',
+    'noCardRequired',
+  ],
+  yearly: ['allFreeFeatures', 'exceptionPatterns', 'keywordBlocking', 'prioritySupport', 'chromeSync', 'autoRenewal'],
+  lifetime: ['allYearlyFeatures', 'lifetimeUpdates', 'prioritySupport', 'noRecurring', 'earlyAccess'],
 };
 
 export const PricingSection = () => {

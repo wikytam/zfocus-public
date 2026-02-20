@@ -143,31 +143,35 @@
       "price": "0",
       "currency": "$",
       "period": "30일",
-      "description": "30일간 모든 프리미엄 기능을 무료로 체험하세요",
+      "description": "30일간 모든 프리미엄 기능을 무료로 체험",
       "features": {
-        "allFeatures": "모든 프리미엄 기능",
-        "unlimitedBlocking": "무제한 차단 규칙",
-        "advancedSchedule": "고급 스케줄링",
-        "statistics": "상세 통계",
+        "urlBlocking": "무제한 웹사이트 차단",
+        "exceptionPatterns": "스마트 예외 패턴 (특정 URL 허용)",
+        "keywordBlocking": "키워드 기반 URL 차단",
+        "schedule": "요일/시간 기반 차단 스케줄",
+        "timeLimits": "사이트 접속 시간 제한 (예: 5분/시간)",
+        "closeTabRedirect": "탭 자동 닫기 또는 리디렉션",
+        "statistics": "30일 상세 통계 기록",
         "noCardRequired": "신용카드 불필요"
       },
       "cta": "무료 체험 시작"
     },
     "yearly": {
       "badge": "가장 인기",
-      "title": "연간",
-      "price": "9",
+      "title": "프리미엄",
+      "price": "14",
       "currency": "$",
       "period": "/년",
-      "description": "장기 사용자를 위한 최고의 가치",
+      "description": "최대 생산성을 위한 고급 기능 잠금 해제",
       "features": {
-        "allFeatures": "무료 체험의 모든 기능",
+        "allFreeFeatures": "무료 체험의 모든 기능",
+        "exceptionPatterns": "스마트 예외 (차단 도메인 내 특정 URL 허용)",
+        "keywordBlocking": "키워드 기반 URL 차단 (예: game, video)",
         "prioritySupport": "우선 지원",
-        "earlyAccess": "새 기능 조기 액세스",
-        "cloudSync": "기기 간 클라우드 동기화",
+        "chromeSync": "Chrome Sync를 통한 설정 동기화",
         "autoRenewal": "자동 갱신, 언제든 취소 가능"
       },
-      "cta": "연간 구독"
+      "cta": "프리미엄 구독"
     },
     "lifetime": {
       "badge": "최고의 거래",
@@ -175,13 +179,13 @@
       "price": "29",
       "currency": "$",
       "period": "1회",
-      "description": "한 번 결제하고, 모든 업데이트와 함께 영원히 사용하세요",
+      "description": "한 번 결제하고 프리미엄을 영원히 사용",
       "features": {
-        "allFeatures": "연간의 모든 기능",
-        "lifetimeUpdates": "평생 업데이트 포함",
+        "allYearlyFeatures": "프리미엄의 모든 기능",
+        "lifetimeUpdates": "평생 무료 업데이트",
         "prioritySupport": "영구 우선 지원",
         "noRecurring": "반복 결제 없음",
-        "earlyAccess": "평생 조기 액세스"
+        "earlyAccess": "새 기능 영구 조기 액세스"
       },
       "cta": "평생 액세스 구매"
     },

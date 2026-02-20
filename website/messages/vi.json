@@ -143,31 +143,35 @@
       "price": "0",
       "currency": "$",
       "period": "30 ngày",
-      "description": "Trải nghiệm tất cả tính năng cao cấp miễn phí trong 30 ngày",
+      "description": "Trải nghiệm tất cả tính năng Premium miễn phí trong 30 ngày",
       "features": {
-        "allFeatures": "Tất cả tính năng cao cấp",
-        "unlimitedBlocking": "Quy tắc chặn không giới hạn",
-        "advancedSchedule": "Lịch trình nâng cao",
-        "statistics": "Thống kê chi tiết",
+        "urlBlocking": "Chặn website không giới hạn",
+        "exceptionPatterns": "Ngoại lệ thông minh (cho phép URL cụ thể)",
+        "keywordBlocking": "Chặn theo từ khóa trong URL",
+        "schedule": "Lịch trình chặn theo ngày/giờ",
+        "timeLimits": "Giới hạn thời gian truy cập (VD: 5 phút/giờ)",
+        "closeTabRedirect": "Đóng tab tự động hoặc chuyển hướng",
+        "statistics": "Thống kê chi tiết lịch sử 30 ngày",
         "noCardRequired": "Không cần thẻ tín dụng"
       },
       "cta": "Dùng Thử Miễn Phí"
     },
     "yearly": {
       "badge": "Phổ Biến Nhất",
-      "title": "Theo Năm",
-      "price": "9",
+      "title": "Premium",
+      "price": "14",
       "currency": "$",
       "period": "/năm",
-      "description": "Giá trị tốt nhất cho người dùng lâu dài",
+      "description": "Mở khóa tính năng nâng cao cho năng suất tối đa",
       "features": {
-        "allFeatures": "Tất cả tính năng Dùng Thử",
+        "allFreeFeatures": "Tất cả tính năng Dùng Thử",
+        "exceptionPatterns": "Ngoại lệ thông minh (cho phép URL cụ thể trong domain bị chặn)",
+        "keywordBlocking": "Chặn theo từ khóa trong URL (VD: game, video)",
         "prioritySupport": "Hỗ trợ ưu tiên",
-        "earlyAccess": "Truy cập sớm tính năng mới",
-        "cloudSync": "Đồng bộ đám mây đa thiết bị",
+        "chromeSync": "Đồng bộ cài đặt qua Chrome Sync",
         "autoRenewal": "Tự động gia hạn, hủy bất cứ lúc nào"
       },
-      "cta": "Đăng Ký Theo Năm"
+      "cta": "Đăng Ký Premium"
     },
     "lifetime": {
       "badge": "Ưu Đãi Tốt Nhất",
@@ -175,13 +179,13 @@
       "price": "29",
       "currency": "$",
       "period": "một lần",
-      "description": "Thanh toán một lần, sử dụng mãi mãi với tất cả bản cập nhật",
+      "description": "Thanh toán một lần, sử dụng Premium mãi mãi",
       "features": {
-        "allFeatures": "Tất cả tính năng Theo Năm",
-        "lifetimeUpdates": "Cập nhật trọn đời",
+        "allYearlyFeatures": "Tất cả tính năng Premium",
+        "lifetimeUpdates": "Cập nhật trọn đời miễn phí",
         "prioritySupport": "Hỗ trợ ưu tiên vĩnh viễn",
         "noRecurring": "Không thanh toán định kỳ",
-        "earlyAccess": "Truy cập sớm trọn đời"
+        "earlyAccess": "Truy cập sớm tính năng mới trọn đời"
       },
       "cta": "Mua Trọn Đời"
     },

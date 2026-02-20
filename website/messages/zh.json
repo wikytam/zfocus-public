@@ -143,31 +143,35 @@
       "price": "0",
       "currency": "$",
       "period": "30天",
-      "description": "免费试用所有高级功能30天",
+      "description": "30天免费体验所有高级功能",
       "features": {
-        "allFeatures": "所有高级功能",
-        "unlimitedBlocking": "无限屏蔽规则",
-        "advancedSchedule": "高级日程安排",
-        "statistics": "详细统计",
+        "urlBlocking": "无限网站屏蔽",
+        "exceptionPatterns": "智能例外模式（允许特定URL）",
+        "keywordBlocking": "基于关键词的URL屏蔽",
+        "schedule": "按日/时段的屏蔽计划",
+        "timeLimits": "网站访问时间限制（如：5分钟/小时）",
+        "closeTabRedirect": "自动关闭标签页或重定向",
+        "statistics": "30天详细统计历史",
         "noCardRequired": "无需信用卡"
       },
       "cta": "开始免费试用"
     },
     "yearly": {
       "badge": "最受欢迎",
-      "title": "年度",
-      "price": "9",
+      "title": "高级版",
+      "price": "14",
       "currency": "$",
       "period": "/年",
-      "description": "长期用户的最佳价值",
+      "description": "解锁高级功能，实现最大生产力",
       "features": {
-        "allFeatures": "免费试用的所有功能",
+        "allFreeFeatures": "免费试用的所有功能",
+        "exceptionPatterns": "智能例外（允许被屏蔽域名中的特定URL）",
+        "keywordBlocking": "基于关键词的URL屏蔽（如：game、video）",
         "prioritySupport": "优先支持",
-        "earlyAccess": "新功能抢先体验",
-        "cloudSync": "跨设备云同步",
+        "chromeSync": "通过Chrome Sync同步设置",
         "autoRenewal": "自动续费，随时取消"
       },
-      "cta": "年度订阅"
+      "cta": "订阅高级版"
     },
     "lifetime": {
       "badge": "最划算",
@@ -175,13 +179,13 @@
       "price": "29",
       "currency": "$",
       "period": "一次性",
-      "description": "一次付款，永久使用，包含所有更新",
+      "description": "一次付款，永久使用高级版",
       "features": {
-        "allFeatures": "年度的所有功能",
-        "lifetimeUpdates": "终身更新",
+        "allYearlyFeatures": "高级版的所有功能",
+        "lifetimeUpdates": "终身免费更新",
         "prioritySupport": "永久优先支持",
         "noRecurring": "无需定期付款",
-        "earlyAccess": "终身抢先体验"
+        "earlyAccess": "新功能永久抢先体验"
       },
       "cta": "获取终身访问"
     },

@@ -143,31 +143,35 @@
       "price": "0",
       "currency": "$",
       "period": "30 days",
-      "description": "Try all premium features free for 30 days",
+      "description": "Try all Premium features free for 30 days",
       "features": {
-        "allFeatures": "All premium features",
-        "unlimitedBlocking": "Unlimited blocking rules",
-        "advancedSchedule": "Advanced scheduling",
-        "statistics": "Detailed statistics",
+        "urlBlocking": "Unlimited website blocking",
+        "exceptionPatterns": "Smart exception patterns (allow specific URLs)",
+        "keywordBlocking": "Keyword-based URL blocking",
+        "schedule": "Day/time-based blocking schedule",
+        "timeLimits": "Time-limited site access (e.g. 5 min/hour)",
+        "closeTabRedirect": "Auto close tab or redirect",
+        "statistics": "Detailed 30-day statistics history",
         "noCardRequired": "No credit card required"
       },
       "cta": "Start Free Trial"
     },
     "yearly": {
       "badge": "Most Popular",
-      "title": "Yearly",
-      "price": "9",
+      "title": "Premium",
+      "price": "14",
       "currency": "$",
       "period": "/year",
-      "description": "Best value for committed users",
+      "description": "Unlock advanced features for maximum productivity",
       "features": {
-        "allFeatures": "Everything in Free Trial",
+        "allFreeFeatures": "Everything in Free Trial",
+        "exceptionPatterns": "Smart exceptions (allow specific URLs within blocked domains)",
+        "keywordBlocking": "Keyword-based URL blocking (e.g. game, video)",
         "prioritySupport": "Priority support",
-        "earlyAccess": "Early access to new features",
-        "cloudSync": "Cloud sync across devices",
+        "chromeSync": "Settings sync via Chrome Sync",
         "autoRenewal": "Auto-renewal, cancel anytime"
       },
-      "cta": "Subscribe Yearly"
+      "cta": "Subscribe Premium"
     },
     "lifetime": {
       "badge": "Best Deal",
@@ -175,13 +179,13 @@
       "price": "29",
       "currency": "$",
       "period": "one-time",
-      "description": "Pay once, use forever with all updates",
+      "description": "Pay once, use Premium forever",
       "features": {
-        "allFeatures": "Everything in Yearly",
-        "lifetimeUpdates": "Lifetime updates included",
+        "allYearlyFeatures": "Everything in Premium",
+        "lifetimeUpdates": "Free lifetime updates",
         "prioritySupport": "Priority support forever",
         "noRecurring": "No recurring payments",
-        "earlyAccess": "Lifetime early access"
+        "earlyAccess": "Lifetime early access to new features"
       },
       "cta": "Get Lifetime Access"
     },
