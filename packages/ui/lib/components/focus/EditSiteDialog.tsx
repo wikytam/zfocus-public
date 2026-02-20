@@ -11,7 +11,7 @@ import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
-import { validateEditSiteForm, normalizeUrlPatterns } from '@extension/shared';
+import { validateEditSiteForm, normalizeUrlPattern, normalizeUrlPatterns } from '@extension/shared';
 import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info, Sparkles } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import type { BlockedSite, EditSiteFormData } from '@extension/shared';
@@ -285,6 +285,7 @@ export const EditSiteDialog = ({
                 id="edit-urls"
                 value={editData.urls}
                 onChange={urls => setEditData(prev => ({ ...prev, urls }))}
+                onNormalize={normalizeUrlPattern}
                 placeholder="facebook.com, youtube.com, twitter.com"
               />
             </div>

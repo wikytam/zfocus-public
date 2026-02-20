@@ -11,7 +11,7 @@ import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
-import { validateAddSiteForm, validateUrls, normalizeUrlPatterns } from '@extension/shared';
+import { validateAddSiteForm, validateUrls, normalizeUrlPattern, normalizeUrlPatterns } from '@extension/shared';
 import { Plus, Clock, HelpCircle, ChevronDown, ChevronUp, Info, AlertCircle, Sparkles } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import type { BlockedSite, AddSiteFormData, UrlValidationError } from '@extension/shared';
@@ -244,6 +244,7 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
                 id="add-urls"
                 value={formData.urls}
                 onChange={urls => setFormData(prev => ({ ...prev, urls }))}
+                onNormalize={normalizeUrlPattern}
                 placeholder="facebook.com, youtube.com, twitter.com"
                 className={urlErrors.length > 0 ? 'border-destructive' : ''}
               />

@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useI18n } from '@extension/i18n';
-import { validateUrls } from '@extension/shared';
+import { validateUrls, normalizeUrlPattern } from '@extension/shared';
 import {
   Globe,
   ChevronRight,
@@ -262,9 +262,8 @@ export const OnboardingWizard = ({
 
                   {/* Error Reporting Consent */}
                   <div className="border-border mt-6 space-y-3 border-t pt-6">
-                    <div
-                      role="button"
-                      tabIndex={0}
+                    <button
+                      type="button"
                       onClick={() => setErrorReportingEnabled(!errorReportingEnabled)}
                       onKeyDown={e => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -273,7 +272,7 @@ export const OnboardingWizard = ({
                         }
                       }}
                       className={cn(
-                        'flex cursor-pointer items-center justify-between rounded-lg p-4 transition-all duration-200',
+                        'flex w-full cursor-pointer items-center justify-between rounded-lg p-4 transition-all duration-200',
                         errorReportingEnabled ? 'bg-primary/10 border-primary/20 border' : 'bg-secondary/30',
                       )}>
                       <div className="flex items-center gap-3">
@@ -284,7 +283,7 @@ export const OnboardingWizard = ({
                             <ShieldAlert className="text-muted-foreground h-5 w-5" />
                           )}
                         </div>
-                        <div>
+                        <div className="text-left">
                           <Label htmlFor="onboard-error-reporting" className="cursor-pointer text-sm font-medium">
                             {t('errorReportingLabel')}
                           </Label>
@@ -296,7 +295,7 @@ export const OnboardingWizard = ({
                         checked={errorReportingEnabled}
                         onCheckedChange={setErrorReportingEnabled}
                       />
-                    </div>
+                    </button>
                   </div>
                 </div>
               )}
@@ -327,6 +326,7 @@ export const OnboardingWizard = ({
                       id="onboard-urls"
                       value={formData.urls}
                       onChange={urls => setFormData(prev => ({ ...prev, urls }))}
+                      onNormalize={normalizeUrlPattern}
                       placeholder="facebook.com, youtube.com, twitter.com"
                       className={urlErrors.length > 0 ? 'border-destructive' : ''}
                     />
