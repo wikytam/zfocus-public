@@ -358,5 +358,23 @@
       "zh": "目前，所有日子的时间限制都相同，但您可以使用时间表功能控制哪些日子激活阻止。例如，为工作日（周一至周五，5分钟/小时）创建一个组，为周末（周六至周日，15分钟/小时）创建另一个组，使用相同的网站。这为您提供了不同日子的不同限制。"
     },
     "category": "features"
+  },
+  {
+    "id": "faq-21",
+    "question": {
+      "en": "Does ZFocus collect any data or track my browsing?",
+      "vi": "ZFocus có thu thập dữ liệu hoặc theo dõi lượt web của tôi không?",
+      "ko": "ZFocus는 데이터를 수집하거나 브라우징을 추적합니까?",
+      "ja": "ZFocusはデータを収集したり、ブラウジングを追跡しますか？",
+      "zh": "ZFocus会收集数据或跟踪我的浏览吗？"
+    },
+    "answer": {
+      "en": "No. ZFocus stores all your data locally on your device using Chrome's built-in storage. We never track your browsing habits, visited URLs, or personal information.\n\nThe only data that can optionally be sent is anonymous crash reports (error stack traces) to help us fix bugs. This is completely opt-in: it is OFF by default and only activates when you explicitly enable it during onboarding or in Settings.\n\nEven when enabled, crash reports contain zero personal data -- only technical error information like stack traces and extension context (e.g., 'popup' or 'background'). You can disable it at any time.",
+      "vi": "Không. ZFocus lưu trữ tất cả dữ liệu của bạn cục bộ trên thiết bị bằng bộ nhớ tích hợp của Chrome. Chúng tôi không bao giờ theo dõi thói quen lướt web, URL đã truy cập hoặc thông tin cá nhân của bạn.\n\nDữ liệu duy nhất có thể được gửi là báo cáo lỗi ẩn danh (stack trace) để giúp chúng tôi sửa lỗi. Đây là hoàn toàn tự nguyện: mặc định là TẮT và chỉ kích hoạt khi bạn bật trong quá trình thiết lập ban đầu hoặc trong Cài đặt.\n\nNgay cả khi bật, báo cáo lỗi không chứa bất kỳ dữ liệu cá nhân nào -- chỉ có thông tin lỗi kỹ thuật. Bạn có thể tắt bất cứ lúc nào.",
+      "ko": "아니요. ZFocus는 Chrome의 내장 저장소를 사용하여 모든 데이터를 기기에 로컬로 저장합니다. 브라우징 습관, 방문한 URL 또는 개인 정보를 추적하지 않습니다.\n\n선택적으로 전송할 수 있는 유일한 데이터는 버그 수정을 위한 익명 충돌 보고서(오류 스택 트레이스)입니다. 이것은 완전히 선택 사항입니다: 기본적으로 꺼져 있으며 온보딩 또는 설정에서 명시적으로 활성화할 때만 작동합니다.\n\n활성화된 경우에도 충돌 보고서에는 개인 데이터가 포함되지 않으며 스택 트레이스 및 확장 프로그램 컨텍스트와 같은 기술 오류 정보만 포함됩니다. 언제든지 비활성화할 수 있습니다.",
+      "ja": "いいえ。ZFocusはChromeの内蔵ストレージを使用して、すべてのデータをデバイスにローカルに保存します。ブラウジング習慣、訪問したURL、個人情報を追跡することはありません。\n\nオプションで送信できる唯一のデータは、バグ修正のための匿名クラッシュレポート（エラースタックトレース）です。これは完全にオプトインです：デフォルトではオフで、オンボーディングまたは設定で明示的に有効にした場合にのみ機能します。\n\n有効にした場合でも、クラッシュレポートには個人データは含まれず、スタックトレースや拡張機能コンテキストなどの技術的なエラー情報のみが含まれます。いつでも無効にできます。",
+      "zh": "不会。ZFocus使用Chrome的内置存储将所有数据存储在您的设备本地。我们从不跟踪您的浏览习惯、访问的URL或个人信息。\n\n唯一可以选择性发送的数据是匿名崩溃报告（错误堆栈跟踪），以帮助我们修复错误。这完全是可选的：默认关闭，仅在您在初始设置或设置中明确启用时才会激活。\n\n即使启用，崩溃报告也不包含任何个人数据——只有堆栈跟踪和扩展上下文等技术错误信息。您可以随时禁用它。"
+    },
+    "category": "general"
   }
 ]

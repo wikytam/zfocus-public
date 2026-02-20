@@ -77,6 +77,8 @@
     "localStorage": "100%ローカルストレージ",
     "zeroTracking": "トラッキングゼロ",
     "noAccount": "アカウント不要",
+    "optInErrorReporting": "同意時のみエラー報告",
+    "optInErrorReportingDesc": "明示的な同意がある場合のみ匿名のクラッシュレポートを送信",
     "quote": "私たちは見ません、保存しません、知りません。本当です！",
     "quoteSubtitle": "あなたのブラウジング習慣はあなただけのものです"
   },

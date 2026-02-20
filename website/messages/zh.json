@@ -77,6 +77,8 @@
     "localStorage": "100%本地存储",
     "zeroTracking": "零追踪",
     "noAccount": "无需账户",
+    "optInErrorReporting": "仅在同意时报告错误",
+    "optInErrorReportingDesc": "仅在您明确同意时发送匿名崩溃报告",
     "quote": "我们不看、不存、不知道。真的！",
     "quoteSubtitle": "您的浏览习惯仅属于您"
   },

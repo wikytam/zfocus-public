@@ -77,6 +77,8 @@
     "localStorage": "100% 로컬 저장",
     "zeroTracking": "추적 없음",
     "noAccount": "계정 불필요",
+    "optInErrorReporting": "동의 시에만 오류 보고",
+    "optInErrorReportingDesc": "명시적 동의가 있을 때만 익명 충돌 보고서 전송",
     "quote": "우리는 보지 않고, 저장하지 않고, 알지 못합니다. 정말이에요!",
     "quoteSubtitle": "귀하의 브라우징 습관은 오직 귀하의 것입니다"
   },

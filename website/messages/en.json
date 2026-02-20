@@ -77,6 +77,8 @@
     "localStorage": "100% Local Storage",
     "zeroTracking": "Zero Tracking",
     "noAccount": "No Account Required",
+    "optInErrorReporting": "Opt-in Error Reporting Only",
+    "optInErrorReportingDesc": "Anonymous crash reports sent only with your explicit permission",
     "quote": "We don't see, don't save, don't know. Really!",
     "quoteSubtitle": "Your browsing habits are yours alone"
   },

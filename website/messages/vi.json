@@ -77,6 +77,8 @@
     "localStorage": "100% Lưu Trữ Cục Bộ",
     "zeroTracking": "Không Thu Thập Dữ Liệu",
     "noAccount": "Không Cần Đăng Ký",
+    "optInErrorReporting": "Chỉ Gửi Lỗi Khi Được Cho Phép",
+    "optInErrorReportingDesc": "Báo cáo lỗi ẩn danh chỉ gửi khi bạn đồng ý",
     "quote": "Chúng tôi không xem, không lưu, không biết. Thật đấy!",
     "quoteSubtitle": "Thói quen duyệt web của bạn chỉ thuộc về bạn"
   },
