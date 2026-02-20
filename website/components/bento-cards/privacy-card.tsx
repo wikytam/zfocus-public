@@ -45,6 +45,10 @@ export const PrivacyCard = () => {
             <CheckCircle2 className="text-accent h-4 w-4 flex-shrink-0" />
             <span className="text-foreground font-medium">{t('privacy.zeroTracking')}</span>
           </div>
+          <div className="flex items-center gap-2.5 text-sm">
+            <CheckCircle2 className="text-accent h-4 w-4 flex-shrink-0" />
+            <span className="text-foreground font-medium">{t('privacy.optInErrorReporting')}</span>
+          </div>
         </div>
 
         <div className="border-border mt-5 border-t pt-4">

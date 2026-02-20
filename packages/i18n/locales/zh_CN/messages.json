@@ -558,5 +558,20 @@
   },
   "urlInvalid": {
     "message": "无效的 URL 或域名格式"
+  },
+  "testStorageQuota": {
+    "message": "Test Storage Quota"
+  },
+  "testStorageQuotaDesc": {
+    "message": "Simulate sync storage overflow to verify IndexedDB fallback"
+  },
+  "testStorageQuotaRunning": {
+    "message": "Testing..."
+  },
+  "testStorageQuotaCleanup": {
+    "message": "Clean Test Data"
+  },
+  "storageQuotaStatus": {
+    "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
   }
 }

@@ -641,12 +641,27 @@
     "message": "Chúng tôi chỉ thu thập dữ liệu lỗi để cải thiện extension. Không thu thập dữ liệu cá nhân hay lịch sử duyệt web của bạn."
   },
   "errorReportingSettingsDesc": {
-    "message": "Chi thu thap du lieu loi. Chung toi khong truy cap hay luu tru bat ky du lieu ca nhan hoac lich su duyet web cua ban."
+    "message": "Chỉ thu thập dữ liệu lỗi. Chúng tôi không truy cập hay lưu trữ bất kỳ dữ liệu cá nhân hoặc lịch sử duyệt web của bạn."
   },
   "errorReportingEnabled": {
     "message": "Đã bật ghi nhận lỗi"
   },
   "errorReportingDisabled": {
     "message": "Đã tắt ghi nhận lỗi"
+  },
+  "testStorageQuota": {
+    "message": "Test Storage Quota"
+  },
+  "testStorageQuotaDesc": {
+    "message": "Mô phỏng vượt giới hạn sync storage để kiểm tra fallback IndexedDB"
+  },
+  "testStorageQuotaRunning": {
+    "message": "Đang test..."
+  },
+  "testStorageQuotaCleanup": {
+    "message": "Xóa dữ liệu test"
+  },
+  "storageQuotaStatus": {
+    "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
   }
 }

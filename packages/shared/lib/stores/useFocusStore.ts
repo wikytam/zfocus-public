@@ -1,4 +1,5 @@
 import { validateBlockedSite, validateFocusSettings } from '../utils/validation.js';
+import { syncQuotaGuard } from '@extension/storage';
 import { create } from 'zustand';
 import type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer } from '../utils/validation.js';
 
@@ -36,8 +37,8 @@ const getDefaultStats = (): DailyStats => ({
 
 const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
   try {
-    const result = await chrome.storage.sync.get([key]);
-    return result[key] ?? defaultValue;
+    const result = await syncQuotaGuard.safeGet<T>(key);
+    return result ?? defaultValue;
   } catch {
     return defaultValue;
   }
@@ -45,7 +46,10 @@ const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
 
 const setToStorage = async <T>(key: string, value: T): Promise<void> => {
   try {
-    await chrome.storage.sync.set({ [key]: value });
+    const backend = await syncQuotaGuard.safeSet(key, value);
+    if (backend === 'indexeddb') {
+      console.warn(`[FocusGuard] Key "${key}" stored in IndexedDB (sync quota exceeded).`);
+    }
     if (key === STORAGE_KEYS.settings) {
       try {
         localStorage.setItem('focus-settings-cache', JSON.stringify(value));
@@ -260,7 +264,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
     // Also reset timers
     try {
-      await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: {} });
+      await syncQuotaGuard.safeSet(STORAGE_KEYS.timers, {});
       chrome.runtime.sendMessage({ type: 'RESET_TIMERS' });
     } catch {
       // Ignore errors
@@ -346,9 +350,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
   loadPremiumStatus: async () => {
     try {
-      const result = await chrome.storage.sync.get(['zfocus-premium']);
-      const isPremium = !!result['zfocus-premium'];
-      console.log('[ZFocus] loadPremiumStatus: result =', result);
+      const isPremium = !!(await syncQuotaGuard.safeGet<boolean>('zfocus-premium'));
       console.log('[ZFocus] loadPremiumStatus: isPremium =', isPremium);
       set({ isPremium });
     } catch (e) {
@@ -363,7 +365,8 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
     if (isValid) {
       try {
-        await chrome.storage.sync.set({ 'zfocus-premium': true, 'zfocus-premium-code': normalizedCode });
+        await syncQuotaGuard.safeSet('zfocus-premium', true);
+        await syncQuotaGuard.safeSet('zfocus-premium-code', normalizedCode);
         set({ isPremium: true });
         return true;
       } catch {

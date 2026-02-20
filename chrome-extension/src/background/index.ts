@@ -9,6 +9,7 @@ import koMessages from '../../../packages/i18n/locales/ko/messages.json';
 import viMessages from '../../../packages/i18n/locales/vi/messages.json';
 import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
 import { initSentry, updateErrorReportingConsent, captureException, captureMessage } from '@extension/shared';
+import { syncQuotaGuard } from '@extension/storage';
 
 // Initialize Sentry (will check for user consent before actually initializing)
 initSentry({ context: 'background' });
@@ -38,8 +39,7 @@ const translateTitle = async (title: string): Promise<string> => {
 
   try {
     // Get user's language preference from settings
-    const result = await chrome.storage.sync.get(['focus-settings']);
-    const settings = result['focus-settings'];
+    const settings = await syncQuotaGuard.safeGet<FocusSettings>(STORAGE_KEYS.settings);
     const userLang = settings?.language || chrome.i18n.getUILanguage();
 
     // Normalize locale
@@ -163,19 +163,18 @@ const getDefaultStats = (): DailyStats => ({
   sitesAccessed: {},
 });
 
-// Storage helpers
+// Storage helpers (quota-aware: auto-fallback to IndexedDB when sync > 100KB)
 const getSettings = async (): Promise<FocusSettings> => {
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
-  return result[STORAGE_KEYS.settings] ?? DEFAULT_SETTINGS;
+  const result = await syncQuotaGuard.safeGet<FocusSettings>(STORAGE_KEYS.settings);
+  return result ?? DEFAULT_SETTINGS;
 };
 
 const setSettings = async (settings: FocusSettings): Promise<void> => {
-  await chrome.storage.sync.set({ [STORAGE_KEYS.settings]: settings });
+  await syncQuotaGuard.safeSet(STORAGE_KEYS.settings, settings);
 };
 
 const getStats = async (): Promise<DailyStats> => {
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.stats]);
-  const stats = result[STORAGE_KEYS.stats] ?? getDefaultStats();
+  const stats = (await syncQuotaGuard.safeGet<DailyStats>(STORAGE_KEYS.stats)) ?? getDefaultStats();
 
   // Reset if new day
   const today = new Date().toISOString().split('T')[0];
@@ -203,7 +202,7 @@ const getStats = async (): Promise<DailyStats> => {
     }
 
     const newStats = getDefaultStats();
-    await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: newStats });
+    await syncQuotaGuard.safeSet(STORAGE_KEYS.stats, newStats);
     return newStats;
   }
   return stats;
@@ -211,7 +210,7 @@ const getStats = async (): Promise<DailyStats> => {
 
 const updateStats = async (updates: Partial<DailyStats>): Promise<void> => {
   const stats = await getStats();
-  await chrome.storage.sync.set({ [STORAGE_KEYS.stats]: { ...stats, ...updates } });
+  await syncQuotaGuard.safeSet(STORAGE_KEYS.stats, { ...stats, ...updates });
 };
 
 const getTimers = async (): Promise<Record<string, SiteTimer>> => {
@@ -219,8 +218,7 @@ const getTimers = async (): Promise<Record<string, SiteTimer>> => {
   if (Object.keys(timerCache).length > 0) {
     return timerCache;
   }
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.timers]);
-  const timers = result[STORAGE_KEYS.timers] ?? {};
+  const timers = (await syncQuotaGuard.safeGet<Record<string, SiteTimer>>(STORAGE_KEYS.timers)) ?? {};
   // Update cache
   Object.assign(timerCache, timers);
   return timers;
@@ -229,8 +227,8 @@ const getTimers = async (): Promise<Record<string, SiteTimer>> => {
 const setTimers = async (timers: Record<string, SiteTimer>): Promise<void> => {
   // Update cache immediately
   Object.assign(timerCache, timers);
-  // Write to storage (this will be batched)
-  await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timers });
+  // Write to storage (quota-aware)
+  await syncQuotaGuard.safeSet(STORAGE_KEYS.timers, timers);
 };
 
 // Batch timer updates to reduce storage writes
@@ -267,7 +265,7 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
         `[ZFocus DEBUG ${new Date().toISOString()}] Writing timer cache to storage after ${TIMER_BATCH_INTERVAL}ms:`,
         timerCache,
       );
-      await chrome.storage.sync.set({ [STORAGE_KEYS.timers]: timerCache });
+      await syncQuotaGuard.safeSet(STORAGE_KEYS.timers, timerCache);
       pendingTimerUpdate = null;
     } catch (error) {
       console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch timer update error:`, error);
@@ -888,12 +886,19 @@ chrome.tabs.onRemoved.addListener(tabId => {
 chrome.storage.sync.onChanged.addListener(async changes => {
   if (changes['focus-settings']) {
     const oldSettings = changes['focus-settings'].oldValue as FocusSettings | undefined;
-    const newSettings = changes['focus-settings'].newValue as FocusSettings;
+    const newSettings = changes['focus-settings'].newValue as FocusSettings | undefined;
+
+    // When key is removed from sync (e.g. moved to IndexedDB overflow), newValue is undefined.
+    // In that case, read the authoritative value via syncQuotaGuard which checks both backends.
+    if (!newSettings) {
+      console.log('[ZFocus] focus-settings removed from sync (possibly moved to IndexedDB). Skipping onChanged.');
+      return;
+    }
 
     console.log('[ZFocus] Settings changed, checking for website info updates...');
 
     // Check if error reporting consent changed
-    const oldErrorReporting = (oldSettings as FocusSettings & { errorReportingEnabled?: boolean })
+    const oldErrorReporting = (oldSettings as (FocusSettings & { errorReportingEnabled?: boolean }) | undefined)
       ?.errorReportingEnabled;
     const newErrorReporting = (newSettings as FocusSettings & { errorReportingEnabled?: boolean })
       ?.errorReportingEnabled;
@@ -1394,14 +1399,13 @@ const clearStalePauseState = async () => {
   // First, try to migrate from local storage if needed
   await migrateFromLocalToSync();
 
-  const result = await chrome.storage.sync.get([STORAGE_KEYS.settings]);
-  if (!result[STORAGE_KEYS.settings]) {
+  const existingSettings = await syncQuotaGuard.safeGet<FocusSettings>(STORAGE_KEYS.settings);
+  if (!existingSettings) {
     await setSettings(DEFAULT_SETTINGS);
     console.log('[ZFocus] Initialized default settings');
   } else {
-    const settings = result[STORAGE_KEYS.settings];
-    console.log('[ZFocus] Loaded settings with', settings.blockedSites?.length || 0, 'blocked sites');
-    settings.blockedSites?.forEach((site: BlockedSite) => {
+    console.log('[ZFocus] Loaded settings with', existingSettings.blockedSites?.length || 0, 'blocked sites');
+    existingSettings.blockedSites?.forEach((site: BlockedSite) => {
       console.log(`[ZFocus] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);
     });
   }

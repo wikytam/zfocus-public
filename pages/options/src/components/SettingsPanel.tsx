@@ -1,5 +1,11 @@
 import { exportSettings as exportSettingsFile, parseImportFile } from '../utils/settingsExportImport';
-import { checkSyncStatus as checkSync, autoSync, clearAllData } from '../utils/settingsSync';
+import {
+  checkSyncStatus as checkSync,
+  autoSync,
+  clearAllData,
+  runStorageQuotaTest,
+  cleanupQuotaTestData,
+} from '../utils/settingsSync';
 import { getLanguageCode, useI18n } from '@extension/i18n';
 import {
   Card,
@@ -34,6 +40,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
+import type { QuotaTestStep } from '../utils/settingsSync';
 import type { MessageKeyType } from '@extension/i18n';
 import type { FocusSettings } from '@extension/storage';
 
@@ -57,6 +64,9 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
     message: '',
   });
   const [showActivationDialog, setShowActivationDialog] = useState(false);
+  const [quotaTestRunning, setQuotaTestRunning] = useState(false);
+  const [quotaTestSteps, setQuotaTestSteps] = useState<QuotaTestStep[]>([]);
+  const [quotaTestSuccess, setQuotaTestSuccess] = useState<boolean | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sync handlers
@@ -86,6 +96,31 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
       await clearAllData();
       window.location.reload();
     }
+  };
+
+  // Storage quota test handlers
+  const handleQuotaTest = async () => {
+    setQuotaTestRunning(true);
+    setQuotaTestSteps([]);
+    setQuotaTestSuccess(null);
+    try {
+      const result = await runStorageQuotaTest();
+      setQuotaTestSteps(result.steps);
+      setQuotaTestSuccess(result.success);
+    } catch (e) {
+      setQuotaTestSteps([
+        { action: 'Fatal error', status: 'fail', detail: e instanceof Error ? e.message : String(e) },
+      ]);
+      setQuotaTestSuccess(false);
+    } finally {
+      setQuotaTestRunning(false);
+    }
+  };
+
+  const handleQuotaCleanup = async () => {
+    const msg = await cleanupQuotaTestData();
+    setQuotaTestSteps([{ action: 'Cleanup', status: 'pass', detail: msg }]);
+    setQuotaTestSuccess(null);
   };
 
   // Export/Import handlers
@@ -407,6 +442,67 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
               <Button variant="destructive" size="sm" onClick={handleClearData}>
                 {t('deleteAllData')}
               </Button>
+
+              {/* Storage Quota Test */}
+              <div className="border-border space-y-3 border-t pt-3">
+                <div>
+                  <Label className="flex items-center gap-2 text-sm font-medium">
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    {t('testStorageQuota')}
+                  </Label>
+                  <p className="text-muted-foreground mt-1 text-xs">{t('testStorageQuotaDesc')}</p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleQuotaTest}
+                    disabled={quotaTestRunning}
+                    className="border-amber-500/30 text-amber-500 hover:bg-amber-500/10">
+                    {quotaTestRunning ? (
+                      <RefreshCw className="mr-2 h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <AlertTriangle className="mr-2 h-3.5 w-3.5" />
+                    )}
+                    {quotaTestRunning ? t('testStorageQuotaRunning') : t('testStorageQuota')}
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={handleQuotaCleanup} disabled={quotaTestRunning}>
+                    {t('testStorageQuotaCleanup')}
+                  </Button>
+                </div>
+
+                {quotaTestSteps.length > 0 && (
+                  <div className="bg-secondary/50 space-y-1.5 rounded-lg p-3">
+                    {quotaTestSteps.map((step, i) => (
+                      <div key={i} className="flex items-start gap-2 font-mono text-xs">
+                        <span
+                          className={cn(
+                            'mt-0.5 flex-shrink-0',
+                            step.status === 'pass' && 'text-green-500',
+                            step.status === 'fail' && 'text-red-500',
+                            step.status === 'info' && 'text-blue-400',
+                          )}>
+                          {step.status === 'pass' ? '[PASS]' : step.status === 'fail' ? '[FAIL]' : '[INFO]'}
+                        </span>
+                        <span className="text-muted-foreground">{step.action}:</span>
+                        <span className="text-foreground break-all">{step.detail}</span>
+                      </div>
+                    ))}
+                    {quotaTestSuccess !== null && (
+                      <div
+                        className={cn(
+                          'mt-2 rounded px-2 py-1 text-xs font-medium',
+                          quotaTestSuccess ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500',
+                        )}>
+                        {quotaTestSuccess
+                          ? 'All tests passed - IndexedDB fallback works correctly'
+                          : 'Some tests failed - check details above'}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
