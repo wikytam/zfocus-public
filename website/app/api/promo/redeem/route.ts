@@ -8,20 +8,30 @@ interface RedeemRequest {
   fingerprint?: string;
 }
 
-/** POST /api/promo/redeem - Redeem mã khuyến mãi, trừ lượt và ghi nhật ký kiểm toán. */
+const DEFAULT_YEARLY_DAYS = 365;
+
+const calculatePremiumExpiration = (planType: string, durationDays: number | null): Date | null => {
+  if (planType === 'lifetime') return null;
+  const days = durationDays ?? DEFAULT_YEARLY_DAYS;
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + days);
+  return expiresAt;
+};
+
+/** POST /api/promo/redeem - Redeem promo code, decrement uses and create audit record. */
 export const POST = async (request: NextRequest) => {
   try {
     let body: RedeemRequest;
     try {
       body = await request.json();
     } catch {
-      return NextResponse.json({ success: false, error: 'Request body không hợp lệ' }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'Invalid request body' }, { status: 400 });
     }
 
     const { code, browser_id, fingerprint } = body;
 
     if (!code || typeof code !== 'string' || code.trim().length === 0) {
-      return NextResponse.json({ success: false, error: 'Thiếu tham số code' }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'Missing code parameter' }, { status: 400 });
     }
 
     const trimmedCode = code.trim().toUpperCase();
@@ -45,20 +55,19 @@ export const POST = async (request: NextRequest) => {
 
     if (!promoCode) {
       return NextResponse.json(
-        { success: false, error: 'Mã promo không tồn tại hoặc đã bị vô hiệu hóa' },
+        { success: false, error: 'Promo code does not exist or has been deactivated' },
         { status: 404 },
       );
     }
 
     if (promoCode.expiresAt && new Date(promoCode.expiresAt) < new Date()) {
-      return NextResponse.json({ success: false, error: 'Mã promo đã hết hạn sử dụng' }, { status: 410 });
+      return NextResponse.json({ success: false, error: 'Promo code has expired' }, { status: 410 });
     }
 
     if (promoCode.remainingUses <= 0) {
-      return NextResponse.json({ success: false, error: 'Mã promo đã hết lượt sử dụng' }, { status: 410 });
+      return NextResponse.json({ success: false, error: 'Promo code has no remaining uses' }, { status: 410 });
     }
 
-    // Kiểm tra đã redeem từ IP hoặc browser_id này chưa
     const existingRedemption = await prisma.promoRedemption.findFirst({
       where: {
         promoCodeId: promoCode.id,
@@ -70,13 +79,12 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json(
         {
           success: false,
-          error: 'Mã promo này đã được sử dụng từ IP hoặc trình duyệt này',
+          error: 'This promo code has already been used from this IP or browser',
         },
         { status: 409 },
       );
     }
 
-    // Trừ lượt sử dụng với điều kiện remainingUses > 0 chống race condition
     const updateResult = await prisma.promoCode.updateMany({
       where: {
         id: promoCode.id,
@@ -88,18 +96,21 @@ export const POST = async (request: NextRequest) => {
     });
 
     if (updateResult.count === 0) {
-      return NextResponse.json({ success: false, error: 'Mã promo đã hết lượt sử dụng' }, { status: 410 });
+      return NextResponse.json({ success: false, error: 'Promo code has no remaining uses' }, { status: 410 });
     }
 
-    // Đọc lại giá trị remainingUses sau khi cập nhật
     const updatedPromo = await prisma.promoCode.findUnique({
       where: { id: promoCode.id },
       select: { remainingUses: true },
     });
 
+    const premiumExpiresAt = calculatePremiumExpiration(promoCode.planType, promoCode.durationDays);
+
     await prisma.promoRedemption.create({
       data: {
         promoCodeId: promoCode.id,
+        planType: promoCode.planType,
+        premiumExpiresAt,
         ipAddress,
         userAgent,
         browserId: browser_id ?? null,
@@ -109,15 +120,17 @@ export const POST = async (request: NextRequest) => {
 
     return NextResponse.json({
       success: true,
-      message: 'Redeem thành công',
+      message: 'Redeem successful',
       data: {
         code: trimmedCode,
+        plan_type: promoCode.planType,
+        premium_expires_at: premiumExpiresAt?.toISOString() ?? null,
         remaining_uses: updatedPromo?.remainingUses ?? promoCode.remainingUses - 1,
         redeemed_at: new Date().toISOString(),
       },
     });
   } catch (error) {
-    console.error('Lỗi khi redeem promo code:', error);
-    return NextResponse.json({ success: false, error: 'Lỗi hệ thống, vui lòng thử lại sau' }, { status: 500 });
+    console.error('Error redeeming promo code:', error);
+    return NextResponse.json({ success: false, error: 'System error, please try again later' }, { status: 500 });
   }
 };

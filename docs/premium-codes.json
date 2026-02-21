@@ -1,34 +1,42 @@
 {
-  "version": "1.0",
-  "lastUpdated": "2025-01-29",
+  "version": "2.0",
+  "lastUpdated": "2026-02-21",
+  "planTypes": {
+    "yearly": "Premium access for 1 year (365 days) from redemption date",
+    "lifetime": "Premium access forever, no expiration"
+  },
   "codes": [
     {
-      "code": "ZFOCUS-PREMIUM-2025",
-      "description": "Premium code for 2025",
-      "validUntil": "2025-12-31",
-      "features": ["keywords", "referrers"]
+      "code": "ZFOCUS-YEARLY-2026",
+      "description": "Premium yearly code for 2026",
+      "planType": "yearly",
+      "durationDays": 365,
+      "validUntil": "2026-12-31"
     },
     {
-      "code": "ZFOCUS-PREMIUM-2026",
-      "description": "Premium code for 2026",
-      "validUntil": "2026-12-31",
-      "features": ["keywords", "referrers"]
+      "code": "ZFOCUS-LIFETIME-001",
+      "description": "Lifetime premium code",
+      "planType": "lifetime",
+      "durationDays": null,
+      "validUntil": null
     },
     {
       "code": "EARLY-ADOPTER-001",
-      "description": "Special code for early adopters",
-      "validUntil": "2027-12-31",
-      "features": ["keywords", "referrers", "advanced-stats"]
+      "description": "Special lifetime code for early adopters",
+      "planType": "lifetime",
+      "durationDays": null,
+      "validUntil": "2027-12-31"
     },
     {
       "code": "ZFOCUS-BETA-TESTER",
-      "description": "Code for beta testers",
-      "validUntil": "2026-06-30",
-      "features": ["keywords", "referrers"]
+      "description": "Yearly code for beta testers",
+      "planType": "yearly",
+      "durationDays": 365,
+      "validUntil": "2026-06-30"
     }
   ],
   "instructions": {
-    "howToUse": "Enter the code in ZFocus Settings > Premium > Enter Activation Code",
+    "howToUse": "Enter the  code in ZFocus Settings > Premium > Enter Activation Code",
     "support": "Contact hvdtam@gmail.com for premium code issues"
   }
 }

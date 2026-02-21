@@ -1,5 +1,6 @@
 'use client';
 
+import { s3Image } from '@/lib/s3';
 import { Button } from '@/components/ui/button';
 import { Chrome, Download } from 'lucide-react';
 import Image from 'next/image';
@@ -43,14 +44,14 @@ const CTAButtons = ({ t, center = true }: { t: (k: string) => string; center?: b
 const OverviewImage = ({ className = '' }: { className?: string }) => (
   <div className={`bg-card border-border/60 overflow-hidden rounded-xl border shadow-xl sm:rounded-2xl ${className}`}>
     <Image
-      src="/overview-light.png"
+      src={s3Image('overview-light.png')}
       alt="ZFocus overview"
       width={800}
       height={500}
       className="block h-auto w-full dark:hidden"
     />
     <Image
-      src="/overview-dark.png"
+      src={s3Image('overview-dark.png')}
       alt="ZFocus overview"
       width={800}
       height={500}
@@ -61,7 +62,7 @@ const OverviewImage = ({ className = '' }: { className?: string }) => (
 
 const PauseCard = ({ className = '' }: { className?: string }) => (
   <div className={`bg-card border-border/60 overflow-hidden rounded-lg border shadow-lg ${className}`}>
-    <Image src="/pause.png" alt="ZFocus pause" width={400} height={300} className="h-auto w-full" />
+    <Image src={s3Image('pause.png')} alt="ZFocus pause" width={400} height={300} className="h-auto w-full" />
   </div>
 );
 
@@ -189,14 +190,14 @@ const Style5 = ({ t }: { t: (k: string) => string }) => (
     <div className="mt-16 grid gap-4 sm:grid-cols-3">
       <div className="bg-card border-border/60 overflow-hidden rounded-2xl border shadow-xl">
         <Image
-          src="/overview-light.png"
+          src={s3Image('overview-light.png')}
           alt="Overview light"
           width={800}
           height={500}
           className="block h-auto w-full dark:hidden"
         />
         <Image
-          src="/overview-dark.png"
+          src={s3Image('overview-dark.png')}
           alt="Overview dark"
           width={800}
           height={500}
@@ -204,18 +205,18 @@ const Style5 = ({ t }: { t: (k: string) => string }) => (
         />
       </div>
       <div className="bg-card border-border/60 overflow-hidden rounded-2xl border shadow-xl">
-        <Image src="/pause.png" alt="Pause" width={400} height={300} className="h-auto w-full" />
+        <Image src={s3Image('pause.png')} alt="Pause" width={400} height={300} className="h-auto w-full" />
       </div>
       <div className="bg-card border-border/60 overflow-hidden rounded-2xl border shadow-xl">
         <Image
-          src="/overview-dark.png"
+          src={s3Image('overview-dark.png')}
           alt="Overview dark"
           width={800}
           height={500}
           className="block h-auto w-full dark:hidden"
         />
         <Image
-          src="/overview-light.png"
+          src={s3Image('overview-light.png')}
           alt="Overview light"
           width={800}
           height={500}
@@ -342,14 +343,14 @@ const Style9 = ({ t }: { t: (k: string) => string }) => (
           </div>
         </div>
         <Image
-          src="/overview-light.png"
+          src={s3Image('overview-light.png')}
           alt="ZFocus"
           width={800}
           height={500}
           className="block h-auto w-full dark:hidden"
         />
         <Image
-          src="/overview-dark.png"
+          src={s3Image('overview-dark.png')}
           alt="ZFocus"
           width={800}
           height={500}

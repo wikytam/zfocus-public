@@ -32,6 +32,7 @@ const Options = () => {
     historicalStats,
     loading,
     isPremium,
+    premiumInfo,
     updateSettings,
     addBlockedSite,
     updateBlockedSite,
@@ -320,6 +321,7 @@ const Options = () => {
               settings={settings}
               onUpdate={updateSettings}
               isPremium={isPremium}
+              premiumInfo={premiumInfo}
               onActivatePremium={activatePremium}
             />
           </div>
