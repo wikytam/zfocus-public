@@ -5,8 +5,8 @@
     "apiBase": "https://sandbox-api.polar.sh"
   },
   "production": {
-    "yearly": "",
-    "lifetime": "",
+    "yearly": "https://buy.polar.sh/polar_cl_LheVEGvXFnncxRGtDfShoM82gfnEyyO1NgR2z1Ju8wq",
+    "lifetime": "https://buy.polar.sh/polar_cl_LheVEGvXFnncxRGtDfShoM82gfnEyyO1NgR2z1Ju8wq",
     "apiBase": "https://api.polar.sh"
   },
   "productMapping": {
