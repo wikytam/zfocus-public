@@ -101,7 +101,12 @@ export const Footer = () => {
         <div className="border-border mt-12 border-t pt-8">
           <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
             <p className="text-muted-foreground text-xs">{t('privacy.zeroTracking')}</p>
-            <p className="text-muted-foreground text-xs">&copy; {new Date().getFullYear()} ZFocus</p>
+            <div className="flex items-center gap-4">
+              <Link href="/privacy" className="text-muted-foreground hover:text-foreground text-xs transition-colors">
+                {t('nav.privacy')}
+              </Link>
+              <p className="text-muted-foreground text-xs">&copy; {new Date().getFullYear()} ZFocus</p>
+            </div>
           </div>
         </div>
       </div>

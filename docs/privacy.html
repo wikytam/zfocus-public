@@ -157,7 +157,7 @@
   <main>
     <div class="container">
       <h1>Privacy Policy</h1>
-      <p class="last-updated">Last updated: January 2025</p>
+      <p class="last-updated">Last updated: February 2026</p>
 
       <div class="highlight-box">
         <strong>Single Purpose Declaration</strong>
@@ -182,25 +182,25 @@
         <li><strong>Statistics (chrome.storage.local):</strong> Daily statistics including blocked attempt counts and time paused. Historical stats are kept for 30 days. This data stays on your local device only.</li>
         <li><strong>Timer Data (chrome.storage.sync):</strong> Current timer states for active blocked sites.</li>
       </ul>
-      <p>All data remains on your device or within your personal Chrome sync account. No data is transmitted to ZFocus servers because we don't have any servers.</p>
+      <p>All data remains on your device or within your personal Chrome sync account. No data is transmitted to ZFocus servers because we don't operate any servers.</p>
 
       <h2>Permissions</h2>
       <p>ZFocus requires certain browser permissions to function:</p>
       <ul>
-        <li><strong>tabs:</strong> To monitor which websites you visit and apply blocking rules</li>
-        <li><strong>storage:</strong> To save your settings and statistics locally</li>
-        <li><strong>alarms:</strong> To reset hourly time limits</li>
-        <li><strong>activeTab:</strong> To determine which tab is currently active for "active tab only" counting</li>
+        <li><strong>storage:</strong> To save your settings, blocked website lists, and daily statistics locally on your device</li>
+        <li><strong>tabs:</strong> To monitor which websites you visit and apply blocking rules when a distracting site is detected</li>
+        <li><strong>alarms:</strong> To reset hourly time limits and schedule blocking periods</li>
+        <li><strong>scripting:</strong> To inject the blocking overlay on matched websites</li>
+        <li><strong>webNavigation:</strong> To detect page navigation events and apply blocking rules during in-page navigations</li>
+        <li><strong>notifications:</strong> To send optional notifications when time limits are about to expire</li>
+        <li><strong>idle:</strong> To detect when the user is idle and pause active-tab-only timers accordingly</li>
+        <li><strong>host_permissions (&lt;all_urls&gt;):</strong> Required to apply blocking rules on any website the user chooses to block. ZFocus does not read or collect page content</li>
       </ul>
       <p>These permissions are used solely for the extension's core functionality and nothing else.</p>
 
       <h2>Third-Party Services</h2>
       <p>ZFocus does not use any third-party analytics, tracking, or advertising services.</p>
-      <p>The extension may optionally include error monitoring (Sentry) in development builds to help developers fix bugs, but this is disabled in production releases.</p>
-
-      <h2>Open Source</h2>
-      <p>ZFocus is open source. You can review our code at any time to verify our privacy practices:</p>
-      <p><a href="https://github.com/wikytam/z-focus" target="_blank">https://github.com/wikytam/z-focus</a></p>
+      <p>The extension includes optional, opt-in error monitoring (Sentry) to help developers fix bugs. This is disabled by default and only activated with your explicit consent. When enabled, only anonymous crash reports are sent -- no personal data, browsing history, or blocked site information is included.</p>
 
       <h2>Data Deletion</h2>
       <p>You can delete all ZFocus data at any time:</p>
@@ -225,7 +225,7 @@
 
   <footer>
     <div class="container">
-      <p>2025 ZFocus. <a href="index.html">Back to Home</a></p>
+      <p>2026 ZFocus. <a href="index.html">Back to Home</a></p>
     </div>
   </footer>
 </body>

@@ -3,7 +3,8 @@
     "features": "機能",
     "faq": "よくある質問",
     "useCases": "活用事例",
-    "pricing": "料金"
+    "pricing": "料金",
+    "privacy": "プライバシーポリシー"
   },
   "hero": {
     "title": "気を散らすものを減らし、集中力を維持",
@@ -190,6 +191,109 @@
       "cta": "ライフタイムアクセスを購入"
     },
     "guarantee": "すべての有料プランに30日間の返金保証"
+  },
+  "privacyPolicy": {
+    "title": "プライバシーポリシー",
+    "backToHome": "ホームに戻る",
+    "lastUpdated": "最終更新: 2026年2月",
+    "singlePurpose": {
+      "title": "単一目的宣言",
+      "description": "ZFocusは、気を散らすウェブサイトへのアクセスを制限することで、ユーザーの時間管理を支援するために設計された生産性ツールです。これが唯一の目的です。"
+    },
+    "dataCollection": {
+      "title": "データ収集",
+      "noData": "ZFocusは個人データを一切収集しません。",
+      "description": "私たちは完全なプライバシーを信じています:",
+      "items": {
+        "noBrowsingHistory": "ブラウジング履歴を収集または送信しません",
+        "noPersonalInfo": "個人情報を収集しません",
+        "noAnalytics": "外部サーバーに使用分析を送信しません",
+        "noTracking": "サードパーティの追跡スクリプトを含みません",
+        "noDataSold": "データを販売または共有しません"
+      }
+    },
+    "dataStorage": {
+      "title": "データストレージ",
+      "description": "ZFocusは以下のデータをデバイスにローカルに保存します:",
+      "items": {
+        "settings": {
+          "title": "設定 (chrome.storage.sync)",
+          "description": "ブロックされたウェブサイトリスト、時間制限、スケジュール、設定。Chromeにサインインしている場合、Chrome間でオプションで同期できます。"
+        },
+        "statistics": {
+          "title": "統計 (chrome.storage.local)",
+          "description": "ブロック試行回数と一時停止時間を含む日次統計。30日間保持されます。このデータはローカルデバイスにのみ保存されます。"
+        },
+        "timerData": {
+          "title": "タイマーデータ (chrome.storage.sync)",
+          "description": "アクティブなブロックサイトの現在のタイマー状態。"
+        }
+      },
+      "noServer": "すべてのデータはデバイスまたは個人のChrome同期アカウントに残ります。サーバーを運営していないため、ZFocusサーバーにデータは送信されません。"
+    },
+    "permissions": {
+      "title": "パーミッション",
+      "description": "ZFocusが機能するには特定のブラウザ権限が必要です。各権限は拡張機能のコア機能にのみ使用されます:",
+      "items": {
+        "storage": {
+          "name": "storage",
+          "reason": "設定、ブロックされたウェブサイトリスト、日次統計をデバイスにローカルに保存するため。"
+        },
+        "tabs": {
+          "name": "tabs",
+          "reason": "訪問するウェブサイトを監視し、気を散らすサイトが検出されたときにブロックルールを適用するため。"
+        },
+        "alarms": {
+          "name": "alarms",
+          "reason": "時間別制限をリセットし、ブロック期間をスケジュールするため。"
+        },
+        "scripting": {
+          "name": "scripting",
+          "reason": "マッチしたウェブサイトにブロックオーバーレイを挿入するため。"
+        },
+        "webNavigation": {
+          "name": "webNavigation",
+          "reason": "ページナビゲーションイベントを検出し、ページ内ナビゲーション中にブロックルールを適用するため。"
+        },
+        "notifications": {
+          "name": "notifications",
+          "reason": "時間制限が期限切れになる前にオプションの通知を送信するため。"
+        },
+        "idle": {
+          "name": "idle",
+          "reason": "ユーザーがアイドル状態のときを検出し、アクティブタブ専用タイマーを一時停止するため。"
+        },
+        "hostPermissions": {
+          "name": "host_permissions (all_urls)",
+          "reason": "ユーザーがブロックすることを選択したウェブサイトにブロックルールを適用するために必要です。ZFocusはページコンテンツを読み取ったり収集したりしません。"
+        }
+      },
+      "onlyForCore": "これらの権限は拡張機能のコア機能にのみ使用されます。"
+    },
+    "thirdParty": {
+      "title": "サードパーティサービス",
+      "noServices": "ZFocusはサードパーティの分析、追跡、広告サービスを使用しません。",
+      "errorMonitoring": "拡張機能には、開発者がバグを修正するためのオプトインエラーモニタリング（Sentry）が含まれています。デフォルトで無効になっており、明示的な同意がある場合にのみ有効になります。有効な場合、匿名のクラッシュレポートのみが送信され、個人データ、ブラウジング履歴、ブロックされたサイト情報は含まれません。"
+    },
+    "dataDeletion": {
+      "title": "データ削除",
+      "description": "いつでもすべてのZFocusデータを削除できます:",
+      "steps": {
+        "step1": "ZFocus設定に移動",
+        "step2": "「すべてのデータを削除」をクリック",
+        "step3": "削除を確認"
+      },
+      "uninstall": "また、拡張機能をアンインストールすると、ローカルに保存されたすべてのデータが削除されます。"
+    },
+    "changes": {
+      "title": "ポリシーの変更",
+      "description": "このプライバシーポリシーを変更した場合、ページ上部の「最終更新」日を更新します。重要な変更は拡張機能の更新ノートを通じてお知らせします。"
+    },
+    "contact": {
+      "title": "お問い合わせ",
+      "description": "このプライバシーポリシーまたはZFocusについてご質問がある場合は、お問い合わせください:",
+      "openIssue": "GitHubでイシューを開く"
+    }
   },
   "moreThings": {
     "title": "その他",

@@ -3,7 +3,8 @@
     "features": "Tính Năng",
     "faq": "Câu Hỏi",
     "useCases": "Tình Huống",
-    "pricing": "Bảng Giá"
+    "pricing": "Bảng Giá",
+    "privacy": "Chính Sách Bảo Mật"
   },
   "hero": {
     "title": "Giảm Xao Nhãng, Tập Trung Hiệu Quả",
@@ -190,6 +191,109 @@
       "cta": "Mua Trọn Đời"
     },
     "guarantee": "Hoàn tiền trong 30 ngày cho tất cả gói trả phí"
+  },
+  "privacyPolicy": {
+    "title": "Chính Sách Bảo Mật",
+    "backToHome": "Về trang chủ",
+    "lastUpdated": "Cập nhật lần cuối: Tháng 2, 2026",
+    "singlePurpose": {
+      "title": "Tuyên Bố Mục Đích Duy Nhất",
+      "description": "ZFocus là công cụ năng suất được thiết kế để giúp người dùng quản lý thời gian bằng cách giới hạn truy cập vào các website gây mất tập trung. Đây là mục đích duy nhất của ứng dụng."
+    },
+    "dataCollection": {
+      "title": "Thu Thập Dữ Liệu",
+      "noData": "ZFocus KHÔNG thu thập bất kỳ dữ liệu cá nhân nào.",
+      "description": "Chúng tôi tin vào quyền riêng tư tuyệt đối. Điều đó có nghĩa là:",
+      "items": {
+        "noBrowsingHistory": "Không thu thập hoặc truyền tải lịch sử duyệt web",
+        "noPersonalInfo": "Không thu thập thông tin cá nhân",
+        "noAnalytics": "Không gửi phân tích sử dụng đến máy chủ bên ngoài",
+        "noTracking": "Không bao gồm mã theo dõi của bên thứ ba",
+        "noDataSold": "Không bán hoặc chia sẻ dữ liệu với bất kỳ ai"
+      }
+    },
+    "dataStorage": {
+      "title": "Lưu Trữ Dữ Liệu",
+      "description": "ZFocus lưu trữ các dữ liệu sau trên thiết bị của bạn:",
+      "items": {
+        "settings": {
+          "title": "Cài đặt (chrome.storage.sync)",
+          "description": "Danh sách website bị chặn, giới hạn thời gian, lịch trình và tùy chọn của bạn. Dữ liệu này có thể tùy chọn đồng bộ trên các trình duyệt Chrome nếu bạn đã đăng nhập."
+        },
+        "statistics": {
+          "title": "Thống kê (chrome.storage.local)",
+          "description": "Thống kê hàng ngày bao gồm số lần chặn và thời gian tạm dừng. Lịch sử được giữ trong 30 ngày. Dữ liệu này chỉ lưu trên thiết bị của bạn."
+        },
+        "timerData": {
+          "title": "Dữ liệu bộ đếm (chrome.storage.sync)",
+          "description": "Trạng thái bộ đếm thời gian hiện tại cho các trang bị chặn đang hoạt động."
+        }
+      },
+      "noServer": "Tất cả dữ liệu đều nằm trên thiết bị của bạn hoặc trong tài khoản Chrome sync cá nhân. Không có dữ liệu nào được truyền đến máy chủ ZFocus vì chúng tôi không vận hành bất kỳ máy chủ nào."
+    },
+    "permissions": {
+      "title": "Quyền Truy Cập",
+      "description": "ZFocus yêu cầu một số quyền trình duyệt để hoạt động. Mỗi quyền chỉ được sử dụng cho chức năng cốt lõi:",
+      "items": {
+        "storage": {
+          "name": "storage",
+          "reason": "Để lưu cài đặt, danh sách website bị chặn và thống kê hàng ngày trên thiết bị của bạn."
+        },
+        "tabs": {
+          "name": "tabs",
+          "reason": "Để theo dõi website bạn đang truy cập và áp dụng quy tắc chặn khi phát hiện trang gây mất tập trung."
+        },
+        "alarms": {
+          "name": "alarms",
+          "reason": "Để đặt lại giới hạn thời gian theo giờ và lên lịch các khoảng thời gian chặn."
+        },
+        "scripting": {
+          "name": "scripting",
+          "reason": "Để hiển thị lớp phủ chặn trên các website phù hợp."
+        },
+        "webNavigation": {
+          "name": "webNavigation",
+          "reason": "Để phát hiện sự kiện điều hướng trang và áp dụng quy tắc chặn khi điều hướng trong trang."
+        },
+        "notifications": {
+          "name": "notifications",
+          "reason": "Để gửi thông báo tùy chọn khi giới hạn thời gian sắp hết."
+        },
+        "idle": {
+          "name": "idle",
+          "reason": "Để phát hiện khi người dùng không hoạt động và tạm dừng bộ đếm chỉ-tab-đang-xem tương ứng."
+        },
+        "hostPermissions": {
+          "name": "host_permissions (all_urls)",
+          "reason": "Cần thiết để áp dụng quy tắc chặn trên bất kỳ website nào người dùng chọn chặn. ZFocus không đọc hoặc thu thập nội dung trang."
+        }
+      },
+      "onlyForCore": "Các quyền này chỉ được sử dụng cho chức năng cốt lõi của tiện ích và không có mục đích nào khác."
+    },
+    "thirdParty": {
+      "title": "Dịch Vụ Bên Thứ Ba",
+      "noServices": "ZFocus không sử dụng bất kỳ dịch vụ phân tích, theo dõi hoặc quảng cáo của bên thứ ba nào.",
+      "errorMonitoring": "Tiện ích bao gồm tính năng giám sát lỗi tùy chọn (Sentry) để giúp nhà phát triển sửa lỗi. Tính năng này bị tắt theo mặc định và chỉ được kích hoạt khi bạn đồng ý rõ ràng. Khi được bật, chỉ các báo cáo lỗi ẩn danh được gửi -- không bao gồm dữ liệu cá nhân, lịch sử duyệt web hoặc thông tin trang bị chặn."
+    },
+    "dataDeletion": {
+      "title": "Xóa Dữ Liệu",
+      "description": "Bạn có thể xóa tất cả dữ liệu ZFocus bất kỳ lúc nào:",
+      "steps": {
+        "step1": "Vào Cài đặt ZFocus",
+        "step2": "Nhấn \"Xóa Tất Cả Dữ Liệu\"",
+        "step3": "Xác nhận xóa"
+      },
+      "uninstall": "Ngoài ra, gỡ cài đặt tiện ích sẽ xóa tất cả dữ liệu được lưu trữ cục bộ."
+    },
+    "changes": {
+      "title": "Thay Đổi Chính Sách",
+      "description": "Nếu chúng tôi thay đổi chính sách bảo mật này, chúng tôi sẽ cập nhật ngày \"Cập nhật lần cuối\" ở đầu trang. Các thay đổi quan trọng sẽ được thông báo qua ghi chú cập nhật của tiện ích."
+    },
+    "contact": {
+      "title": "Liên Hệ",
+      "description": "Nếu bạn có câu hỏi về chính sách bảo mật này hoặc ZFocus, vui lòng liên hệ:",
+      "openIssue": "Mở issue trên GitHub"
+    }
   },
   "moreThings": {
     "title": "Nhiều Tính Năng Khác",

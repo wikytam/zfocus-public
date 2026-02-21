@@ -3,7 +3,8 @@
     "features": "Features",
     "faq": "FAQ",
     "useCases": "Use Cases",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "privacy": "Privacy Policy"
   },
   "hero": {
     "title": "Reduce Distractions, Stay Focused",
@@ -190,6 +191,109 @@
       "cta": "Get Lifetime Access"
     },
     "guarantee": "30-day money-back guarantee on all paid plans"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "backToHome": "Back to Home",
+    "lastUpdated": "Last updated: February 2026",
+    "singlePurpose": {
+      "title": "Single Purpose Declaration",
+      "description": "ZFocus is a productivity tool designed to help users manage their time by limiting access to distracting websites. This is its sole purpose."
+    },
+    "dataCollection": {
+      "title": "Data Collection",
+      "noData": "ZFocus does NOT collect any personal data.",
+      "description": "We believe in complete privacy. Here's what that means:",
+      "items": {
+        "noBrowsingHistory": "No browsing history is collected or transmitted",
+        "noPersonalInfo": "No personal information is collected",
+        "noAnalytics": "No usage analytics are sent to external servers",
+        "noTracking": "No third-party tracking scripts are included",
+        "noDataSold": "No data is sold or shared with anyone"
+      }
+    },
+    "dataStorage": {
+      "title": "Data Storage",
+      "description": "ZFocus stores the following data locally on your device:",
+      "items": {
+        "settings": {
+          "title": "Settings (chrome.storage.sync)",
+          "description": "Your blocked website lists, time limits, schedules, and preferences. This data can optionally sync across your Chrome browsers if you're signed into Chrome."
+        },
+        "statistics": {
+          "title": "Statistics (chrome.storage.local)",
+          "description": "Daily statistics including blocked attempt counts and time paused. Historical stats are kept for 30 days. This data stays on your local device only."
+        },
+        "timerData": {
+          "title": "Timer Data (chrome.storage.sync)",
+          "description": "Current timer states for active blocked sites."
+        }
+      },
+      "noServer": "All data remains on your device or within your personal Chrome sync account. No data is transmitted to ZFocus servers because we don't operate any servers."
+    },
+    "permissions": {
+      "title": "Permissions",
+      "description": "ZFocus requires certain browser permissions to function. Each permission is used solely for the extension's core functionality:",
+      "items": {
+        "storage": {
+          "name": "storage",
+          "reason": "To save your settings, blocked website lists, and daily statistics locally on your device."
+        },
+        "tabs": {
+          "name": "tabs",
+          "reason": "To monitor which websites you visit and apply blocking rules when a distracting site is detected."
+        },
+        "alarms": {
+          "name": "alarms",
+          "reason": "To reset hourly time limits and schedule blocking periods."
+        },
+        "scripting": {
+          "name": "scripting",
+          "reason": "To inject the blocking overlay on matched websites."
+        },
+        "webNavigation": {
+          "name": "webNavigation",
+          "reason": "To detect page navigation events and apply blocking rules during in-page navigations."
+        },
+        "notifications": {
+          "name": "notifications",
+          "reason": "To send optional notifications when time limits are about to expire."
+        },
+        "idle": {
+          "name": "idle",
+          "reason": "To detect when the user is idle and pause active-tab-only timers accordingly."
+        },
+        "hostPermissions": {
+          "name": "host_permissions (all_urls)",
+          "reason": "Required to apply blocking rules on any website the user chooses to block. ZFocus does not read or collect page content."
+        }
+      },
+      "onlyForCore": "These permissions are used solely for the extension's core functionality and nothing else."
+    },
+    "thirdParty": {
+      "title": "Third-Party Services",
+      "noServices": "ZFocus does not use any third-party analytics, tracking, or advertising services.",
+      "errorMonitoring": "The extension includes optional, opt-in error monitoring (Sentry) to help developers fix bugs. This is disabled by default and only activated with your explicit consent. When enabled, only anonymous crash reports are sent -- no personal data, browsing history, or blocked site information is included."
+    },
+    "dataDeletion": {
+      "title": "Data Deletion",
+      "description": "You can delete all ZFocus data at any time:",
+      "steps": {
+        "step1": "Go to ZFocus Settings",
+        "step2": "Click \"Delete All Data\"",
+        "step3": "Confirm the deletion"
+      },
+      "uninstall": "Alternatively, uninstalling the extension will remove all locally stored data."
+    },
+    "changes": {
+      "title": "Changes to This Policy",
+      "description": "If we make changes to this privacy policy, we will update the \"Last updated\" date at the top of this page. Significant changes will be communicated through the extension's update notes."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "If you have questions about this privacy policy or ZFocus, please contact us:",
+      "openIssue": "Open an issue"
+    }
   },
   "moreThings": {
     "title": "More Things",

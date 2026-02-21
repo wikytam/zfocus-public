@@ -3,7 +3,8 @@
     "features": "功能",
     "faq": "常见问题",
     "useCases": "使用案例",
-    "pricing": "定价"
+    "pricing": "定价",
+    "privacy": "隐私政策"
   },
   "hero": {
     "title": "减少干扰，保持专注",
@@ -190,6 +191,109 @@
       "cta": "获取终身访问"
     },
     "guarantee": "所有付费计划均享30天退款保证"
+  },
+  "privacyPolicy": {
+    "title": "隐私政策",
+    "backToHome": "返回首页",
+    "lastUpdated": "最后更新: 2026年2月",
+    "singlePurpose": {
+      "title": "单一目的声明",
+      "description": "ZFocus是一款生产力工具，旨在通过限制对分心网站的访问来帮助用户管理时间。这是其唯一目的。"
+    },
+    "dataCollection": {
+      "title": "数据收集",
+      "noData": "ZFocus不收集任何个人数据。",
+      "description": "我们相信完全的隐私保护：",
+      "items": {
+        "noBrowsingHistory": "不收集或传输浏览历史",
+        "noPersonalInfo": "不收集个人信息",
+        "noAnalytics": "不向外部服务器发送使用分析",
+        "noTracking": "不包含第三方追踪脚本",
+        "noDataSold": "不出售或与任何人共享数据"
+      }
+    },
+    "dataStorage": {
+      "title": "数据存储",
+      "description": "ZFocus在您的设备上本地存储以下数据：",
+      "items": {
+        "settings": {
+          "title": "设置 (chrome.storage.sync)",
+          "description": "您的屏蔽网站列表、时间限制、日程和偏好设置。如果您已登录Chrome，此数据可选择性地在Chrome浏览器间同步。"
+        },
+        "statistics": {
+          "title": "统计 (chrome.storage.local)",
+          "description": "包括屏蔽尝试次数和暂停时间的每日统计。历史数据保留30天。此数据仅保存在本地设备上。"
+        },
+        "timerData": {
+          "title": "计时器数据 (chrome.storage.sync)",
+          "description": "活动屏蔽站点的当前计时器状态。"
+        }
+      },
+      "noServer": "所有数据都保留在您的设备或个人Chrome同步账户中。由于我们不运营任何服务器，因此没有数据被传输到ZFocus服务器。"
+    },
+    "permissions": {
+      "title": "权限",
+      "description": "ZFocus需要某些浏览器权限才能运行。每个权限仅用于扩展程序的核心功能：",
+      "items": {
+        "storage": {
+          "name": "storage",
+          "reason": "在您的设备上本地保存设置、屏蔽网站列表和每日统计。"
+        },
+        "tabs": {
+          "name": "tabs",
+          "reason": "监控您访问的网站，并在检测到分心网站时应用屏蔽规则。"
+        },
+        "alarms": {
+          "name": "alarms",
+          "reason": "重置每小时时间限制和安排屏蔽时段。"
+        },
+        "scripting": {
+          "name": "scripting",
+          "reason": "在匹配的网站上注入屏蔽覆盖层。"
+        },
+        "webNavigation": {
+          "name": "webNavigation",
+          "reason": "检测页面导航事件并在页面内导航期间应用屏蔽规则。"
+        },
+        "notifications": {
+          "name": "notifications",
+          "reason": "在时间限制即将到期时发送可选通知。"
+        },
+        "idle": {
+          "name": "idle",
+          "reason": "检测用户处于空闲状态时，相应暂停仅活动标签计时器。"
+        },
+        "hostPermissions": {
+          "name": "host_permissions (all_urls)",
+          "reason": "需要在用户选择屏蔽的任何网站上应用屏蔽规则。ZFocus不读取或收集页面内容。"
+        }
+      },
+      "onlyForCore": "这些权限仅用于扩展程序的核心功能。"
+    },
+    "thirdParty": {
+      "title": "第三方服务",
+      "noServices": "ZFocus不使用任何第三方分析、追踪或广告服务。",
+      "errorMonitoring": "扩展程序包含可选的错误监控功能（Sentry），以帮助开发者修复错误。默认禁用，仅在您明确同意时才启用。启用后，仅发送匿名崩溃报告——不包含个人数据、浏览历史或屏蔽站点信息。"
+    },
+    "dataDeletion": {
+      "title": "数据删除",
+      "description": "您可以随时删除所有ZFocus数据：",
+      "steps": {
+        "step1": "前往ZFocus设置",
+        "step2": "点击\"删除所有数据\"",
+        "step3": "确认删除"
+      },
+      "uninstall": "或者，卸载扩展程序将删除所有本地存储的数据。"
+    },
+    "changes": {
+      "title": "政策变更",
+      "description": "如果我们更改此隐私政策，我们将更新页面顶部的\"最后更新\"日期。重大变更将通过扩展程序的更新说明进行通知。"
+    },
+    "contact": {
+      "title": "联系我们",
+      "description": "如果您对此隐私政策或ZFocus有疑问，请联系我们：",
+      "openIssue": "在GitHub上提交问题"
+    }
   },
   "moreThings": {
     "title": "更多功能",
