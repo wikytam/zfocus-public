@@ -1,41 +1,38 @@
-import { getDb } from '@/lib/db';
+import { getPool } from '@/lib/db/pg';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-/** GET /api/promo/validate?code=XXX - Kiểm tra mã promo hợp lệ (không trừ lượt). */
 export const GET = async (request: NextRequest) => {
+  const pool = getPool();
   try {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
 
     if (!code || code.trim().length === 0) {
-      return NextResponse.json({ valid: false, error: 'Missing code parameter' }, { status: 400 });
+      return NextResponse.json({ valid: false, error: 'Missing  code parameter' }, { status: 400 });
     }
 
     const trimmedCode = code.trim().toUpperCase();
-    const prisma = getDb();
 
-    const promoCode = await prisma.promoCode.findFirst({
-      where: {
-        code: trimmedCode,
-        isActive: true,
-      },
-    });
+    const result = await pool.query(
+      'SELECT id, code, plan_type, duration_days, total_uses, remaining_uses, is_active, expires_at FROM promo_codes WHERE code = $1 AND is_active = true',
+      [trimmedCode],
+    );
 
-    if (!promoCode) {
+    if (result.rows.length === 0) {
       return NextResponse.json(
         { valid: false, error: 'Promo code does not exist or has been deactivated' },
         { status: 404 },
       );
     }
 
-    const isExpired = promoCode.expiresAt !== null && new Date(promoCode.expiresAt) < new Date();
+    const promoCode = result.rows[0];
 
-    if (isExpired) {
+    if (promoCode.expires_at && new Date(promoCode.expires_at) < new Date()) {
       return NextResponse.json({ valid: false, error: 'Promo code has expired' }, { status: 410 });
     }
 
-    if (promoCode.remainingUses <= 0) {
+    if (promoCode.remaining_uses <= 0) {
       return NextResponse.json({ valid: false, error: 'Promo code has no remaining uses' }, { status: 410 });
     }
 
@@ -43,15 +40,17 @@ export const GET = async (request: NextRequest) => {
       valid: true,
       data: {
         code: trimmedCode,
-        plan_type: promoCode.planType,
-        duration_days: promoCode.durationDays,
-        remaining_uses: promoCode.remainingUses,
-        total_uses: promoCode.totalUses,
-        expires_at: promoCode.expiresAt?.toISOString() ?? null,
+        plan_type: promoCode.plan_type,
+        duration_days: promoCode.duration_days,
+        remaining_uses: promoCode.remaining_uses,
+        total_uses: promoCode.total_uses,
+        expires_at: promoCode.expires_at?.toISOString() ?? null,
       },
     });
   } catch (error) {
     console.error('Error validating promo code:', error);
     return NextResponse.json({ valid: false, error: 'System error, please try again later' }, { status: 500 });
+  } finally {
+    await pool.end();
   }
 };

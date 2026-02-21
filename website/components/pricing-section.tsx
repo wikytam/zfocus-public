@@ -3,6 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Check, Sparkles, Crown, Zap, Shield } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import polarConfig from '@/data/polar.json';
+
+const env = (process.env.NEXT_PUBLIC_POLAR_ENV as 'sandbox' | 'production') || 'sandbox';
+const polarLinks = polarConfig[env];
+
+const CHROME_WEBSTORE_URL = 'https://chromewebstore.google.com/detail/zfocus';
 
 interface PricingTier {
   key: 'freeTrial' | 'yearly' | 'lifetime';
@@ -124,8 +130,14 @@ export const PricingSection = () => {
                   isHighlighted
                     ? 'bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_2px_16px_rgba(22,130,93,0.3)] hover:-translate-y-0.5 hover:shadow-[0_4px_24px_rgba(22,130,93,0.4)]'
                     : 'bg-foreground text-background hover:bg-foreground/90'
-                } `}>
-                {t(`pricing.${tier.key}.cta`)}
+                } `}
+                asChild>
+                <a
+                  href={tier.key === 'freeTrial' ? CHROME_WEBSTORE_URL : polarLinks[tier.key]}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  {t(`pricing.${tier.key}.cta`)}
+                </a>
               </Button>
 
               {/* Divider */}

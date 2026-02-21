@@ -1,4 +1,4 @@
-import { getDb } from '@/lib/db';
+import { getPool } from '@/lib/db/pg';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -18,8 +18,8 @@ const calculatePremiumExpiration = (planType: string, durationDays: number | nul
   return expiresAt;
 };
 
-/** POST /api/promo/redeem - Redeem promo code, decrement uses and create audit record. */
 export const POST = async (request: NextRequest) => {
+  const pool = getPool();
   try {
     let body: RedeemRequest;
     try {
@@ -44,93 +44,83 @@ export const POST = async (request: NextRequest) => {
 
     const userAgent = request.headers.get('user-agent') ?? 'unknown';
 
-    const prisma = getDb();
+    const promoResult = await pool.query(
+      'SELECT id, code, plan_type, duration_days, remaining_uses, expires_at FROM promo_codes WHERE code = $1 AND is_active = true',
+      [trimmedCode],
+    );
 
-    const promoCode = await prisma.promoCode.findFirst({
-      where: {
-        code: trimmedCode,
-        isActive: true,
-      },
-    });
-
-    if (!promoCode) {
+    if (promoResult.rows.length === 0) {
       return NextResponse.json(
         { success: false, error: 'Promo code does not exist or has been deactivated' },
         { status: 404 },
       );
     }
 
-    if (promoCode.expiresAt && new Date(promoCode.expiresAt) < new Date()) {
+    const promoCode = promoResult.rows[0];
+
+    if (promoCode.expires_at && new Date(promoCode.expires_at) < new Date()) {
       return NextResponse.json({ success: false, error: 'Promo code has expired' }, { status: 410 });
     }
 
-    if (promoCode.remainingUses <= 0) {
+    if (promoCode.remaining_uses <= 0) {
       return NextResponse.json({ success: false, error: 'Promo code has no remaining uses' }, { status: 410 });
     }
 
-    const existingRedemption = await prisma.promoRedemption.findFirst({
-      where: {
-        promoCodeId: promoCode.id,
-        OR: [{ ipAddress }, ...(browser_id ? [{ browserId: browser_id }] : [])],
-      },
-    });
+    const dupQuery = browser_id
+      ? 'SELECT id FROM promo_redemptions WHERE promo_code_id = $1 AND (ip_address = $2 OR browser_id = $3)'
+      : 'SELECT id FROM promo_redemptions WHERE promo_code_id = $1 AND ip_address = $2';
+    const dupParams = browser_id ? [promoCode.id, ipAddress, browser_id] : [promoCode.id, ipAddress];
 
-    if (existingRedemption) {
+    const existingRedemption = await pool.query(dupQuery, dupParams);
+
+    if (existingRedemption.rows.length > 0) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'This promo code has already been used from this IP or browser',
-        },
+        { success: false, error: 'This promo code has already been used from this IP or browser' },
         { status: 409 },
       );
     }
 
-    const updateResult = await prisma.promoCode.updateMany({
-      where: {
-        id: promoCode.id,
-        remainingUses: { gt: 0 },
-      },
-      data: {
-        remainingUses: { decrement: 1 },
-      },
-    });
+    const updateResult = await pool.query(
+      'UPDATE promo_codes SET remaining_uses = remaining_uses - 1 WHERE id = $1 AND remaining_uses > 0 RETURNING remaining_uses',
+      [promoCode.id],
+    );
 
-    if (updateResult.count === 0) {
+    if (updateResult.rowCount === 0) {
       return NextResponse.json({ success: false, error: 'Promo code has no remaining uses' }, { status: 410 });
     }
 
-    const updatedPromo = await prisma.promoCode.findUnique({
-      where: { id: promoCode.id },
-      select: { remainingUses: true },
-    });
+    const newRemainingUses = updateResult.rows[0].remaining_uses;
+    const premiumExpiresAt = calculatePremiumExpiration(promoCode.plan_type, promoCode.duration_days);
 
-    const premiumExpiresAt = calculatePremiumExpiration(promoCode.planType, promoCode.durationDays);
-
-    await prisma.promoRedemption.create({
-      data: {
-        promoCodeId: promoCode.id,
-        planType: promoCode.planType,
+    await pool.query(
+      `INSERT INTO promo_redemptions (id, promo_code_id, plan_type, premium_expires_at, ip_address, user_agent, browser_id, fingerprint, redeemed_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, $4, $5, $6, $7, NOW())`,
+      [
+        promoCode.id,
+        promoCode.plan_type,
         premiumExpiresAt,
         ipAddress,
         userAgent,
-        browserId: browser_id ?? null,
-        fingerprint: fingerprint ?? null,
-      },
-    });
+        browser_id ?? null,
+        fingerprint ?? null,
+      ],
+    );
 
     return NextResponse.json({
       success: true,
       message: 'Redeem successful',
       data: {
         code: trimmedCode,
-        plan_type: promoCode.planType,
+        plan_type: promoCode.plan_type,
         premium_expires_at: premiumExpiresAt?.toISOString() ?? null,
-        remaining_uses: updatedPromo?.remainingUses ?? promoCode.remainingUses - 1,
+        remaining_uses: newRemainingUses,
         redeemed_at: new Date().toISOString(),
       },
     });
   } catch (error) {
     console.error('Error redeeming promo code:', error);
     return NextResponse.json({ success: false, error: 'System error, please try again later' }, { status: 500 });
+  } finally {
+    await pool.end();
   }
 };

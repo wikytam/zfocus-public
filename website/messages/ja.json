@@ -206,5 +206,22 @@
     "languages": {
       "title": "5つの言語"
     }
+  },
+  "success": {
+    "title": "お支払いが完了しました!",
+    "description": "ZFocus Premiumをご購入いただきありがとうございます。ライセンスキーがまもなくメールで届きます。",
+    "loading": "お支払いを確認中...",
+    "orderDetails": "注文詳細",
+    "customerName": "お名前",
+    "customerEmail": "メール",
+    "product": "商品",
+    "totalAmount": "合計",
+    "nextSteps": "次のステップ",
+    "step1": "メールでライセンスキーを確認してください",
+    "step2": "ZFocus拡張機能をまだインストールしていない場合はインストールしてください",
+    "step3": "ZFocusポップアップを開き、設定からライセンスキーを入力してください",
+    "installExtension": "拡張機能をインストール",
+    "backToHome": "ホームに戻る",
+    "orderRef": "注文番号"
   }
 }

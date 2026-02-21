@@ -206,5 +206,22 @@
     "languages": {
       "title": "5种语言"
     }
+  },
+  "success": {
+    "title": "支付成功!",
+    "description": "感谢您购买 ZFocus Premium。许可证密钥将很快发送到您的邮箱。",
+    "loading": "正在验证您的付款...",
+    "orderDetails": "订单详情",
+    "customerName": "姓名",
+    "customerEmail": "邮箱",
+    "product": "产品",
+    "totalAmount": "合计",
+    "nextSteps": "下一步",
+    "step1": "检查您的邮箱以获取许可证密钥",
+    "step2": "如果尚未安装，请安装 ZFocus 扩展程序",
+    "step3": "打开 ZFocus 弹窗，前往设置并输入许可证密钥",
+    "installExtension": "安装扩展程序",
+    "backToHome": "返回首页",
+    "orderRef": "订单编号"
   }
 }

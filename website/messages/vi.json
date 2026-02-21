@@ -206,5 +206,22 @@
     "languages": {
       "title": "5 Ngôn Ngữ"
     }
+  },
+  "success": {
+    "title": "Thanh toán thành công!",
+    "description": "Cảm ơn bạn đã mua ZFocus Premium. Mã kích hoạt sẽ được gửi đến email của bạn trong giây lát.",
+    "loading": "Đang xác minh thanh toán...",
+    "orderDetails": "Chi tiết đơn hàng",
+    "customerName": "Họ tên",
+    "customerEmail": "Email",
+    "product": "Sản phẩm",
+    "totalAmount": "Tổng cộng",
+    "nextSteps": "Bước tiếp theo",
+    "step1": "Kiểm tra email để nhận mã kích hoạt",
+    "step2": "Cài đặt tiện ích ZFocus nếu bạn chưa có",
+    "step3": "Mở popup ZFocus, vào Cài đặt và nhập mã kích hoạt",
+    "installExtension": "Cài đặt tiện ích",
+    "backToHome": "Về trang chủ",
+    "orderRef": "Mã đơn hàng"
   }
 }

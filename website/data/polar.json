@@ -1,0 +1,12 @@
+{
+  "sandbox": {
+    "yearly": "https://sandbox-api.polar.sh/v1/checkout-links/polar_cl_KCh261A92UsTKiDfWmZMs7OY32Fa7WC7cn7Wm4HRpD2/redirect",
+    "lifetime": "https://sandbox.polar.sh/checkout/buy?products=d8cad95a-aada-46fd-b113-a0c26bd3fa9e",
+    "apiBase": "https://sandbox-api.polar.sh"
+  },
+  "production": {
+    "yearly": "",
+    "lifetime": "",
+    "apiBase": "https://api.polar.sh"
+  }
+}

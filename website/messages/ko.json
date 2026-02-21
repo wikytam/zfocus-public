@@ -206,5 +206,22 @@
     "languages": {
       "title": "5개 언어"
     }
+  },
+  "success": {
+    "title": "결제가 완료되었습니다!",
+    "description": "ZFocus Premium을 구매해 주셔서 감사합니다. 라이선스 키가 곧 이메일로 전송됩니다.",
+    "loading": "결제를 확인하는 중...",
+    "orderDetails": "주문 상세",
+    "customerName": "이름",
+    "customerEmail": "이메일",
+    "product": "상품",
+    "totalAmount": "합계",
+    "nextSteps": "다음 단계",
+    "step1": "이메일에서 라이선스 키를 확인하세요",
+    "step2": "ZFocus 확장 프로그램을 아직 설치하지 않았다면 설치하세요",
+    "step3": "ZFocus 팝업을 열고 설정에서 라이선스 키를 입력하세요",
+    "installExtension": "확장 프로그램 설치",
+    "backToHome": "홈으로 돌아가기",
+    "orderRef": "주문 번호"
   }
 }

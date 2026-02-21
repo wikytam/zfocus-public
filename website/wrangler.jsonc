@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "z-focus-web",
-  "compatibility_date": "2025-04-01",
+  "compatibility_date": "2026-02-21",
   "compatibility_flags": [
     "nodejs_compat",
     "global_fetch_strictly_public"
@@ -17,6 +17,21 @@
       "service": "z-focus-web"
     }
   ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  },
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",

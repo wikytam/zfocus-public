@@ -1,7 +1,4 @@
-import { PrismaClient } from '@/lib/generated/prisma';
-import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
-import { cache } from 'react';
 
 const getConnectionString = (): string => {
   try {
@@ -17,14 +14,12 @@ const getConnectionString = (): string => {
   return process.env.PG_URL ?? '';
 };
 
-export const getDb = cache(() => {
+export const getPool = () => {
   const connectionString = getConnectionString();
 
   if (!connectionString) {
     throw new Error('Connection string not found. Set PG_URL in .env.local or configure Hyperdrive binding.');
   }
 
-  const pool = new Pool({ connectionString, max: 1, ssl: false });
-  const adapter = new PrismaPg(pool);
-  return new PrismaClient({ adapter });
-});
+  return new Pool({ connectionString, max: 1, ssl: false });
+};
