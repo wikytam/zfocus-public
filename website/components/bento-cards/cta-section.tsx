@@ -9,7 +9,7 @@ export const CTASection = () => {
 
   return (
     <div
-      className="border-foreground/10 bg-foreground animate-bento-card-reveal gradient-border-hover group relative overflow-hidden rounded-2xl border p-10 text-center opacity-0 md:p-14"
+      className="border-foreground/10 bg-foreground animate-bento-card-reveal gradient-border-hover group relative mx-auto max-w-7xl overflow-hidden rounded-2xl border p-10 text-center opacity-0 md:p-14"
       style={{ animationDelay: '700ms', animationFillMode: 'forwards' }}>
       {/* Subtle gradient overlay */}
       <div
