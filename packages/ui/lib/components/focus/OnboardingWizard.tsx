@@ -199,7 +199,7 @@ export const OnboardingWizard = ({
         </div>
 
         {/* Header */}
-        <div className="relative border-b px-6 py-4">
+        <div className="relative border-b px-2 py-4 md:px-6">
           <div className="flex items-center gap-3">
             <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
               <Sparkles className="text-primary h-5 w-5" />
@@ -229,7 +229,7 @@ export const OnboardingWizard = ({
         {/* Content */}
         <div className="min-h-0 flex-1 overflow-hidden">
           <ScrollArea className="h-full py-6" enableBodyScroll>
-            <div className="relative max-h-[70vh] space-y-4 px-6 py-6">
+            <div className="relative max-h-[70vh] space-y-4 px-2 py-6 md:px-6">
               {/* Step 1: Language Selection */}
               {step === 1 && (
                 <div className="space-y-6">
@@ -590,7 +590,7 @@ export const OnboardingWizard = ({
         </div>
 
         {/* Footer */}
-        <div className="relative flex items-center justify-between border-t px-6 py-4">
+        <div className="relative flex items-center justify-between border-t px-2 py-4 md:px-6">
           <div>
             {step === 2 && (
               <Button variant="ghost" size="sm" onClick={handleSkip} className="text-muted-foreground">

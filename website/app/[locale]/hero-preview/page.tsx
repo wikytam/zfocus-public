@@ -26,14 +26,14 @@ const CTAButtons = ({ t, center = true }: { t: (k: string) => string; center?: b
   <div className={`mt-8 flex flex-wrap items-center gap-3 sm:mt-10 ${center ? 'justify-center' : ''}`}>
     <Button
       size="lg"
-      className="bg-accent text-accent-foreground hover:bg-accent/90 h-11 cursor-pointer gap-2 rounded-full px-6 text-sm font-semibold shadow-[0_2px_12px_rgba(22,130,93,0.2)] sm:h-12 sm:px-7 sm:text-base">
+      className="bg-accent text-accent-foreground hover:bg-accent/90 h-11 cursor-pointer gap-2 rounded-full px-2 text-sm font-semibold shadow-[0_2px_12px_rgba(22,130,93,0.2)] sm:h-12 sm:px-7 sm:text-base md:px-6">
       <Chrome className="h-5 w-5" />
       {t('cta.installChrome')}
     </Button>
     <Button
       size="lg"
       variant="outline"
-      className="border-border hover:bg-secondary h-11 cursor-pointer gap-2 rounded-full px-6 text-sm font-semibold sm:h-12 sm:px-7 sm:text-base">
+      className="border-border hover:bg-secondary h-11 cursor-pointer gap-2 rounded-full px-2 text-sm font-semibold sm:h-12 sm:px-7 sm:text-base md:px-6">
       <Download className="h-4 w-4" />
       {t('cta.firefox')}
     </Button>
@@ -153,7 +153,7 @@ const Style4 = ({ t }: { t: (k: string) => string }) => (
       <div className="relative mx-auto max-w-4xl">
         <OverviewImage className="opacity-20 dark:opacity-15" />
       </div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-2 text-center md:px-6">
         <h1 className="text-foreground mb-6 text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl">
           {t('hero.title')}
         </h1>
@@ -412,7 +412,7 @@ const HeroPreview = () => {
 
   return (
     <div className="bg-background min-h-dvh">
-      <div className="border-border/60 bg-card/80 sticky top-0 z-50 border-b px-6 py-4 backdrop-blur-md">
+      <div className="border-border/60 bg-card/80 sticky top-0 z-50 border-b px-2 py-4 backdrop-blur-md md:px-6">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-foreground mb-3 text-lg font-bold">Hero Style Preview - Click to jump</h2>
           <div className="flex flex-wrap gap-2">
@@ -435,7 +435,7 @@ const HeroPreview = () => {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-2 md:px-6">
         {Components.map((Comp, i) => (
           <div key={i} id={`style-${i + 1}`} className="border-border/30 scroll-mt-28 border-b last:border-b-0">
             <Comp t={t} />

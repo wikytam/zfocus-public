@@ -9,7 +9,7 @@ export const Footer = () => {
 
   return (
     <footer className="border-border bg-card mt-6 border-t">
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-6xl px-2 py-8 md:px-6">
         {/* Main footer content */}
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand column */}

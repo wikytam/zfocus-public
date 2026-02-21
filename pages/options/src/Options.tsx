@@ -201,7 +201,7 @@ const Options = () => {
         <div className="bg-accent/5 absolute bottom-0 left-0 h-[400px] w-[400px] -translate-x-1/2 translate-y-1/2 transform rounded-full blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-2xl px-6 py-8">
+      <div className="relative mx-auto max-w-2xl px-2 py-8 md:px-6">
         <Header isWithinWorkHours={withinHours} isPaused={settings.isPaused} showSettingsButton={false} />
 
         <div className="my-4 flex justify-center">

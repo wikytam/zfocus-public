@@ -38,20 +38,20 @@ export const BentoGrid = () => {
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10 lg:justify-start">
                 <Button
                   size="lg"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 h-11 cursor-pointer gap-2 rounded-full px-6 text-sm font-semibold shadow-[0_2px_12px_rgba(22,130,93,0.2)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,130,93,0.3)] sm:h-12 sm:px-7 sm:text-base">
+                  className="bg-accent text-accent-foreground hover:bg-accent/90 h-11 cursor-pointer gap-2 rounded-full px-2 text-sm font-semibold shadow-[0_2px_12px_rgba(22,130,93,0.2)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,130,93,0.3)] sm:h-12 sm:px-7 sm:text-base md:px-6">
                   <Chrome className="h-5 w-5" />
                   {t('cta.installChrome')}
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-border hover:bg-secondary hover:border-border h-11 cursor-pointer gap-2 rounded-full px-6 text-sm font-semibold transition-all duration-300 sm:h-12 sm:px-7 sm:text-base">
+                  className="border-border hover:bg-secondary hover:border-border h-11 cursor-pointer gap-2 rounded-full px-2 text-sm font-semibold transition-all duration-300 sm:h-12 sm:px-7 sm:text-base md:px-6">
                   <Download className="h-4 w-4" />
                   {t('cta.firefox')}
                 </Button>
               </div>
 
-              <div className="mt-8 flex items-center justify-center gap-2 sm:mt-10 lg:justify-start">
+              <div className="mt-8 flex flex-wrap items-center justify-start gap-2 max-md:justify-center sm:mt-10 lg:justify-start">
                 <span className="text-muted-foreground mr-2 text-xs">{t('moreThings.browserSupport.title')}:</span>
                 <div className="flex items-center gap-2.5">
                   {[
@@ -116,7 +116,7 @@ export const BentoGrid = () => {
       {/* Bento Grid */}
       <div
         id="features"
-        className="mx-auto grid max-w-6xl scroll-mt-20 auto-rows-[minmax(200px,auto)] gap-4 px-6 pb-24 md:grid-cols-12">
+        className="mx-auto grid max-w-6xl scroll-mt-20 auto-rows-[minmax(200px,auto)] gap-4 px-2 pb-24 md:grid-cols-12 md:px-6">
         <SmartBlockingCard />
         <TimeControlCard />
         <AdvancedActionsCard />
