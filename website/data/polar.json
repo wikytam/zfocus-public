@@ -8,5 +8,15 @@
     "yearly": "",
     "lifetime": "",
     "apiBase": "https://api.polar.sh"
+  },
+  "productMapping": {
+    "d8cad95a-aada-46fd-b113-a0c26bd3fa9e": {
+      "planType": "lifetime",
+      "durationDays": null
+    }
+  },
+  "planNamePatterns": {
+    "lifetime": { "planType": "lifetime", "durationDays": null },
+    "yearly": { "planType": "yearly", "durationDays": 365 }
   }
 }

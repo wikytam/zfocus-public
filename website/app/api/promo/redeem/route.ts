@@ -1,4 +1,5 @@
 import { getPool } from '@/lib/db/pg';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -19,6 +20,9 @@ const calculatePremiumExpiration = (planType: string, durationDays: number | nul
 };
 
 export const POST = async (request: NextRequest) => {
+  const { limited, response } = await checkRateLimit(request);
+  if (limited) return response!;
+
   const pool = getPool();
   try {
     let body: RedeemRequest;

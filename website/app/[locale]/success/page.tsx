@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { CheckCircle, Chrome, ArrowRight, Loader2 } from 'lucide-react';
+import { CheckCircle, Chrome, ArrowRight, Loader2, Copy, Check, XCircle, AlertTriangle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Suspense, useEffect, useState } from 'react';
@@ -18,6 +18,7 @@ interface CheckoutData {
   product_name: string | null;
   amount: number | null;
   currency: string | null;
+  promo_code: string | null;
 }
 
 const formatAmount = (amount: number | null, currency: string | null): string => {
@@ -35,6 +36,8 @@ const SuccessContent = () => {
   const t = useTranslations('success');
   const [checkout, setCheckout] = useState<CheckoutData | null>(null);
   const [loading, setLoading] = useState(!!checkoutId);
+  const [copied, setCopied] = useState(false);
+  const [verifyError, setVerifyError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!checkoutId) return;
@@ -43,11 +46,13 @@ const SuccessContent = () => {
       try {
         const res = await fetch(`/api/checkout/verify?checkout_id=${encodeURIComponent(checkoutId)}`);
         const json = await res.json();
-        if (json.success) {
-          setCheckout(json.data);
+        if (json.success && json.data) {
+          setCheckout(json.data as CheckoutData);
+        } else {
+          setVerifyError(json.error ?? 'Verification failed');
         }
       } catch {
-        // Silently fail - still show generic success page
+        setVerifyError('Network error');
       } finally {
         setLoading(false);
       }
@@ -55,6 +60,91 @@ const SuccessContent = () => {
 
     verify();
   }, [checkoutId]);
+
+  const handleCopy = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const textArea = document.createElement('textarea');
+      textArea.value = code;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  if (loading) {
+    return (
+      <main className="bg-background min-h-dvh">
+        <Header />
+        <div className="flex min-h-[80vh] items-center justify-center px-4 pt-16">
+          <div className="mx-auto max-w-lg text-center">
+            <div className="mb-8 flex justify-center">
+              <Loader2 className="text-muted-foreground h-12 w-12 animate-spin" />
+            </div>
+            <p className="text-muted-foreground text-lg">{t('loading')}</p>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  if (verifyError || !checkout) {
+    return (
+      <main className="bg-background min-h-dvh">
+        <Header />
+        <div className="flex min-h-[80vh] items-center justify-center px-4 pt-16">
+          <div className="mx-auto max-w-lg text-center">
+            <div className="mb-8 flex justify-center">
+              <div className="from-destructive/15 to-destructive/5 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br">
+                <XCircle className="text-destructive h-10 w-10" />
+              </div>
+            </div>
+
+            <h1 className="text-foreground mb-4 text-3xl font-bold tracking-tight md:text-4xl">{t('errorTitle')}</h1>
+
+            <p className="text-muted-foreground mb-8 text-lg leading-relaxed">{t('errorDescription')}</p>
+
+            <div className="bg-destructive/5 border-destructive/20 mb-8 rounded-2xl border p-6">
+              <div className="flex items-start gap-3 text-left">
+                <AlertTriangle className="text-destructive mt-0.5 h-5 w-5 shrink-0" />
+                <div>
+                  <p className="text-foreground text-sm font-medium">{t('errorReason')}</p>
+                  <p className="text-muted-foreground mt-1 text-sm">{verifyError ?? t('errorUnknown')}</p>
+                </div>
+              </div>
+            </div>
+
+            {checkoutId && (
+              <p className="text-muted-foreground mb-6 text-xs">
+                {t('orderRef')}: {checkoutId.slice(0, 8)}...
+              </p>
+            )}
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-border hover:bg-secondary h-12 gap-2 rounded-full px-7 text-base font-semibold transition-all duration-300"
+                asChild>
+                <a href="/">
+                  <ArrowRight className="h-4 w-4" />
+                  {t('backToHome')}
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
 
   return (
     <main className="bg-background min-h-dvh">
@@ -71,44 +161,57 @@ const SuccessContent = () => {
 
           <p className="text-muted-foreground mb-8 text-lg leading-relaxed">{t('description')}</p>
 
-          {loading && (
-            <div className="mb-8 flex items-center justify-center gap-2">
-              <Loader2 className="text-muted-foreground h-5 w-5 animate-spin" />
-              <span className="text-muted-foreground text-sm">{t('loading')}</span>
-            </div>
-          )}
+          <div className="bg-card border-border mb-8 rounded-2xl border p-6 text-left">
+            <h3 className="text-foreground mb-4 text-sm font-semibold uppercase tracking-wider">{t('orderDetails')}</h3>
+            <dl className="space-y-3 text-sm">
+              {checkout.customer_name && (
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">{t('customerName')}</dt>
+                  <dd className="text-foreground font-medium">{checkout.customer_name}</dd>
+                </div>
+              )}
+              {checkout.customer_email && (
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">{t('customerEmail')}</dt>
+                  <dd className="text-foreground font-medium">{checkout.customer_email}</dd>
+                </div>
+              )}
+              {checkout.product_name && (
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">{t('product')}</dt>
+                  <dd className="text-foreground font-medium">{checkout.product_name}</dd>
+                </div>
+              )}
+              {checkout.amount != null && (
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">{t('totalAmount')}</dt>
+                  <dd className="text-foreground font-medium">{formatAmount(checkout.amount, checkout.currency)}</dd>
+                </div>
+              )}
+            </dl>
+          </div>
 
-          {checkout && (
-            <div className="bg-card border-border mb-8 rounded-2xl border p-6 text-left">
-              <h3 className="text-foreground mb-4 text-sm font-semibold uppercase tracking-wider">
-                {t('orderDetails')}
+          {checkout.promo_code && (
+            <div className="from-accent/10 to-accent/5 border-accent/30 mb-8 rounded-2xl border bg-gradient-to-br p-6">
+              <h3 className="text-foreground mb-2 text-sm font-semibold uppercase tracking-wider">
+                {t('activationCode')}
               </h3>
-              <dl className="space-y-3 text-sm">
-                {checkout.customer_name && (
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">{t('customerName')}</dt>
-                    <dd className="text-foreground font-medium">{checkout.customer_name}</dd>
-                  </div>
-                )}
-                {checkout.customer_email && (
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">{t('customerEmail')}</dt>
-                    <dd className="text-foreground font-medium">{checkout.customer_email}</dd>
-                  </div>
-                )}
-                {checkout.product_name && (
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">{t('product')}</dt>
-                    <dd className="text-foreground font-medium">{checkout.product_name}</dd>
-                  </div>
-                )}
-                {checkout.amount != null && (
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">{t('totalAmount')}</dt>
-                    <dd className="text-foreground font-medium">{formatAmount(checkout.amount, checkout.currency)}</dd>
-                  </div>
-                )}
-              </dl>
+              <p className="text-muted-foreground mb-4 text-sm">{t('activationCodeDesc')}</p>
+              <div className="flex items-center gap-3">
+                <code className="bg-background border-border flex-1 select-all rounded-xl border px-4 py-3 text-center font-mono text-lg font-bold tracking-widest">
+                  {checkout.promo_code}
+                </code>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="border-accent/30 hover:bg-accent/10 h-12 w-12 shrink-0 rounded-xl"
+                  onClick={() => handleCopy(checkout.promo_code!)}>
+                  {copied ? <Check className="h-5 w-5 text-green-500" /> : <Copy className="h-5 w-5" />}
+                </Button>
+              </div>
+              {copied && (
+                <p className="mt-2 text-center text-sm font-medium text-green-600 dark:text-green-400">{t('copied')}</p>
+              )}
             </div>
           )}
 

@@ -1,8 +1,12 @@
 import { getPool } from '@/lib/db/pg';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export const GET = async (request: NextRequest) => {
+  const { limited, response } = await checkRateLimit(request);
+  if (limited) return response!;
+
   const pool = getPool();
   try {
     const { searchParams } = new URL(request.url);

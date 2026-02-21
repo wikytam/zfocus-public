@@ -38,5 +38,15 @@
       "id": "b4802786744d41dba768d5636c9fc167",
       "localConnectionString": "postgresql://hoa:hoa%402222@163.223.13.70/zfocus"
     }
-  ]
+  ],
+  "unsafe": {
+    "bindings": [
+      {
+        "type": "ratelimit",
+        "name": "RATE_LIMITER",
+        "namespace_id": "1",
+        "simple": { "limit": 100, "period": 60 }
+      }
+    ]
+  }
 }
