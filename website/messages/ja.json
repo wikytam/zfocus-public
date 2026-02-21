@@ -143,31 +143,35 @@
       "price": "0",
       "currency": "$",
       "period": "30日間",
-      "description": "30日間すべてのプレミアム機能を無料でお試しください",
+      "description": "30日間すべてのプレミアム機能を無料でお試し",
       "features": {
-        "allFeatures": "すべてのプレミアム機能",
-        "unlimitedBlocking": "無制限のブロッキングルール",
-        "advancedSchedule": "高度なスケジューリング",
-        "statistics": "詳細な統計",
+        "urlBlocking": "無制限のウェブサイトブロック",
+        "exceptionPatterns": "スマート例外パターン（特定URLを許可）",
+        "keywordBlocking": "キーワードによるURLブロック",
+        "schedule": "曜日/時間帯のブロックスケジュール",
+        "timeLimits": "サイトアクセスの時間制限（例：5分/時間）",
+        "closeTabRedirect": "タブ自動クローズまたはリダイレクト",
+        "statistics": "30日間の詳細統計履歴",
         "noCardRequired": "クレジットカード不要"
       },
       "cta": "無料トライアルを開始"
     },
     "yearly": {
       "badge": "最も人気",
-      "title": "年間",
-      "price": "9",
+      "title": "プレミアム",
+      "price": "14",
       "currency": "$",
       "period": "/年",
-      "description": "長期ユーザーに最適な価値",
+      "description": "最大の生産性のための高度な機能をアンロック",
       "features": {
-        "allFeatures": "無料トライアルのすべて",
+        "allFreeFeatures": "無料トライアルのすべて",
+        "exceptionPatterns": "スマート例外（ブロックドメイン内の特定URLを許可）",
+        "keywordBlocking": "キーワードによるURLブロック（例：game、video）",
         "prioritySupport": "優先サポート",
-        "earlyAccess": "新機能への早期アクセス",
-        "cloudSync": "デバイス間クラウド同期",
+        "chromeSync": "Chrome Syncによる設定同期",
         "autoRenewal": "自動更新、いつでもキャンセル可能"
       },
-      "cta": "年間購読"
+      "cta": "プレミアムを購読"
     },
     "lifetime": {
       "badge": "最もお得",
@@ -175,13 +179,13 @@
       "price": "29",
       "currency": "$",
       "period": "1回",
-      "description": "一度の支払いで、すべてのアップデートと共に永久に使用",
+      "description": "一度の支払いでプレミアムを永久に使用",
       "features": {
-        "allFeatures": "年間のすべて",
-        "lifetimeUpdates": "ライフタイムアップデート付き",
+        "allYearlyFeatures": "プレミアムのすべて",
+        "lifetimeUpdates": "永久無料アップデート",
         "prioritySupport": "永久優先サポート",
         "noRecurring": "定期支払いなし",
-        "earlyAccess": "ライフタイム早期アクセス"
+        "earlyAccess": "新機能への永久早期アクセス"
       },
       "cta": "ライフタイムアクセスを購入"
     },

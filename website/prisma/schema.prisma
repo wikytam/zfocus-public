@@ -12,6 +12,8 @@ model PromoCode {
   id            String    @id @default(uuid()) @db.Uuid
   code          String    @unique @db.VarChar(50)
   description   String?   @db.Text
+  planType      String    @default("yearly") @map("plan_type") @db.VarChar(20)
+  durationDays  Int?      @map("duration_days")
   totalUses     Int       @default(1) @map("total_uses")
   remainingUses Int       @default(1) @map("remaining_uses")
   isActive      Boolean   @default(true) @map("is_active")
@@ -27,13 +29,15 @@ model PromoCode {
 
 /// Bảng promo_redemptions - Nhật ký kiểm toán mỗi lần redeem
 model PromoRedemption {
-  id          String   @id @default(uuid()) @db.Uuid
-  promoCodeId String   @map("promo_code_id") @db.Uuid
-  ipAddress   String   @map("ip_address") @db.VarChar(45)
-  userAgent   String?  @map("user_agent") @db.Text
-  browserId   String?  @map("browser_id") @db.VarChar(255)
-  fingerprint String?  @db.VarChar(255)
-  redeemedAt  DateTime @default(now()) @map("redeemed_at") @db.Timestamptz
+  id               String    @id @default(uuid()) @db.Uuid
+  promoCodeId      String    @map("promo_code_id") @db.Uuid
+  planType         String    @default("yearly") @map("plan_type") @db.VarChar(20)
+  premiumExpiresAt DateTime? @map("premium_expires_at") @db.Timestamptz
+  ipAddress        String    @map("ip_address") @db.VarChar(45)
+  userAgent        String?   @map("user_agent") @db.Text
+  browserId        String?   @map("browser_id") @db.VarChar(255)
+  fingerprint      String?   @db.VarChar(255)
+  redeemedAt       DateTime  @default(now()) @map("redeemed_at") @db.Timestamptz
 
   promoCode PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
 

@@ -69,7 +69,7 @@ export const UseCasesSection = () => {
   );
 
   return (
-    <section className="px-6 py-24 md:py-32">
+    <section className="px-2 py-24 md:px-6 md:py-32">
       <div
         ref={useCaseReveal.ref}
         className={`mx-auto max-w-6xl transition-all delay-100 duration-700 ${

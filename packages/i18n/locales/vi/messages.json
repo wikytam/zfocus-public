@@ -17,19 +17,19 @@
     "message": "Tổng quan"
   },
   "websites": {
-    "message": "Website"
+    "message": "Focus Zones"
   },
   "settings": {
     "message": "Cài đặt"
   },
   "manageWebsites": {
-    "message": "Quản lý Website"
+    "message": "Focus Zones"
   },
   "manageWebsitesDesc": {
-    "message": "Thêm và cấu hình các trang web cần chặn"
+    "message": "Thêm và cấu hình các focus zone để chặn website gây mất tập trung"
   },
   "addNewGroup": {
-    "message": "Thêm nhóm mới"
+    "message": "Thêm Focus Zone"
   },
   "blockedAttempts": {
     "message": "Lượt chặn hôm nay"
@@ -38,7 +38,7 @@
     "message": "Thời gian tạm dừng"
   },
   "timeOnWebsite": {
-    "message": "Thời gian trên Website"
+    "message": "Thời gian theo dõi"
   },
   "pauseBlocking": {
     "message": "Tạm dừng chặn"
@@ -140,16 +140,16 @@
     "message": "Chỉnh sửa website"
   },
   "editWebsiteDesc": {
-    "message": "Chỉnh sửa cài đặt cho nhóm website"
+    "message": "Chỉnh sửa cài đặt cho focus zone"
   },
   "addWebsite": {
     "message": "Thêm website"
   },
   "addWebsiteDesc": {
-    "message": "Thêm nhóm website cần chặn"
+    "message": "Thêm focus zone cần chặn"
   },
   "groupName": {
-    "message": "Tên nhóm"
+    "message": "Tên zone"
   },
   "urlList": {
     "message": "Danh sách URL"
@@ -269,10 +269,10 @@
     "message": "Lưu thay đổi"
   },
   "siteAdded": {
-    "message": "Đã thêm nhóm website thành công"
+    "message": "Đã thêm focus zone thành công"
   },
   "siteUpdated": {
-    "message": "Đã cập nhật nhóm website thành công"
+    "message": "Đã cập nhật focus zone thành công"
   },
   "validationError": {
     "message": "Vui lòng kiểm tra lại thông tin và thử lại"
@@ -287,10 +287,10 @@
     "message": "Đã tạm dừng"
   },
   "noWebsitesAdded": {
-    "message": "Chưa có website nào được thêm"
+    "message": "Chưa có focus zone nào"
   },
   "noWebsitesAddedDesc": {
-    "message": "Nhấn \"Thêm nhóm mới\" để bắt đầu"
+    "message": "Nhấn \"Thêm Focus Zone\" để bắt đầu"
   },
   "website": {
     "message": "trang web"
@@ -314,16 +314,16 @@
     "message": "Chạy lại"
   },
   "addWebsiteGroup": {
-    "message": "Thêm nhóm website chặn"
+    "message": "Thêm Focus Zone"
   },
   "addWebsiteGroupDesc": {
-    "message": "Tạo nhóm mới để quản lý các website gây mất tập trung"
+    "message": "Tạo focus zone mới để chặn các website gây mất tập trung"
   },
   "editWebsiteGroup": {
-    "message": "Chỉnh sửa nhóm website"
+    "message": "Chỉnh sửa Focus Zone"
   },
   "editWebsiteGroupDesc": {
-    "message": "Cập nhật cài đặt cho nhóm website"
+    "message": "Cập nhật cài đặt cho focus zone"
   },
   "groupNamePlaceholder": {
     "message": "VD: Mạng xã hội"
@@ -377,13 +377,13 @@
     "message": "Để trống sẽ chuyển đến trang popup của extension"
   },
   "addGroup": {
-    "message": "Thêm nhóm"
+    "message": "Thêm zone"
   },
   "deleteGroup": {
-    "message": "Xóa nhóm"
+    "message": "Xóa zone"
   },
   "deleteConfirm": {
-    "message": "Bạn có chắc chắn muốn xóa nhóm này?"
+    "message": "Bạn có chắc chắn muốn xóa focus zone này?"
   },
   "tenMinutes": {
     "message": "10 phút"
@@ -455,10 +455,10 @@
     "message": "Chặn website gây mất tập trung"
   },
   "noWebsites": {
-    "message": "Chưa có website nào"
+    "message": "Chưa có focus zone nào"
   },
   "clickAddToStart": {
-    "message": "Nhấn \"Thêm nhóm mới\" để bắt đầu"
+    "message": "Nhấn \"Thêm Focus Zone\" để bắt đầu"
   },
   "invalidWebsite": {
     "message": "Website #$1 không hợp lệ"
@@ -493,19 +493,13 @@
   "more": {
     "message": "khác"
   },
-  "manageWebsites": {
-    "message": "Quản lý Website"
-  },
-  "manageWebsitesDesc": {
-    "message": "Thêm và cấu hình các trang web cần chặn"
-  },
   "timeRemaining": {
     "message": "Thời gian còn lại"
   },
   "blocksToday": {
     "message": "Lượt chặn hôm nay"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "trang web"
   },
   "timePause": {
@@ -539,10 +533,10 @@
     "message": "Tự động nhận diện từ hệ thống"
   },
   "onboardingAddFirstGroup": {
-    "message": "Thêm nhóm website đầu tiên"
+    "message": "Thêm Focus Zone đầu tiên"
   },
   "onboardingAddFirstGroupDesc": {
-    "message": "Tạo nhóm các website bạn muốn giới hạn. Bạn có thể thêm sau."
+    "message": "Tạo focus zone cho các website bạn muốn giới hạn. Bạn có thể thêm sau."
   },
   "onboardingSkip": {
     "message": "Bỏ qua"
@@ -575,7 +569,7 @@
     "message": "Cần thiết lập để bắt đầu chặn các trang web gây mất tập trung"
   },
   "setupRequiredDesc": {
-    "message": "Cấu hình nhóm website đầu tiên để bắt đầu"
+    "message": "Cấu hình focus zone đầu tiên để bắt đầu"
   },
   "startSetup": {
     "message": "Bắt đầu thiết lập"

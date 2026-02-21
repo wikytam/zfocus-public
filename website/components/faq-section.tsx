@@ -82,7 +82,7 @@ export const FAQSection = () => {
   }, [searchQuery, faqsData]);
 
   return (
-    <section className="px-6 py-24 md:py-32">
+    <section className="px-2 py-24 md:px-6 md:py-32">
       <div
         ref={faqReveal.ref}
         className={`mx-auto w-full max-w-3xl transition-all duration-700 ${
@@ -121,7 +121,7 @@ export const FAQSection = () => {
             <AccordionItem
               key={faq.id}
               value={faq.id}
-              className="group/faq border-border bg-card hover:border-accent/25 data-[state=open]:border-accent/25 rounded-xl border px-6 py-5 transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)] data-[state=open]:shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+              className="group/faq border-border bg-card hover:border-accent/25 data-[state=open]:border-accent/25 rounded-xl border px-2 py-5 transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)] data-[state=open]:shadow-[0_4px_20px_rgba(0,0,0,0.04)] md:px-6">
               <AccordionTrigger className="py-0 text-left hover:no-underline">
                 <div className="flex flex-1 items-start gap-3 pr-4">
                   <div className="from-accent/15 to-accent/5 text-accent mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-xs font-bold transition-all duration-300 group-hover/faq:scale-110 group-hover/faq:shadow-[0_0_8px_rgba(22,130,93,0.15)]">

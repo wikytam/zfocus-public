@@ -44,14 +44,41 @@ import type { QuotaTestStep } from '../utils/settingsSync';
 import type { MessageKeyType } from '@extension/i18n';
 import type { FocusSettings } from '@extension/storage';
 
+interface PremiumInfo {
+  planType: 'yearly' | 'lifetime' | null;
+  expiresAt: string | null;
+  code: string | null;
+}
+
 interface SettingsPanelProps {
   settings: FocusSettings;
   onUpdate: (updates: Partial<FocusSettings>) => void;
   isPremium?: boolean;
+  premiumInfo?: PremiumInfo;
   onActivatePremium?: (code: string) => Promise<boolean>;
 }
 
-export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivatePremium }: SettingsPanelProps) => {
+const formatExpirationDate = (expiresAt: string | null): string => {
+  if (!expiresAt) return '';
+  const date = new Date(expiresAt);
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+const getDaysRemaining = (expiresAt: string | null): number | null => {
+  if (!expiresAt) return null;
+  const now = new Date();
+  const expiry = new Date(expiresAt);
+  const diff = expiry.getTime() - now.getTime();
+  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+};
+
+export const SettingsPanel = ({
+  settings,
+  onUpdate,
+  isPremium = false,
+  premiumInfo,
+  onActivatePremium,
+}: SettingsPanelProps) => {
   const { t } = useI18n();
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error'>('idle');
   const [syncInfo, setSyncInfo] = useState<string>('');
@@ -190,9 +217,34 @@ export const SettingsPanel = ({ settings, onUpdate, isPremium = false, onActivat
               )}
             </div>
             <div>
-              <Label className="font-medium">{isPremium ? t('premiumActive') : t('premiumInactive')}</Label>
+              <Label className="font-medium">
+                {isPremium
+                  ? premiumInfo?.planType === 'lifetime'
+                    ? t('premiumActive') + ' - Lifetime'
+                    : t('premiumActive') + ' - Yearly'
+                  : t('premiumInactive')}
+              </Label>
               <p className="text-muted-foreground text-xs">
-                {isPremium ? t('premiumActiveDesc') : t('premiumInactiveDesc')}
+                {isPremium ? (
+                  premiumInfo?.planType === 'lifetime' ? (
+                    t('premiumActiveDesc')
+                  ) : premiumInfo?.expiresAt ? (
+                    <>
+                      {t('premiumActiveDesc')} &middot; Expires: {formatExpirationDate(premiumInfo.expiresAt)}
+                      {(() => {
+                        const days = getDaysRemaining(premiumInfo.expiresAt);
+                        if (days !== null && days <= 30) {
+                          return <span className="ml-1 text-amber-500">({days} days left)</span>;
+                        }
+                        return null;
+                      })()}
+                    </>
+                  ) : (
+                    t('premiumActiveDesc')
+                  )
+                ) : (
+                  t('premiumInactiveDesc')
+                )}
               </p>
             </div>
           </div>

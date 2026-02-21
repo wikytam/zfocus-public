@@ -9,7 +9,7 @@ export const GET = async (request: NextRequest) => {
     const code = searchParams.get('code');
 
     if (!code || code.trim().length === 0) {
-      return NextResponse.json({ valid: false, error: 'Thiếu tham số code' }, { status: 400 });
+      return NextResponse.json({ valid: false, error: 'Missing code parameter' }, { status: 400 });
     }
 
     const trimmedCode = code.trim().toUpperCase();
@@ -24,7 +24,7 @@ export const GET = async (request: NextRequest) => {
 
     if (!promoCode) {
       return NextResponse.json(
-        { valid: false, error: 'Mã promo không tồn tại hoặc đã bị vô hiệu hóa' },
+        { valid: false, error: 'Promo code does not exist or has been deactivated' },
         { status: 404 },
       );
     }
@@ -32,24 +32,26 @@ export const GET = async (request: NextRequest) => {
     const isExpired = promoCode.expiresAt !== null && new Date(promoCode.expiresAt) < new Date();
 
     if (isExpired) {
-      return NextResponse.json({ valid: false, error: 'Mã promo đã hết hạn sử dụng' }, { status: 410 });
+      return NextResponse.json({ valid: false, error: 'Promo code has expired' }, { status: 410 });
     }
 
     if (promoCode.remainingUses <= 0) {
-      return NextResponse.json({ valid: false, error: 'Mã promo đã hết lượt sử dụng' }, { status: 410 });
+      return NextResponse.json({ valid: false, error: 'Promo code has no remaining uses' }, { status: 410 });
     }
 
     return NextResponse.json({
       valid: true,
       data: {
         code: trimmedCode,
+        plan_type: promoCode.planType,
+        duration_days: promoCode.durationDays,
         remaining_uses: promoCode.remainingUses,
         total_uses: promoCode.totalUses,
         expires_at: promoCode.expiresAt?.toISOString() ?? null,
       },
     });
   } catch (error) {
-    console.error('Lỗi khi validate promo code:', error);
-    return NextResponse.json({ valid: false, error: 'Lỗi hệ thống, vui lòng thử lại sau' }, { status: 500 });
+    console.error('Error validating promo code:', error);
+    return NextResponse.json({ valid: false, error: 'System error, please try again later' }, { status: 500 });
   }
 };

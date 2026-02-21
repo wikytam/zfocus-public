@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useI18n } from '@extension/i18n';
-import { validateUrls } from '@extension/shared';
+import { validateUrls, normalizeUrlPattern } from '@extension/shared';
 import {
   Globe,
   ChevronRight,
@@ -70,7 +70,7 @@ export const OnboardingWizard = ({
   // Step 1: Error reporting consent (default off)
   const [errorReportingEnabled, setErrorReportingEnabled] = useState(false);
 
-  // Step 2: Add Website Group
+  // Step 2: Add Focus Zone
   const DAYS = [
     { value: 1, label: t('monday'), fullLabel: t('mondayFull') },
     { value: 2, label: t('tuesday'), fullLabel: t('tuesdayFull') },
@@ -148,7 +148,7 @@ export const OnboardingWizard = ({
   };
 
   const handleFinish = () => {
-    // Add the website group if form is valid
+    // Add the focus zone if form is valid
     if (canSubmitGroup) {
       onAddSite({
         title: formData.title,
@@ -199,7 +199,7 @@ export const OnboardingWizard = ({
         </div>
 
         {/* Header */}
-        <div className="relative border-b px-6 py-4">
+        <div className="relative border-b px-2 py-4 md:px-6">
           <div className="flex items-center gap-3">
             <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-xl">
               <Sparkles className="text-primary h-5 w-5" />
@@ -229,7 +229,7 @@ export const OnboardingWizard = ({
         {/* Content */}
         <div className="min-h-0 flex-1 overflow-hidden">
           <ScrollArea className="h-full py-6" enableBodyScroll>
-            <div className="relative max-h-[70vh] space-y-4 px-6 py-6">
+            <div className="relative max-h-[70vh] space-y-4 px-2 py-6 md:px-6">
               {/* Step 1: Language Selection */}
               {step === 1 && (
                 <div className="space-y-6">
@@ -262,9 +262,8 @@ export const OnboardingWizard = ({
 
                   {/* Error Reporting Consent */}
                   <div className="border-border mt-6 space-y-3 border-t pt-6">
-                    <div
-                      role="button"
-                      tabIndex={0}
+                    <button
+                      type="button"
                       onClick={() => setErrorReportingEnabled(!errorReportingEnabled)}
                       onKeyDown={e => {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -273,7 +272,7 @@ export const OnboardingWizard = ({
                         }
                       }}
                       className={cn(
-                        'flex cursor-pointer items-center justify-between rounded-lg p-4 transition-all duration-200',
+                        'flex w-full cursor-pointer items-center justify-between rounded-lg p-4 transition-all duration-200',
                         errorReportingEnabled ? 'bg-primary/10 border-primary/20 border' : 'bg-secondary/30',
                       )}>
                       <div className="flex items-center gap-3">
@@ -284,7 +283,7 @@ export const OnboardingWizard = ({
                             <ShieldAlert className="text-muted-foreground h-5 w-5" />
                           )}
                         </div>
-                        <div>
+                        <div className="text-left">
                           <Label htmlFor="onboard-error-reporting" className="cursor-pointer text-sm font-medium">
                             {t('errorReportingLabel')}
                           </Label>
@@ -296,12 +295,12 @@ export const OnboardingWizard = ({
                         checked={errorReportingEnabled}
                         onCheckedChange={setErrorReportingEnabled}
                       />
-                    </div>
+                    </button>
                   </div>
                 </div>
               )}
 
-              {/* Step 2: Add Website Group */}
+              {/* Step 2: Add Focus Zone */}
               {step === 2 && (
                 <div className="space-y-4">
                   <div className="text-center">
@@ -309,7 +308,7 @@ export const OnboardingWizard = ({
                     <p className="text-muted-foreground mt-2 text-sm">{t('onboardingAddFirstGroupDesc')}</p>
                   </div>
 
-                  {/* Group Name */}
+                  {/* Zone Name */}
                   <div className="space-y-2">
                     <Label htmlFor="onboard-title">{t('groupName')}</Label>
                     <Input
@@ -327,6 +326,7 @@ export const OnboardingWizard = ({
                       id="onboard-urls"
                       value={formData.urls}
                       onChange={urls => setFormData(prev => ({ ...prev, urls }))}
+                      onNormalize={normalizeUrlPattern}
                       placeholder="facebook.com, youtube.com, twitter.com"
                       className={urlErrors.length > 0 ? 'border-destructive' : ''}
                     />
@@ -590,7 +590,7 @@ export const OnboardingWizard = ({
         </div>
 
         {/* Footer */}
-        <div className="relative flex items-center justify-between border-t px-6 py-4">
+        <div className="relative flex items-center justify-between border-t px-2 py-4 md:px-6">
           <div>
             {step === 2 && (
               <Button variant="ghost" size="sm" onClick={handleSkip} className="text-muted-foreground">

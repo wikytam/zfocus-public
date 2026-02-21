@@ -11,12 +11,21 @@ interface TagsInputProps {
   className?: string;
   disabled?: boolean;
   id?: string;
+  onNormalize?: (value: string) => string;
 }
 
 const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
-  ({ value, onChange, placeholder, className, disabled, id }, ref) => {
+  ({ value, onChange, placeholder, className, disabled, id, onNormalize }, ref) => {
     const [inputValue, setInputValue] = React.useState('');
     const internalInputRef = React.useRef<HTMLInputElement>(null);
+
+    const normalize = React.useCallback(
+      (val: string) => {
+        const trimmed = val.trim();
+        return onNormalize ? onNormalize(trimmed) : trimmed;
+      },
+      [onNormalize],
+    );
 
     // Expose focus method via imperative handle
     React.useImperativeHandle(ref, () => internalInputRef.current as HTMLInputElement, []);
@@ -26,9 +35,11 @@ const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
     };
 
     const addTag = () => {
-      const trimmedValue = inputValue.trim();
-      if (trimmedValue && !value.includes(trimmedValue)) {
-        onChange([...value, trimmedValue]);
+      const normalized = normalize(inputValue);
+      if (normalized && !value.includes(normalized)) {
+        onChange([...value, normalized]);
+        setInputValue('');
+      } else {
         setInputValue('');
       }
     };
@@ -51,7 +62,7 @@ const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
       const pastedText = e.clipboardData.getData('text');
       const newTags = pastedText
         .split(/[\n,]/)
-        .map(tag => tag.trim())
+        .map(tag => normalize(tag))
         .filter(tag => tag && !value.includes(tag));
 
       if (newTags.length > 0) {

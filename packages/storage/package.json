@@ -23,8 +23,8 @@
     "clean:turbo": "rimraf .turbo",
     "clean": "pnpm clean:bundle && pnpm clean:node_modules && pnpm clean:turbo",
     "ready": "tsc -b",
-    "lint": "eslint .",
-    "lint:fix": "pnpm lint --fix",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
     "format": "prettier . --write --ignore-path ../../.prettierignore",
     "type-check": "tsc --noEmit"
   },

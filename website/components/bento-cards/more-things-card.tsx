@@ -55,11 +55,11 @@ export const MoreThingsCard = () => {
             <h4 className="text-foreground mb-3 text-sm font-medium">{t('moreThings.browserSupport.title')}</h4>
             <div className="grid grid-cols-5 gap-3">
               {[
-                { src: '/chrome-icon.svg', alt: 'Chrome' },
-                { src: '/edge-icon.svg', alt: 'Edge' },
-                { src: '/brave-icon.svg', alt: 'Brave' },
-                { src: '/opera-icon.svg', alt: 'Opera' },
-                { src: '/firefox-icon.svg', alt: 'Firefox' },
+                { src: '/icon/chrome-icon.svg', alt: 'Chrome' },
+                { src: '/icon/edge-icon.svg', alt: 'Edge' },
+                { src: '/icon/brave-icon.svg', alt: 'Brave' },
+                { src: '/icon/opera-icon.svg', alt: 'Opera' },
+                { src: '/icon/firefox-icon.svg', alt: 'Firefox' },
               ].map(browser => (
                 <div
                   key={browser.alt}

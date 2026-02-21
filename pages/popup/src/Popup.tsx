@@ -81,7 +81,7 @@ const Popup = () => {
           <div className="bg-accent/10 absolute -bottom-20 -left-20 h-32 w-32 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative flex min-h-[300px] flex-col items-center justify-center px-6 py-8 text-center">
+        <div className="relative flex min-h-[300px] flex-col items-center justify-center px-2 py-8 text-center md:px-6">
           <div className="bg-primary/10 mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
             <Sparkles className="text-primary h-8 w-8" />
           </div>
@@ -147,7 +147,7 @@ const Popup = () => {
               icon={<Ban className="h-4 w-4" />}
               label={t('blocksToday')}
               value={stats.blockedAttempts}
-              subValue={t('websites')}
+              subValue={t('websitesUnit')}
               variant="success"
               delay={0}
             />

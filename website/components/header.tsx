@@ -56,10 +56,7 @@ export const Header = () => {
         </button>
 
         {/* Navigation */}
-        <nav
-          className="animate-header-content-appear hidden items-center gap-1 md:flex"
-          role="navigation"
-          aria-label="Main navigation">
+        <nav className="animate-header-content-appear hidden items-center gap-1 md:flex" aria-label="Main navigation">
           <Link
             href="/#features"
             className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">

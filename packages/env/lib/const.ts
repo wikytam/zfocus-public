@@ -5,3 +5,6 @@ export const IS_CI = process.env['CEB_CI'] === 'true';
 
 // Error Monitoring
 export const SENTRY_DSN = process.env['CEB_SENTRY_DSN'] || '';
+
+// API
+export const API_URL = process.env['CEB_API_URL'] || 'https://z-focus-web.tamk-hoa.workers.dev';

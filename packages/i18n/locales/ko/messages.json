@@ -17,19 +17,19 @@
     "message": "개요"
   },
   "websites": {
-    "message": "웹사이트"
+    "message": "포커스 존"
   },
   "settings": {
     "message": "설정"
   },
   "manageWebsites": {
-    "message": "웹사이트 관리"
+    "message": "포커스 존"
   },
   "manageWebsitesDesc": {
-    "message": "차단할 웹사이트 추가 및 구성"
+    "message": "포커스 존을 추가하고 구성하여 방해되는 웹사이트 차단"
   },
   "addNewGroup": {
-    "message": "새 그룹 추가"
+    "message": "포커스 존 추가"
   },
   "blockedAttempts": {
     "message": "오늘 차단"
@@ -38,7 +38,7 @@
     "message": "일시 정지 시간"
   },
   "timeOnWebsite": {
-    "message": "웹사이트 시간"
+    "message": "추적 시간"
   },
   "pauseBlocking": {
     "message": "차단 일시 중지"
@@ -140,16 +140,16 @@
     "message": "웹사이트 편집"
   },
   "editWebsiteDesc": {
-    "message": "웹사이트 그룹 설정 편집"
+    "message": "포커스 존 설정 편집"
   },
   "addWebsite": {
     "message": "웹사이트 추가"
   },
   "addWebsiteDesc": {
-    "message": "차단할 웹사이트 그룹 추가"
+    "message": "차단할 포커스 존 추가"
   },
   "groupName": {
-    "message": "그룹 이름"
+    "message": "존 이름"
   },
   "urlList": {
     "message": "URL 목록"
@@ -278,10 +278,10 @@
     "message": "일시 중지됨"
   },
   "noWebsitesAdded": {
-    "message": "아직 추가된 웹사이트가 없습니다"
+    "message": "아직 추가된 포커스 존이 없습니다"
   },
   "noWebsitesAddedDesc": {
-    "message": "\"새 그룹 추가\"를 클릭하여 시작하세요"
+    "message": "\"포커스 존 추가\"를 클릭하여 시작하세요"
   },
   "website": {
     "message": "웹사이트"
@@ -305,16 +305,16 @@
     "message": "다시 실행"
   },
   "addWebsiteGroup": {
-    "message": "웹사이트 그룹 추가"
+    "message": "포커스 존 추가"
   },
   "addWebsiteGroupDesc": {
-    "message": "방해되는 웹사이트를 관리할 새 그룹 만들기"
+    "message": "방해되는 웹사이트를 관리할 새 포커스 존 만들기"
   },
   "editWebsiteGroup": {
-    "message": "웹사이트 그룹 편집"
+    "message": "포커스 존 편집"
   },
   "editWebsiteGroupDesc": {
-    "message": "웹사이트 그룹 설정 업데이트"
+    "message": "포커스 존 설정 업데이트"
   },
   "groupNamePlaceholder": {
     "message": "예: 소셜 미디어"
@@ -368,13 +368,13 @@
     "message": "비워두면 확장 프로그램 팝업으로 리디렉션됩니다"
   },
   "addGroup": {
-    "message": "그룹 추가"
+    "message": "존 추가"
   },
   "deleteGroup": {
-    "message": "그룹 삭제"
+    "message": "존 삭제"
   },
   "deleteConfirm": {
-    "message": "이 그룹을 삭제하시겠습니까?"
+    "message": "이 포커스 존을 삭제하시겠습니까?"
   },
   "tenMinutes": {
     "message": "10분"
@@ -446,10 +446,10 @@
     "message": "방해되는 사이트 차단 중"
   },
   "noWebsites": {
-    "message": "추가된 웹사이트 없음"
+    "message": "추가된 포커스 존 없음"
   },
   "clickAddToStart": {
-    "message": "\"새 그룹 추가\"를 클릭하여 시작"
+    "message": "\"포커스 존 추가\"를 클릭하여 시작"
   },
   "invalidWebsite": {
     "message": "웹사이트 #$1이(가) 유효하지 않습니다"
@@ -484,19 +484,13 @@
   "more": {
     "message": "더보기"
   },
-  "manageWebsites": {
-    "message": "웹사이트 관리"
-  },
-  "manageWebsitesDesc": {
-    "message": "차단할 웹사이트 추가 및 구성"
-  },
   "timeRemaining": {
     "message": "남은 시간"
   },
   "blocksToday": {
     "message": "오늘 차단"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "웹사이트"
   },
   "timePause": {
@@ -530,10 +524,10 @@
     "message": "시스템에서 자동 감지됨"
   },
   "onboardingAddFirstGroup": {
-    "message": "첫 번째 웹사이트 그룹 추가"
+    "message": "첫 번째 포커스 존 추가"
   },
   "onboardingAddFirstGroupDesc": {
-    "message": "제한하려는 웹사이트 그룹을 만드세요. 나중에 더 추가할 수 있습니다."
+    "message": "제한하려는 웹사이트의 포커스 존을 만드세요. 나중에 더 추가할 수 있습니다."
   },
   "onboardingSkip": {
     "message": "건너뛰기"

@@ -17,19 +17,19 @@
     "message": "概览"
   },
   "websites": {
-    "message": "网站"
+    "message": "专注区"
   },
   "settings": {
     "message": "设置"
   },
   "manageWebsites": {
-    "message": "管理网站"
+    "message": "专注区"
   },
   "manageWebsitesDesc": {
-    "message": "添加和配置需要屏蔽的网站"
+    "message": "添加和配置专注区来屏蔽分散注意力的网站"
   },
   "addNewGroup": {
-    "message": "添加新组"
+    "message": "添加专注区"
   },
   "blockedAttempts": {
     "message": "今日拦截次数"
@@ -38,7 +38,7 @@
     "message": "暂停时间"
   },
   "timeOnWebsite": {
-    "message": "网站时间"
+    "message": "追踪时间"
   },
   "pauseBlocking": {
     "message": "暂停拦截"
@@ -140,16 +140,16 @@
     "message": "编辑网站"
   },
   "editWebsiteDesc": {
-    "message": "编辑网站组设置"
+    "message": "编辑专注区设置"
   },
   "addWebsite": {
     "message": "添加网站"
   },
   "addWebsiteDesc": {
-    "message": "添加需要屏蔽的网站组"
+    "message": "添加需要屏蔽的专注区"
   },
   "groupName": {
-    "message": "组名"
+    "message": "区域名"
   },
   "urlList": {
     "message": "URL列表"
@@ -278,10 +278,10 @@
     "message": "已暂停"
   },
   "noWebsitesAdded": {
-    "message": "尚未添加任何网站"
+    "message": "尚未添加任何专注区"
   },
   "noWebsitesAddedDesc": {
-    "message": "点击「添加新组」开始"
+    "message": "点击「添加专注区」开始"
   },
   "website": {
     "message": "网站"
@@ -305,16 +305,16 @@
     "message": "重新运行"
   },
   "addWebsiteGroup": {
-    "message": "添加网站组"
+    "message": "添加专注区"
   },
   "addWebsiteGroupDesc": {
-    "message": "创建新组来屏蔽浪费时间的网站"
+    "message": "创建新的专注区来屏蔽浪费时间的网站"
   },
   "editWebsiteGroup": {
-    "message": "编辑网站组"
+    "message": "编辑专注区"
   },
   "editWebsiteGroupDesc": {
-    "message": "更新网站组设置"
+    "message": "更新专注区设置"
   },
   "groupNamePlaceholder": {
     "message": "例如：社交媒体"
@@ -368,13 +368,13 @@
     "message": "留空将跳转到扩展弹出页面"
   },
   "addGroup": {
-    "message": "添加组"
+    "message": "添加区域"
   },
   "deleteGroup": {
-    "message": "删除组"
+    "message": "删除区域"
   },
   "deleteConfirm": {
-    "message": "您确定要删除此组吗？"
+    "message": "您确定要删除此专注区吗？"
   },
   "tenMinutes": {
     "message": "10分钟"
@@ -446,10 +446,10 @@
     "message": "屏蔽浪费时间的网站"
   },
   "noWebsites": {
-    "message": "尚未添加网站"
+    "message": "尚未添加专注区"
   },
   "clickAddToStart": {
-    "message": "点击\"添加新组\"开始"
+    "message": "点击\"添加专注区\"开始"
   },
   "invalidWebsite": {
     "message": "网站 #$1 无效"
@@ -484,19 +484,13 @@
   "more": {
     "message": "更多"
   },
-  "manageWebsites": {
-    "message": "管理网站"
-  },
-  "manageWebsitesDesc": {
-    "message": "添加和配置要屏蔽的网站"
-  },
   "timeRemaining": {
     "message": "剩余时间"
   },
   "blocksToday": {
     "message": "今日拦截"
   },
-  "websites": {
+  "websitesUnit": {
     "message": "网站"
   },
   "timePause": {
@@ -530,10 +524,10 @@
     "message": "从系统自动检测"
   },
   "onboardingAddFirstGroup": {
-    "message": "添加第一个网站组"
+    "message": "添加第一个专注区"
   },
   "onboardingAddFirstGroupDesc": {
-    "message": "创建一个您想要限制的网站组。您可以稍后添加更多。"
+    "message": "创建一个您想要限制的专注区。您可以稍后添加更多。"
   },
   "onboardingSkip": {
     "message": "暂时跳过"

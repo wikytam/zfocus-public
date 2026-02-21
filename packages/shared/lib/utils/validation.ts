@@ -169,6 +169,24 @@ const safeValidateFocusSettings = (data: unknown): FocusSettings | null => {
   }
 };
 
+/**
+ * Strip protocol (http/https), www prefix, and trailing slashes from a URL pattern
+ * so users can enter "https://www.youtube.com/shorts" and it becomes "youtube.com/shorts".
+ * Wildcard patterns (containing *) are left untouched except for protocol/www stripping.
+ */
+const normalizeUrlPattern = (pattern: string): string => {
+  let normalized = pattern.trim();
+  if (!normalized) return normalized;
+
+  normalized = normalized.replace(/^https?:\/\//, '');
+  normalized = normalized.replace(/^www\./, '');
+  normalized = normalized.replace(/\/+$/, '');
+
+  return normalized.toLowerCase();
+};
+
+const normalizeUrlPatterns = (urls: string[]): string[] => urls.map(normalizeUrlPattern).filter(Boolean);
+
 // Exports
 export type { BlockedSite, FocusSettings, DailyStats, HistoricalStats, ActiveTimer, AddSiteFormData, EditSiteFormData };
 export type { UrlValidationError };
@@ -186,3 +204,4 @@ export {
   validateEditSiteForm,
 };
 export { safeValidateBlockedSite, safeValidateFocusSettings };
+export { normalizeUrlPattern, normalizeUrlPatterns };

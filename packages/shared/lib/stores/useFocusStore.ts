@@ -62,6 +62,14 @@ const setToStorage = async <T>(key: string, value: T): Promise<void> => {
   }
 };
 
+type PremiumPlanType = 'yearly' | 'lifetime' | null;
+
+interface PremiumInfo {
+  planType: PremiumPlanType;
+  expiresAt: string | null;
+  code: string | null;
+}
+
 interface FocusStoreState {
   settings: FocusSettings;
   stats: DailyStats;
@@ -69,6 +77,7 @@ interface FocusStoreState {
   activeTimers: ActiveTimer[];
   loading: boolean;
   isPremium: boolean;
+  premiumInfo: PremiumInfo;
   setSettings: (settings: FocusSettings) => void;
   setStats: (stats: DailyStats) => void;
   setHistoricalStats: (stats: HistoricalStats) => void;
@@ -92,8 +101,30 @@ interface FocusStoreState {
   setupListeners: () => () => void;
 }
 
-// Premium activation codes
-const VALID_PREMIUM_CODES = ['ZFOCUS-PREMIUM-2025', 'ZFOCUS-PREMIUM-2026', 'EARLY-ADOPTER-001', 'ZFOCUS-BETA-TESTER'];
+const API_URL = process.env['CEB_API_URL'] || 'https://z-focus-web.tamk-hoa.workers.dev';
+
+const DEFAULT_PREMIUM_INFO: PremiumInfo = {
+  planType: null,
+  expiresAt: null,
+  code: null,
+};
+
+const isPremiumExpired = (expiresAt: string | null): boolean => {
+  if (!expiresAt) return false;
+  return new Date(expiresAt) < new Date();
+};
+
+const getBrowserId = async (): Promise<string> => {
+  try {
+    const result = await syncQuotaGuard.safeGet<string>('zfocus-browser-id');
+    if (result) return result;
+    const id = crypto.randomUUID();
+    await syncQuotaGuard.safeSet('zfocus-browser-id', id);
+    return id;
+  } catch {
+    return 'unknown';
+  }
+};
 
 export const useFocusStore = create<FocusStoreState>((set, get) => ({
   settings: DEFAULT_SETTINGS,
@@ -102,6 +133,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
   activeTimers: [],
   loading: true,
   isPremium: false,
+  premiumInfo: { ...DEFAULT_PREMIUM_INFO },
 
   setSettings: (settings: FocusSettings) => set({ settings }),
   setStats: (stats: DailyStats) => set({ stats }),
@@ -350,29 +382,127 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
   loadPremiumStatus: async () => {
     try {
-      const isPremium = !!(await syncQuotaGuard.safeGet<boolean>('zfocus-premium'));
-      console.log('[ZFocus] loadPremiumStatus: isPremium =', isPremium);
-      set({ isPremium });
+      const [storedPremium, storedInfo, storedCode] = await Promise.all([
+        syncQuotaGuard.safeGet<boolean>('zfocus-premium'),
+        syncQuotaGuard.safeGet<PremiumInfo>('zfocus-premium-info'),
+        syncQuotaGuard.safeGet<string>('zfocus-premium-code'),
+      ]);
+
+      if (!storedPremium) {
+        set({ isPremium: false, premiumInfo: storedInfo ?? { ...DEFAULT_PREMIUM_INFO } });
+        return;
+      }
+
+      // Fully resolved: lifetime
+      if (storedInfo?.planType === 'lifetime') {
+        console.log('[ZFocus] Lifetime premium active');
+        set({ isPremium: true, premiumInfo: storedInfo });
+        return;
+      }
+
+      // Fully resolved: yearly WITH expiresAt
+      if (storedInfo?.planType === 'yearly' && storedInfo.expiresAt) {
+        if (isPremiumExpired(storedInfo.expiresAt)) {
+          console.log('[ZFocus] Yearly premium expired:', storedInfo.expiresAt);
+          await syncQuotaGuard.safeSet('zfocus-premium', false);
+          set({ isPremium: false, premiumInfo: storedInfo });
+          return;
+        }
+        console.log('[ZFocus] Yearly premium active, expires:', storedInfo.expiresAt);
+        set({ isPremium: true, premiumInfo: storedInfo });
+        return;
+      }
+
+      // Needs resolution: missing premiumInfo, missing planType, or yearly without expiresAt
+      const code = storedInfo?.code ?? storedCode;
+      if (!code) {
+        console.log('[ZFocus] Premium without code, deactivating');
+        await syncQuotaGuard.safeSet('zfocus-premium', false);
+        set({ isPremium: false, premiumInfo: { ...DEFAULT_PREMIUM_INFO } });
+        return;
+      }
+
+      console.log('[ZFocus] Resolving premium info via API for code:', code);
+      try {
+        const res = await fetch(`${API_URL}/api/promo/validate?code=${encodeURIComponent(code)}`);
+        const data = await res.json();
+
+        if (!data.valid) {
+          console.log('[ZFocus] Code invalid on server, deactivating');
+          await syncQuotaGuard.safeSet('zfocus-premium', false);
+          const info: PremiumInfo = { planType: null, expiresAt: null, code };
+          await syncQuotaGuard.safeSet('zfocus-premium-info', info);
+          set({ isPremium: false, premiumInfo: info });
+          return;
+        }
+
+        const planType = (data.data.plan_type as PremiumPlanType) ?? 'yearly';
+        let expiresAt: string | null = null;
+        if (planType !== 'lifetime') {
+          const days = data.data.duration_days ?? 365;
+          const expDate = new Date();
+          expDate.setDate(expDate.getDate() + days);
+          expiresAt = expDate.toISOString();
+        }
+
+        const resolvedInfo: PremiumInfo = { planType, expiresAt, code };
+        await syncQuotaGuard.safeSet('zfocus-premium-info', resolvedInfo);
+        console.log('[ZFocus] Premium info resolved:', resolvedInfo);
+        set({ isPremium: true, premiumInfo: resolvedInfo });
+      } catch {
+        // API unreachable: keep premium active in memory but do NOT persist incomplete info
+        // Next load will retry API resolution
+        console.warn('[ZFocus] API unreachable, keeping premium active temporarily (will retry next load)');
+        const tempInfo: PremiumInfo = {
+          planType: storedInfo?.planType ?? null,
+          expiresAt: storedInfo?.expiresAt ?? null,
+          code,
+        };
+        set({ isPremium: true, premiumInfo: tempInfo });
+      }
     } catch (e) {
       console.error('[ZFocus] loadPremiumStatus error:', e);
-      set({ isPremium: false });
+      set({ isPremium: false, premiumInfo: { ...DEFAULT_PREMIUM_INFO } });
     }
   },
 
   activatePremium: async (code: string) => {
     const normalizedCode = code.trim().toUpperCase();
-    const isValid = VALID_PREMIUM_CODES.includes(normalizedCode);
 
-    if (isValid) {
-      try {
-        await syncQuotaGuard.safeSet('zfocus-premium', true);
-        await syncQuotaGuard.safeSet('zfocus-premium-code', normalizedCode);
-        set({ isPremium: true });
-        return true;
-      } catch {
+    try {
+      const browserId = await getBrowserId();
+      const response = await fetch(`${API_URL}/api/promo/redeem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: normalizedCode,
+          browser_id: browserId,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        console.warn('[ZFocus] activatePremium failed:', result.error);
         return false;
       }
+
+      const planType = result.data.plan_type as PremiumPlanType;
+      const premiumInfo: PremiumInfo = {
+        planType,
+        expiresAt: planType === 'lifetime' ? null : result.data.premium_expires_at,
+        code: normalizedCode,
+      };
+
+      await syncQuotaGuard.safeSet('zfocus-premium', true);
+      await syncQuotaGuard.safeSet('zfocus-premium-info', premiumInfo);
+      await syncQuotaGuard.safeSet('zfocus-premium-code', normalizedCode);
+      set({ isPremium: true, premiumInfo });
+      console.log('[ZFocus] Premium activated:', premiumInfo);
+      return true;
+    } catch (e) {
+      console.error('[ZFocus] activatePremium error:', e);
+      return false;
     }
-    return false;
   },
 }));

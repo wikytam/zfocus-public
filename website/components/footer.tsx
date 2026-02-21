@@ -9,7 +9,7 @@ export const Footer = () => {
 
   return (
     <footer className="border-border bg-card mt-6 border-t">
-      <div className="mx-auto max-w-6xl px-6 py-8">
+      <div className="mx-auto max-w-6xl px-2 py-8 md:px-6">
         {/* Main footer content */}
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand column */}
@@ -80,11 +80,11 @@ export const Footer = () => {
             <h4 className="text-foreground mb-4 text-sm font-semibold">{t('moreThings.browserSupport.title')}</h4>
             <div className="flex flex-wrap gap-2">
               {[
-                { src: '/chrome-icon.svg', alt: 'Chrome' },
-                { src: '/edge-icon.svg', alt: 'Edge' },
-                { src: '/brave-icon.svg', alt: 'Brave' },
-                { src: '/opera-icon.svg', alt: 'Opera' },
-                { src: '/firefox-icon.svg', alt: 'Firefox' },
+                { src: '/icon/chrome-icon.svg', alt: 'Chrome' },
+                { src: '/icon/edge-icon.svg', alt: 'Edge' },
+                { src: '/icon/brave-icon.svg', alt: 'Brave' },
+                { src: '/icon/opera-icon.svg', alt: 'Opera' },
+                { src: '/icon/firefox-icon.svg', alt: 'Firefox' },
               ].map(browser => (
                 <span
                   key={browser.alt}

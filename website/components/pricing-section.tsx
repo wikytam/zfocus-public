@@ -29,16 +29,25 @@ const tiers: PricingTier[] = [
 ];
 
 const featureKeys = {
-  freeTrial: ['allFeatures', 'unlimitedBlocking', 'advancedSchedule', 'statistics', 'noCardRequired'],
-  yearly: ['allFeatures', 'prioritySupport', 'earlyAccess', 'cloudSync', 'autoRenewal'],
-  lifetime: ['allFeatures', 'lifetimeUpdates', 'prioritySupport', 'noRecurring', 'earlyAccess'],
+  freeTrial: [
+    'urlBlocking',
+    'exceptionPatterns',
+    'keywordBlocking',
+    'schedule',
+    'timeLimits',
+    'closeTabRedirect',
+    'statistics',
+    'noCardRequired',
+  ],
+  yearly: ['allFreeFeatures', 'exceptionPatterns', 'keywordBlocking', 'prioritySupport', 'chromeSync', 'autoRenewal'],
+  lifetime: ['allYearlyFeatures', 'lifetimeUpdates', 'prioritySupport', 'noRecurring', 'earlyAccess'],
 };
 
 export const PricingSection = () => {
   const t = useTranslations();
 
   return (
-    <section id="pricing" className="scroll-mt-20 py-24">
+    <section id="pricing" className="mx-auto max-w-7xl scroll-mt-20 px-2 py-24 md:px-6">
       {/* Section header */}
       <div className="mb-16 text-center">
         <h2 className="text-foreground mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl">

@@ -13,9 +13,9 @@ export const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
   const { t } = useI18n();
 
   const tabs = [
-    { id: 'dashboard' as const, labelKey: 'overview', icon: LayoutDashboard },
-    { id: 'sites' as const, labelKey: 'websites', icon: Globe },
-    { id: 'settings' as const, labelKey: 'settings', icon: Settings },
+    { id: 'dashboard' as const, labelKey: 'overview' as const, icon: LayoutDashboard },
+    { id: 'sites' as const, labelKey: 'websites' as const, icon: Globe },
+    { id: 'settings' as const, labelKey: 'settings' as const, icon: Settings },
   ];
 
   return (

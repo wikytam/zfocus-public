@@ -8,7 +8,13 @@ import jaMessages from '../../../packages/i18n/locales/ja/messages.json';
 import koMessages from '../../../packages/i18n/locales/ko/messages.json';
 import viMessages from '../../../packages/i18n/locales/vi/messages.json';
 import zhMessages from '../../../packages/i18n/locales/zh_CN/messages.json';
-import { initSentry, updateErrorReportingConsent, captureException, captureMessage } from '@extension/shared';
+import {
+  initSentry,
+  updateErrorReportingConsent,
+  captureException,
+  captureMessage,
+  normalizeUrlPattern,
+} from '@extension/shared';
 import { syncQuotaGuard } from '@extension/storage';
 
 // Initialize Sentry (will check for user consent before actually initializing)
@@ -433,7 +439,7 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
     // 4. Check if URL matches main site patterns
     let matchesMainUrl = false;
     for (const pattern of site.urls) {
-      const cleanPattern = pattern.trim().toLowerCase();
+      const cleanPattern = normalizeUrlPattern(pattern);
       if (!cleanPattern) continue;
 
       // Handle wildcard patterns (* and **)
@@ -546,7 +552,15 @@ const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedS
   // Guard against undefined blockedSites
   const blockedSites = settings.blockedSites || [];
 
-  for (const site of blockedSites) {
+  // Sort by specificity: rules with longer URL patterns (more specific paths) are checked first.
+  // This ensures "youtube.com/shorts" is matched before "youtube.com".
+  const sortedSites = [...blockedSites].sort((a, b) => {
+    const maxLenA = Math.max(...(a.urls || []).map(u => normalizeUrlPattern(u).length), 0);
+    const maxLenB = Math.max(...(b.urls || []).map(u => normalizeUrlPattern(u).length), 0);
+    return maxLenB - maxLenA;
+  });
+
+  for (const site of sortedSites) {
     if (!site.isActive) continue;
     if (!isWithinWorkHours(site.schedule)) continue;
     if (matchesUrl(url, site, referrer)) {
@@ -1394,6 +1408,44 @@ const clearStalePauseState = async () => {
   await schedulePauseExpirationAlarm(settings.pauseEndTime);
 };
 
+// Migrate existing URL patterns: strip protocol and www prefix from stored data
+const migrateUrlPatterns = async (): Promise<void> => {
+  try {
+    const settings = await syncQuotaGuard.safeGet<FocusSettings>(STORAGE_KEYS.settings);
+    if (!settings?.blockedSites?.length) return;
+
+    let changed = false;
+    const migrated = settings.blockedSites.map(site => {
+      const normalizedUrls = site.urls.map(u => normalizeUrlPattern(u));
+      const urlsChanged = site.urls.some((u, i) => u !== normalizedUrls[i]);
+
+      const normalizedExceptions = site.exceptions?.map(e => normalizeUrlPattern(e));
+      const exceptionsChanged = site.exceptions?.some((e, i) => e !== normalizedExceptions?.[i]);
+
+      if (urlsChanged || exceptionsChanged) {
+        changed = true;
+        console.log(
+          `[ZFocus] Migrating URL patterns for "${site.title}": ${site.urls.join(', ')} -> ${normalizedUrls.join(', ')}`,
+        );
+        return {
+          ...site,
+          urls: normalizedUrls.filter(Boolean),
+          exceptions: normalizedExceptions?.filter(Boolean),
+        };
+      }
+      return site;
+    });
+
+    if (changed) {
+      await setSettings({ ...settings, blockedSites: migrated });
+      console.log('[ZFocus] URL pattern migration completed');
+    }
+  } catch (error) {
+    console.error('[ZFocus] URL pattern migration error:', error);
+    captureException(error, { operation: 'migrateUrlPatterns' });
+  }
+};
+
 // Initialize default settings if not present
 (async () => {
   // First, try to migrate from local storage if needed
@@ -1404,6 +1456,9 @@ const clearStalePauseState = async () => {
     await setSettings(DEFAULT_SETTINGS);
     console.log('[ZFocus] Initialized default settings');
   } else {
+    // Migrate legacy URL patterns (strip protocol/www)
+    await migrateUrlPatterns();
+
     console.log('[ZFocus] Loaded settings with', existingSettings.blockedSites?.length || 0, 'blocked sites');
     existingSettings.blockedSites?.forEach((site: BlockedSite) => {
       console.log(`[ZFocus] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);

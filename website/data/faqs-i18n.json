@@ -351,11 +351,11 @@
       "zh": "我可以为不同的日子设置不同的时间限制吗？"
     },
     "answer": {
-      "en": "Currently, time limits are the same for all days, but you can control which days blocking is active using the schedule feature.\n\nFor example, create one group for weekdays (Monday-Friday, 5 min/hour) and another for weekends (Saturday-Sunday, 15 min/hour) with the same websites.\n\nThis gives you different limits for different days.",
-      "vi": "Hiện tại, giới hạn thời gian giống nhau cho tất cả các ngày, nhưng bạn có thể kiểm soát những ngày nào chặn hoạt động bằng tính năng lịch trình.\n\nVí dụ: tạo một nhóm cho các ngày trong tuần (Thứ Hai-Thứ Sáu, 5 phút/giờ) và một nhóm khác cho cuối tuần (Thứ Bảy-Chủ Nhật, 15 phút/giờ) với cùng các trang web.\n\nĐiều này cung cấp cho bạn các giới hạn khác nhau cho các ngày khác nhau.",
-      "ko": "현재 시간 제한은 모든 날에 동일하지만 일정 기능을 사용하여 차단이 활성화되는 날을 제어할 수 있습니다. 예를 들어 평일(월요일-금요일, 5분/시간)에 대한 그룹 하나와 주말(토요일-일요일, 15분/시간)에 대한 다른 그룹을 동일한 웹사이트로 만드십시오. 이렇게 하면 다른 날에 다른 제한을 설정할 수 있습니다.",
-      "ja": "現在、時間制限はすべての日で同じですが、スケジュール機能を使用してブロックがアクティブな日を制御できます。たとえば、平日（月曜日から金曜日、5分/時間）用のグループと週末（土曜日と日曜日、15分/時間）用の別のグループを同じウェブサイトで作成します。これにより、異なる日に異なる制限が設定されます。",
-      "zh": "目前，所有日子的时间限制都相同，但您可以使用时间表功能控制哪些日子激活阻止。例如，为工作日（周一至周五，5分钟/小时）创建一个组，为周末（周六至周日，15分钟/小时）创建另一个组，使用相同的网站。这为您提供了不同日子的不同限制。"
+      "en": "Currently, time limits are the same for all days, but you can control which days blocking is active using the schedule feature.\n\nFor example, create one focus zone for weekdays (Monday-Friday, 5 min/hour) and another for weekends (Saturday-Sunday, 15 min/hour) with the same websites.\n\nThis gives you different limits for different days.",
+      "vi": "Hiện tại, giới hạn thời gian giống nhau cho tất cả các ngày, nhưng bạn có thể kiểm soát những ngày nào chặn hoạt động bằng tính năng lịch trình.\n\nVí dụ: tạo một focus zone cho các ngày trong tuần (Thứ Hai-Thứ Sáu, 5 phút/giờ) và một focus zone khác cho cuối tuần (Thứ Bảy-Chủ Nhật, 15 phút/giờ) với cùng các trang web.\n\nĐiều này cung cấp cho bạn các giới hạn khác nhau cho các ngày khác nhau.",
+      "ko": "현재 시간 제한은 모든 날에 동일하지만 일정 기능을 사용하여 차단이 활성화되는 날을 제어할 수 있습니다. 예를 들어 평일(월요일-금요일, 5분/시간)에 대한 포커스 존 하나와 주말(토요일-일요일, 15분/시간)에 대한 다른 포커스 존을 동일한 웹사이트로 만드십시오. 이렇게 하면 다른 날에 다른 제한을 설정할 수 있습니다.",
+      "ja": "現在、時間制限はすべての日で同じですが、スケジュール機能を使用してブロックがアクティブな日を制御できます。たとえば、平日（月曜日から金曜日、5分/時間）用のフォーカスゾーンと週末（土曜日と日曜日、15分/時間）用の別のフォーカスゾーンを同じウェブサイトで作成します。これにより、異なる日に異なる制限が設定されます。",
+      "zh": "目前，所有日子的时间限制都相同，但您可以使用时间表功能控制哪些日子激活阻止。例如，为工作日（周一至周五，5分钟/小时）创建一个专注区，为周末（周六至周日，15分钟/小时）创建另一个专注区，使用相同的网站。这为您提供了不同日子的不同限制。"
     },
     "category": "features"
   },
