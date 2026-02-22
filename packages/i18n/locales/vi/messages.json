@@ -17,19 +17,19 @@
     "message": "Tổng quan"
   },
   "websites": {
-    "message": "Focus Zones"
+    "message": "Vùng tập trung"
   },
   "settings": {
     "message": "Cài đặt"
   },
   "manageWebsites": {
-    "message": "Focus Zones"
+    "message": "Vùng tập trung"
   },
   "manageWebsitesDesc": {
-    "message": "Thêm và cấu hình các focus zone để chặn website gây mất tập trung"
+    "message": "Thêm và cấu hình các vùng tập trung để chặn website gây mất tập trung"
   },
   "addNewGroup": {
-    "message": "Thêm Focus Zone"
+    "message": "Thêm vùng tập trung"
   },
   "blockedAttempts": {
     "message": "Lượt chặn hôm nay"
@@ -131,25 +131,25 @@
     "message": "Chưa kiểm tra"
   },
   "storageData": {
-    "message": "Storage Data"
+    "message": "Dữ liệu lưu trữ"
   },
   "clickToLoadData": {
-    "message": "Click vào \"Phiên bản 1.0.0\" để tải dữ liệu"
+    "message": "Nhấn vào \"Phiên bản 1.0.0\" để tải dữ liệu"
   },
   "editWebsite": {
     "message": "Chỉnh sửa website"
   },
   "editWebsiteDesc": {
-    "message": "Chỉnh sửa cài đặt cho focus zone"
+    "message": "Chỉnh sửa cài đặt cho vùng tập trung"
   },
   "addWebsite": {
     "message": "Thêm website"
   },
   "addWebsiteDesc": {
-    "message": "Thêm focus zone cần chặn"
+    "message": "Thêm vùng tập trung cần chặn"
   },
   "groupName": {
-    "message": "Tên zone"
+    "message": "Tên vùng"
   },
   "urlList": {
     "message": "Danh sách URL"
@@ -269,10 +269,10 @@
     "message": "Lưu thay đổi"
   },
   "siteAdded": {
-    "message": "Đã thêm focus zone thành công"
+    "message": "Đã thêm vùng tập trung thành công"
   },
   "siteUpdated": {
-    "message": "Đã cập nhật focus zone thành công"
+    "message": "Đã cập nhật vùng tập trung thành công"
   },
   "validationError": {
     "message": "Vui lòng kiểm tra lại thông tin và thử lại"
@@ -287,10 +287,10 @@
     "message": "Đã tạm dừng"
   },
   "noWebsitesAdded": {
-    "message": "Chưa có focus zone nào"
+    "message": "Chưa có vùng tập trung nào"
   },
   "noWebsitesAddedDesc": {
-    "message": "Nhấn \"Thêm Focus Zone\" để bắt đầu"
+    "message": "Nhấn \"Thêm vùng tập trung\" để bắt đầu"
   },
   "website": {
     "message": "trang web"
@@ -314,16 +314,16 @@
     "message": "Chạy lại"
   },
   "addWebsiteGroup": {
-    "message": "Thêm Focus Zone"
+    "message": "Thêm vùng tập trung"
   },
   "addWebsiteGroupDesc": {
-    "message": "Tạo focus zone mới để chặn các website gây mất tập trung"
+    "message": "Tạo vùng tập trung mới để chặn các website gây mất tập trung"
   },
   "editWebsiteGroup": {
-    "message": "Chỉnh sửa Focus Zone"
+    "message": "Chỉnh sửa vùng tập trung"
   },
   "editWebsiteGroupDesc": {
-    "message": "Cập nhật cài đặt cho focus zone"
+    "message": "Cập nhật cài đặt cho vùng tập trung"
   },
   "groupNamePlaceholder": {
     "message": "VD: Mạng xã hội"
@@ -377,13 +377,13 @@
     "message": "Để trống sẽ chuyển đến trang popup của extension"
   },
   "addGroup": {
-    "message": "Thêm zone"
+    "message": "Thêm vùng"
   },
   "deleteGroup": {
-    "message": "Xóa zone"
+    "message": "Xóa vùng"
   },
   "deleteConfirm": {
-    "message": "Bạn có chắc chắn muốn xóa focus zone này?"
+    "message": "Bạn có chắc chắn muốn xóa vùng tập trung này?"
   },
   "tenMinutes": {
     "message": "10 phút"
@@ -455,10 +455,10 @@
     "message": "Chặn website gây mất tập trung"
   },
   "noWebsites": {
-    "message": "Chưa có focus zone nào"
+    "message": "Chưa có vùng tập trung nào"
   },
   "clickAddToStart": {
-    "message": "Nhấn \"Thêm Focus Zone\" để bắt đầu"
+    "message": "Nhấn \"Thêm vùng tập trung\" để bắt đầu"
   },
   "invalidWebsite": {
     "message": "Website #$1 không hợp lệ"
@@ -533,10 +533,10 @@
     "message": "Tự động nhận diện từ hệ thống"
   },
   "onboardingAddFirstGroup": {
-    "message": "Thêm Focus Zone đầu tiên"
+    "message": "Thêm vùng tập trung đầu tiên"
   },
   "onboardingAddFirstGroupDesc": {
-    "message": "Tạo focus zone cho các website bạn muốn giới hạn. Bạn có thể thêm sau."
+    "message": "Tạo vùng tập trung cho các website bạn muốn giới hạn. Bạn có thể thêm sau."
   },
   "onboardingSkip": {
     "message": "Bỏ qua"
@@ -569,7 +569,7 @@
     "message": "Cần thiết lập để bắt đầu chặn các trang web gây mất tập trung"
   },
   "setupRequiredDesc": {
-    "message": "Cấu hình focus zone đầu tiên để bắt đầu"
+    "message": "Cấu hình vùng tập trung đầu tiên để bắt đầu"
   },
   "startSetup": {
     "message": "Bắt đầu thiết lập"
@@ -644,18 +644,18 @@
     "message": "Đã tắt ghi nhận lỗi"
   },
   "testStorageQuota": {
-    "message": "Test Storage Quota"
+    "message": "Kiểm tra giới hạn lưu trữ"
   },
   "testStorageQuotaDesc": {
     "message": "Mô phỏng vượt giới hạn sync storage để kiểm tra fallback IndexedDB"
   },
   "testStorageQuotaRunning": {
-    "message": "Đang test..."
+    "message": "Đang kiểm tra..."
   },
   "testStorageQuotaCleanup": {
     "message": "Xóa dữ liệu test"
   },
   "storageQuotaStatus": {
-    "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
+    "message": "Dung lượng: $1 KB / $2 KB ($3%) | Số khóa IndexedDB: $4"
   }
 }

@@ -3,17 +3,17 @@
     "id": "faq-1",
     "question": {
       "en": "What is ZFocus and how does it work?",
-      "vi": "ZFocus là gì và nó hoạt động như thế nào?",
-      "ko": "ZFocus는 무엇이며 어떻게 작동합니까?",
-      "ja": "ZFocusとは何ですか？どのように機能しますか？",
-      "zh": "ZFocus是什么？它如何工作？"
+      "vi": "ZFocus là gì và hoạt động ra sao?",
+      "ko": "ZFocus는 무엇이며 어떻게 작동하나요?",
+      "ja": "ZFocusとは何ですか？どのように動作しますか？",
+      "zh": "ZFocus 是什么？如何运作？"
     },
     "answer": {
       "en": "ZFocus is a Chrome extension that helps you manage time and block distracting websites.\n\nIt allows you to set time limits for specific websites (e.g., 5 minutes per hour for social media), and automatically closes or redirects tabs when time runs out. Timers reset at the start of each new hour.\n\nYou can configure each blocked site with custom schedules, exceptions, keywords, and track your productivity with 30-day statistics charts.",
-      "vi": "ZFocus là tiện ích mở rộng Chrome giúp bạn quản lý thời gian và chặn các trang web gây mất tập trung.\n\nNó cho phép bạn đặt giới hạn thời gian cho các trang web cụ thể (ví dụ: 5 phút mỗi giờ cho mạng xã hội), và tự động đóng hoặc chuyển hướng tab khi hết thời gian. Bộ đếm tự động đặt lại vào đầu mỗi giờ mới.\n\nBạn có thể cấu hình từng trang web bị chặn với lịch trình, ngoại lệ, từ khóa riêng, và theo dõi năng suất với biểu đồ thống kê 30 ngày.",
-      "ko": "ZFocus는 시간을 관리하고 주의를 산만하게 하는 웹사이트를 차단하는 데 도움이 되는 Chrome 확장 프로그램입니다.\n\n특정 웹사이트에 대한 시간 제한(예: 소셜 미디어의 경우 시간당 5분)을 설정할 수 있으며, 시간이 다 되면 자동으로 탭을 닫거나 리디렉션합니다. 타이머는 매 시간 시작 시 자동으로 재설정됩니다.\n\n각 차단된 사이트를 맞춤 일정, 예외, 키워드로 구성하고, 30일 통계 차트로 생산성을 추적할 수 있습니다.",
-      "ja": "ZFocusは、時間を管理し、気を散らすウェブサイトをブロックするのに役立つChrome拡張機能です。\n\n特定のウェブサイトに時間制限を設定でき（例：ソーシャルメディアは1時間あたり5分）、時間切れになると自動的にタブを閉じるかリダイレクトします。タイマーは毎時の開始時に自動的にリセットされます。\n\n各ブロックされたサイトをカスタムスケジュール、例外、キーワードで設定し、30日間の統計チャートで生産性を追跡できます。",
-      "zh": "ZFocus是一个Chrome扩展程序，可帮助您管理时间并阻止分散注意力的网站。\n\n它允许您为特定网站设置时间限制（例如：社交媒体每小时5分钟），并在时间用完时自动关闭或重定向标签页。计时器在每个新小时开始时自动重置。\n\n您可以为每个被阻止的网站配置自定义时间表、例外和关键字，并使用30天统计图表跟踪生产力。"
+      "vi": "ZFocus là tiện ích mở rộng giúp bạn quản lý thời gian và chặn các trang web gây xao nhãng.\n\nBạn có thể đặt giới hạn thời gian cho từng trang (ví dụ: mạng xã hội 5 phút mỗi giờ). Khi hết thời gian, tab sẽ bị đóng hoặc chuyển hướng theo cấu hình của bạn. Bộ đếm sẽ tự đặt lại khi sang giờ mới.\n\nNgoài ra, bạn có thể cấu hình lịch chặn, ngoại lệ, từ khóa và theo dõi tiến độ bằng thống kê 30 ngày.",
+      "ko": "ZFocus는 시간을 관리하고 산만한 사이트를 제한할 수 있도록 도와주는 브라우저 확장 프로그램입니다.\n\n사이트별로 시간 제한(예: 소셜 미디어 1시간당 5분)을 설정할 수 있고, 제한을 넘기면 탭 닫기 또는 리디렉션이 실행됩니다. 타이머는 새 시간대가 시작될 때 자동으로 초기화됩니다.\n\n일정, 예외, 키워드 규칙을 함께 설정하면 더 정밀하게 집중 환경을 만들 수 있습니다.",
+      "ja": "ZFocusは、時間管理と気が散るサイトの制限を支援するブラウザ拡張機能です。\n\nサイトごとに利用時間（例: SNSは1時間あたり5分）を設定でき、上限に達するとタブを閉じる/リダイレクトなどの動作を実行します。タイマーは時間帯が変わると自動でリセットされます。\n\nさらに、スケジュール・例外・キーワードルールを組み合わせることで、より細かく集中環境を作れます。",
+      "zh": "ZFocus 是一款帮助你管理时间、限制分心网站的浏览器扩展。\n\n你可以按网站设置使用时长（例如社交媒体每小时 5 分钟），超时后自动执行“关闭标签页”或“重定向”。计时器会在新小时开始时自动重置。\n\n配合日程、例外和关键词规则，可以更精细地打造专注环境。"
     },
     "category": "general"
   },
@@ -21,17 +21,17 @@
     "id": "faq-2",
     "question": {
       "en": "Will my data be synced across devices?",
-      "vi": "Dữ liệu của tôi có được đồng bộ giữa các thiết bị không?",
-      "ko": "내 데이터가 여러 기기에서 동기화됩니까?",
+      "vi": "Dữ liệu của tôi có đồng bộ giữa các thiết bị không?",
+      "ko": "내 데이터는 기기 간에 동기화되나요?",
       "ja": "データはデバイス間で同期されますか？",
-      "zh": "我的数据会在设备之间同步吗？"
+      "zh": "我的数据会在设备间同步吗？"
     },
     "answer": {
       "en": "Yes! ZFocus uses Chrome's built-in sync storage to automatically sync your settings, blocked sites, and timers across all devices where you're signed in with the same Chrome account.\n\nFor other browsers (Edge, Firefox, Brave), you can manually export and import your configuration using the backup/restore feature.",
-      "vi": "Có! ZFocus sử dụng bộ nhớ đồng bộ tích hợp của Chrome để tự động đồng bộ cài đặt, trang web bị chặn và bộ đếm thời gian của bạn trên tất cả thiết bị mà bạn đăng nhập bằng cùng một tài khoản Chrome.\n\nĐối với các trình duyệt khác (Edge, Firefox, Brave), bạn có thể xuất và nhập cấu hình thủ công bằng tính năng sao lưu/khôi phục.",
-      "ko": "예! ZFocus는 Chrome의 내장 동기화 저장소를 사용하여 동일한 Chrome 계정으로 로그인한 모든 기기에서 설정, 차단된 사이트 및 타이머를 자동으로 동기화합니다. 다른 브라우저(Edge, Firefox, Brave)의 경우 백업/복원 기능을 사용하여 구성을 수동으로 내보내고 가져올 수 있습니다.",
-      "ja": "はい！ZFocusはChromeの組み込み同期ストレージを使用して、同じChromeアカウントでサインインしているすべてのデバイスで設定、ブロックされたサイト、タイマーを自動的に同期します。他のブラウザ（Edge、Firefox、Brave）の場合は、バックアップ/復元機能を使用して構成を手動でエクスポートおよびインポートできます。",
-      "zh": "是的！ZFocus使用Chrome的内置同步存储，自动在您使用同一Chrome帐户登录的所有设备上同步您的设置、被阻止的网站和计时器。对于其他浏览器（Edge、Firefox、Brave），您可以使用备份/恢复功能手动导出和导入配置。"
+      "vi": "Có. Trên Chrome, ZFocus dùng `chrome.storage.sync` để đồng bộ cài đặt, danh sách chặn và trạng thái bộ đếm giữa các thiết bị đăng nhập cùng tài khoản.\n\nVới Edge, Firefox, Brave..., bạn có thể dùng tính năng Sao lưu/Khôi phục để xuất và nhập cấu hình thủ công.",
+      "ko": "네. Chrome에서는 `chrome.storage.sync`를 사용해 동일 계정으로 로그인한 기기 간 설정을 동기화할 수 있습니다.\n\nEdge/Firefox/Brave 등에서는 백업·복원 기능으로 설정 파일을 내보내고 가져오는 방식으로 이동할 수 있습니다.",
+      "ja": "はい。Chromeでは `chrome.storage.sync` により、同じアカウントでログインした端末間で設定を同期できます。\n\nEdge/Firefox/Brave などでは、バックアップ/復元機能で設定ファイルをエクスポート・インポートして移行できます。",
+      "zh": "会。在 Chrome 上，ZFocus 通过 `chrome.storage.sync` 在同一账号登录的设备之间同步设置。\n\n在 Edge/Firefox/Brave 等浏览器中，可通过备份/恢复功能导出与导入配置。"
     },
     "category": "sync"
   },
@@ -39,17 +39,17 @@
     "id": "faq-3",
     "question": {
       "en": "How do time limits work? Is it per day or per hour?",
-      "vi": "Giới hạn thời gian hoạt động như thế nào? Nó tính theo ngày hay theo giờ?",
-      "ko": "시간 제한은 어떻게 작동합니까? 하루당인가요 시간당인가요?",
-      "ja": "時間制限はどのように機能しますか？1日あたりですか、それとも1時間あたりですか？",
-      "zh": "时间限制如何工作？是按天还是按小时？"
+      "vi": "Giới hạn thời gian tính theo ngày hay theo giờ?",
+      "ko": "시간 제한은 하루 기준인가요, 시간 기준인가요?",
+      "ja": "時間制限は1日単位ですか？1時間単位ですか？",
+      "zh": "时间限制按天算还是按小时算？"
     },
     "answer": {
       "en": "Time limits are set per hour and reset automatically every hour.\n\nFor example, if you set 10 minutes for YouTube, you can access it for 10 minutes each hour. The timer resets at the start of each new hour (e.g., 9:00, 10:00, 11:00).\n\nThis helps you take regular breaks while maintaining productivity throughout the day.",
-      "vi": "Giới hạn thời gian được đặt theo giờ và tự động đặt lại mỗi giờ.\n\nVí dụ: nếu bạn đặt 10 phút cho YouTube, bạn có thể truy cập nó trong 10 phút mỗi giờ. Bộ đếm thời gian đặt lại vào đầu mỗi giờ mới (ví dụ: 9:00, 10:00, 11:00).\n\nĐiều này giúp bạn nghỉ giải lao thường xuyên trong khi duy trì năng suất suốt cả ngày.",
-      "ko": "시간 제한은 시간당 설정되며 매 시간마다 자동으로 재설정됩니다. 예를 들어 YouTube에 대해 10분을 설정하면 매 시간마다 10분 동안 액세스할 수 있습니다. 타이머는 매 시간 시작 시(예: 9:00, 10:00, 11:00) 재설정됩니다. 이를 통해 하루 종일 생산성을 유지하면서 정기적으로 휴식을 취할 수 있습니다.",
-      "ja": "時間制限は1時間ごとに設定され、毎時自動的にリセットされます。たとえば、YouTubeに10分を設定すると、毎時10分間アクセスできます。タイマーは毎時の開始時（例：9:00、10:00、11:00）にリセットされます。これにより、1日を通して生産性を維持しながら定期的に休憩を取ることができます。",
-      "zh": "时间限制按小时设置，每小时自动重置。例如，如果您为YouTube设置10分钟，您可以每小时访问它10分钟。计时器在每个新小时开始时重置（例如：9:00、10:00、11:00）。这有助于您在全天保持生产力的同时定期休息。"
+      "vi": "ZFocus tính theo giờ. Mỗi giới hạn sẽ tự đặt lại vào đầu giờ mới.\n\nVí dụ bạn đặt YouTube 10 phút/giờ, thì trong mỗi khung giờ (9:00, 10:00, 11:00...) bạn có tối đa 10 phút.\n\nCách này giúp bạn kiểm soát tần suất truy cập mà không cần chặn tuyệt đối cả ngày.",
+      "ko": "시간 기준입니다. 각 제한은 매 정시마다 자동으로 리셋됩니다.\n\n예를 들어 YouTube를 10분/시간으로 설정하면, 9시·10시·11시마다 각각 10분 한도가 적용됩니다.\n\n완전 차단보다 현실적으로 사용 빈도를 제어할 수 있습니다.",
+      "ja": "1時間単位です。上限は毎時自動でリセットされます。\n\nたとえば YouTube を「1時間あたり10分」にすると、9時・10時・11時それぞれで10分ずつ使えます。\n\n全面禁止ではなく、現実的に利用頻度を調整できます。",
+      "zh": "按小时计算。每个限制会在整点自动重置。\n\n例如 YouTube 设为“每小时 10 分钟”，则 9 点、10 点、11 点各有独立的 10 分钟额度。\n\n这种方式比“全天完全禁用”更容易长期执行。"
     },
     "category": "features"
   },
@@ -57,17 +57,17 @@
     "id": "faq-4",
     "question": {
       "en": "Can I pause blocking temporarily?",
-      "vi": "Tôi có thể tạm dừng chặn tạm thời không?",
-      "ko": "차단을 일시적으로 일시 중지할 수 있습니까?",
-      "ja": "ブロックを一時的に一時停止できますか？",
-      "zh": "我可以暂时暂停阻止吗？"
+      "vi": "Tôi có thể tạm dừng chặn trong thời gian ngắn không?",
+      "ko": "차단을 잠깐 멈출 수 있나요?",
+      "ja": "一時的にブロックを停止できますか？",
+      "zh": "可以临时暂停屏蔽吗？"
     },
     "answer": {
       "en": "Yes! You can pause blocking for 3, 5, or 10 minutes from the popup (default is 5 minutes). During the pause, all blocked sites will be accessible. The pause automatically expires using a Chrome alarm, and idle detection resumes blocking when you return.\n\nHowever, if you enable 'Hard Lock Mode' in settings, you won't be able to pause during your configured work hours, ensuring maximum focus during important times.",
-      "vi": "Có! Bạn có thể tạm dừng chặn trong 3, 5 hoặc 10 phút từ cửa sổ popup (mặc định là 5 phút). Trong thời gian tạm dừng, tất cả các trang web bị chặn sẽ có thể truy cập được. Tạm dừng tự động hết hạn và tính năng phát hiện nhàn rỗi sẽ khôi phục chặn khi bạn quay lại.\n\nTuy nhiên, nếu bạn bật 'Chế độ khóa cứng' trong cài đặt, bạn sẽ không thể tạm dừng trong giờ làm việc đã cấu hình, đảm bảo tập trung tối đa trong thời gian quan trọng.",
-      "ko": "예! 팝업에서 3, 5 또는 10분 동안 차단을 일시 중지할 수 있습니다(기본값 5분). 일시 중지 중에는 모든 차단된 사이트에 액세스할 수 있습니다. 일시 중지는 자동으로 만료되며, 유휴 감지가 사용자가 돌아오면 차단을 재개합니다. 그러나 설정에서 '하드 락 모드'를 활성화하면 구성된 근무 시간 동안 일시 중지할 수 없어 중요한 시간 동안 최대한 집중할 수 있습니다.",
-      "ja": "はい！ポップアップから3、5、または10分間ブロックを一時停止できます（デフォルトは5分）。一時停止中は、すべてのブロックされたサイトにアクセスできます。一時停止は自動的に期限切れとなり、アイドル検出によりユーザーが戻ると再開されます。ただし、設定で「ハードロックモード」を有効にすると、設定された勤務時間中は一時停止できなくなり、重要な時間帯に最大限の集中力を確保できます。",
-      "zh": "是的！您可以从弹出窗口暂停阻止3、5或10分钟（默认5分钟）。在暂停期间，所有被阻止的网站都可以访问。暂停会自动到期，空闲检测会在您返回时恢复阻止。但是，如果您在设置中启用\"硬锁定模式\"，则在配置的工作时间内无法暂停，从而确保在重要时间内最大程度地集中注意力。"
+      "vi": "Có. Bạn có thể tạm dừng 3, 5 hoặc 10 phút từ popup (mặc định là 5 phút). Trong thời gian đó, các trang đang bị chặn sẽ truy cập lại được.\n\nKhi hết thời gian, ZFocus tự bật chặn lại.\n\nNếu bật Chế độ khóa cứng, bạn sẽ không thể tạm dừng trong khung giờ làm việc đã cấu hình.",
+      "ko": "가능합니다. 팝업에서 3/5/10분 일시정지를 선택할 수 있습니다(기본 5분).\n\n일시정지 시간이 끝나면 차단이 자동으로 다시 적용됩니다.\n\n하드 락 모드가 켜져 있으면, 설정한 근무 시간에는 일시정지를 사용할 수 없습니다.",
+      "ja": "できます。ポップアップから 3/5/10 分の一時停止を選べます（デフォルトは5分）。\n\n時間が終了すると自動でブロックが再開されます。\n\nハードロックモードが有効な場合、勤務時間中は一時停止できません。",
+      "zh": "可以。你可在弹窗中选择暂停 3/5/10 分钟（默认 5 分钟）。\n\n暂停结束后会自动恢复屏蔽。\n\n若开启硬锁模式，在设定的工作时段内无法暂停。"
     },
     "category": "features"
   },
@@ -75,17 +75,17 @@
     "id": "faq-5",
     "question": {
       "en": "What's the difference between 'Close Tab' and 'Redirect' actions?",
-      "vi": "Sự khác biệt giữa hành động 'Đóng tab' và 'Chuyển hướng' là gì?",
-      "ko": "'탭 닫기'와 '리디렉션' 작업의 차이점은 무엇입니까?",
-      "ja": "「タブを閉じる」と「リダイレクト」アクションの違いは何ですか？",
-      "zh": "'关闭标签页'和'重定向'操作有什么区别？"
+      "vi": "'Đóng tab' và 'Chuyển hướng' khác nhau thế nào?",
+      "ko": "`탭 닫기`와 `리디렉션`의 차이는 무엇인가요?",
+      "ja": "`タブを閉じる`と`リダイレクト`の違いは？",
+      "zh": "“关闭标签页”和“重定向”有什么区别？"
     },
     "answer": {
       "en": "When time runs out, 'Close Tab' will automatically close the blocked website's tab. If it's the last tab in the window, ZFocus redirects to the dashboard instead of closing the window.\n\n'Redirect' will navigate the tab to a different URL (you can specify a custom URL like your work dashboard, or leave it empty to redirect to the extension's dashboard).\n\nRedirect is less disruptive and can guide you back to productive work.",
-      "vi": "Khi hết thời gian, 'Đóng tab' sẽ tự động đóng tab của trang web bị chặn. Nếu đó là tab cuối cùng trong cửa sổ, ZFocus sẽ chuyển hướng đến dashboard thay vì đóng cửa sổ.\n\n'Chuyển hướng' sẽ điều hướng tab đến một URL khác (bạn có thể chỉ định URL tùy chỉnh như bảng điều khiển công việc hoặc để trống để chuyển hướng đến dashboard của tiện ích).\n\nChuyển hướng ít gây gián đoạn hơn và có thể hướng dẫn bạn quay lại công việc hiệu quả.",
-      "ko": "시간이 다 되면 '탭 닫기'는 차단된 웹사이트의 탭을 자동으로 닫습니다. 창의 마지막 탭인 경우 ZFocus는 창을 닫는 대신 대시보드로 리디렉션합니다. '리디렉션'은 탭을 다른 URL로 이동합니다(작업 대시보드와 같은 사용자 지정 URL을 지정하거나 비워두어 확장 프로그램의 대시보드로 리디렉션할 수 있습니다). 리디렉션은 덜 방해가 되며 생산적인 작업으로 다시 안내할 수 있습니다.",
-      "ja": "時間切れになると、「タブを閉じる」はブロックされたウェブサイトのタブを自動的に閉じます。ウィンドウの最後のタブの場合、ZFocusはウィンドウを閉じる代わりにダッシュボードにリダイレクトします。「リダイレクト」はタブを別のURLに移動します（作業ダッシュボードなどのカスタムURLを指定するか、空のままにして拡張機能のダッシュボードにリダイレクトできます）。リダイレクトは中断が少なく、生産的な作業に戻すことができます。",
-      "zh": "当时间用完时，'关闭标签页'将自动关闭被阻止网站的标签页。如果是窗口中的最后一个标签页，ZFocus会重定向到仪表板而不是关闭窗口。'重定向'将把标签页导航到不同的URL（您可以指定自定义URL，如您的工作仪表板，或留空以重定向到扩展程序的仪表板）。重定向干扰较小，可以引导您回到高效工作。"
+      "vi": "Khi hết thời gian:\n\n- `Đóng tab`: tab vi phạm sẽ bị đóng. Nếu đó là tab cuối cùng của cửa sổ, ZFocus sẽ chuyển hướng thay vì đóng toàn bộ cửa sổ.\n- `Chuyển hướng`: tab sẽ được chuyển đến URL khác do bạn chọn (hoặc trang của extension nếu để trống).\n\n`Chuyển hướng` thường ít gián đoạn hơn và phù hợp khi bạn muốn tự kéo mình quay lại luồng làm việc.",
+      "ko": "시간이 끝났을 때:\n\n- `탭 닫기`: 해당 탭을 닫습니다. 창의 마지막 탭이면 창을 닫지 않고 리디렉션 처리합니다.\n- `리디렉션`: 현재 탭을 지정한 URL(또는 확장 프로그램 기본 페이지)로 이동시킵니다.\n\n리디렉션은 흐름을 덜 끊으면서 작업으로 복귀시키고 싶을 때 유용합니다.",
+      "ja": "上限到達時の動作は次の通りです。\n\n- `タブを閉じる`: 対象タブを閉じます。ウィンドウ最後のタブなら、ウィンドウを閉じずにリダイレクトします。\n- `リダイレクト`: 現在のタブを指定URL（未指定なら拡張のページ）へ移動します。\n\n作業フローをなるべく崩したくない場合はリダイレクトが有効です。",
+      "zh": "到达时限后：\n\n- `关闭标签页`：直接关闭当前违规标签页；若是窗口最后一个标签页，则不会直接关窗，而是改为重定向。\n- `重定向`：把当前标签页跳转到你指定的 URL（未设置则跳到扩展页面）。\n\n若你希望减少打断感、引导回工作流，通常更适合用重定向。"
     },
     "category": "features"
   },
@@ -93,17 +93,17 @@
     "id": "faq-6",
     "question": {
       "en": "How do I set up work schedules?",
-      "vi": "Làm cách nào để thiết lập lịch trình làm việc?",
-      "ko": "근무 일정을 어떻게 설정합니까?",
-      "ja": "勤務スケジュールを設定するにはどうすればよいですか？",
-      "zh": "如何设置工作时间表？"
+      "vi": "Thiết lập lịch chặn theo giờ làm việc như thế nào?",
+      "ko": "근무 시간 기준 차단 일정은 어떻게 설정하나요?",
+      "ja": "勤務時間ベースのスケジュールはどう設定しますか？",
+      "zh": "如何按工作时段设置屏蔽日程？"
     },
     "answer": {
       "en": "Each blocked website has its own schedule settings. You can select which days of the week to apply blocking (e.g., Monday-Friday), set start and end times (e.g., 9:00-17:00), and choose whether to allow access outside these hours.\n\nSchedules are checked every 60 seconds, and timers reset hourly via Chrome alarms. This lets you block distracting sites only during work hours while allowing free access during evenings and weekends.",
-      "vi": "Mỗi trang web bị chặn có cài đặt lịch trình riêng. Bạn có thể chọn những ngày trong tuần để áp dụng chặn (ví dụ: Thứ Hai-Thứ Sáu), đặt thời gian bắt đầu và kết thúc (ví dụ: 9:00-17:00) và chọn có cho phép truy cập bên ngoài những giờ này hay không.\n\nLịch trình được kiểm tra mỗi 60 giây và bộ đếm đặt lại theo giờ. Điều này cho phép bạn chặn các trang web gây mất tập trung chỉ trong giờ làm việc trong khi cho phép truy cập tự do vào buổi tối và cuối tuần.",
-      "ko": "각 차단된 웹사이트에는 자체 일정 설정이 있습니다. 차단을 적용할 요일(예: 월요일-금요일)을 선택하고, 시작 및 종료 시간(예: 9:00-17:00)을 설정하고, 이 시간 외에 액세스를 허용할지 여부를 선택할 수 있습니다. 일정은 60초마다 확인되며, 타이머는 매시간 재설정됩니다. 이를 통해 근무 시간 동안만 주의를 산만하게 하는 사이트를 차단하면서 저녁과 주말에는 자유롭게 액세스할 수 있습니다.",
-      "ja": "各ブロックされたウェブサイトには独自のスケジュール設定があります。ブロックを適用する曜日（例：月曜日から金曜日）を選択し、開始時刻と終了時刻（例：9:00〜17:00）を設定し、これらの時間外にアクセスを許可するかどうかを選択できます。スケジュールは60秒ごとにチェックされ、タイマーは毎時リセットされます。これにより、勤務時間中のみ気を散らすサイトをブロックし、夕方や週末には自由にアクセスできます。",
-      "zh": "每个被阻止的网站都有自己的时间表设置。您可以选择一周中的哪几天应用阻止（例如：周一至周五），设置开始和结束时间（例如：9:00-17:00），并选择是否允许在这些时间之外访问。时间表每60秒检查一次，计时器每小时重置。这使您可以仅在工作时间内阻止分散注意力的网站，同时允许在晚上和周末自由访问。"
+      "vi": "Mỗi vùng chặn có lịch riêng. Bạn có thể chọn ngày áp dụng (ví dụ: Thứ Hai-Thứ Sáu), giờ bắt đầu/kết thúc (ví dụ: 9:00-17:00) và hành vi ngoài khung giờ đó.\n\nLịch được kiểm tra định kỳ, còn bộ đếm thời gian được đặt lại theo từng giờ.\n\nNhờ vậy bạn có thể chặn trong giờ làm việc và thả lỏng vào buổi tối/cuối tuần.",
+      "ko": "각 포커스 존마다 요일과 시작/종료 시간을 따로 설정할 수 있습니다.\n\n예: 월-금 9:00-17:00만 차단 적용.\n\n이렇게 설정하면 업무 시간에는 엄격하게 관리하고, 저녁이나 주말에는 유연하게 사용할 수 있습니다.",
+      "ja": "フォーカスゾーンごとに、適用曜日と開始/終了時刻を設定できます。\n\n例: 月-金の9:00-17:00のみブロック。\n\nこれにより、勤務時間は厳しく、夜間や週末は柔軟に運用できます。",
+      "zh": "每个专注分组都可以单独设置适用星期和开始/结束时间。\n\n例如：仅在周一到周五 9:00-17:00 生效。\n\n这样可以在工作时段严格控制，在晚间或周末保留灵活性。"
     },
     "category": "features"
   },
@@ -111,17 +111,17 @@
     "id": "faq-7",
     "question": {
       "en": "What are exceptions and how do they work?",
-      "vi": "Ngoại lệ là gì và chúng hoạt động như thế nào?",
-      "ko": "예외란 무엇이며 어떻게 작동합니까?",
-      "ja": "例外とは何ですか？どのように機能しますか？",
-      "zh": "什么是例外？它们如何工作？"
+      "vi": "Ngoại lệ là gì và hoạt động ra sao?",
+      "ko": "예외(Exceptions)는 무엇인가요?",
+      "ja": "例外（Exceptions）とは何ですか？",
+      "zh": "什么是例外（Exceptions）？"
     },
     "answer": {
       "en": "Exceptions let you whitelist specific pages within a blocked domain.\n\nFor example, you might block all of Facebook but allow facebook.com/marketplace or facebook.com/events for work purposes.\n\nURLs listed in exceptions will never be blocked, even if they match the main URL patterns. This gives you fine-grained control over what gets blocked.",
-      "vi": "Ngoại lệ cho phép bạn đưa các trang cụ thể vào danh sách trắng trong một miền bị chặn.\n\nVí dụ: bạn có thể chặn tất cả Facebook nhưng cho phép facebook.com/marketplace hoặc facebook.com/events cho mục đích công việc.\n\nCác URL được liệt kê trong ngoại lệ sẽ không bao giờ bị chặn, ngay cả khi chúng khớp với các mẫu URL chính. Điều này cung cấp cho bạn quyền kiểm soát chi tiết về những gì bị chặn.",
-      "ko": "예외를 사용하면 차단된 도메인 내의 특정 페이지를 화이트리스트에 추가할 수 있습니다. 예를 들어 Facebook의 모든 페이지를 차단하지만 업무 목적으로 facebook.com/marketplace 또는 facebook.com/events를 허용할 수 있습니다. 예외에 나열된 URL은 기본 URL 패턴과 일치하더라도 차단되지 않습니다. 이를 통해 차단되는 항목을 세밀하게 제어할 수 있습니다.",
-      "ja": "例外を使用すると、ブロックされたドメイン内の特定のページをホワイトリストに登録できます。たとえば、Facebookのすべてをブロックしても、仕事の目的でfacebook.com/marketplaceまたはfacebook.com/eventsを許可できます。例外にリストされているURLは、メインのURLパターンと一致しても決してブロックされません。これにより、何がブロックされるかをきめ細かく制御できます。",
-      "zh": "例外允许您将被阻止域中的特定页面列入白名单。例如，您可能会阻止所有Facebook，但出于工作目的允许facebook.com/marketplace或facebook.com/events。即使例外中列出的URL与主URL模式匹配，也永远不会被阻止。这使您可以精细控制被阻止的内容。"
+      "vi": "Ngoại lệ cho phép bạn \"mở khóa\" một số URL cụ thể bên trong miền đang bị chặn.\n\nVí dụ: chặn toàn bộ `facebook.com` nhưng cho phép `facebook.com/marketplace` phục vụ công việc.\n\nURL nằm trong danh sách ngoại lệ sẽ được ưu tiên cho phép, kể cả khi khớp quy tắc chặn chính.",
+      "ko": "예외는 차단된 도메인 안에서 특정 URL만 허용하는 기능입니다.\n\n예: `facebook.com`은 차단하되 `facebook.com/marketplace`는 허용.\n\n예외 규칙은 기본 차단 규칙보다 우선 적용됩니다.",
+      "ja": "例外は、ブロック対象ドメイン内で特定URLだけを許可する機能です。\n\n例: `facebook.com` はブロックしつつ、`facebook.com/marketplace` は許可。\n\n例外ルールは通常のブロックルールより優先されます。",
+      "zh": "例外用于在已屏蔽域名中“放行”某些特定 URL。\n\n例如：屏蔽 `facebook.com`，但允许 `facebook.com/marketplace`。\n\n例外规则优先级高于普通屏蔽规则。"
     },
     "category": "advanced"
   },
@@ -129,17 +129,17 @@
     "id": "faq-8",
     "question": {
       "en": "What are keywords and how do they work?",
-      "vi": "Từ khóa là gì và chúng hoạt động như thế nào?",
-      "ko": "키워드란 무엇이며 어떻게 작동합니까?",
-      "ja": "キーワードとは何ですか？どのように機能しますか？",
-      "zh": "什么是关键字？它们如何工作？"
+      "vi": "Chặn theo từ khóa hoạt động như thế nào?",
+      "ko": "키워드 차단은 어떻게 동작하나요?",
+      "ja": "キーワードブロックはどう動作しますか？",
+      "zh": "关键词屏蔽如何工作？"
     },
     "answer": {
       "en": "Keywords let you block URLs containing specific words, regardless of the domain.\n\nFor example, adding 'gaming' as a keyword will block any URL with 'gaming' in it (like store.steampowered.com/gaming or reddit.com/r/gaming), even if those domains aren't in your blocked list.\n\nThis is useful for blocking content categories across multiple sites.",
-      "vi": "Từ khóa cho phép bạn chặn các URL chứa các từ cụ thể, bất kể miền nào.\n\nVí dụ: thêm 'gaming' làm từ khóa sẽ chặn bất kỳ URL nào có 'gaming' trong đó (như store.steampowered.com/gaming hoặc reddit.com/r/gaming), ngay cả khi các miền đó không có trong danh sách bị chặn của bạn.\n\nĐiều này hữu ích để chặn các danh mục nội dung trên nhiều trang web.",
-      "ko": "키워드를 사용하면 도메인에 관계없이 특정 단어가 포함된 URL을 차단할 수 있습니다. 예를 들어 '게임'을 키워드로 추가하면 해당 도메인이 차단 목록에 없더라도 '게임'이 포함된 모든 URL(예: store.steampowered.com/gaming 또는 reddit.com/r/gaming)이 차단됩니다. 이는 여러 사이트에서 콘텐츠 카테고리를 차단하는 데 유용합니다.",
-      "ja": "キーワードを使用すると、ドメインに関係なく、特定の単語を含むURLをブロックできます。たとえば、「gaming」をキーワードとして追加すると、それらのドメインがブロックリストにない場合でも、「gaming」を含むすべてのURL（store.steampowered.com/gamingやreddit.com/r/gamingなど）がブロックされます。これは、複数のサイトでコンテンツカテゴリをブロックするのに役立ちます。",
-      "zh": "关键字允许您阻止包含特定单词的URL，无论域如何。例如，将\"游戏\"添加为关键字将阻止任何包含\"游戏\"的URL（如store.steampowered.com/gaming或reddit.com/r/gaming），即使这些域不在您的阻止列表中。这对于跨多个站点阻止内容类别很有用。"
+      "vi": "Bạn có thể chặn mọi URL chứa từ khóa nhất định, không phụ thuộc tên miền.\n\nVí dụ thêm từ khóa `gaming` sẽ chặn các URL có chứa `gaming`, kể cả khi trang đó không nằm trong danh sách chặn chính.\n\nTính năng này hữu ích khi bạn muốn chặn theo loại nội dung trên nhiều website.",
+      "ko": "특정 단어가 URL에 포함되면 도메인과 무관하게 차단할 수 있습니다.\n\n예를 들어 `gaming`을 키워드로 추가하면, 차단 목록에 없는 사이트라도 URL에 해당 단어가 있으면 제한됩니다.\n\n여러 사이트에 걸쳐 특정 콘텐츠 카테고리를 통제할 때 유용합니다.",
+      "ja": "URLに特定キーワードが含まれていれば、ドメインに関係なくブロックできます。\n\nたとえば `gaming` を追加すると、ブロックリスト外のサイトでも URL にその語が含まれていれば制限対象になります。\n\n複数サイトをまたいで特定カテゴリを管理したいときに便利です。",
+      "zh": "只要 URL 中包含指定关键词，就可不区分域名直接触发屏蔽。\n\n例如加入 `gaming` 后，即使该站点不在主屏蔽列表中，只要 URL 命中关键词也会被限制。\n\n适合跨多个网站控制同类内容。"
     },
     "category": "advanced"
   },
@@ -147,17 +147,17 @@
     "id": "faq-9",
     "question": {
       "en": "What is 'Count Only Active Tab' and when should I use it?",
-      "vi": "'Chỉ đếm tab đang hoạt động' là gì và khi nào tôi nên sử dụng nó?",
-      "ko": "'활성 탭만 계산'이란 무엇이며 언제 사용해야 합니까?",
-      "ja": "「アクティブなタブのみカウント」とは何ですか？いつ使用すべきですか？",
-      "zh": "'仅计算活动标签页'是什么？我应该何时使用它？"
+      "vi": "'Chỉ đếm tab đang hoạt động' là gì, khi nào nên dùng?",
+      "ko": "`활성 탭만 계산`은 언제 쓰면 좋나요?",
+      "ja": "`アクティブタブのみ計測`はいつ使うべきですか？",
+      "zh": "“仅统计活动标签页”什么时候适合开启？"
     },
     "answer": {
       "en": "When enabled (default), time only counts when the tab is actively being viewed.\n\nFor example, if you have YouTube playing music in a background tab, it won't count against your time limit. This is useful for sites where you might legitimately use them in the background.\n\nDisable it if you want to count all time, even when the tab is in the background.",
-      "vi": "Khi được bật (mặc định), thời gian chỉ được tính khi tab đang được xem tích cực.\n\nVí dụ: nếu bạn có YouTube phát nhạc trong tab nền, nó sẽ không được tính vào giới hạn thời gian của bạn. Điều này hữu ích cho các trang web mà bạn có thể sử dụng hợp pháp chúng ở chế độ nền.\n\nVô hiệu hóa nó nếu bạn muốn đếm tất cả thời gian, ngay cả khi tab ở chế độ nền.",
-      "ko": "활성화된 경우(기본값) 탭이 적극적으로 보고 있을 때만 시간이 계산됩니다. 예를 들어 백그라운드 탭에서 YouTube로 음악을 재생하는 경우 시간 제한에 포함되지 않습니다. 이는 백그라운드에서 합법적으로 사용할 수 있는 사이트에 유용합니다. 탭이 백그라운드에 있을 때도 모든 시간을 계산하려면 비활성화하십시오.",
-      "ja": "有効にすると（デフォルト）、タブがアクティブに表示されているときのみ時間がカウントされます。たとえば、バックグラウンドタブでYouTubeで音楽を再生している場合、時間制限にカウントされません。これは、バックグラウンドで合法的に使用する可能性のあるサイトに役立ちます。タブがバックグラウンドにある場合でもすべての時間をカウントする場合は、無効にします。",
-      "zh": "启用时（默认），只有在主动查看标签页时才计算时间。例如，如果您在后台标签页中播放YouTube音乐，则不会计入您的时间限制。这对于您可能合法地在后台使用它们的网站很有用。如果您想计算所有时间，即使标签页在后台，也请禁用它。"
+      "vi": "Khi bật (mặc định), thời gian chỉ được tính cho tab bạn đang xem trực tiếp.\n\nVí dụ YouTube chỉ phát nhạc ở tab nền thì không bị trừ thời gian.\n\nHãy tắt tùy chọn này nếu bạn muốn tính cả thời gian tab chạy nền.",
+      "ko": "이 옵션을 켜면(기본값) 실제로 보고 있는 탭의 시간만 계산됩니다.\n\n예: YouTube를 백그라운드 음악 용도로 틀어둔 경우에는 시간 소모로 잡히지 않습니다.\n\n백그라운드 시간까지 모두 포함하고 싶다면 끄면 됩니다.",
+      "ja": "有効時（デフォルト）は、実際に表示しているタブのみ時間を計測します。\n\n例: YouTubeをBGM用途で裏で流している場合は消費時間に含まれません。\n\nバックグラウンド時間も含めたいなら、この設定をオフにしてください。",
+      "zh": "开启后（默认）只统计你当前正在看的标签页时间。\n\n例如 YouTube 仅后台放音乐时，不会计入限额。\n\n若你希望后台标签也计时，可关闭该选项。"
     },
     "category": "advanced"
   },
@@ -165,17 +165,17 @@
     "id": "faq-10",
     "question": {
       "en": "How do I track my productivity stats?",
-      "vi": "Làm cách nào để theo dõi số liệu năng suất của tôi?",
-      "ko": "생산성 통계를 어떻게 추적합니까?",
-      "ja": "生産性の統計を追跡するにはどうすればよいですか？",
-      "zh": "如何跟踪我的生产力统计数据？"
+      "vi": "Tôi theo dõi số liệu tập trung ở đâu?",
+      "ko": "집중 통계는 어디서 확인하나요?",
+      "ja": "集中の統計はどこで見られますか？",
+      "zh": "在哪里查看专注统计？"
     },
     "answer": {
       "en": "ZFocus tracks daily metrics including blocked attempts and time paused, with 30-day history retention.\n\nView interactive charts (weekly or monthly) in the popup and options page to see your trends over time. You can configure whether the week starts on Monday or Sunday for chart display.\n\nStats help you understand your browsing habits and see the long-term impact of using ZFocus.",
-      "vi": "ZFocus theo dõi các chỉ số hàng ngày bao gồm số lần chặn và thời gian tạm dừng, với lịch sử lưu trữ 30 ngày.\n\nXem biểu đồ tương tác (tuần hoặc tháng) trong popup và trang cài đặt để thấy xu hướng theo thời gian. Bạn có thể cấu hình tuần bắt đầu từ Thứ Hai hoặc Chủ Nhật cho biểu đồ.\n\nThống kê giúp bạn hiểu thói quen duyệt web và thấy tác động dài hạn của việc sử dụng ZFocus.",
-      "ko": "ZFocus는 차단 시도 횟수 및 일시 중지 시간을 포함한 일일 지표를 추적하며, 30일 기록을 보관합니다. 팝업 및 옵션 페이지에서 대화형 차트(주간 또는 월간)를 확인하여 시간에 따른 추세를 파악할 수 있습니다. 차트 표시를 위해 주 시작일을 월요일 또는 일요일로 설정할 수 있습니다. 통계를 통해 브라우징 습관을 이해하고 ZFocus 사용의 장기적인 영향을 확인할 수 있습니다.",
-      "ja": "ZFocusは、ブロック試行回数や一時停止時間を含む日次指標を追跡し、30日間の履歴を保持します。ポップアップとオプションページでインタラクティブチャート（週間または月間）を確認し、時間の経過に伴う傾向を把握できます。チャート表示のために週の開始日を月曜日または日曜日に設定できます。統計は、ブラウジング習慣を理解し、ZFocusの長期的な効果を確認するのに役立ちます。",
-      "zh": "ZFocus跟踪包括阻止尝试次数和暂停时间在内的每日指标，保留30天历史记录。在弹出窗口和选项页面中查看交互式图表（每周或每月），了解随时间变化的趋势。您可以设置周一或周日作为图表显示的周起始日。统计数据帮助您了解浏览习惯并查看使用ZFocus的长期影响。"
+      "vi": "ZFocus ghi nhận số lần chặn và thời gian tạm dừng theo ngày, lưu lịch sử trong 30 ngày.\n\nBạn có thể xem biểu đồ tuần/tháng ở popup và trang cài đặt, đồng thời chọn tuần bắt đầu từ Thứ Hai hoặc Chủ Nhật.\n\nCác số liệu này giúp bạn nhìn rõ thói quen và mức cải thiện theo thời gian.",
+      "ko": "ZFocus는 일별 차단 횟수와 일시정지 시간을 기록하며, 30일 히스토리를 보관합니다.\n\n팝업과 옵션 페이지에서 주간/월간 추세를 확인할 수 있고, 주 시작 요일도 설정 가능합니다.\n\n통계를 보면 내 패턴을 파악하고 개선 방향을 정하기 쉬워집니다.",
+      "ja": "ZFocusは日次のブロック回数や一時停止時間を記録し、30日分の履歴を保持します。\n\nポップアップと設定ページで週次/月次の推移を確認でき、週の開始曜日も変更できます。\n\n数値を見える化することで、改善ポイントを把握しやすくなります。",
+      "zh": "ZFocus 会记录每日拦截次数与暂停时长，并保留 30 天历史。\n\n你可以在弹窗和设置页查看周/月趋势，也可设置一周起始日。\n\n这些数据有助于看清行为模式并持续优化。"
     },
     "category": "features"
   },
@@ -183,17 +183,17 @@
     "id": "faq-11",
     "question": {
       "en": "Can I see a countdown timer on blocked websites?",
-      "vi": "Tôi có thể thấy bộ đếm thời gian đếm ngược trên các trang web bị chặn không?",
-      "ko": "차단된 웹사이트에서 카운트다운 타이머를 볼 수 있습니까?",
-      "ja": "ブロックされたウェブサイトでカウントダウンタイマーを表示できますか？",
-      "zh": "我可以在被阻止的网站上看到倒计时器吗？"
+      "vi": "Có hiển thị đếm ngược khi dùng trang bị giới hạn không?",
+      "ko": "제한 사이트에서 카운트다운을 볼 수 있나요?",
+      "ja": "制限サイトでカウントダウンは表示されますか？",
+      "zh": "在受限网站上能看到倒计时吗？"
     },
     "answer": {
       "en": "Yes! When you visit a time-limited website, ZFocus displays your remaining time in two places:\n\n(1) as a badge on the extension icon showing minutes left (updates every 5 seconds, or every 1 second when less than 60 seconds remaining), and\n(2) as a floating overlay on the website with a progress ring and countdown.\n\nYou can disable the badge countdown in settings if you prefer.",
-      "vi": "Có! Khi bạn truy cập một trang web có giới hạn thời gian, ZFocus hiển thị thời gian còn lại ở hai nơi:\n\n(1) dưới dạng huy hiệu trên biểu tượng tiện ích hiển thị phút còn lại (cập nhật mỗi 5 giây, hoặc mỗi 1 giây khi còn dưới 60 giây) và\n(2) dưới dạng lớp phủ nổi trên trang web với vòng tiến trình và đếm ngược.\n\nBạn có thể tắt đếm ngược huy hiệu trong cài đặt nếu muốn.",
-      "ko": "예! 시간 제한이 있는 웹사이트를 방문하면 ZFocus는 남은 시간을 두 곳에 표시합니다. (1) 남은 분을 표시하는 확장 프로그램 아이콘의 배지(5초마다 업데이트, 60초 미만일 때 1초마다), (2) 웹사이트의 진행률 링과 카운트다운이 있는 플로팅 오버레이. 원하는 경우 설정에서 배지 카운트다운을 비활성화할 수 있습니다.",
-      "ja": "はい！時間制限のあるウェブサイトにアクセスすると、ZFocusは残り時間を2か所に表示します：（1）残り分を示す拡張機能アイコンのバッジ（5秒ごとに更新、60秒未満の場合は1秒ごと）、（2）プログレスリングとカウントダウンを備えたウェブサイト上のフローティングオーバーレイ。必要に応じて、設定でバッジのカウントダウンを無効にできます。",
-      "zh": "是的！当您访问有时间限制的网站时，ZFocus会在两个地方显示您的剩余时间：（1）作为扩展图标上显示剩余分钟的徽章（每5秒更新，剩余不到60秒时每1秒更新），（2）作为网站上带有进度环和倒计时的浮动覆盖层。如果您愿意，可以在设置中禁用徽章倒计时。"
+      "vi": "Có. Thời gian còn lại được hiển thị ở 2 nơi:\n\n1. Badge trên icon extension (cập nhật định kỳ, nhanh hơn khi sắp hết giờ).\n2. Overlay nổi trên trang với vòng tiến trình và bộ đếm ngược.\n\nBạn có thể tắt badge đếm ngược trong phần cài đặt.",
+      "ko": "네. 남은 시간은 두 곳에 표시됩니다.\n\n1) 확장 아이콘 배지\n2) 사이트 위의 플로팅 오버레이(진행 링 + 카운트다운)\n\n원하면 설정에서 배지 카운트다운 표시를 끌 수 있습니다.",
+      "ja": "はい。残り時間は次の2か所に表示されます。\n\n1) 拡張アイコンのバッジ\n2) ページ上のフローティングオーバーレイ（進捗リング + カウントダウン）\n\n必要に応じて、バッジ表示は設定でオフにできます。",
+      "zh": "可以。剩余时间会显示在两处：\n\n1）扩展图标徽章\n2）网页浮层（进度环 + 倒计时）\n\n如不需要，可在设置中关闭徽章倒计时。"
     },
     "category": "features"
   },
@@ -202,16 +202,16 @@
     "question": {
       "en": "What is Hard Lock Mode?",
       "vi": "Chế độ khóa cứng là gì?",
-      "ko": "하드 락 모드란 무엇입니까?",
-      "ja": "ハードロックモードとは何ですか？",
-      "zh": "什么是硬锁定模式？"
+      "ko": "하드 락 모드란 무엇인가요?",
+      "ja": "ハードロックモードとは？",
+      "zh": "什么是硬锁模式？"
     },
     "answer": {
       "en": "Hard Lock Mode is a strict setting that prevents you from pausing blocking during your configured work hours.\n\nWhen enabled, the pause button will be disabled during work time, ensuring you can't give in to temptation and disable blocking when you need focus most.\n\nOutside work hours, you can still pause normally.",
-      "vi": "Chế độ khóa cứng là cài đặt nghiêm ngặt ngăn bạn tạm dừng chặn trong giờ làm việc đã cấu hình của bạn.\n\nKhi được bật, nút tạm dừng sẽ bị vô hiệu hóa trong thời gian làm việc, đảm bảo bạn không thể nhượng bộ trước cám dỗ và vô hiệu hóa chặn khi bạn cần tập trung nhất.\n\nNgoài giờ làm việc, bạn vẫn có thể tạm dừng bình thường.",
-      "ko": "하드 락 모드는 구성된 근무 시간 동안 차단을 일시 중지하지 못하도록 하는 엄격한 설정입니다. 활성화되면 근무 시간 동안 일시 중지 버튼이 비활성화되어 가장 집중해야 할 때 유혹에 굴복하여 차단을 비활성화할 수 없습니다. 근무 시간 외에는 여전히 정상적으로 일시 중지할 수 있습니다.",
-      "ja": "ハードロックモードは、設定された勤務時間中にブロックを一時停止できないようにする厳格な設定です。有効にすると、勤務時間中は一時停止ボタンが無効になり、最も集中する必要があるときに誘惑に負けてブロックを無効にすることができなくなります。勤務時間外は、通常どおり一時停止できます。",
-      "zh": "硬锁定模式是一种严格的设置，可防止您在配置的工作时间内暂停阻止。启用后，暂停按钮将在工作时间内被禁用，确保您在最需要集中注意力时无法屈服于诱惑并禁用阻止。在工作时间之外，您仍然可以正常暂停。"
+      "vi": "Đây là chế độ nghiêm ngặt: trong khung giờ làm việc đã đặt, bạn không thể bấm tạm dừng chặn.\n\nMục tiêu là ngăn việc tự nới lỏng kỷ luật đúng lúc cần tập trung nhất.\n\nNgoài khung giờ đó, bạn vẫn có thể tạm dừng bình thường.",
+      "ko": "하드 락 모드는 설정한 근무 시간 동안 일시정지를 막는 엄격 모드입니다.\n\n집중이 가장 필요한 시간대에 스스로 제한을 해제하지 못하게 하는 데 목적이 있습니다.\n\n근무 시간 밖에서는 일반적으로 일시정지를 사용할 수 있습니다.",
+      "ja": "設定した勤務時間中の「一時停止」を禁止する厳格モードです。\n\n集中が必要な時間帯に、自分で制限を解除してしまうのを防ぎます。\n\n勤務時間外は通常どおり一時停止できます。",
+      "zh": "硬锁模式会在你设定的工作时段内禁用“暂停”。\n\n它用于防止在最需要专注时手动放开限制。\n\n工作时段外仍可正常暂停。"
     },
     "category": "features"
   },
@@ -219,17 +219,17 @@
     "id": "faq-13",
     "question": {
       "en": "How do I backup and restore my settings?",
-      "vi": "Làm cách nào để sao lưu và khôi phục cài đặt của tôi?",
-      "ko": "설정을 백업하고 복원하려면 어떻게 해야 합니까?",
-      "ja": "設定をバックアップおよび復元するにはどうすればよいですか？",
-      "zh": "如何备份和恢复我的设置？"
+      "vi": "Sao lưu và khôi phục cài đặt như thế nào?",
+      "ko": "설정 백업/복원은 어떻게 하나요?",
+      "ja": "設定のバックアップ/復元はどう行いますか？",
+      "zh": "如何备份和恢复设置？"
     },
     "answer": {
       "en": "Go to Settings tab in the options page and use the 'Backup & Restore' section.\n\nClick 'Export File' to download a JSON file with all your settings and blocked sites. To restore, click 'Import File' and select your backup file.\n\nThis is especially useful for transferring settings between different browsers (Edge, Firefox, Brave) that don't support Chrome sync.",
-      "vi": "Vào tab Cài đặt trong trang tùy chọn và sử dụng phần 'Sao lưu & Khôi phục'.\n\nNhấp vào 'Xuất tệp' để tải xuống tệp JSON với tất cả cài đặt và trang web bị chặn của bạn. Để khôi phục, nhấp vào 'Nhập tệp' và chọn tệp sao lưu của bạn.\n\nĐiều này đặc biệt hữu ích để chuyển cài đặt giữa các trình duyệt khác nhau (Edge, Firefox, Brave) không hỗ trợ đồng bộ Chrome.",
-      "ko": "옵션 페이지의 설정 탭으로 이동하여 '백업 및 복원' 섹션을 사용하십시오. '파일 내보내기'를 클릭하여 모든 설정 및 차단된 사이트가 포함된 JSON 파일을 다운로드하십시오. 복원하려면 '파일 가져오기'를 클릭하고 백업 파일을 선택하십시오. 이는 Chrome 동기화를 지원하지 않는 다른 브라우저(Edge, Firefox, Brave) 간에 설정을 전송하는 데 특히 유용합니다.",
-      "ja": "オプションページの設定タブに移動し、「バックアップと復元」セクションを使用します。「ファイルのエクスポート」をクリックして、すべての設定とブロックされたサイトを含むJSONファイルをダウンロードします。復元するには、「ファイルのインポート」をクリックしてバックアップファイルを選択します。これは、Chrome同期をサポートしていない異なるブラウザ（Edge、Firefox、Brave）間で設定を転送するのに特に役立ちます。",
-      "zh": "转到选项页面中的设置选项卡，并使用'备份和恢复'部分。单击'导出文件'以下载包含所有设置和被阻止网站的JSON文件。要恢复，请单击'导入文件'并选择您的备份文件。这对于在不支持Chrome同步的不同浏览器（Edge、Firefox、Brave）之间传输设置特别有用。"
+      "vi": "Vào tab Cài đặt trong trang Options, tới mục Sao lưu & Khôi phục.\n\n- Chọn `Xuất file` để tải file JSON chứa toàn bộ cấu hình.\n- Chọn `Nhập file` để khôi phục từ bản sao lưu.\n\nTính năng này đặc biệt hữu ích khi chuyển cấu hình giữa các trình duyệt.",
+      "ko": "옵션 페이지의 설정 탭에서 백업·복원 섹션을 사용하세요.\n\n- `내보내기`: 전체 설정을 JSON으로 저장\n- `가져오기`: 저장한 JSON으로 복원\n\n브라우저를 바꿔도 동일한 설정을 옮길 때 유용합니다.",
+      "ja": "Optionsページの設定タブにあるバックアップ/復元セクションを使います。\n\n- `エクスポート`: 設定をJSONで保存\n- `インポート`: JSONを読み込んで復元\n\nブラウザをまたいで同じ設定を使いたいときに便利です。",
+      "zh": "在 Options 页面设置页中使用“备份与恢复”功能。\n\n- `导出`：将全部配置保存为 JSON\n- `导入`：读取 JSON 恢复配置\n\n适合在不同浏览器之间迁移设置。"
     },
     "category": "sync"
   },
@@ -237,17 +237,17 @@
     "id": "faq-14",
     "question": {
       "en": "Can I use wildcards in URL patterns?",
-      "vi": "Tôi có thể sử dụng ký tự đại diện trong mẫu URL không?",
-      "ko": "URL 패턴에 와일드카드를 사용할 수 있습니까?",
-      "ja": "URLパターンでワイルドカードを使用できますか？",
-      "zh": "我可以在URL模式中使用通配符吗？"
+      "vi": "Tôi có thể dùng ký tự đại diện (wildcard) trong URL không?",
+      "ko": "URL 패턴에서 와일드카드를 쓸 수 있나요?",
+      "ja": "URLパターンでワイルドカードは使えますか？",
+      "zh": "URL 模式支持通配符吗？"
     },
     "answer": {
       "en": "Yes! ZFocus supports two wildcard types:\n\n'*' (single asterisk) matches any characters except dots and slashes (useful for subdomains like *.example.com), and\n'**' (double asterisk) matches any characters including dots and slashes (useful for complex paths).\n\nBy default, entering just 'example.com' will match all subdomains and paths automatically.",
-      "vi": "Có! ZFocus hỗ trợ hai loại ký tự đại diện:\n\n'*' (dấu sao đơn) khớp với bất kỳ ký tự nào ngoại trừ dấu chấm và dấu gạch chéo (hữu ích cho tên miền phụ như *.example.com) và\n'**' (dấu sao kép) khớp với bất kỳ ký tự nào bao gồm dấu chấm và dấu gạch chéo (hữu ích cho đường dẫn phức tạp).\n\nTheo mặc định, chỉ nhập 'example.com' sẽ tự động khớp với tất cả các tên miền phụ và đường dẫn.",
-      "ko": "예! ZFocus는 두 가지 와일드카드 유형을 지원합니다. '*'(단일 별표)는 점과 슬래시를 제외한 모든 문자와 일치합니다(*.example.com과 같은 하위 도메인에 유용). '**'(이중 별표)는 점과 슬래시를 포함한 모든 문자와 일치합니다(복잡한 경로에 유용). 기본적으로 'example.com'만 입력하면 모든 하위 도메인과 경로가 자동으로 일치합니다.",
-      "ja": "はい！ZFocusは2種類のワイルドカードをサポートしています：'*'（単一のアスタリスク）はドットとスラッシュを除くすべての文字に一致します（*.example.comのようなサブドメインに便利）、'**'（二重のアスタリスク）はドットとスラッシュを含むすべての文字に一致します（複雑なパスに便利）。デフォルトでは、「example.com」だけを入力すると、すべてのサブドメインとパスが自動的に一致します。",
-      "zh": "是的！ZFocus支持两种通配符类型：'*'（单个星号）匹配除点和斜杠之外的任何字符（对于*.example.com等子域很有用），'**'（双星号）匹配包括点和斜杠在内的任何字符（对于复杂路径很有用）。默认情况下，仅输入'example.com'将自动匹配所有子域和路径。"
+      "vi": "Có. ZFocus hỗ trợ 2 loại wildcard:\n\n- `*`: khớp chuỗi ký tự thông thường (phù hợp cho nhiều trường hợp subdomain).\n- `**`: khớp rộng hơn, gồm cả dấu chấm và dấu gạch chéo (phù hợp cho path phức tạp).\n\nNgoài ra, chỉ cần nhập `example.com` là mặc định đã áp dụng cho cả subdomain và đường dẫn.",
+      "ko": "네. ZFocus는 `*`와 `**`를 지원합니다.\n\n- `*`: 일반적인 단일 구간 매칭\n- `**`: 경로를 포함한 더 넓은 매칭\n\n또한 `example.com`만 입력해도 기본적으로 하위 도메인과 경로까지 함께 매칭됩니다.",
+      "ja": "はい。ZFocusは `*` と `**` をサポートしています。\n\n- `*`: 通常の単一区間マッチ\n- `**`: パスを含む広いマッチ\n\nまた `example.com` だけでも、通常はサブドメインとパスまで対象になります。",
+      "zh": "支持。ZFocus 可使用 `*` 与 `**`。\n\n- `*`：常规单段匹配\n- `**`：包含路径在内的更宽匹配\n\n另外只输入 `example.com`，默认也会覆盖其子域名与路径。"
     },
     "category": "advanced"
   },
@@ -255,17 +255,17 @@
     "id": "faq-15",
     "question": {
       "en": "What happens to my timers when I close the browser?",
-      "vi": "Điều gì xảy ra với bộ đếm thời gian của tôi khi tôi đóng trình duyệt?",
-      "ko": "브라우저를 닫으면 타이머는 어떻게 됩니까?",
-      "ja": "ブラウザを閉じるとタイマーはどうなりますか？",
-      "zh": "关闭浏览器后我的计时器会怎样？"
+      "vi": "Đóng trình duyệt thì bộ đếm có bị mất không?",
+      "ko": "브라우저를 닫으면 타이머가 초기화되나요?",
+      "ja": "ブラウザを閉じるとタイマーは消えますか？",
+      "zh": "关闭浏览器后计时器会清零吗？"
     },
     "answer": {
       "en": "Your timers are automatically saved and persist even when you close the browser.\n\nIf you used 3 minutes of your 10-minute YouTube limit, you'll have 7 minutes remaining when you reopen the browser within the same hour.\n\nTimers reset at the start of each new hour (e.g., 9:00, 10:00), not when you close/open the browser.",
-      "vi": "Bộ đếm thời gian của bạn được tự động lưu và vẫn tồn tại ngay cả khi bạn đóng trình duyệt.\n\nNếu bạn đã sử dụng 3 phút trong giới hạn 10 phút YouTube của mình, bạn sẽ có 7 phút còn lại khi bạn mở lại trình duyệt trong cùng một giờ.\n\nBộ đếm thời gian đặt lại vào đầu mỗi giờ mới (ví dụ: 9:00, 10:00), không phải khi bạn đóng/mở trình duyệt.",
-      "ko": "타이머는 자동으로 저장되며 브라우저를 닫아도 유지됩니다. 10분 YouTube 제한 중 3분을 사용한 경우 같은 시간 내에 브라우저를 다시 열면 7분이 남습니다. 타이머는 브라우저를 닫거나 열 때가 아니라 매 시간 시작 시(예: 9:00, 10:00) 재설정됩니다.",
-      "ja": "タイマーは自動的に保存され、ブラウザを閉じても持続します。10分のYouTube制限のうち3分を使用した場合、同じ時間内にブラウザを再度開くと7分残ります。タイマーは、ブラウザを閉じたり開いたりするときではなく、毎時の開始時（例：9:00、10:00）にリセットされます。",
-      "zh": "您的计时器会自动保存，即使您关闭浏览器也会保留。如果您使用了10分钟YouTube限制中的3分钟，则在同一小时内重新打开浏览器时将剩余7分钟。计时器在每个新小时开始时重置（例如：9:00、10:00），而不是在您关闭/打开浏览器时。"
+      "vi": "Không. Bộ đếm được lưu lại và tiếp tục đúng trạng thái khi bạn mở lại trình duyệt.\n\nVí dụ giới hạn YouTube là 10 phút/giờ, bạn đã dùng 3 phút rồi đóng trình duyệt; mở lại trong cùng giờ thì còn 7 phút.\n\nBộ đếm chỉ đặt lại khi sang giờ mới, không phụ thuộc việc đóng/mở trình duyệt.",
+      "ko": "아니요. 타이머 상태는 저장되며 같은 시간대에서는 이어서 계산됩니다.\n\n예: 10분 한도 중 3분 사용 후 브라우저를 닫아도, 같은 시간대에 다시 열면 7분이 남아 있습니다.\n\n리셋은 브라우저 재시작이 아니라 정시 기준으로 이루어집니다.",
+      "ja": "消えません。タイマー状態は保持され、同じ時間帯なら続きから計測されます。\n\n例: 10分制限で3分使って閉じても、同時間帯に再開すれば残り7分です。\n\nリセットはブラウザ再起動ではなく、時間帯の切り替わりで行われます。",
+      "zh": "不会。计时状态会保存，在同一小时内重新打开会继续累计。\n\n例如 10 分钟限额已用 3 分钟，重新打开后仍剩 7 分钟。\n\n计时重置依据整点，而不是浏览器重启。"
     },
     "category": "features"
   },
@@ -273,17 +273,17 @@
     "id": "faq-16",
     "question": {
       "en": "Does ZFocus work in incognito/private mode?",
-      "vi": "ZFocus có hoạt động ở chế độ ẩn danh/riêng tư không?",
-      "ko": "ZFocus는 시크릿/프라이빗 모드에서 작동합니까?",
-      "ja": "ZFocusはシークレット/プライベートモードで動作しますか？",
-      "zh": "ZFocus在隐身/隐私模式下工作吗？"
+      "vi": "ZFocus có chạy trong chế độ Ẩn danh không?",
+      "ko": "시크릿(프라이빗) 모드에서도 동작하나요?",
+      "ja": "シークレット/プライベートモードでも使えますか？",
+      "zh": "在无痕/隐私模式下可用吗？"
     },
     "answer": {
       "en": "ZFocus can work in incognito mode, but you need to enable it manually.\n\nGo to chrome://extensions, find ZFocus, click 'Details', and toggle 'Allow in Incognito'.\n\nNote that timers and stats from incognito sessions are kept separate and won't sync with your regular browsing data for privacy reasons.",
-      "vi": "ZFocus có thể hoạt động ở chế độ ẩn danh, nhưng bạn cần bật nó thủ công.\n\nVào chrome://extensions, tìm ZFocus, nhấp vào 'Chi tiết' và bật 'Cho phép ở chế độ ẩn danh'.\n\nLưu ý rằng bộ đếm thời gian và số liệu từ các phiên ẩn danh được giữ riêng biệt và sẽ không đồng bộ với dữ liệu duyệt web thông thường của bạn vì lý do bảo mật.",
-      "ko": "ZFocus는 시크릿 모드에서 작동할 수 있지만 수동으로 활성화해야 합니다. chrome://extensions로 이동하여 ZFocus를 찾고 '세부정보'를 클릭한 다음 '시크릿 모드에서 허용'을 토글하십시오. 시크릿 세션의 타이머 및 통계는 개인 정보 보호를 위해 별도로 유지되며 일반 브라우징 데이터와 동기화되지 않습니다.",
-      "ja": "ZFocusはシークレットモードで動作できますが、手動で有効にする必要があります。chrome://extensionsに移動し、ZFocusを見つけ、「詳細」をクリックして「シークレットモードで許可」を切り替えます。プライバシー上の理由から、シークレットセッションのタイマーと統計は別々に保持され、通常のブラウジングデータと同期されないことに注意してください。",
-      "zh": "ZFocus可以在隐身模式下工作，但您需要手动启用它。转到chrome://extensions，找到ZFocus，单击'详细信息'，然后切换'在隐身模式下允许'。请注意，出于隐私原因，隐身会话中的计时器和统计数据将单独保存，不会与您的常规浏览数据同步。"
+      "vi": "Có, nhưng bạn phải bật thủ công trong Chrome.\n\nVào `chrome://extensions` -> ZFocus -> Chi tiết -> bật `Cho phép ở chế độ ẩn danh`.\n\nDữ liệu trong phiên ẩn danh được tách biệt với phiên thường để bảo vệ quyền riêng tư.",
+      "ko": "동작할 수 있지만, 확장 프로그램 설정에서 수동으로 허용해야 합니다.\n\n`chrome://extensions` -> ZFocus -> 상세 -> 시크릿 모드 허용을 켜세요.\n\n프라이버시 보호를 위해 시크릿 세션 데이터는 일반 세션과 분리될 수 있습니다.",
+      "ja": "利用できますが、拡張機能の設定で手動許可が必要です。\n\n`chrome://extensions` -> ZFocus -> 詳細 -> シークレットでの実行を許可。\n\nプライバシー保護のため、シークレット側データは通常セッションと分離される場合があります。",
+      "zh": "可以，但需要你在扩展设置里手动开启。\n\n进入 `chrome://extensions` -> ZFocus -> 详情 -> 允许在无痕模式运行。\n\n出于隐私保护，无痕会话数据通常与普通会话分离。"
     },
     "category": "general"
   },
@@ -291,17 +291,17 @@
     "id": "faq-17",
     "question": {
       "en": "Can I block specific pages but allow others on the same domain?",
-      "vi": "Tôi có thể chặn các trang cụ thể nhưng cho phép các trang khác trên cùng một miền không?",
-      "ko": "특정 페이지를 차단하지만 같은 도메인의 다른 페이지는 허용할 수 있습니까?",
-      "ja": "特定のページをブロックしても、同じドメインの他のページを許可できますか？",
-      "zh": "我可以阻止特定页面但允许同一域上的其他页面吗？"
+      "vi": "Có thể chặn cả miền nhưng vẫn cho phép vài trang cụ thể không?",
+      "ko": "같은 도메인에서 일부 페이지만 허용할 수 있나요?",
+      "ja": "同じドメイン内で一部ページだけ許可できますか？",
+      "zh": "同一域名下可以只放行某些页面吗？"
     },
     "answer": {
       "en": "Yes! Use the 'Exceptions' feature.\n\nFor example, add 'youtube.com' to the URL list to block all YouTube, then add 'youtube.com/channel/UC...' to exceptions to allow your educational channels.\n\nExceptions take priority over main URL patterns, giving you precise control over what gets blocked.",
-      "vi": "Có! Sử dụng tính năng 'Ngoại lệ'.\n\nVí dụ: thêm 'youtube.com' vào danh sách URL để chặn tất cả YouTube, sau đó thêm 'youtube.com/channel/UC...' vào ngoại lệ để cho phép các kênh giáo dục của bạn.\n\nNgoại lệ được ưu tiên hơn các mẫu URL chính, cung cấp cho bạn quyền kiểm soát chính xác về những gì bị chặn.",
-      "ko": "'예외' 기능을 사용하십시오. 예를 들어 모든 YouTube를 차단하려면 URL 목록에 'youtube.com'을 추가한 다음 교육 채널을 허용하려면 예외에 'youtube.com/channel/UC...'를 추가하십시오. 예외는 기본 URL 패턴보다 우선하므로 차단되는 항목을 정확하게 제어할 수 있습니다.",
-      "ja": "はい！「例外」機能を使用します。たとえば、すべてのYouTubeをブロックするにはURLリストに「youtube.com」を追加し、教育チャンネルを許可するには例外に「youtube.com/channel/UC...」を追加します。例外はメインのURLパターンよりも優先されるため、何がブロックされるかを正確に制御できます。",
-      "zh": "是的！使用'例外'功能。例如，将'youtube.com'添加到URL列表以阻止所有YouTube，然后将'youtube.com/channel/UC...'添加到例外以允许您的教育频道。例外优先于主URL模式，使您可以精确控制被阻止的内容。"
+      "vi": "Có. Bạn cấu hình bằng `Ngoại lệ`.\n\nVí dụ: chặn `youtube.com`, rồi thêm một số URL kênh học tập vào ngoại lệ để vẫn truy cập được.\n\nQuy tắc ngoại lệ luôn được ưu tiên hơn quy tắc chặn chính.",
+      "ko": "가능합니다. 기본 도메인은 차단하고, 필요한 페이지는 예외로 추가하세요.\n\n예외 URL은 차단 규칙보다 우선 적용되므로, 같은 도메인 안에서도 세밀한 제어가 가능합니다.",
+      "ja": "可能です。ドメイン全体をブロックしつつ、必要なURLを例外として登録してください。\n\n例外URLは通常のブロックルールより優先されるため、同一ドメイン内でも細かく制御できます。",
+      "zh": "可以。先屏蔽整个域名，再把需要访问的页面加入例外。\n\n例外 URL 优先级高于普通屏蔽规则，因此可实现同域名内的精细控制。"
     },
     "category": "advanced"
   },
@@ -309,17 +309,17 @@
     "id": "faq-18",
     "question": {
       "en": "What's the difference between ZFocus and other website blockers?",
-      "vi": "Sự khác biệt giữa ZFocus và các trình chặn trang web khác là gì?",
-      "ko": "ZFocus와 다른 웹사이트 차단기의 차이점은 무엇입니까?",
-      "ja": "ZFocusと他のウェブサイトブロッカーの違いは何ですか？",
-      "zh": "ZFocus与其他网站拦截器有什么区别？"
+      "vi": "ZFocus khác gì so với các extension chặn web khác?",
+      "ko": "ZFocus는 다른 차단 확장과 무엇이 다른가요?",
+      "ja": "ZFocusは他のサイトブロッカーと何が違いますか？",
+      "zh": "ZFocus 与其他网站屏蔽工具有什么不同？"
     },
     "answer": {
       "en": "Unlike simple blockers that completely block sites, ZFocus uses a time-based approach with hourly limits.\n\nThis is more realistic and sustainable - you can still check social media or watch videos, but only for a controlled amount of time.\n\nFeatures like 'Count Only Active Tab', keyword blocking, exceptions, and per-site schedules give you much more flexibility than all-or-nothing blockers.",
-      "vi": "Không giống như các trình chặn đơn giản chặn hoàn toàn các trang web, ZFocus sử dụng phương pháp dựa trên thời gian với giới hạn theo giờ.\n\nĐiều này thực tế và bền vững hơn - bạn vẫn có thể kiểm tra mạng xã hội hoặc xem video, nhưng chỉ trong một khoảng thời gian được kiểm soát.\n\nCác tính năng như 'Chỉ đếm tab đang hoạt động', chặn từ khóa, ngoại lệ và lịch trình theo trang web cung cấp cho bạn sự linh hoạt hơn nhiều so với các trình chặn tất cả hoặc không có gì.",
-      "ko": "사이트를 완전히 차단하는 간단한 차단기와 달리 ZFocus는 시간당 제한이 있는 시간 기반 접근 방식을 사용합니다. 이것은 더 현실적이고 지속 가능합니다. 소셜 미디어를 확인하거나 비디오를 볼 수 있지만 제어된 시간 동안만 가능합니다. '활성 탭만 계산', 키워드 차단, 예외 및 사이트별 일정과 같은 기능은 전부 아니면 전무 차단기보다 훨씬 더 많은 유연성을 제공합니다.",
-      "ja": "サイトを完全にブロックする単純なブロッカーとは異なり、ZFocusは時間ごとの制限を持つ時間ベースのアプローチを使用します。これはより現実的で持続可能です。ソーシャルメディアをチェックしたり、ビデオを見たりすることはできますが、制御された時間だけです。「アクティブなタブのみカウント」、キーワードブロック、例外、サイトごとのスケジュールなどの機能により、オールオアナッシングのブロッカーよりもはるかに柔軟性が高くなります。",
-      "zh": "与完全阻止站点的简单拦截器不同，ZFocus使用基于时间的方法，具有每小时限制。这更现实和可持续-您仍然可以查看社交媒体或观看视频，但只能在受控的时间内。'仅计算活动标签页'、关键字阻止、例外和每个站点的时间表等功能为您提供了比全有或全无拦截器更多的灵活性。"
+      "vi": "Nhiều công cụ chỉ có kiểu \"chặn hoặc không\". ZFocus đi theo hướng kiểm soát theo thời gian để dễ duy trì lâu dài.\n\nBạn vẫn có thể truy cập các trang gây xao nhãng, nhưng trong giới hạn rõ ràng.\n\nNgoài ra còn có các tính năng linh hoạt như ngoại lệ, từ khóa, chỉ đếm tab đang hoạt động và lịch chặn theo từng vùng.",
+      "ko": "단순 차단형 도구와 달리 ZFocus는 “시간 기반 제어”에 초점을 둡니다.\n\n완전 금지 대신, 필요한 범위 안에서 제한적으로 사용하도록 설계되어 장기적으로 유지하기 쉽습니다.\n\n활성 탭만 계산, 키워드 차단, 예외, 사이트별 일정 같은 세부 기능도 함께 제공됩니다.",
+      "ja": "単純な全面ブロック型とは異なり、ZFocusは「時間ベースの制御」を中心に設計されています。\n\n完全禁止ではなく、必要な範囲で使いながら制御するため、長期運用しやすいのが特徴です。\n\nさらに、アクティブタブのみ計測・キーワードブロック・例外・サイト別スケジュールなどの細かな機能も備えています。",
+      "zh": "与“一刀切全禁用”的工具不同，ZFocus 更强调“按时间精细控制”。\n\n它允许在可控范围内使用，而不是完全封死，因此更容易长期坚持。\n\n同时提供仅统计活动标签页、关键词屏蔽、例外规则、按站点日程等细粒度能力。"
     },
     "category": "general"
   },
@@ -327,17 +327,17 @@
     "id": "faq-19",
     "question": {
       "en": "How do I delete all my data?",
-      "vi": "Làm cách nào để xóa tất cả dữ liệu của tôi?",
-      "ko": "모든 데이터를 삭제하려면 어떻게 해야 합니까?",
-      "ja": "すべてのデータを削除するにはどうすればよいですか？",
-      "zh": "如何删除我的所有数据？"
+      "vi": "Xóa toàn bộ dữ liệu của tôi bằng cách nào?",
+      "ko": "내 데이터를 모두 삭제하려면 어떻게 하나요?",
+      "ja": "データをすべて削除するには？",
+      "zh": "如何删除我的全部数据？"
     },
     "answer": {
       "en": "Go to the **Settings** tab in the options page and scroll to the bottom.\n\nClick **'Delete All Data'** and confirm.\n\nThis will **permanently remove** all your settings, blocked sites, timers, and stats.\n\nThis action **cannot be undone**, so make sure to export a backup first if you might want to restore your settings later.",
-      "vi": "Vào tab **Cài đặt** trong trang tùy chọn và cuộn xuống dưới cùng.\n\nNhấp vào **'Xóa tất cả dữ liệu'** và xác nhận.\n\nĐiều này sẽ **xóa vĩnh viễn** tất cả cài đặt, trang web bị chặn, bộ đếm thời gian và số liệu của bạn.\n\nHành động này **không thể hoàn tác**, vì vậy hãy đảm bảo xuất bản sao lưu trước nếu bạn có thể muốn khôi phục cài đặt của mình sau này.",
-      "ko": "옵션 페이지의 **설정** 탭으로 이동하여 맨 아래로 스크롤하십시오.\n\n**'모든 데이터 삭제'**를 클릭하고 확인하십시오.\n\n이렇게 하면 모든 설정, 차단된 사이트, 타이머 및 통계가 **영구적으로 제거**됩니다.\n\n이 작업은 **취소할 수 없으므로** 나중에 설정을 복원하려면 먼저 백업을 내보내야 합니다.",
-      "ja": "オプションページの**設定**タブに移動し、一番下までスクロールします。\n\n**「すべてのデータを削除」**をクリックして確認します。\n\nこれにより、すべての設定、ブロックされたサイト、タイマー、統計が**完全に削除**されます。\n\nこの操作は**元に戻せない**ため、後で設定を復元する可能性がある場合は、最初にバックアップをエクスポートしてください。",
-      "zh": "转到选项页面中的**设置**选项卡并滚动到底部。\n\n单击**'删除所有数据'**并确认。\n\n这将**永久删除**您的所有设置、被阻止的网站、计时器和统计数据。\n\n此操作**无法撤消**，因此如果您以后可能想要恢复设置，请确保先导出备份。"
+      "vi": "Mở trang Options -> tab Cài đặt -> kéo xuống cuối trang.\n\nBấm `Xóa tất cả dữ liệu` và xác nhận.\n\nThao tác này sẽ xóa vĩnh viễn cài đặt, danh sách chặn, bộ đếm và thống kê; không thể hoàn tác.\n\nNếu cần, hãy xuất bản sao lưu trước khi xóa.",
+      "ko": "Options 페이지 설정 탭 하단의 `모든 데이터 삭제`를 실행하면 됩니다.\n\n설정, 차단 목록, 타이머, 통계가 영구 삭제되며 되돌릴 수 없습니다.\n\n필요하면 삭제 전에 백업 파일을 먼저 내보내세요.",
+      "ja": "Optionsページの設定タブ下部にある `すべてのデータを削除` を実行してください。\n\n設定・ブロックリスト・タイマー・統計が完全に削除され、元に戻せません。\n\n必要な場合は先にバックアップをエクスポートしてください。",
+      "zh": "在 Options 设置页底部执行“删除全部数据”。\n\n这会永久删除设置、屏蔽列表、计时器和统计，且无法撤销。\n\n如有需要，请先导出备份。"
     },
     "category": "general"
   },
@@ -345,17 +345,17 @@
     "id": "faq-20",
     "question": {
       "en": "Can I have different time limits for different days?",
-      "vi": "Tôi có thể có giới hạn thời gian khác nhau cho các ngày khác nhau không?",
-      "ko": "다른 날에 다른 시간 제한을 가질 수 있습니까?",
-      "ja": "異なる日に異なる時間制限を設定できますか？",
-      "zh": "我可以为不同的日子设置不同的时间限制吗？"
+      "vi": "Tôi có thể đặt giới hạn thời gian khác nhau theo từng ngày không?",
+      "ko": "요일마다 다른 시간 제한을 둘 수 있나요?",
+      "ja": "曜日ごとに異なる時間制限を設定できますか？",
+      "zh": "可以按不同星期设置不同时长限制吗？"
     },
     "answer": {
       "en": "Currently, time limits are the same for all days, but you can control which days blocking is active using the schedule feature.\n\nFor example, create one focus zone for weekdays (Monday-Friday, 5 min/hour) and another for weekends (Saturday-Sunday, 15 min/hour) with the same websites.\n\nThis gives you different limits for different days.",
-      "vi": "Hiện tại, giới hạn thời gian giống nhau cho tất cả các ngày, nhưng bạn có thể kiểm soát những ngày nào chặn hoạt động bằng tính năng lịch trình.\n\nVí dụ: tạo một focus zone cho các ngày trong tuần (Thứ Hai-Thứ Sáu, 5 phút/giờ) và một focus zone khác cho cuối tuần (Thứ Bảy-Chủ Nhật, 15 phút/giờ) với cùng các trang web.\n\nĐiều này cung cấp cho bạn các giới hạn khác nhau cho các ngày khác nhau.",
-      "ko": "현재 시간 제한은 모든 날에 동일하지만 일정 기능을 사용하여 차단이 활성화되는 날을 제어할 수 있습니다. 예를 들어 평일(월요일-금요일, 5분/시간)에 대한 포커스 존 하나와 주말(토요일-일요일, 15분/시간)에 대한 다른 포커스 존을 동일한 웹사이트로 만드십시오. 이렇게 하면 다른 날에 다른 제한을 설정할 수 있습니다.",
-      "ja": "現在、時間制限はすべての日で同じですが、スケジュール機能を使用してブロックがアクティブな日を制御できます。たとえば、平日（月曜日から金曜日、5分/時間）用のフォーカスゾーンと週末（土曜日と日曜日、15分/時間）用の別のフォーカスゾーンを同じウェブサイトで作成します。これにより、異なる日に異なる制限が設定されます。",
-      "zh": "目前，所有日子的时间限制都相同，但您可以使用时间表功能控制哪些日子激活阻止。例如，为工作日（周一至周五，5分钟/小时）创建一个专注区，为周末（周六至周日，15分钟/小时）创建另一个专注区，使用相同的网站。这为您提供了不同日子的不同限制。"
+      "vi": "Hiện tại giới hạn thời gian của một vùng áp dụng giống nhau giữa các ngày.\n\nCách xử lý là tạo nhiều vùng khác nhau cho các nhóm ngày. Ví dụ:\n- Vùng A: Thứ Hai-Thứ Sáu, 5 phút/giờ\n- Vùng B: Thứ Bảy-Chủ Nhật, 15 phút/giờ\n\nNhư vậy bạn vẫn có thể mô phỏng giới hạn khác nhau theo ngày.",
+      "ko": "현재 하나의 포커스 존에서는 동일한 시간 제한이 적용됩니다.\n\n요일별로 다르게 운영하려면 포커스 존을 나눠 설정하세요.\n예: 평일 5분/시간, 주말 15분/시간.",
+      "ja": "現状、1つのフォーカスゾーン内では同一の時間制限が適用されます。\n\n曜日ごとに差を付けたい場合はゾーンを分けて設定してください。\n例: 平日 5分/時間、週末 15分/時間。",
+      "zh": "目前同一专注分组内使用统一时长限制。\n\n若要按星期区别，建议拆分多个分组。\n例如：工作日 5 分钟/小时，周末 15 分钟/小时。"
     },
     "category": "features"
   },
@@ -363,17 +363,17 @@
     "id": "faq-21",
     "question": {
       "en": "Does ZFocus collect any data or track my browsing?",
-      "vi": "ZFocus có thu thập dữ liệu hoặc theo dõi lượt web của tôi không?",
-      "ko": "ZFocus는 데이터를 수집하거나 브라우징을 추적합니까?",
-      "ja": "ZFocusはデータを収集したり、ブラウジングを追跡しますか？",
-      "zh": "ZFocus会收集数据或跟踪我的浏览吗？"
+      "vi": "ZFocus có thu thập dữ liệu hoặc theo dõi lịch sử duyệt web không?",
+      "ko": "ZFocus가 내 데이터를 수집하거나 웹 사용을 추적하나요?",
+      "ja": "ZFocusはデータ収集や閲覧追跡をしますか？",
+      "zh": "ZFocus 会收集数据或追踪浏览行为吗？"
     },
     "answer": {
       "en": "No. ZFocus stores all your data locally on your device using Chrome's built-in storage. We never track your browsing habits, visited URLs, or personal information.\n\nThe only data that can optionally be sent is anonymous crash reports (error stack traces) to help us fix bugs. This is completely opt-in: it is OFF by default and only activates when you explicitly enable it during onboarding or in Settings.\n\nEven when enabled, crash reports contain zero personal data -- only technical error information like stack traces and extension context (e.g., 'popup' or 'background'). You can disable it at any time.",
-      "vi": "Không. ZFocus lưu trữ tất cả dữ liệu của bạn cục bộ trên thiết bị bằng bộ nhớ tích hợp của Chrome. Chúng tôi không bao giờ theo dõi thói quen lướt web, URL đã truy cập hoặc thông tin cá nhân của bạn.\n\nDữ liệu duy nhất có thể được gửi là báo cáo lỗi ẩn danh (stack trace) để giúp chúng tôi sửa lỗi. Đây là hoàn toàn tự nguyện: mặc định là TẮT và chỉ kích hoạt khi bạn bật trong quá trình thiết lập ban đầu hoặc trong Cài đặt.\n\nNgay cả khi bật, báo cáo lỗi không chứa bất kỳ dữ liệu cá nhân nào -- chỉ có thông tin lỗi kỹ thuật. Bạn có thể tắt bất cứ lúc nào.",
-      "ko": "아니요. ZFocus는 Chrome의 내장 저장소를 사용하여 모든 데이터를 기기에 로컬로 저장합니다. 브라우징 습관, 방문한 URL 또는 개인 정보를 추적하지 않습니다.\n\n선택적으로 전송할 수 있는 유일한 데이터는 버그 수정을 위한 익명 충돌 보고서(오류 스택 트레이스)입니다. 이것은 완전히 선택 사항입니다: 기본적으로 꺼져 있으며 온보딩 또는 설정에서 명시적으로 활성화할 때만 작동합니다.\n\n활성화된 경우에도 충돌 보고서에는 개인 데이터가 포함되지 않으며 스택 트레이스 및 확장 프로그램 컨텍스트와 같은 기술 오류 정보만 포함됩니다. 언제든지 비활성화할 수 있습니다.",
-      "ja": "いいえ。ZFocusはChromeの内蔵ストレージを使用して、すべてのデータをデバイスにローカルに保存します。ブラウジング習慣、訪問したURL、個人情報を追跡することはありません。\n\nオプションで送信できる唯一のデータは、バグ修正のための匿名クラッシュレポート（エラースタックトレース）です。これは完全にオプトインです：デフォルトではオフで、オンボーディングまたは設定で明示的に有効にした場合にのみ機能します。\n\n有効にした場合でも、クラッシュレポートには個人データは含まれず、スタックトレースや拡張機能コンテキストなどの技術的なエラー情報のみが含まれます。いつでも無効にできます。",
-      "zh": "不会。ZFocus使用Chrome的内置存储将所有数据存储在您的设备本地。我们从不跟踪您的浏览习惯、访问的URL或个人信息。\n\n唯一可以选择性发送的数据是匿名崩溃报告（错误堆栈跟踪），以帮助我们修复错误。这完全是可选的：默认关闭，仅在您在初始设置或设置中明确启用时才会激活。\n\n即使启用，崩溃报告也不包含任何个人数据——只有堆栈跟踪和扩展上下文等技术错误信息。您可以随时禁用它。"
+      "vi": "Không. Dữ liệu của bạn được lưu cục bộ trên thiết bị và không dùng cho mục đích theo dõi.\n\nTùy chọn duy nhất có thể gửi ra ngoài là báo cáo lỗi ẩn danh để đội ngũ sửa bug, và chỉ hoạt động khi bạn chủ động bật.\n\nNgay cả khi bật, báo cáo lỗi không bao gồm lịch sử duyệt web hay thông tin cá nhân.",
+      "ko": "아니요. 기본적으로 데이터는 기기에 로컬 저장되며, 브라우징 활동을 추적하지 않습니다.\n\n외부 전송이 가능한 항목은 익명 오류 보고뿐이며, 이것도 사용자가 명시적으로 켰을 때만 동작합니다.\n\n오류 보고에는 개인 식별 정보나 방문 기록이 포함되지 않습니다.",
+      "ja": "いいえ。データは基本的にローカル保存され、閲覧行動の追跡は行いません。\n\n外部送信され得るのは匿名エラーレポートのみで、ユーザーが明示的に有効化した場合に限られます。\n\n個人情報や閲覧履歴は含まれません。",
+      "zh": "不会。默认情况下数据仅保存在本地，不进行浏览追踪。\n\n唯一可能外发的是匿名错误报告，且仅在你主动开启时生效。\n\n报告不包含个人身份信息或浏览历史。"
     },
     "category": "general"
   }

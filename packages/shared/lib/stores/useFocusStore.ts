@@ -1,7 +1,10 @@
 import { validateBlockedSite, validateFocusSettings } from '../utils/validation.js';
+import { captureException, captureMessage } from '../utils/sentry.js';
 import { syncQuotaGuard } from '@extension/storage';
 import { create } from 'zustand';
 import type { FocusSettings, DailyStats, HistoricalStats, BlockedSite, ActiveTimer } from '../utils/validation.js';
+
+const IS_DEV = process.env['CLI_CEB_DEV'] === 'true';
 
 const STORAGE_KEYS = {
   settings: 'focus-settings',
@@ -47,7 +50,7 @@ const getFromStorage = async <T>(key: string, defaultValue: T): Promise<T> => {
 const setToStorage = async <T>(key: string, value: T): Promise<void> => {
   try {
     const backend = await syncQuotaGuard.safeSet(key, value);
-    if (backend === 'indexeddb') {
+    if (backend === 'indexeddb' && IS_DEV) {
       console.warn(`[FocusGuard] Key "${key}" stored in IndexedDB (sync quota exceeded).`);
     }
     if (key === STORAGE_KEYS.settings) {
@@ -58,7 +61,7 @@ const setToStorage = async <T>(key: string, value: T): Promise<void> => {
       }
     }
   } catch (e) {
-    console.error('[FocusGuard] Storage error:', e);
+    captureException(e, { operation: 'setToStorage', key });
   }
 };
 
@@ -176,7 +179,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
         // Background might not be ready
       }
     } catch (e) {
-      console.error('[FocusGuard] Failed to load data:', e);
+      captureException(e, { operation: 'loadInitialData' });
     } finally {
       set({ loading: false });
     }
@@ -188,7 +191,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       const historicalStats = result[STORAGE_KEYS.historicalStats] || {};
       set({ historicalStats });
     } catch (e) {
-      console.error('[FocusGuard] Failed to load historical stats:', e);
+      captureException(e, { operation: 'loadHistoricalStats' });
     }
   },
 
@@ -395,7 +398,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
       // Fully resolved: lifetime
       if (storedInfo?.planType === 'lifetime') {
-        console.log('[ZFocus] Lifetime premium active');
+        if (IS_DEV) console.log('[ZFocus] Lifetime premium active');
         set({ isPremium: true, premiumInfo: storedInfo });
         return;
       }
@@ -403,12 +406,12 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       // Fully resolved: yearly WITH expiresAt
       if (storedInfo?.planType === 'yearly' && storedInfo.expiresAt) {
         if (isPremiumExpired(storedInfo.expiresAt)) {
-          console.log('[ZFocus] Yearly premium expired:', storedInfo.expiresAt);
+          if (IS_DEV) console.log('[ZFocus] Yearly premium expired:', storedInfo.expiresAt);
           await syncQuotaGuard.safeSet('zfocus-premium', false);
           set({ isPremium: false, premiumInfo: storedInfo });
           return;
         }
-        console.log('[ZFocus] Yearly premium active, expires:', storedInfo.expiresAt);
+        if (IS_DEV) console.log('[ZFocus] Yearly premium active, expires:', storedInfo.expiresAt);
         set({ isPremium: true, premiumInfo: storedInfo });
         return;
       }
@@ -416,19 +419,19 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       // Needs resolution: missing premiumInfo, missing planType, or yearly without expiresAt
       const code = storedInfo?.code ?? storedCode;
       if (!code) {
-        console.log('[ZFocus] Premium without code, deactivating');
+        if (IS_DEV) console.log('[ZFocus] Premium without code, deactivating');
         await syncQuotaGuard.safeSet('zfocus-premium', false);
         set({ isPremium: false, premiumInfo: { ...DEFAULT_PREMIUM_INFO } });
         return;
       }
 
-      console.log('[ZFocus] Resolving premium info via API for code:', code);
+      if (IS_DEV) console.log('[ZFocus] Resolving premium info via API for code:', code);
       try {
         const res = await fetch(`${API_URL}/api/promo/validate?code=${encodeURIComponent(code)}`);
         const data = await res.json();
 
         if (!data.valid) {
-          console.log('[ZFocus] Code invalid on server, deactivating');
+          if (IS_DEV) console.log('[ZFocus] Code invalid on server, deactivating');
           await syncQuotaGuard.safeSet('zfocus-premium', false);
           const info: PremiumInfo = { planType: null, expiresAt: null, code };
           await syncQuotaGuard.safeSet('zfocus-premium-info', info);
@@ -447,12 +450,15 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
 
         const resolvedInfo: PremiumInfo = { planType, expiresAt, code };
         await syncQuotaGuard.safeSet('zfocus-premium-info', resolvedInfo);
-        console.log('[ZFocus] Premium info resolved:', resolvedInfo);
+        if (IS_DEV) console.log('[ZFocus] Premium info resolved:', resolvedInfo);
         set({ isPremium: true, premiumInfo: resolvedInfo });
-      } catch {
-        // API unreachable: keep premium active in memory but do NOT persist incomplete info
-        // Next load will retry API resolution
-        console.warn('[ZFocus] API unreachable, keeping premium active temporarily (will retry next load)');
+      } catch (apiError) {
+        if (IS_DEV)
+          console.log('[ZFocus] API unreachable during premium resolution, keeping active temporarily', apiError);
+        captureMessage('API unreachable during premium resolution, keeping active temporarily', 'warning', {
+          code,
+          storedPlanType: storedInfo?.planType ?? null,
+        });
         const tempInfo: PremiumInfo = {
           planType: storedInfo?.planType ?? null,
           expiresAt: storedInfo?.expiresAt ?? null,
@@ -461,7 +467,7 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
         set({ isPremium: true, premiumInfo: tempInfo });
       }
     } catch (e) {
-      console.error('[ZFocus] loadPremiumStatus error:', e);
+      captureException(e, { operation: 'loadPremiumStatus' });
       set({ isPremium: false, premiumInfo: { ...DEFAULT_PREMIUM_INFO } });
     }
   },
@@ -483,7 +489,10 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        console.warn('[ZFocus] activatePremium failed:', result.error);
+        captureMessage('Premium activation failed', 'warning', {
+          error: result.error,
+          code: normalizedCode,
+        });
         return false;
       }
 
@@ -498,10 +507,10 @@ export const useFocusStore = create<FocusStoreState>((set, get) => ({
       await syncQuotaGuard.safeSet('zfocus-premium-info', premiumInfo);
       await syncQuotaGuard.safeSet('zfocus-premium-code', normalizedCode);
       set({ isPremium: true, premiumInfo });
-      console.log('[ZFocus] Premium activated:', premiumInfo);
+      if (IS_DEV) console.log('[ZFocus] Premium activated:', premiumInfo);
       return true;
     } catch (e) {
-      console.error('[ZFocus] activatePremium error:', e);
+      captureException(e, { operation: 'activatePremium', code: normalizedCode });
       return false;
     }
   },

@@ -8,11 +8,11 @@
   },
   "hero": {
     "title": "気を散らすものを減らし、集中力を維持",
-    "subtitle": "生産性を向上させるユニークな機能を備えた最も強力なウェブサイトブロッカー"
+    "subtitle": "プライバシーを最優先にしたサイトブロッカー。スケジュール・時間制限・スマートルールで集中時間を守ります"
   },
   "smartBlocking": {
     "title": "スマートブロッキング",
-    "subtitle": "よりスマートに、より簡単にブロック",
+    "subtitle": "一律ではなく、状況に合わせて賢く制御",
     "exceptionPattern": {
       "badge": "ユニーク機能",
       "title": "例外パターン",
@@ -52,7 +52,7 @@
   },
   "advancedActions": {
     "title": "高度なアクション",
-    "subtitle": "シンプルなブロッキングを超えて",
+    "subtitle": "単なるブロックを超えた行動改善機能",
     "closeTab": {
       "badge": "ユニーク機能",
       "title": "タブを閉じる",
@@ -74,18 +74,18 @@
   },
   "privacy": {
     "title": "プライバシー第一",
-    "subtitle": "あなたのデータはあなたと共に",
+    "subtitle": "データはユーザー端末内にのみ保存されます",
     "localStorage": "100%ローカルストレージ",
     "zeroTracking": "トラッキングゼロ",
     "noAccount": "アカウント不要",
     "optInErrorReporting": "同意時のみエラー報告",
     "optInErrorReportingDesc": "明示的な同意がある場合のみ匿名のクラッシュレポートを送信",
-    "quote": "私たちは見ません、保存しません、知りません。本当です！",
+    "quote": "私たちは閲覧内容を見ず、保存せず、追跡もしません。",
     "quoteSubtitle": "あなたのブラウジング習慣はあなただけのものです"
   },
   "statistics": {
     "title": "スマート統計",
-    "subtitle": "30日間の履歴で進捗を追跡",
+    "subtitle": "30日分の記録で集中パターンを可視化",
     "blocksToday": "今日のブロック",
     "timeSaved": "節約した時間",
     "dayStreak": "連続日数",
@@ -101,10 +101,10 @@
     }
   },
   "cta": {
-    "title": "生産性を高める準備はできましたか？",
-    "users": "500人以上のユーザーが参加",
-    "timeSaved": "毎日2時間以上節約",
-    "rating": "4.9/5.0",
+    "title": "集中できる作業習慣を、今すぐ始めましょう",
+    "users": "学生・クリエイター・リモートワーカー向け",
+    "timeSaved": "毎日、集中できる時間を取り戻す",
+    "rating": "プライバシー重視",
     "installChrome": "無料インストール - Chrome",
     "firefox": "Firefox",
     "manualDownload": "手動ダウンロード",
@@ -112,7 +112,7 @@
   },
   "faq": {
     "title": "よくある質問",
-    "subtitle": "ZFocusについて知っておくべきすべて",
+    "subtitle": "ZFocusの利用前によくある質問",
     "searchPlaceholder": "質問を検索...",
     "found": "見つかりました",
     "question": "質問",
@@ -120,24 +120,24 @@
     "noResults": "質問が見つかりませんでした",
     "tryDifferent": "別の検索用語を試してください",
     "stillHaveQuestions": "まだ質問がありますか？",
-    "checkDocs": "ドキュメントをチェックするか、コミュニティに連絡してください",
+    "checkDocs": "ドキュメントの確認、またはコミュニティでの相談をご利用ください",
     "viewDocs": "ドキュメントを見る",
     "joinCommunity": "コミュニティに参加"
   },
   "useCases": {
     "title": "実際の使用例",
-    "subtitle": "ZFocusがあなたのような人々が集中して生産的であるのを助ける方法を見てください",
+    "subtitle": "実際のシナリオで、ZFocusの活用方法を確認できます",
     "scenario": "シナリオ",
     "problem": "問題",
     "solution": "ソリューション",
     "results": "結果",
     "whichFitsYou": "どの使用例があなたに合いますか？",
-    "whichFitsYouDesc": "ZFocusはあなたのユニークなワークフローに適応します。1つの戦略から始めて、あなたの方法でカスタマイズしてください。",
+    "whichFitsYouDesc": "ZFocusはあなたの作業スタイルに合わせて柔軟に調整できます。まずは1つの戦略から始め、必要に応じて最適化してください。",
     "getStarted": "無料で始める"
   },
   "pricing": {
     "title": "シンプルで透明な料金",
-    "subtitle": "無料で始めて、準備ができたらアップグレード",
+    "subtitle": "無料で始めて、必要になったらアップグレード",
     "freeTrial": {
       "badge": "始めましょう",
       "title": "無料トライアル",
@@ -163,7 +163,7 @@
       "price": "14",
       "currency": "$",
       "period": "/年",
-      "description": "最大の生産性のための高度な機能をアンロック",
+      "description": "集中管理に必要な上位機能をまとめて利用",
       "features": {
         "allFreeFeatures": "無料トライアルのすべて",
         "exceptionPatterns": "スマート例外（ブロックドメイン内の特定URLを許可）",
@@ -180,7 +180,7 @@
       "price": "29",
       "currency": "$",
       "period": "1回",
-      "description": "一度の支払いでプレミアムを永久に使用",
+      "description": "一度の支払いでプレミアム機能を継続利用",
       "features": {
         "allYearlyFeatures": "プレミアムのすべて",
         "lifetimeUpdates": "永久無料アップデート",
@@ -297,7 +297,7 @@
   },
   "moreThings": {
     "title": "その他",
-    "subtitle": "美しいUI＆ブラウザサポート",
+    "subtitle": "洗練されたUIと幅広いブラウザ対応",
     "beautifulUI": {
       "title": "美しいUI",
       "light": "ライト",
@@ -321,7 +321,7 @@
     "product": "商品",
     "totalAmount": "合計",
     "activationCode": "アクティベーションコード",
-    "activationCodeDesc": "このコードをコピーして、ZFocus拡張機能でPremiumを有効にしてください。",
+    "activationCodeDesc": "このコードをコピーし、ZFocus拡張機能に入力するとPremiumが有効になります。",
     "copyCode": "コードをコピー",
     "copied": "コピーしました!",
     "codeProcessing": "アクティベーションコードを生成中です。数秒後にページを更新してください。",
@@ -330,7 +330,7 @@
     "step2": "ZFocus拡張機能をまだインストールしていない場合はインストールしてください",
     "step3": "ZFocusポップアップを開き、設定からアクティベーションコードを入力してください",
     "errorTitle": "確認に失敗しました",
-    "errorDescription": "お支払いを確認できませんでした。このチェックアウトは無効、期限切れ、または未完了の可能性があります。",
+    "errorDescription": "お支払いの確認に失敗しました。注文が無効・期限切れ・未完了のいずれかの可能性があります。",
     "errorReason": "詳細",
     "errorUnknown": "不明なエラーが発生しました。もう一度お試しいただくか、サポートにお問い合わせください。",
     "installExtension": "拡張機能をインストール",

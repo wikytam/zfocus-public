@@ -4,53 +4,53 @@
     "icon": "GraduationCap",
     "title": {
       "en": "Students & Learners",
-      "vi": "Sinh Viên & Người Học",
+      "vi": "Sinh viên và người học",
       "ko": "학생 및 학습자",
-      "ja": "学生と学習者",
-      "zh": "学生和学习者"
+      "ja": "学生・学習者",
+      "zh": "学生与学习者"
     },
     "scenario": {
       "en": "Staying focused during study sessions",
-      "vi": "Duy trì tập trung trong các buổi học",
-      "ko": "공부 세션 중 집중 유지",
-      "ja": "学習セッション中の集中力維持",
-      "zh": "在学习期间保持专注"
+      "vi": "Giữ tập trung trong các buổi học",
+      "ko": "공부 시간에 집중력 유지",
+      "ja": "学習時間の集中力を維持する",
+      "zh": "在学习时段保持专注"
     },
     "problem": {
       "en": "Social media and entertainment sites constantly interrupt study time",
-      "vi": "Mạng xã hội và trang giải trí liên tục làm gián đoạn thời gian học",
-      "ko": "소셜 미디어와 엔터테인먼트 사이트가 공부 시간을 지속적으로 방해합니다",
-      "ja": "ソーシャルメディアとエンターテインメントサイトが学習時間を常に中断します",
-      "zh": "社交媒体和娱乐网站不断打断学习时间"
+      "vi": "Mạng xã hội và nội dung giải trí liên tục cắt ngang thời gian học",
+      "ko": "소셜 미디어와 엔터테인먼트 사이트가 학습 흐름을 자주 끊습니다",
+      "ja": "SNSや娯楽サイトにより、学習の流れが何度も中断される",
+      "zh": "社交媒体和娱乐网站会不断打断学习节奏"
     },
     "solution": {
       "en": "Block distracting sites during study hours (9 AM - 5 PM on weekdays). Use Exception Patterns to allow educational YouTube channels while blocking entertainment content. Set Time-Based Blocking for 5 minutes of social media every hour as a reward.",
-      "vi": "Chặn các trang gây xao lãng trong giờ học (9 AM - 5 PM các ngày trong tuần). Sử dụng Mẫu Ngoại Lệ để cho phép kênh YouTube giáo dục trong khi chặn nội dung giải trí. Đặt Chặn Theo Thời Gian cho 5 phút mạng xã hội mỗi giờ như một phần thưởng.",
-      "ko": "공부 시간(평일 오전 9시 - 오후 5시) 동안 방해가 되는 사이트를 차단합니다. 예외 패턴을 사용하여 엔터테인먼트 콘텐츠를 차단하면서 교육용 YouTube 채널을 허용합니다. 보상으로 매시간 5분의 소셜 미디어에 대한 시간 기반 차단을 설정합니다.",
-      "ja": "学習時間(平日午前9時〜午後5時)中に気を散らすサイトをブロックします。例外パターンを使用して、エンターテインメントコンテンツをブロックしながら教育的なYouTubeチャンネルを許可します。報酬として毎時5分のソーシャルメディアに時間ベースブロッキングを設定します。",
-      "zh": "在学习时间(工作日上午9点至下午5点)期间屏蔽分心的网站。使用例外模式允许教育YouTube频道，同时屏蔽娱乐内容。将基于时间的屏蔽设置为每小时5分钟的社交媒体作为奖励。"
+      "vi": "Chặn các trang gây xao nhãng trong giờ học (9 AM - 5 PM, từ thứ Hai đến thứ Sáu). Dùng Mẫu ngoại lệ để vẫn cho phép các kênh YouTube phục vụ học tập, nhưng chặn nội dung giải trí. Thiết lập giới hạn theo thời gian: 5 phút mạng xã hội mỗi giờ như một phần thưởng.",
+      "ko": "학습 시간대(평일 오전 9시-오후 5시)에 방해 사이트를 차단하세요. 예외 패턴으로 학습용 YouTube 채널은 허용하고, 오락성 콘텐츠는 차단할 수 있습니다. 보상 방식으로 시간당 5분 소셜 미디어 허용을 설정해 지속 가능한 루틴을 만드세요.",
+      "ja": "学習時間（平日9:00-17:00）は気が散るサイトをブロックします。例外パターンを使えば、学習用のYouTubeチャンネルだけ許可し、娯楽コンテンツは制限できます。さらに、1時間あたり5分だけSNSを許可する設定にすると、無理なく続けやすくなります。",
+      "zh": "在学习时段（工作日 9:00-17:00）屏蔽干扰网站。通过例外规则保留学习类 YouTube 频道，同时限制娱乐内容。再配合“每小时允许 5 分钟社交媒体”的奖励式设置，更容易长期坚持。"
     },
     "results": [
       {
         "en": "2-3 hours saved daily",
         "vi": "Tiết kiệm 2-3 giờ mỗi ngày",
-        "ko": "매일 2-3시간 절약",
-        "ja": "毎日2〜3時間節約",
-        "zh": "每天节省2-3小时"
+        "ko": "하루 2-3시간 집중 시간 확보",
+        "ja": "1日2-3時間の集中時間を確保",
+        "zh": "每天多出 2-3 小时专注时间"
       },
       {
         "en": "Better grades",
-        "vi": "Điểm số tốt hơn",
-        "ko": "더 나은 성적",
-        "ja": "より良い成績",
-        "zh": "更好的成绩"
+        "vi": "Kết quả học tập cải thiện",
+        "ko": "학습 성과 향상",
+        "ja": "学習成果の向上",
+        "zh": "学习表现提升"
       },
       {
         "en": "Reduced stress",
-        "vi": "Giảm căng thẳng",
-        "ko": "스트레스 감소",
-        "ja": "ストレス軽減",
-        "zh": "减少压力"
+        "vi": "Giảm căng thẳng do trì hoãn",
+        "ko": "미루기로 인한 스트레스 감소",
+        "ja": "先延ばしによるストレス軽減",
+        "zh": "减少拖延带来的压力"
       }
     ]
   },
@@ -59,53 +59,53 @@
     "icon": "Briefcase",
     "title": {
       "en": "Remote Workers",
-      "vi": "Nhân Viên Làm Từ Xa",
+      "vi": "Người làm việc từ xa",
       "ko": "원격 근무자",
       "ja": "リモートワーカー",
-      "zh": "远程工作者"
+      "zh": "远程办公人群"
     },
     "scenario": {
       "en": "Maintaining productivity while working from home",
       "vi": "Duy trì năng suất khi làm việc tại nhà",
-      "ko": "재택근무 중 생산성 유지",
-      "ja": "在宅勤務中の生産性維持",
-      "zh": "在家工作时保持生产力"
+      "ko": "재택근무 환경에서 생산성 유지",
+      "ja": "在宅勤務でも生産性を維持する",
+      "zh": "在家办公时保持稳定产出"
     },
     "problem": {
       "en": "Home environment has more distractions than office",
-      "vi": "Môi trường nhà có nhiều yếu tố gây xao lãng hơn văn phòng",
-      "ko": "가정 환경은 사무실보다 더 많은 방해 요소가 있습니다",
-      "ja": "自宅環境はオフィスよりも気が散りやすい",
-      "zh": "家庭环境比办公室有更多干扰"
+      "vi": "Môi trường ở nhà dễ phát sinh nhiều yếu tố gây xao nhãng hơn văn phòng",
+      "ko": "집에서는 업무와 무관한 유혹이 더 쉽게 생깁니다",
+      "ja": "自宅環境では仕事以外の誘惑が増えやすい",
+      "zh": "家庭环境里更容易出现与工作无关的干扰"
     },
     "solution": {
       "en": "Block social media and news sites during work hours (9 AM - 6 PM). Use Referrer Blocking to prevent clicking through from Slack/email to rabbit holes. Enable 'Active Tab Only' to allow background music while blocking video browsing.",
-      "vi": "Chặn mạng xã hội và trang tin tức trong giờ làm việc (9 AM - 6 PM). Sử dụng Chặn Nguồn Giới Thiệu để ngăn nhấp qua từ Slack/email đến các vòng xoáy. Bật 'Chỉ Tab Hoạt Động' để cho phép nhạc nền trong khi chặn duyệt video.",
-      "ko": "근무 시간(오전 9시 - 오후 6시) 동안 소셜 미디어 및 뉴스 사이트를 차단합니다. 리퍼러 차단을 사용하여 Slack/이메일에서 토끼 구멍으로 클릭하는 것을 방지합니다. 비디오 브라우징을 차단하면서 배경 음악을 허용하려면 '활성 탭만'을 활성화하십시오.",
-      "ja": "勤務時間(午前9時〜午後6時)中にソーシャルメディアとニュースサイトをブロックします。リファラーブロッキングを使用して、Slack/メールからウサギの穴へのクリックを防ぎます。ビデオブラウジングをブロックしながらバックグラウンド音楽を許可するには、「アクティブタブのみ」を有効にします。",
-      "zh": "在工作时间(上午9点至下午6点)期间屏蔽社交媒体和新闻网站。使用来源屏蔽防止从Slack/电子邮件点击进入兔子洞。启用'仅活动标签'以允许背景音乐，同时屏蔽视频浏览。"
+      "vi": "Chặn mạng xã hội và trang tin tức trong giờ làm việc (9 AM - 6 PM). Dùng Chặn theo nguồn truy cập để hạn chế việc bấm từ Slack/email sang các nội dung gây xao nhãng. Bật 'Chỉ tab đang hoạt động' để vẫn nghe nhạc nền nhưng chặn lướt video.",
+      "ko": "근무 시간(오전 9시-오후 6시)에는 소셜 미디어와 뉴스 사이트를 차단하세요. 리퍼러 차단을 활용하면 Slack/이메일에서 딴길로 빠지는 클릭을 줄일 수 있습니다. 또한 활성 탭만 계산을 켜면 백그라운드 음악은 유지하면서 영상 탐색은 제한할 수 있습니다.",
+      "ja": "勤務時間（9:00-18:00）はSNSやニュースサイトをブロックします。リファラーブロックを使うと、Slackやメールからの寄り道クリックを減らせます。さらに「アクティブタブのみ」を有効にすれば、BGMは流しつつ動画巡回は抑えられます。",
+      "zh": "在工作时段（9:00-18:00）屏蔽社交媒体和新闻站点。使用来源屏蔽可减少从 Slack/邮件“点进去就停不下来”的情况。开启“仅统计活动标签页”后，可保留后台音乐，同时限制视频刷看。"
     },
     "results": [
       {
         "en": "1.5x more work completed",
-        "vi": "Hoàn thành nhiều hơn 1.5 lần công việc",
-        "ko": "1.5배 더 많은 작업 완료",
-        "ja": "1.5倍の作業完了",
-        "zh": "完成1.5倍的工作"
+        "vi": "Khối lượng công việc hoàn thành tăng rõ rệt",
+        "ko": "핵심 업무 완료량 증가",
+        "ja": "重要タスクの完了量が増える",
+        "zh": "核心工作完成量提升"
       },
       {
         "en": "Fewer meetings due to efficiency",
-        "vi": "Ít cuộc họp hơn nhờ hiệu quả",
-        "ko": "효율성으로 인한 회의 감소",
-        "ja": "効率により会議が減少",
-        "zh": "由于效率提高会议减少"
+        "vi": "Giảm họp phát sinh do xử lý việc tập trung hơn",
+        "ko": "불필요한 회의/재작업 감소",
+        "ja": "不要な会議や手戻りが減る",
+        "zh": "减少无效会议与返工"
       },
       {
         "en": "Better work-life balance",
-        "vi": "Cân bằng công việc-cuộc sống tốt hơn",
-        "ko": "더 나은 일과 삶의 균형",
-        "ja": "より良いワークライフバランス",
-        "zh": "更好的工作与生活平衡"
+        "vi": "Cân bằng công việc và cuộc sống tốt hơn",
+        "ko": "일과 삶의 균형 개선",
+        "ja": "ワークライフバランスの改善",
+        "zh": "工作与生活更平衡"
       }
     ]
   },
@@ -114,53 +114,53 @@
     "icon": "Code",
     "title": {
       "en": "Developers & Designers",
-      "vi": "Lập Trình Viên & Nhà Thiết Kế",
+      "vi": "Lập trình viên và nhà thiết kế",
       "ko": "개발자 및 디자이너",
-      "ja": "開発者とデザイナー",
-      "zh": "开发者和设计师"
+      "ja": "開発者・デザイナー",
+      "zh": "开发者与设计师"
     },
     "scenario": {
       "en": "Deep work sessions for complex projects",
-      "vi": "Các phiên làm việc sâu cho dự án phức tạp",
-      "ko": "복잡한 프로젝트를 위한 딥 워크 세션",
-      "ja": "複雑なプロジェクトのためのディープワークセッション",
-      "zh": "复杂项目的深度工作会话"
+      "vi": "Tạo các phiên làm việc sâu cho dự án phức tạp",
+      "ko": "복잡한 프로젝트를 위한 딥워크 확보",
+      "ja": "複雑な案件のために深い集中時間を作る",
+      "zh": "为复杂项目创建深度工作时段"
     },
     "problem": {
       "en": "Constant context switching destroys flow state and productivity",
-      "vi": "Chuyển đổi ngữ cảnh liên tục phá hủy trạng thái dòng chảy và năng suất",
-      "ko": "지속적인 컨텍스트 전환은 플로우 상태와 생산성을 파괴합니다",
-      "ja": "頻繁なコンテキストスイッチングがフロー状態と生産性を破壊します",
-      "zh": "持续的上下文切换破坏流状态和生产力"
+      "vi": "Chuyển ngữ cảnh liên tục làm vỡ mạch tập trung và giảm năng suất",
+      "ko": "잦은 컨텍스트 전환이 몰입과 생산성을 무너뜨립니다",
+      "ja": "頻繁なコンテキスト切り替えで集中が切れ、生産性が落ちる",
+      "zh": "频繁切换上下文会打断思路并拉低效率"
     },
     "solution": {
       "en": "Block all non-work sites during 90-minute deep work sprints. Use Exception Patterns to allow Stack Overflow, GitHub, and docs while blocking other sites. Set Quick Pause for 3-10 minute breaks between sessions.",
-      "vi": "Chặn tất cả các trang không liên quan đến công việc trong các sprint làm việc sâu 90 phút. Sử dụng Mẫu Ngoại Lệ để cho phép Stack Overflow, GitHub và tài liệu trong khi chặn các trang khác. Đặt Tạm Dừng Nhanh cho nghỉ 3-10 phút giữa các phiên.",
-      "ko": "90분 딥 워크 스프린트 동안 모든 비업무 사이트를 차단합니다. 예외 패턴을 사용하여 다른 사이트를 차단하면서 Stack Overflow, GitHub 및 문서를 허용합니다. 세션 사이의 3-10분 휴식을 위해 빠른 일시정지를 설정합니다.",
-      "ja": "90分のディープワークスプリント中にすべての非作業サイトをブロックします。例外パターンを使用して、他のサイトをブロックしながらStack Overflow、GitHub、ドキュメントを許可します。セッション間の3-10分の休憩にクイック一時停止を設定します。",
-      "zh": "在90分钟的深度工作冲刺期间屏蔽所有非工作网站。使用例外模式允许Stack Overflow、GitHub和文档，同时屏蔽其他网站。为会话之间的3-10分钟休息设置快速暂停。"
+      "vi": "Chặn toàn bộ trang ngoài công việc trong các phiên làm việc sâu 90 phút. Dùng Mẫu ngoại lệ để vẫn truy cập Stack Overflow, GitHub và tài liệu kỹ thuật, đồng thời chặn các trang khác. Thiết lập Tạm dừng nhanh 3-10 phút giữa các phiên.",
+      "ko": "90분 딥워크 구간에는 비업무 사이트를 전면 차단하세요. 예외 패턴으로 Stack Overflow, GitHub, 공식 문서만 허용하면 업무 효율을 유지할 수 있습니다. 세션 사이에는 3-10분 빠른 일시정지로 짧게 회복하세요.",
+      "ja": "90分のディープワーク中は業務外サイトをまとめてブロックします。例外パターンで Stack Overflow、GitHub、公式ドキュメントのみ許可すれば、必要な情報アクセスは維持できます。セッション間は3-10分のクイック一時停止で短く回復します。",
+      "zh": "在 90 分钟深度工作冲刺内屏蔽所有非工作站点。通过例外规则仅保留 Stack Overflow、GitHub 和官方文档，既能查资料又不被带偏。每个冲刺之间用 3-10 分钟快速暂停做短休息。"
     },
     "results": [
       {
         "en": "2-3x faster problem solving",
-        "vi": "Giải quyết vấn đề nhanh hơn 2-3 lần",
-        "ko": "2-3배 빠른 문제 해결",
-        "ja": "2〜3倍速い問題解決",
-        "zh": "解决问题速度快2-3倍"
+        "vi": "Giải quyết vấn đề nhanh hơn",
+        "ko": "문제 해결 속도 향상",
+        "ja": "問題解決が速くなる",
+        "zh": "问题解决速度提升"
       },
       {
         "en": "Ship features ahead of schedule",
-        "vi": "Giao tính năng sớm hơn lịch trình",
-        "ko": "일정보다 빠른 기능 출시",
-        "ja": "スケジュールより早く機能を出荷",
-        "zh": "提前发布功能"
+        "vi": "Bàn giao tính năng đúng hoặc sớm hơn kế hoạch",
+        "ko": "기능 출시 일정 안정화",
+        "ja": "リリーススケジュールが安定",
+        "zh": "功能交付节奏更稳定"
       },
       {
         "en": "Enter flow state easily",
-        "vi": "Dễ dàng vào trạng thái dòng chảy",
-        "ko": "쉽게 플로우 상태 진입",
-        "ja": "簡単にフロー状態に入る",
-        "zh": "轻松进入流状态"
+        "vi": "Dễ vào trạng thái tập trung sâu hơn",
+        "ko": "몰입 상태 진입이 쉬워짐",
+        "ja": "集中状態に入りやすくなる",
+        "zh": "更容易进入专注流"
       }
     ]
   },
@@ -169,53 +169,53 @@
     "icon": "Users",
     "title": {
       "en": "Parents & Families",
-      "vi": "Phụ Huynh & Gia Đình",
-      "ko": "부모 및 가족",
-      "ja": "親と家族",
-      "zh": "父母和家庭"
+      "vi": "Phụ huynh và gia đình",
+      "ko": "부모와 가족",
+      "ja": "保護者・家族",
+      "zh": "家长与家庭"
     },
     "scenario": {
       "en": "Building healthy digital habits for the whole family",
-      "vi": "Xây dựng thói quen số lành mạnh cho cả gia đình",
-      "ko": "온 가족을 위한 건강한 디지털 습관 구축",
-      "ja": "家族全員の健康的なデジタル習慣の構築",
-      "zh": "为全家建立健康的数字习惯"
+      "vi": "Xây dựng thói quen số lành mạnh cho cả nhà",
+      "ko": "가족 모두를 위한 건강한 디지털 습관 만들기",
+      "ja": "家族全体で健全なデジタル習慣を作る",
+      "zh": "为全家建立更健康的数字习惯"
     },
     "problem": {
       "en": "Excessive screen time affects family time and sleep schedules",
-      "vi": "Thời gian màn hình quá mức ảnh hưởng đến thời gian gia đình và lịch trình ngủ",
-      "ko": "과도한 화면 시간이 가족 시간과 수면 일정에 영향을 미칩니다",
-      "ja": "過度なスクリーンタイムが家族の時間と睡眠スケジュールに影響します",
-      "zh": "过度的屏幕时间影响家庭时间和睡眠时间表"
+      "vi": "Thời gian màn hình quá nhiều ảnh hưởng đến sinh hoạt gia đình và giấc ngủ",
+      "ko": "과도한 스크린 타임이 가족 시간과 수면 리듬에 영향을 줍니다",
+      "ja": "スクリーン時間の増えすぎが家族時間や睡眠リズムを崩す",
+      "zh": "过多屏幕时间会影响家庭相处和睡眠规律"
     },
     "solution": {
       "en": "Block entertainment sites during dinner hours (6-8 PM) and after bedtime (10 PM). Set weekend schedules to allow more flexibility. Use Time-Based Blocking to limit but not eliminate screen time (30 min per 2 hours).",
       "vi": "Chặn các trang giải trí trong giờ ăn tối (6-8 PM) và sau giờ đi ngủ (10 PM). Đặt lịch trình cuối tuần để cho phép linh hoạt hơn. Sử dụng Chặn Theo Thời Gian để giới hạn nhưng không loại bỏ thời gian màn hình (30 phút mỗi 2 giờ).",
-      "ko": "저녁 시간(오후 6-8시)과 취침 시간(오후 10시) 후에 엔터테인먼트 사이트를 차단합니다. 주말 일정을 설정하여 더 많은 유연성을 허용합니다. 시간 기반 차단을 사용하여 화면 시간을 제한하되 제거하지는 않습니다(2시간당 30분).",
-      "ja": "夕食時(午後6〜8時)と就寝後(午後10時)にエンターテインメントサイトをブロックします。週末のスケジュールを設定して、より柔軟性を持たせます。時間ベースブロッキングを使用して、スクリーンタイムを制限しますが、排除しません(2時間あたり30分)。",
-      "zh": "在晚餐时间(下午6-8点)和就寝后(晚上10点)屏蔽娱乐网站。设置周末时间表以允许更多灵活性。使用基于时间的屏蔽来限制但不消除屏幕时间(每2小时30分钟)。"
+      "ko": "저녁 시간(오후 6-8시)과 취침 이후(오후 10시 이후)에 오락 사이트를 제한하세요. 주말은 완화된 일정으로 조정해 유연성을 확보할 수 있습니다. 시간 기반 제한(예: 2시간당 30분)으로 완전 금지 대신 균형 잡힌 사용 습관을 만들 수 있습니다.",
+      "ja": "夕食時間（18:00-20:00）と就寝後（22:00以降）は娯楽サイトを制限します。週末は少し緩めたスケジュールにして柔軟性を持たせます。時間ベース制限（例: 2時間ごとに30分）を使えば、全面禁止ではなく現実的なコントロールが可能です。",
+      "zh": "在晚餐时段（18:00-20:00）和就寝后（22:00 以后）限制娱乐网站。周末可设置更灵活的规则。通过“按时长限制”（例如每 2 小时允许 30 分钟），实现可持续的管理，而不是一刀切禁用。"
     },
     "results": [
       {
         "en": "More quality family time",
-        "vi": "Nhiều thời gian gia đình chất lượng hơn",
-        "ko": "더 많은 양질의 가족 시간",
-        "ja": "より質の高い家族の時間",
-        "zh": "更多高质量的家庭时间"
+        "vi": "Nhiều thời gian chất lượng cho gia đình hơn",
+        "ko": "가족과 보내는 질 높은 시간 증가",
+        "ja": "家族との質の高い時間が増える",
+        "zh": "增加高质量家庭时间"
       },
       {
         "en": "Better sleep for everyone",
-        "vi": "Giấc ngủ tốt hơn cho mọi người",
-        "ko": "모두를 위한 더 나은 수면",
-        "ja": "みんなのためのより良い睡眠",
-        "zh": "每个人都睡得更好"
+        "vi": "Giấc ngủ ổn định hơn cho mọi người",
+        "ko": "수면 패턴 개선",
+        "ja": "睡眠習慣が整う",
+        "zh": "睡眠作息更稳定"
       },
       {
         "en": "Healthier digital boundaries",
-        "vi": "Ranh giới số lành mạnh hơn",
-        "ko": "더 건강한 디지털 경계",
-        "ja": "より健康的なデジタル境界",
-        "zh": "更健康的数字边界"
+        "vi": "Thiết lập ranh giới số lành mạnh hơn",
+        "ko": "건강한 디지털 경계 형성",
+        "ja": "健全なデジタル境界を作れる",
+        "zh": "建立健康的数字边界"
       }
     ]
   },
@@ -224,53 +224,53 @@
     "icon": "Pen",
     "title": {
       "en": "Content Creators & Writers",
-      "vi": "Nhà Sáng Tạo Nội Dung & Nhà Văn",
-      "ko": "콘텐츠 제작자 및 작가",
-      "ja": "コンテンツクリエーターとライター",
-      "zh": "内容创作者和作家"
+      "vi": "Nhà sáng tạo nội dung và người viết",
+      "ko": "콘텐츠 크리에이터 및 작가",
+      "ja": "コンテンツ制作者・ライター",
+      "zh": "内容创作者与写作者"
     },
     "scenario": {
       "en": "Finishing projects without endless research rabbit holes",
-      "vi": "Hoàn thành dự án mà không có các vòng xoáy nghiên cứu vô tận",
-      "ko": "끝없는 연구 토끼 구멍 없이 프로젝트 완료",
-      "ja": "終わりのない研究のウサギの穴なしでプロジェクトを完了",
-      "zh": "在没有无尽研究兔子洞的情况下完成项目"
+      "vi": "Hoàn thành dự án mà không sa đà vào vòng xoáy tìm kiếm",
+      "ko": "끝없는 자료 탐색에 빠지지 않고 프로젝트를 마무리하기",
+      "ja": "調べものの迷路に入らず、制作を最後まで進める",
+      "zh": "不陷入无尽检索，也能把项目按时做完"
     },
     "problem": {
       "en": "Research turns into procrastination, creative work gets postponed",
-      "vi": "Nghiên cứu biến thành trì hoãn, công việc sáng tạo bị hoãn lại",
-      "ko": "연구가 지연으로 변하고 창의적인 작업이 연기됩니다",
-      "ja": "研究が先延ばしになり、創造的な仕事が延期されます",
-      "zh": "研究变成拖延，创造性工作被推迟"
+      "vi": "Nghiên cứu kéo dài thành trì hoãn, khiến phần việc sáng tạo bị chậm lại",
+      "ko": "조사가 길어지며 미루기로 이어지고, 창작 작업이 뒤로 밀립니다",
+      "ja": "リサーチが長引いて先延ばしになり、創作工程が遅れる",
+      "zh": "研究过程不断拉长，最终演变为拖延，创作部分被一再推后"
     },
     "solution": {
       "en": "Block research sites during writing blocks (2-3 hours). Use Referrer Blocking to prevent clicking through from writing apps to distractions. Enable Time-Based Access for quick fact-checks (5 minutes every 30 minutes).",
-      "vi": "Chặn các trang nghiên cứu trong các khối viết (2-3 giờ). Sử dụng Chặn Nguồn Giới Thiệu để ngăn nhấp qua từ ứng dụng viết đến các yếu tố gây xao lãng. Bật Truy Cập Theo Thời Gian cho kiểm tra sự thật nhanh (5 phút mỗi 30 phút).",
-      "ko": "작성 블록(2-3시간) 동안 연구 사이트를 차단합니다. 리퍼러 차단을 사용하여 작성 앱에서 방해 요소로 클릭하는 것을 방지합니다. 빠른 사실 확인(30분마다 5분)을 위해 시간 기반 액세스를 활성화합니다.",
-      "ja": "執筆ブロック(2〜3時間)中に研究サイトをブロックします。リファラーブロッキングを使用して、執筆アプリから気を散らすものへのクリックを防ぎます。迅速な事実確認(30分ごとに5分)のために時間ベースアクセスを有効にします。",
-      "zh": "在写作块(2-3小时)期间屏蔽研究网站。使用来源屏蔽防止从写作应用程序点击分心因素。启用基于时间的访问以快速核实(每30分钟5分钟)。"
+      "vi": "Chặn các trang nghiên cứu trong các phiên viết kéo dài 2-3 giờ. Dùng Chặn theo nguồn truy cập để tránh bấm từ ứng dụng viết sang các nội dung gây xao nhãng. Bật Truy cập theo thời gian để kiểm chứng thông tin nhanh (5 phút mỗi 30 phút).",
+      "ko": "집필 블록(2-3시간) 동안은 조사 사이트 접근을 제한하세요. 리퍼러 차단으로 글쓰기 도구에서 산만한 사이트로 넘어가는 흐름을 끊을 수 있습니다. 사실 확인이 필요할 때는 30분마다 5분처럼 짧은 시간 기반 접근만 허용하세요.",
+      "ja": "執筆ブロック（2-3時間）中は調査サイトを制限します。リファラーブロックで、執筆アプリから気が散るページへの遷移を防げます。ファクトチェックは「30分ごとに5分」など短時間の時間ベースアクセスだけ許可すると効果的です。",
+      "zh": "在写作时段（2-3 小时）限制研究类网站访问。使用来源屏蔽可避免从写作工具一路点到分心内容。需要查证时，只开放短时窗口（例如每 30 分钟可用 5 分钟）。"
     },
     "results": [
       {
         "en": "Projects finished on time",
-        "vi": "Dự án hoàn thành đúng hạn",
-        "ko": "프로젝트 정시 완료",
-        "ja": "プロジェクトを時間通りに完了",
-        "zh": "项目按时完成"
+        "vi": "Dự án hoàn thành đúng hạn hơn",
+        "ko": "프로젝트 마감 준수율 향상",
+        "ja": "締切順守率の向上",
+        "zh": "项目按时完成率提升"
       },
       {
         "en": "3x more content output",
-        "vi": "Sản lượng nội dung nhiều hơn 3 lần",
-        "ko": "3배 더 많은 콘텐츠 출력",
-        "ja": "3倍多くのコンテンツ出力",
-        "zh": "内容输出增加3倍"
+        "vi": "Sản lượng nội dung tăng",
+        "ko": "콘텐츠 생산량 증가",
+        "ja": "コンテンツ生産量の増加",
+        "zh": "内容产出更稳定"
       },
       {
         "en": "Less creative anxiety",
-        "vi": "Ít lo lắng sáng tạo hơn",
-        "ko": "창의적 불안 감소",
-        "ja": "創造的不安の減少",
-        "zh": "减少创作焦虑"
+        "vi": "Giảm áp lực khi bắt tay vào sáng tạo",
+        "ko": "창작 시작 부담 감소",
+        "ja": "創作への心理的負担が軽くなる",
+        "zh": "创作焦虑下降"
       }
     ]
   },
@@ -278,54 +278,54 @@
     "id": "use-case-6",
     "icon": "Target",
     "title": {
-      "en": "Anyone Building Better Habits",
-      "vi": "Bất Kỳ Ai Xây Dựng Thói Quen Tốt Hơn",
-      "ko": "더 나은 습관을 만드는 모든 사람",
-      "ja": "より良い習慣を築くすべての人",
-      "zh": "建立更好习惯的任何人"
+      "en": "Building Better Digital Habits",
+      "vi": "Xây dựng thói quen số lành mạnh",
+      "ko": "더 나은 디지털 습관 만들기",
+      "ja": "より良いデジタル習慣づくり",
+      "zh": "建立更好的数字习惯"
     },
     "scenario": {
-      "en": "Breaking unconscious browsing patterns and building intentional internet use",
-      "vi": "Phá vỡ các mẫu duyệt web vô thức và xây dựng sử dụng internet có chủ đích",
-      "ko": "무의식적인 브라우징 패턴을 깨고 의도적인 인터넷 사용 구축",
-      "ja": "無意識のブラウジングパターンを壊し、意図的なインターネット使用を構築",
-      "zh": "打破无意识的浏览模式并建立有意的互联网使用"
+      "en": "Replacing mindless browsing with intentional online behavior",
+      "vi": "Chuyển từ lướt web vô thức sang sử dụng internet có chủ đích",
+      "ko": "무의식적 서핑을 의도적인 사용으로 바꾸기",
+      "ja": "無意識の閲覧を、目的あるネット利用に変える",
+      "zh": "把无意识刷网，变成有目标地使用互联网"
     },
     "problem": {
-      "en": "Muscle memory leads to automatic social media checking without awareness",
-      "vi": "Bộ nhớ cơ bắp dẫn đến kiểm tra mạng xã hội tự động mà không nhận thức",
-      "ko": "근육 기억으로 인해 인식 없이 자동으로 소셜 미디어를 확인합니다",
-      "ja": "筋肉記憶により、意識なしに自動的にソーシャルメディアをチェックします",
-      "zh": "肌肉记忆导致在没有意识的情况下自动检查社交媒体"
+      "en": "Habit loops trigger automatic social media checks before you notice",
+      "vi": "Thói quen phản xạ khiến bạn mở mạng xã hội trước khi kịp nhận ra",
+      "ko": "습관적 반응 때문에 인지하기도 전에 SNS를 열게 됩니다",
+      "ja": "反射的にSNSを開いてしまい、気づく頃には時間を使っている",
+      "zh": "习惯性反应让你在意识到之前就打开社交媒体"
     },
     "solution": {
-      "en": "Start with Close Tab action to break the habit loop. Graduate to Redirect (send to habit tracker or goal dashboard). Use statistics to track progress and build awareness. Set increasingly strict schedules as habit strengthens.",
-      "vi": "Bắt đầu với hành động Đóng Tab để phá vỡ vòng lặp thói quen. Nâng cấp lên Chuyển Hướng (gửi đến trình theo dõi thói quen hoặc bảng điều khiển mục tiêu). Sử dụng thống kê để theo dõi tiến trình và xây dựng nhận thức. Đặt lịch trình ngày càng nghiêm ngặt hơn khi thói quen được củng cố.",
-      "ko": "습관 루프를 깨기 위해 탭 닫기 작업으로 시작합니다. 리디렉션으로 업그레이드합니다(습관 추적기 또는 목표 대시보드로 보내기). 통계를 사용하여 진행 상황을 추적하고 인식을 구축합니다. 습관이 강화됨에 따라 점점 더 엄격한 일정을 설정합니다.",
-      "ja": "習慣ループを壊すためにタブを閉じるアクションから始めます。リダイレクトにアップグレードします(習慣トラッカーまたは目標ダッシュボードに送信)。統計を使用して進捗を追跡し、意識を構築します。習慣が強化されるにつれて、ますます厳しいスケジュールを設定します。",
-      "zh": "从关闭标签操作开始打破习惯循环。升级到重定向(发送到习惯追踪器或目标仪表板)。使用统计数据跟踪进度并建立意识。随着习惯的增强，设置越来越严格的时间表。"
+      "en": "Start with Close Tab to interrupt the habit loop. Then switch to Redirect to send yourself to a habit tracker or goals dashboard. Review weekly stats to spot patterns and tighten schedules gradually.",
+      "vi": "Bắt đầu với hành động Đóng tab để ngắt vòng lặp thói quen. Sau đó chuyển sang Chuyển hướng để đưa bạn tới trang theo dõi thói quen hoặc bảng mục tiêu. Xem thống kê hằng tuần để nhận ra mẫu hành vi và siết lịch chặn dần theo thời gian.",
+      "ko": "먼저 탭 닫기로 습관 루프를 끊으세요. 이후 리디렉션으로 전환해 습관 트래커나 목표 대시보드로 이동시키면 행동 전환이 쉬워집니다. 주간 통계를 보며 패턴을 확인하고 차단 강도를 단계적으로 높이세요.",
+      "ja": "まず「タブを閉じる」で習慣ループを中断します。次に「リダイレクト」に切り替えて、習慣トラッカーや目標ダッシュボードへ誘導します。週次統計で行動パターンを確認し、制限を段階的に強めると定着しやすくなります。",
+      "zh": "先用“关闭标签页”打断习惯循环，再切换到“重定向”，把自己引导到习惯追踪页或目标看板。每周查看统计，识别行为模式，并逐步收紧规则。"
     },
     "results": [
       {
         "en": "Conscious internet use",
-        "vi": "Sử dụng internet có ý thức",
-        "ko": "의식적인 인터넷 사용",
-        "ja": "意識的なインターネット使用",
-        "zh": "有意识地使用互联网"
+        "vi": "Sử dụng internet có chủ đích hơn",
+        "ko": "의도적인 인터넷 사용 정착",
+        "ja": "意図的なネット利用が身につく",
+        "zh": "形成更有意识的上网方式"
       },
       {
-        "en": "Broken doom-scrolling habit",
-        "vi": "Phá vỡ thói quen cuộn doom",
-        "ko": "운명의 스크롤 습관 깨기",
-        "ja": "破滅スクロール習慣の打破",
-        "zh": "打破厄运滚动习惯"
+        "en": "Reduced doom-scrolling habits",
+        "vi": "Giảm thói quen lướt vô thức",
+        "ko": "무의식적 스크롤링 감소",
+        "ja": "だらだらスクロールが減る",
+        "zh": "减少无目的刷屏"
       },
       {
         "en": "More time for real goals",
-        "vi": "Nhiều thời gian hơn cho mục tiêu thực sự",
-        "ko": "실제 목표를 위한 더 많은 시간",
-        "ja": "本当の目標のためのより多くの時間",
-        "zh": "更多时间用于真正的目标"
+        "vi": "Dành  thêm thời gian cho mục tiêu quan trọng",
+        "ko": "중요한 목표에 쓸 시간 증가",
+        "ja": "重要な目標に使える時間が増える",
+        "zh": "把时间留给更重要的目标"
       }
     ]
   }

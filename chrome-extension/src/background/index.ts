@@ -20,7 +20,12 @@ import { syncQuotaGuard } from '@extension/storage';
 // Initialize Sentry (will check for user consent before actually initializing)
 initSentry({ context: 'background' });
 
-console.log('[ZFocus] Background script loaded');
+const IS_DEV = process.env.NODE_ENV === 'development';
+const devLog = (...args: unknown[]) => {
+  if (IS_DEV) console.log(...args);
+};
+
+devLog('[ZFocus] Background script loaded');
 
 // i18n helper for background script
 const MESSAGES: Record<string, Record<string, { message: string }>> = {
@@ -71,15 +76,14 @@ const migrateFromLocalToSync = async () => {
 
     // If local has data but sync doesn't, migrate
     if (hasLocalData && !hasSyncData) {
-      console.log('[ZFocus] Migrating data from local to sync storage...');
+      devLog('[ZFocus] Migrating data from local to sync storage...');
       await chrome.storage.sync.set(localData);
-      console.log('[ZFocus] Migration completed successfully');
+      devLog('[ZFocus] Migration completed successfully');
 
       // Optionally clear local storage after migration
       // await chrome.storage.local.clear();
     }
   } catch (error) {
-    console.error('[ZFocus] Migration error:', error);
     captureException(error, { operation: 'migrateFromLocalToSync' });
   }
 };
@@ -246,11 +250,8 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
   if (timerCache[siteId]) {
     const oldValue = timerCache[siteId].usedSeconds;
     timerCache[siteId] = { ...timerCache[siteId], ...updates };
-    console.log(
-      `[ZFocus DEBUG] Batch update cache: ${siteId}, usedSeconds: ${oldValue} -> ${timerCache[siteId].usedSeconds}`,
-    );
+    devLog(`[ZFocus] Batch update cache: ${siteId}, usedSeconds: ${oldValue} -> ${timerCache[siteId].usedSeconds}`);
   } else {
-    console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch update called for missing cache entry: ${siteId}`);
     captureMessage('Batch update called for missing cache entry', 'error', {
       siteId,
       cacheKeys: Object.keys(timerCache),
@@ -267,14 +268,10 @@ const batchUpdateTimer = (siteId: string, updates: Partial<SiteTimer>) => {
 
   pendingTimerUpdate = setTimeout(async () => {
     try {
-      console.log(
-        `[ZFocus DEBUG ${new Date().toISOString()}] Writing timer cache to storage after ${TIMER_BATCH_INTERVAL}ms:`,
-        timerCache,
-      );
+      devLog(`[ZFocus] Writing timer cache to storage after ${TIMER_BATCH_INTERVAL}ms`);
       await syncQuotaGuard.safeSet(STORAGE_KEYS.timers, timerCache);
       pendingTimerUpdate = null;
     } catch (error) {
-      console.error(`[ZFocus ERROR ${new Date().toISOString()}] Batch timer update error:`, error);
       captureException(error, { operation: 'batchUpdateTimer', cacheSize: Object.keys(timerCache).length });
     }
   }, TIMER_BATCH_INTERVAL);
@@ -300,7 +297,7 @@ const enforceCacheLimit = () => {
     // Remove oldest entries (first 10)
     const toRemove = keys.slice(0, 10);
     toRemove.forEach(key => delete timerCache[key]);
-    console.log(`[ZFocus] Cache limit reached, removed ${toRemove.length} old entries`);
+    devLog(`[ZFocus] Cache limit reached, removed ${toRemove.length} old entries`);
   }
 };
 
@@ -320,8 +317,8 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
 
     const settings = await getSettings();
 
-    console.log(
-      `[ZFocus] updateBadge called for tab ${tabId}, remaining: ${remainingSeconds}s, showBadge: ${settings.showBadgeCountdown}`,
+    devLog(
+      `[ZFocus] updateBadge: tab ${tabId}, remaining: ${remainingSeconds}s, showBadge: ${settings.showBadgeCountdown}`,
     );
 
     if (!settings.showBadgeCountdown) {
@@ -358,11 +355,9 @@ const updateBadge = async (tabId: number, remainingSeconds: number) => {
     await chrome.action.setBadgeBackgroundColor({ color, tabId });
     await chrome.action.setBadgeText({ text: badgeText, tabId });
 
-    console.log(`[ZFocus] Badge updated: "${badgeText}" with color`, color);
+    devLog(`[ZFocus] Badge updated: "${badgeText}"`);
   } catch (error) {
-    // Silently ignore "No tab with id" errors, log others
     if (error instanceof Error && !error.message.includes('No tab with id')) {
-      console.error('[ZFocus] Badge update error:', error);
       captureException(error, { operation: 'updateBadge', tabId, remainingSeconds });
     }
   }
@@ -377,7 +372,6 @@ const clearBadge = async (tabId: number) => {
   } catch (error) {
     // Silently ignore if tab doesn't exist anymore
     if (error instanceof Error && !error.message.includes('No tab with id')) {
-      console.error('[ZFocus] Clear badge error:', error);
       captureException(error, { operation: 'clearBadge', tabId });
     }
   }
@@ -497,11 +491,9 @@ const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
   const isDev = process.env.NODE_ENV === 'development';
 
   if (isDev) {
-    console.log(`[FocusGuard Schedule] Current time: ${now.toLocaleTimeString()}, Day: ${currentDay}`);
-    console.log(
-      `[FocusGuard Schedule] Work days: ${schedule.workDays}, Time: ${schedule.startTime} - ${schedule.endTime}`,
-    );
-    console.log(`[FocusGuard Schedule] Allow outside hours: ${schedule.allowOutsideHours}`);
+    devLog(`[FocusGuard Schedule] Current time: ${now.toLocaleTimeString()}, Day: ${currentDay}`);
+    devLog(`[FocusGuard Schedule] Work days: ${schedule.workDays}, Time: ${schedule.startTime} - ${schedule.endTime}`);
+    devLog(`[FocusGuard Schedule] Allow outside hours: ${schedule.allowOutsideHours}`);
   }
 
   // Check if current day is a work day
@@ -520,8 +512,8 @@ const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
   const isWithinTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 
   if (isDev) {
-    console.log(`[FocusGuard Schedule] Current minutes: ${currentMinutes}, Range: ${startMinutes} - ${endMinutes}`);
-    console.log(`[FocusGuard Schedule] Within time range: ${isWithinTime}`);
+    devLog(`[FocusGuard Schedule] Current minutes: ${currentMinutes}, Range: ${startMinutes} - ${endMinutes}`);
+    devLog(`[FocusGuard Schedule] Within time range: ${isWithinTime}`);
   }
 
   // If within work hours, block. If outside work hours, check allowOutsideHours
@@ -594,7 +586,7 @@ const getOrCreateTimer = async (site: BlockedSite): Promise<SiteTimer> => {
 
 // Handle blocking action
 const handleBlocking = async (tabId: number, site: BlockedSite) => {
-  console.log(`[ZFocus] Blocking ${site.title} - Action: ${site.action}`);
+  devLog(`[ZFocus] Blocking ${site.title} - Action: ${site.action}`);
 
   // Increment blocked attempts
   const stats = await getStats();
@@ -609,7 +601,7 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
 
       if (tabsInWindow.length === 1) {
         // Last tab in window - navigate to dashboard instead of closing
-        console.log('[ZFocus] Last tab in window - redirecting to dashboard instead of closing');
+        devLog('[ZFocus] Last tab in window - redirecting to dashboard instead of closing');
         const dashboardUrl = chrome.runtime.getURL('options/index.html');
         await chrome.tabs.update(tabId, { url: dashboardUrl });
       } else {
@@ -617,7 +609,6 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
         await chrome.tabs.remove(tabId);
       }
     } catch (e) {
-      console.error('[ZFocus] Failed to close tab:', e);
       captureException(e, { operation: 'handleBlocking.closeTab', tabId, siteId: site.id });
     }
   } else if (site.action === 'redirect') {
@@ -625,7 +616,6 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
     try {
       await chrome.tabs.update(tabId, { url: redirectUrl });
     } catch (e) {
-      console.error('[ZFocus] Failed to redirect tab:', e);
       captureException(e, { operation: 'handleBlocking.redirectTab', tabId, siteId: site.id });
     }
   }
@@ -637,14 +627,9 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
 const clearTabTimer = (tabId: number) => {
   const existingTimer = activeTabTimers.get(tabId);
   if (existingTimer) {
-    console.log(
-      `[ZFocus DEBUG ${new Date().toISOString()}] Clearing timer for tab ${tabId}. Active timers before: ${activeTabTimers.size}`,
-    );
+    devLog(`[ZFocus] Clearing timer for tab ${tabId}. Active timers: ${activeTabTimers.size}`);
     clearInterval(existingTimer);
     activeTabTimers.delete(tabId);
-    console.log(
-      `[ZFocus DEBUG ${new Date().toISOString()}] Timer cleared for tab ${tabId}. Active timers after: ${activeTabTimers.size}`,
-    );
   }
   tabSiteMapping.delete(tabId);
   clearBadge(tabId);
@@ -655,34 +640,25 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   // CRITICAL FIX: Set flag IMMEDIATELY before any other operations (even logging)
   // This MUST be the first synchronous operation to prevent race conditions
   if (timerInitializationInProgress.has(tabId)) {
-    console.log(
-      `[ZFocus DEBUG ${new Date().toISOString()}] BLOCKED: Timer initialization ALREADY IN PROGRESS for tab ${tabId}. Ignoring duplicate call.`,
-    );
+    devLog(`[ZFocus] Timer init already in progress for tab ${tabId}, ignoring`);
     return;
   }
   timerInitializationInProgress.add(tabId);
 
-  const caller = new Error().stack?.split('\n')[2]?.trim() || 'unknown';
-  console.log(
-    `[ZFocus DEBUG ${new Date().toISOString()}] startTabTimer called for tab ${tabId}, site: ${site.id} FROM: ${caller}`,
-  );
+  devLog(`[ZFocus] startTabTimer: tab ${tabId}, site: ${site.id}`);
 
   // CRITICAL FIX: If timer already exists for same site, DON'T restart it
   const existingTimer = activeTabTimers.get(tabId);
   const existingSiteId = tabSiteMapping.get(tabId);
 
   if (existingTimer && existingSiteId === site.id) {
-    console.log(
-      `[ZFocus DEBUG ${new Date().toISOString()}] Tab ${tabId} already has timer for site ${site.id}. Ignoring duplicate call.`,
-    );
-    timerInitializationInProgress.delete(tabId); // Clean up flag
+    devLog(`[ZFocus] Tab ${tabId} already has timer for site ${site.id}, ignoring`);
+    timerInitializationInProgress.delete(tabId);
     return;
   }
 
   if (existingTimer) {
-    console.warn(
-      `[ZFocus WARN ${new Date().toISOString()}] Tab ${tabId} switching from site ${existingSiteId} to ${site.id}. Clearing old timer.`,
-    );
+    devLog(`[ZFocus] Tab ${tabId} switching from site ${existingSiteId} to ${site.id}`);
   }
 
   clearTabTimer(tabId);
@@ -692,7 +668,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 
   // CRITICAL FIX: Initialize timer cache immediately to prevent timer from being cleared
   timerCache[site.id] = timer;
-  console.log(`[ZFocus DEBUG ${new Date().toISOString()}] Timer cache initialized for ${site.id}:`, timer);
+  devLog(`[ZFocus] Timer cache initialized for ${site.id}`);
 
   // Check if already exceeded time
   if (timer.usedSeconds >= timer.allowedSeconds) {
@@ -704,7 +680,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   // Update badge immediately when starting timer
   const initialRemainingSeconds = Math.max(0, timer.allowedSeconds - timer.usedSeconds);
   await updateBadge(tabId, initialRemainingSeconds);
-  console.log(`[ZFocus] Started timer for tab ${tabId}, site: ${site.title}, remaining: ${initialRemainingSeconds}s`);
+  devLog(`[ZFocus] Started timer for tab ${tabId}, site: ${site.title}, remaining: ${initialRemainingSeconds}s`);
 
   // Start interval to track time
   const interval = setInterval(async () => {
@@ -736,9 +712,6 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
       // Get current timer from cache (no storage read needed)
       const currentTimer = timerCache[site.id];
       if (!currentTimer) {
-        console.error(
-          `[ZFocus ERROR ${new Date().toISOString()}] Timer cache missing for ${site.id}! This should never happen!`,
-        );
         captureMessage('Timer cache missing - this should never happen', 'error', {
           siteId: site.id,
           tabId,
@@ -751,9 +724,6 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 
       // Increment used time by 1 second
       const newUsedSeconds = currentTimer.usedSeconds + 1;
-      console.log(
-        `[ZFocus DEBUG ${new Date().toISOString()}] Timer tick: ${site.id}, used: ${currentTimer.usedSeconds} -> ${newUsedSeconds}, allowed: ${currentTimer.allowedSeconds}`,
-      );
 
       // Use batched update instead of writing every second
       batchUpdateTimer(site.id, {
@@ -806,16 +776,13 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         }
       }
     } catch (e) {
-      console.error(`[ZFocus ERROR ${new Date().toISOString()}] Timer error:`, e);
       captureException(e, { operation: 'timerInterval', tabId, siteId: site.id });
       clearTabTimer(tabId);
     }
   }, 1000);
 
   activeTabTimers.set(tabId, interval);
-  console.log(
-    `[ZFocus DEBUG ${new Date().toISOString()}] Interval created and stored for tab ${tabId}. Total active timers: ${activeTabTimers.size}`,
-  );
+  devLog(`[ZFocus] Timer interval created for tab ${tabId}. Total active: ${activeTabTimers.size}`);
 
   // CRITICAL: Clear initialization flag AFTER timer is fully set up
   timerInitializationInProgress.delete(tabId);
@@ -824,7 +791,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 // Listen for referrer messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'REFERRER_CAPTURED' && sender.tab?.id) {
-    console.log(`[ZFocus] Received referrer from content script for tab ${sender.tab.id}: ${message.referrer}`);
+    devLog(`[ZFocus] Referrer from content script for tab ${sender.tab.id}: ${message.referrer}`);
     tabReferrers.set(sender.tab.id, message.referrer);
     sendResponse({ received: true });
   }
@@ -886,7 +853,6 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     // This ensures timers start when entering work hours
     performScheduleCheck();
   } catch (e) {
-    console.error('[ZFocus] Tab activation error:', e);
     captureException(e, { operation: 'tabActivation', tabId });
   }
 });
@@ -905,11 +871,11 @@ chrome.storage.sync.onChanged.addListener(async changes => {
     // When key is removed from sync (e.g. moved to IndexedDB overflow), newValue is undefined.
     // In that case, read the authoritative value via syncQuotaGuard which checks both backends.
     if (!newSettings) {
-      console.log('[ZFocus] focus-settings removed from sync (possibly moved to IndexedDB). Skipping onChanged.');
+      devLog('[ZFocus] focus-settings removed from sync (possibly moved to IndexedDB). Skipping onChanged.');
       return;
     }
 
-    console.log('[ZFocus] Settings changed, checking for website info updates...');
+    devLog('[ZFocus] Settings changed, checking for website info updates...');
 
     // Check if error reporting consent changed
     const oldErrorReporting = (oldSettings as (FocusSettings & { errorReportingEnabled?: boolean }) | undefined)
@@ -917,7 +883,7 @@ chrome.storage.sync.onChanged.addListener(async changes => {
     const newErrorReporting = (newSettings as FocusSettings & { errorReportingEnabled?: boolean })
       ?.errorReportingEnabled;
     if (oldErrorReporting !== newErrorReporting) {
-      console.log(`[ZFocus] Error reporting consent changed: ${oldErrorReporting} -> ${newErrorReporting}`);
+      devLog(`[ZFocus] Error reporting consent changed: ${oldErrorReporting} -> ${newErrorReporting}`);
       await updateErrorReportingConsent(newErrorReporting === true, 'background');
     }
 
@@ -926,7 +892,7 @@ chrome.storage.sync.onChanged.addListener(async changes => {
       !oldSettings || JSON.stringify(oldSettings.blockedSites) !== JSON.stringify(newSettings.blockedSites);
 
     if (blockedSitesChanged) {
-      console.log('[ZFocus] Blocked sites configuration changed - clearing all timers and badges');
+      devLog('[ZFocus] Blocked sites configuration changed - clearing all timers and badges');
 
       // Clear all active timers
       activeTabTimers.forEach((timer, tabId) => {
@@ -958,13 +924,13 @@ chrome.storage.sync.onChanged.addListener(async changes => {
 
       // Re-check all tabs with new settings (unless paused)
       if (!newSettings.isPaused) {
-        console.log('[ZFocus] Re-checking all tabs with new blocked site settings...');
+        devLog('[ZFocus] Re-checking all tabs with new blocked site settings...');
         for (const tab of tabs) {
           if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
             const referrer = tabReferrers.get(tab.id);
             const site = await findBlockedSite(tab.url, referrer);
             if (site) {
-              console.log(`[ZFocus] Starting timer for tab ${tab.id} with site: ${site.title}`);
+              devLog(`[ZFocus] Starting timer for tab ${tab.id} with site: ${site.title}`);
               await startTabTimer(tab.id, site);
             }
           }
@@ -973,7 +939,7 @@ chrome.storage.sync.onChanged.addListener(async changes => {
     }
     // Handle ANY settings change - also run schedule check to catch schedule changes
     else if (oldSettings) {
-      console.log('[ZFocus] Settings changed - running schedule check...');
+      devLog('[ZFocus] Settings changed - running schedule check...');
       performScheduleCheck();
     }
 
@@ -1140,7 +1106,7 @@ const checkAndResumePause = async (): Promise<boolean> => {
 
   const reason = !settings.pauseEndTime ? 'missing_pauseEndTime' : 'expired';
   await setSettings({ ...settings, isPaused: false, pauseEndTime: undefined });
-  console.log(`[ZFocus] Pause auto-resumed. Reason: ${reason}`);
+  devLog(`[ZFocus] Pause auto-resumed. Reason: ${reason}`);
   captureMessage('Pause auto-resumed', 'info', {
     reason,
     pauseEndTime: settings.pauseEndTime,
@@ -1175,11 +1141,11 @@ const schedulePauseExpirationAlarm = async (pauseEndTime: number) => {
   }
   const delayInMinutes = Math.max(delayMs / 60000, 0.1); // minimum 0.1 min (~6s)
   await chrome.alarms.create(PAUSE_EXPIRATION_ALARM, { delayInMinutes });
-  console.log(`[ZFocus] Pause expiration alarm scheduled in ${Math.round(delayMs / 1000)}s`);
+  devLog(`[ZFocus] Pause expiration alarm scheduled in ${Math.round(delayMs / 1000)}s`);
 };
 
 const performHourlyReset = async () => {
-  console.log('[ZFocus] Hourly reset - resetting all timers');
+  devLog('[ZFocus] Hourly reset - resetting all timers');
 
   // CRITICAL FIX: Don't clear cache for sites with active timers
   // Instead, reset their usedSeconds to 0 and update allowedSeconds
@@ -1209,8 +1175,8 @@ const performHourlyReset = async () => {
   Object.assign(timerCache, resetTimers);
   await setTimers(resetTimers);
 
-  console.log(
-    `[ZFocus] Hourly reset complete. Active timers: ${activeSiteIds.size}, Reset timers: ${Object.keys(resetTimers).length}`,
+  devLog(
+    `[ZFocus] Hourly reset complete. Active timers: ${activeSiteIds.size}, Reset: ${Object.keys(resetTimers).length}`,
   );
 };
 
@@ -1219,18 +1185,16 @@ const performScheduleCheck = async () => {
   const now = new Date();
   const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  console.log(`[ZFocus Schedule Check ${timeStr}] ========== Starting schedule check ==========`);
+  devLog(`[ZFocus Schedule Check ${timeStr}] Starting schedule check`);
 
   const settings = await getSettings();
 
-  // Skip if paused
   if (settings.isPaused) {
-    console.log(`[ZFocus Schedule Check ${timeStr}] Extension is paused, skipping check`);
+    devLog(`[ZFocus Schedule Check ${timeStr}] Extension is paused, skipping`);
     return;
   }
 
   const tabs = await chrome.tabs.query({});
-  console.log(`[ZFocus Schedule Check ${timeStr}] Found ${tabs.length} total tabs`);
 
   let checkedCount = 0;
   let startedCount = 0;
@@ -1241,37 +1205,23 @@ const performScheduleCheck = async () => {
     if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) continue;
 
     checkedCount++;
-    console.log(`[ZFocus Schedule Check ${timeStr}] Checking tab ${tab.id}: ${tab.url}`);
 
     const referrer = tabReferrers.get(tab.id);
     const site = await findBlockedSite(tab.url, referrer);
     const hasActiveTimer = activeTabTimers.has(tab.id);
 
-    console.log(
-      `[ZFocus Schedule Check ${timeStr}] Tab ${tab.id} - Site found: ${site ? site.title : 'none'}, Has timer: ${hasActiveTimer}`,
-    );
-
-    // Case 1: Site should be blocked but no timer exists - start timer
     if (site && !hasActiveTimer) {
-      console.log(`[ZFocus Schedule Check ${timeStr}] ✅ Starting timer for tab ${tab.id}, site: ${site.title}`);
       await startTabTimer(tab.id, site);
       startedCount++;
-    }
-    // Case 2: Timer exists but site is no longer in work hours - clear timer
-    else if (!site && hasActiveTimer) {
-      console.log(`[ZFocus Schedule Check ${timeStr}] ❌ Clearing timer for tab ${tab.id} (outside work hours)`);
+    } else if (!site && hasActiveTimer) {
       clearTabTimer(tab.id);
       clearedCount++;
-    } else if (site && hasActiveTimer) {
-      console.log(`[ZFocus Schedule Check ${timeStr}] ⏱️  Tab ${tab.id} already has timer for ${site.title}`);
-    } else {
-      console.log(`[ZFocus Schedule Check ${timeStr}] ⚪ Tab ${tab.id} - no action needed`);
     }
   }
 
-  console.log(
-    `[ZFocus Schedule Check ${timeStr}] ========== Check complete: ${checkedCount} tabs checked, ${startedCount} timers started, ${clearedCount} timers cleared ==========`,
-  );
+  if (startedCount > 0 || clearedCount > 0) {
+    devLog(`[ZFocus Schedule Check] ${checkedCount} tabs, ${startedCount} started, ${clearedCount} cleared`);
+  }
 };
 
 // Setup hourly reset alarm (persists across service worker restarts)
@@ -1290,7 +1240,7 @@ const setupHourlyResetAlarm = async () => {
     periodInMinutes: 60, // Repeat every hour
   });
 
-  console.log(`[ZFocus] Hourly reset alarm scheduled. Next reset in ${Math.round(delayInMinutes)} minutes`);
+  devLog(`[ZFocus] Hourly reset alarm scheduled. Next reset in ${Math.round(delayInMinutes)} minutes`);
 };
 
 // Setup schedule check using setInterval (more reliable than alarms for service workers)
@@ -1298,10 +1248,8 @@ const setupScheduleCheckInterval = () => {
   const now = new Date();
   const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  console.log(`[ZFocus ${timeStr}] Setting up schedule check interval (every 60 seconds)`);
+  devLog(`[ZFocus ${timeStr}] Setting up schedule check interval (every 60 seconds)`);
 
-  // Run immediate check
-  console.log(`[ZFocus ${timeStr}] Running immediate schedule check...`);
   performScheduleCheck();
 
   // Setup interval to check every minute
@@ -1312,7 +1260,7 @@ const setupScheduleCheckInterval = () => {
   // Register with cleanup registry to prevent memory leaks
   cleanupRegistry.registerInterval(scheduleCheckInterval);
 
-  console.log(`[ZFocus ${timeStr}] Schedule check interval registered`);
+  devLog(`[ZFocus ${timeStr}] Schedule check interval registered`);
 };
 
 // Listen for alarm events
@@ -1320,15 +1268,13 @@ chrome.alarms.onAlarm.addListener(alarm => {
   const now = new Date();
   const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  console.log(`[ZFocus ${timeStr}] Alarm fired: ${alarm.name}`);
+  devLog(`[ZFocus ${timeStr}] Alarm fired: ${alarm.name}`);
 
   if (alarm.name === HOURLY_RESET_ALARM) {
-    console.log(`[ZFocus ${timeStr}] Executing hourly reset...`);
     performHourlyReset();
   }
 
   if (alarm.name === PAUSE_EXPIRATION_ALARM) {
-    console.log(`[ZFocus ${timeStr}] Pause expiration alarm fired - checking pause state...`);
     checkAndResumePause();
   }
 });
@@ -1342,13 +1288,13 @@ chrome.idle.setDetectionInterval(30); // 30 seconds threshold for idle detection
 chrome.idle.onStateChanged.addListener(async newState => {
   const now = new Date();
   const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-  console.log(`[ZFocus ${timeStr}] Idle state changed: ${newState}`);
+  devLog(`[ZFocus ${timeStr}] Idle state changed: ${newState}`);
 
   if (newState === 'active') {
     // User returned from idle/locked - immediately check pause expiration
     const resumed = await checkAndResumePause();
     if (resumed) {
-      console.log(`[ZFocus ${timeStr}] Pause was expired during idle - blocking resumed on wake`);
+      devLog(`[ZFocus ${timeStr}] Pause was expired during idle - blocking resumed on wake`);
     }
 
     // Also run schedule check to catch any missed schedule transitions
@@ -1367,7 +1313,7 @@ const clearStalePauseState = async () => {
   // Case 1: pauseEndTime exists and has expired - auto-resume
   if (settings.pauseEndTime && now > settings.pauseEndTime) {
     const expiredAgo = Math.round((now - settings.pauseEndTime) / 60000);
-    console.log('[ZFocus] Startup: Pause expired while browser was closed. Auto-resuming.');
+    devLog('[ZFocus] Startup: Pause expired while browser was closed. Auto-resuming.');
     captureMessage('Stale pause state detected on startup: pauseEndTime expired', 'warning', {
       pauseEndTime: settings.pauseEndTime,
       expiredMinutesAgo: expiredAgo,
@@ -1379,7 +1325,7 @@ const clearStalePauseState = async () => {
 
   // Case 2: pauseEndTime is undefined/missing - invalid state, auto-resume
   if (!settings.pauseEndTime) {
-    console.log('[ZFocus] Startup: isPaused=true but no pauseEndTime. Clearing stale pause state.');
+    devLog('[ZFocus] Startup: isPaused=true but no pauseEndTime. Clearing stale pause state.');
     captureMessage('Stale pause state detected on startup: missing pauseEndTime', 'warning', {
       reason: 'missing_pauseEndTime',
       isPaused: settings.isPaused,
@@ -1392,7 +1338,7 @@ const clearStalePauseState = async () => {
   // This catches corrupted data or timezone issues
   const maxPauseDuration = 24 * 60 * 60 * 1000; // 24 hours
   if (settings.pauseEndTime - now > maxPauseDuration) {
-    console.log('[ZFocus] Startup: pauseEndTime is unreasonably far in the future. Clearing stale pause state.');
+    devLog('[ZFocus] Startup: pauseEndTime is unreasonably far in the future. Clearing stale pause state.');
     captureMessage('Stale pause state detected on startup: unreasonable pauseEndTime', 'warning', {
       pauseEndTime: settings.pauseEndTime,
       hoursInFuture: Math.round((settings.pauseEndTime - now) / 3600000),
@@ -1404,7 +1350,7 @@ const clearStalePauseState = async () => {
 
   // Case 4: Pause is still valid - schedule alarm for expiration and log remaining time
   const remainingMinutes = Math.round((settings.pauseEndTime - now) / 60000);
-  console.log(`[ZFocus] Startup: Pause is still active. ${remainingMinutes} minutes remaining.`);
+  devLog(`[ZFocus] Startup: Pause is still active. ${remainingMinutes} minutes remaining.`);
   await schedulePauseExpirationAlarm(settings.pauseEndTime);
 };
 
@@ -1424,9 +1370,7 @@ const migrateUrlPatterns = async (): Promise<void> => {
 
       if (urlsChanged || exceptionsChanged) {
         changed = true;
-        console.log(
-          `[ZFocus] Migrating URL patterns for "${site.title}": ${site.urls.join(', ')} -> ${normalizedUrls.join(', ')}`,
-        );
+        devLog(`[ZFocus] Migrating URL patterns for "${site.title}"`);
         return {
           ...site,
           urls: normalizedUrls.filter(Boolean),
@@ -1438,10 +1382,9 @@ const migrateUrlPatterns = async (): Promise<void> => {
 
     if (changed) {
       await setSettings({ ...settings, blockedSites: migrated });
-      console.log('[ZFocus] URL pattern migration completed');
+      devLog('[ZFocus] URL pattern migration completed');
     }
   } catch (error) {
-    console.error('[ZFocus] URL pattern migration error:', error);
     captureException(error, { operation: 'migrateUrlPatterns' });
   }
 };
@@ -1454,15 +1397,12 @@ const migrateUrlPatterns = async (): Promise<void> => {
   const existingSettings = await syncQuotaGuard.safeGet<FocusSettings>(STORAGE_KEYS.settings);
   if (!existingSettings) {
     await setSettings(DEFAULT_SETTINGS);
-    console.log('[ZFocus] Initialized default settings');
+    devLog('[ZFocus] Initialized default settings');
   } else {
     // Migrate legacy URL patterns (strip protocol/www)
     await migrateUrlPatterns();
 
-    console.log('[ZFocus] Loaded settings with', existingSettings.blockedSites?.length || 0, 'blocked sites');
-    existingSettings.blockedSites?.forEach((site: BlockedSite) => {
-      console.log(`[ZFocus] Site: ${site.title}, URLs: ${site.urls.join(', ')}, Active: ${site.isActive}`);
-    });
+    devLog('[ZFocus] Loaded settings with', existingSettings.blockedSites?.length || 0, 'blocked sites');
   }
 
   // Clear stale pause state after settings are loaded
@@ -1471,7 +1411,7 @@ const migrateUrlPatterns = async (): Promise<void> => {
 
 // Cleanup on extension suspend/unload
 chrome.runtime.onSuspend?.addListener(() => {
-  console.log('[ZFocus] Extension suspending, cleaning up...');
+  devLog('[ZFocus] Extension suspending, cleaning up...');
   cleanupRegistry.cleanup();
 });
 
@@ -1489,4 +1429,4 @@ if (process.env.NODE_ENV === 'development') {
   );
 }
 
-console.log('[ZFocus] Background script initialized');
+devLog('[ZFocus] Background script initialized');

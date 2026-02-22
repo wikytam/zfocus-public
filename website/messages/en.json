@@ -8,7 +8,7 @@
   },
   "hero": {
     "title": "Reduce Distractions, Stay Focused",
-    "subtitle": "The most powerful website blocker with unique features to boost your productivity"
+    "subtitle": "A privacy-first website blocker with schedules, limits, and smart rules to protect your focus"
   },
   "smartBlocking": {
     "title": "Smart Blocking",
@@ -102,9 +102,9 @@
   },
   "cta": {
     "title": "Ready to Boost Your Productivity?",
-    "users": "Join 500+ users",
-    "timeSaved": "Save 2+ hours daily",
-    "rating": "4.9/5.0",
+    "users": "Built for students, creators, and remote workers",
+    "timeSaved": "Reclaim focused time every day",
+    "rating": "Privacy-first",
     "installChrome": "Install Free - Chrome",
     "firefox": "Firefox",
     "manualDownload": "Manual Download",

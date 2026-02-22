@@ -35,7 +35,7 @@
     "message": "Blocked Today"
   },
   "timePause": {
-    "message": "Time Pause"
+    "message": "Time Saved"
   },
   "timeOnWebsite": {
     "message": "Tracked Time"
@@ -299,7 +299,7 @@
     "message": "more"
   },
   "displayErrorInfo": {
-    "message": "Error occur"
+    "message": "An error occurred"
   },
   "displayErrorDescription": {
     "message": "Sorry, something went wrong while loading the page."
@@ -503,7 +503,7 @@
     "message": "websites"
   },
   "timePause": {
-    "message": "Time Pause"
+    "message": "Time Saved"
   },
   "minutes": {
     "message": "minutes"

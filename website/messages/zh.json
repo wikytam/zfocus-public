@@ -8,11 +8,11 @@
   },
   "hero": {
     "title": "减少干扰，保持专注",
-    "subtitle": "功能最强大的网站屏蔽工具，具有独特功能以提高您的生产力"
+    "subtitle": "这是一款隐私优先的网站屏蔽工具，通过日程、时长限制和智能规则帮你守住专注时间"
   },
   "smartBlocking": {
     "title": "智能屏蔽",
-    "subtitle": "更智能，而非更困难",
+    "subtitle": "不是一刀切，而是更聪明的控制方式",
     "exceptionPattern": {
       "badge": "独特功能",
       "title": "例外模式",
@@ -52,7 +52,7 @@
   },
   "advancedActions": {
     "title": "高级操作",
-    "subtitle": "超越简单屏蔽",
+    "subtitle": "不止是屏蔽，更是行为管理",
     "closeTab": {
       "badge": "独特功能",
       "title": "关闭标签",
@@ -74,18 +74,18 @@
   },
   "privacy": {
     "title": "隐私优先",
-    "subtitle": "您的数据与您同在",
+    "subtitle": "数据仅保存在你的本地设备",
     "localStorage": "100%本地存储",
     "zeroTracking": "零追踪",
     "noAccount": "无需账户",
     "optInErrorReporting": "仅在同意时报告错误",
     "optInErrorReportingDesc": "仅在您明确同意时发送匿名崩溃报告",
-    "quote": "我们不看、不存、不知道。真的！",
+    "quote": "我们不看、不存、不追踪你的浏览行为。",
     "quoteSubtitle": "您的浏览习惯仅属于您"
   },
   "statistics": {
     "title": "智能统计",
-    "subtitle": "30天历史记录追踪您的进度",
+    "subtitle": "用 30 天记录看清你的专注趋势",
     "blocksToday": "今日屏蔽",
     "timeSaved": "节省时间",
     "dayStreak": "连续天数",
@@ -101,10 +101,10 @@
     }
   },
   "cta": {
-    "title": "准备好提高生产力了吗？",
-    "users": "加入500多名用户",
-    "timeSaved": "每天节省2小时以上",
-    "rating": "4.9/5.0",
+    "title": "现在就开始建立稳定的专注习惯",
+    "users": "为学生、创作者和远程工作者打造",
+    "timeSaved": "每天找回专注时间",
+    "rating": "隐私优先",
     "installChrome": "免费安装 - Chrome",
     "firefox": "Firefox",
     "manualDownload": "手动下载",
@@ -112,7 +112,7 @@
   },
   "faq": {
     "title": "常见问题",
-    "subtitle": "关于ZFocus您需要了解的一切",
+    "subtitle": "使用 ZFocus 前最常见的问题",
     "searchPlaceholder": "搜索问题...",
     "found": "找到",
     "question": "个问题",
@@ -120,24 +120,24 @@
     "noResults": "未找到问题",
     "tryDifferent": "尝试不同的搜索词",
     "stillHaveQuestions": "还有问题吗？",
-    "checkDocs": "查看文档或联系社区",
+    "checkDocs": "可先查看文档，或到社区获取帮助",
     "viewDocs": "查看文档",
     "joinCommunity": "加入社区"
   },
   "useCases": {
     "title": "真实使用案例",
-    "subtitle": "看看ZFocus如何帮助像您这样的人保持专注和高效",
+    "subtitle": "通过真实场景了解 ZFocus 的使用方式",
     "scenario": "场景",
     "problem": "问题",
     "solution": "解决方案",
     "results": "结果",
     "whichFitsYou": "哪个使用案例适合您？",
-    "whichFitsYouDesc": "ZFocus适应您独特的工作流程。从一个策略开始，然后根据您的方式进行定制。",
+    "whichFitsYouDesc": "ZFocus 可以按你的工作节奏灵活配置。先从一个策略开始，再逐步调整到最适合你的方式。",
     "getStarted": "免费开始"
   },
   "pricing": {
     "title": "简单透明的定价",
-    "subtitle": "免费开始，准备好了再升级",
+    "subtitle": "先免费使用，合适时再升级",
     "freeTrial": {
       "badge": "开始使用",
       "title": "免费试用",
@@ -163,7 +163,7 @@
       "price": "14",
       "currency": "$",
       "period": "/年",
-      "description": "解锁高级功能，实现最大生产力",
+      "description": "解锁完整高级功能，强化专注管理",
       "features": {
         "allFreeFeatures": "免费试用的所有功能",
         "exceptionPatterns": "智能例外（允许被屏蔽域名中的特定URL）",
@@ -180,7 +180,7 @@
       "price": "29",
       "currency": "$",
       "period": "一次性",
-      "description": "一次付款，永久使用高级版",
+      "description": "一次付费，长期使用高级功能",
       "features": {
         "allYearlyFeatures": "高级版的所有功能",
         "lifetimeUpdates": "终身免费更新",
@@ -297,7 +297,7 @@
   },
   "moreThings": {
     "title": "更多功能",
-    "subtitle": "精美UI及浏览器支持",
+    "subtitle": "精致界面与多浏览器支持",
     "beautifulUI": {
       "title": "精美UI",
       "light": "浅色",
@@ -321,7 +321,7 @@
     "product": "产品",
     "totalAmount": "合计",
     "activationCode": "您的激活码",
-    "activationCodeDesc": "复制此代码并在 ZFocus 扩展程序中输入以激活 Premium。",
+    "activationCodeDesc": "复制下方激活码，在 ZFocus 扩展中输入后即可启用 Premium。",
     "copyCode": "复制代码",
     "copied": "已复制!",
     "codeProcessing": "激活码正在生成中，请几秒后刷新页面。",
@@ -330,7 +330,7 @@
     "step2": "如果尚未安装，请安装 ZFocus 扩展程序",
     "step3": "打开 ZFocus 弹窗，前往设置并输入激活码",
     "errorTitle": "验证失败",
-    "errorDescription": "我们无法验证您的付款。此订单可能无效、已过期或尚未完成。",
+    "errorDescription": "支付验证失败。该订单可能无效、已过期，或尚未完成。",
     "errorReason": "详情",
     "errorUnknown": "发生未知错误，请重试或联系客服。",
     "installExtension": "安装扩展程序",

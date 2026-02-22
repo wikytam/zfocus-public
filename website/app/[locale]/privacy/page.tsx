@@ -25,14 +25,47 @@ export default function PrivacyPage() {
             <h1 className="text-foreground mb-3 text-3xl font-bold tracking-tight md:text-4xl">{t('title')}</h1>
             <p className="text-muted-foreground mb-10 text-sm">{t('lastUpdated')}</p>
 
+            {/* Table of Contents */}
+            <div className="bg-card border-border mb-10 rounded-lg border p-6">
+              <p className="text-foreground mb-4 text-sm font-semibold">Nội dung chính:</p>
+              <nav className="space-y-2">
+                <a href="#single-purpose" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  1. {t('singlePurpose.title')}
+                </a>
+                <a href="#data-collection" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  2. {t('dataCollection.title')}
+                </a>
+                <a href="#data-storage" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  3. {t('dataStorage.title')}
+                </a>
+                <a href="#permissions" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  4. {t('permissions.title')}
+                </a>
+                <a href="#third-party" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  5. {t('thirdParty.title')}
+                </a>
+                <a href="#data-deletion" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  6. {t('dataDeletion.title')}
+                </a>
+                <a href="#changes" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  7. {t('changes.title')}
+                </a>
+                <a href="#contact" className="text-accent hover:text-accent/80 block text-sm transition-colors">
+                  8. {t('contact.title')}
+                </a>
+              </nav>
+            </div>
+
             {/* Single Purpose Declaration */}
-            <div className="bg-accent/5 border-accent/30 mb-10 rounded-lg border-l-4 px-5 py-4">
+            <div
+              id="single-purpose"
+              className="bg-accent/5 border-accent/30 mb-10 scroll-mt-24 rounded-lg border-l-4 px-5 py-4">
               <p className="text-accent text-sm font-semibold">{t('singlePurpose.title')}</p>
               <p className="text-foreground/80 mt-1 text-sm leading-relaxed">{t('singlePurpose.description')}</p>
             </div>
 
             {/* Data Collection */}
-            <section className="mb-10">
+            <section id="data-collection" className="mb-10 scroll-mt-24">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
                   <Eye className="text-accent h-4 w-4" />
@@ -54,7 +87,7 @@ export default function PrivacyPage() {
             </section>
 
             {/* Data Storage */}
-            <section className="mb-10">
+            <section id="data-storage" className="mb-10 scroll-mt-24">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
                   <Database className="text-accent h-4 w-4" />
@@ -76,7 +109,7 @@ export default function PrivacyPage() {
             </section>
 
             {/* Permissions */}
-            <section className="mb-10">
+            <section id="permissions" className="mb-10 scroll-mt-24">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
                   <Shield className="text-accent h-4 w-4" />
@@ -113,7 +146,7 @@ export default function PrivacyPage() {
             </section>
 
             {/* Third-Party Services */}
-            <section className="mb-10">
+            <section id="third-party" className="mb-10 scroll-mt-24">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
                   <Lock className="text-accent h-4 w-4" />
@@ -125,7 +158,7 @@ export default function PrivacyPage() {
             </section>
 
             {/* Data Deletion */}
-            <section className="mb-10">
+            <section id="data-deletion" className="mb-10 scroll-mt-24">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
                   <Trash2 className="text-accent h-4 w-4" />
@@ -142,13 +175,13 @@ export default function PrivacyPage() {
             </section>
 
             {/* Changes */}
-            <section className="mb-10">
+            <section id="changes" className="mb-10 scroll-mt-24">
               <h2 className="text-foreground mb-3 text-xl font-semibold">{t('changes.title')}</h2>
               <p className="text-muted-foreground text-sm leading-relaxed">{t('changes.description')}</p>
             </section>
 
             {/* Contact */}
-            <section className="mb-10">
+            <section id="contact" className="mb-10 scroll-mt-24">
               <div className="mb-4 flex items-center gap-2.5">
                 <div className="bg-accent/10 flex h-8 w-8 items-center justify-center rounded-lg">
                   <Mail className="text-accent h-4 w-4" />
