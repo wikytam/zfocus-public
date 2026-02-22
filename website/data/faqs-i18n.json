@@ -112,9 +112,9 @@
     "question": {
       "en": "What are exceptions and how do they work?",
       "vi": "Ngoại lệ là gì và hoạt động ra sao?",
-      "ko": "예외(Exceptions)는 무엇인가요?",
-      "ja": "例外（Exceptions）とは何ですか？",
-      "zh": "什么是例外（Exceptions）？"
+      "ko": "예외는 무엇인가요?",
+      "ja": "例外とは何ですか？",
+      "zh": "什么是例外？"
     },
     "answer": {
       "en": "Exceptions let you whitelist specific pages within a blocked domain.\n\nFor example, you might block all of Facebook but allow facebook.com/marketplace or facebook.com/events for work purposes.\n\nURLs listed in exceptions will never be blocked, even if they match the main URL patterns. This gives you fine-grained control over what gets blocked.",

@@ -1,12 +1,19 @@
 import { routing } from '@/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Metadata, Viewport } from 'next';
 import '../globals.css';
 
-const metadata: Metadata = {
-  title: 'ZFocus - Reduce Distractions, Stay Focused',
-  description: 'The most powerful website blocker with unique features to boost your productivity',
+const generateMetadata = async ({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> => {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const hero = await getTranslations({ locale, namespace: 'hero' });
+
+  return {
+    title: `ZFocus - ${hero('title')}`,
+    description: hero('subtitle'),
+  };
 };
 
 const viewport: Viewport = {
@@ -37,4 +44,4 @@ const RootLayout = async ({
 };
 
 export default RootLayout;
-export { metadata, viewport, generateStaticParams };
+export { generateMetadata, viewport, generateStaticParams };

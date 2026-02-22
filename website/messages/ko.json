@@ -167,7 +167,7 @@
       "features": {
         "allFreeFeatures": "무료 체험의 모든 기능",
         "exceptionPatterns": "스마트 예외 (차단 도메인 내 특정 URL 허용)",
-        "keywordBlocking": "키워드 기반 URL 차단 (예: game, video)",
+        "keywordBlocking": "키워드 기반 URL 차단 (예: 게임, 동영상)",
         "prioritySupport": "우선 지원",
         "chromeSync": "Chrome Sync를 통한 설정 동기화",
         "autoRenewal": "자동 갱신, 언제든 취소 가능"

@@ -167,7 +167,7 @@
       "features": {
         "allFreeFeatures": "無料トライアルのすべて",
         "exceptionPatterns": "スマート例外（ブロックドメイン内の特定URLを許可）",
-        "keywordBlocking": "キーワードによるURLブロック（例：game、video）",
+        "keywordBlocking": "キーワードによるURLブロック（例：ゲーム、動画）",
         "prioritySupport": "優先サポート",
         "chromeSync": "Chrome Syncによる設定同期",
         "autoRenewal": "自動更新、いつでもキャンセル可能"

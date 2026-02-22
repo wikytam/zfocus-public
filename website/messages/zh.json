@@ -167,7 +167,7 @@
       "features": {
         "allFreeFeatures": "免费试用的所有功能",
         "exceptionPatterns": "智能例外（允许被屏蔽域名中的特定URL）",
-        "keywordBlocking": "基于关键词的URL屏蔽（如：game、video）",
+        "keywordBlocking": "基于关键词的URL 屏蔽（如：游戏、视频）",
         "prioritySupport": "优先支持",
         "chromeSync": "通过Chrome Sync同步设置",
         "autoRenewal": "自动续费，随时取消"
