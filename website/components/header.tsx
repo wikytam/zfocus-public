@@ -63,24 +63,9 @@ export const Header = () => {
             {t('nav.features')}
           </Link>
           <Link
-            href="/faq"
-            className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
-            {t('nav.faq')}
-          </Link>
-          <Link
-            href="/use-cases"
-            className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
-            {t('nav.useCases')}
-          </Link>
-          <Link
             href="/#pricing"
             className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
             {t('nav.pricing')}
-          </Link>
-          <Link
-            href="/privacy"
-            className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
-            {t('nav.privacy')}
           </Link>
         </nav>
 
