@@ -42,26 +42,26 @@ export const Footer = () => {
           <div className="md:col-span-1">
             <h4 className="text-foreground mb-4 text-sm font-semibold">{t('nav.features')}</h4>
             <nav className="flex flex-col gap-2.5" aria-label="Footer navigation">
-              <a
-                href="#features"
+              <Link
+                href="/#features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('smartBlocking.title')}
-              </a>
-              <a
-                href="#features"
+              </Link>
+              <Link
+                href="/#features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('timeControl.title')}
-              </a>
-              <a
-                href="#features"
+              </Link>
+              <Link
+                href="/#features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('advancedActions.title')}
-              </a>
-              <a
-                href="#features"
+              </Link>
+              <Link
+                href="/#features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('privacy.title')}
-              </a>
+              </Link>
               <Link
                 href="/faq"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">

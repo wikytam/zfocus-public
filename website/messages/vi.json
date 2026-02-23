@@ -1,10 +1,7 @@
 {
   "nav": {
     "features": "Tính Năng",
-    "faq": "Câu Hỏi",
-    "useCases": "Tình Huống",
-    "pricing": "Bảng Giá",
-    "privacy": "Chính Sách Bảo Mật"
+    "pricing": "Bảng Giá"
   },
   "hero": {
     "title": "Giảm Xao Nhãng, Tập Trung Hiệu Quả",
@@ -125,9 +122,9 @@
     "joinCommunity": "Tham Gia Cộng Đồng"
   },
   "useCases": {
-    "title": "Tình Huống Sử Dụng Thực Tế",
+    "title": "Kịch bản sử dụng Thực Tế",
     "subtitle": "Xem ZFocus giúp mọi người như bạn tập trung và làm việc hiệu quả hơn",
-    "scenario": "Tình Huống",
+    "scenario": "Kịch bản sử dụng",
     "problem": "Vấn Đề",
     "solution": "Giải Pháp",
     "results": "Kết Quả",
