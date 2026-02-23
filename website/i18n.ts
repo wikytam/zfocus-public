@@ -1,6 +1,15 @@
 import { routing } from './i18n/routing';
 import { getRequestConfig } from 'next-intl/server';
 
+// Preload messages (static)
+const messagesMap: Record<string, Record<string, any>> = {
+  vi: require('./messages/vi.json'),
+  en: require('./messages/en.json'),
+  ko: require('./messages/ko.json'),
+  ja: require('./messages/ja.json'),
+  zh: require('./messages/zh.json'),
+};
+
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
 
@@ -10,6 +19,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`./messages/${locale}.json`)).default,
+    messages: messagesMap[locale] || messagesMap[routing.defaultLocale],
   };
 });
