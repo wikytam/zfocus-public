@@ -21,10 +21,6 @@
       "allow2": "허용: +youtube.com/@freecodecamp",
       "description": "엔터테인먼트 차단, 교육 콘텐츠 허용"
     },
-    "referrerBlocking": {
-      "title": "리퍼러 차단",
-      "description": "소셜 미디어 링크 차단"
-    },
     "keywordBlocking": {
       "title": "키워드 차단",
       "description": "키워드가 포함된 URL 자동 차단"

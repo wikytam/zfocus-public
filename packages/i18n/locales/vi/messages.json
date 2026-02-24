@@ -172,15 +172,6 @@
   "exceptionsDesc": {
     "message": "Các URL sẽ KHÔNG bị chặn (mỗi dòng một URL)"
   },
-  "referrers": {
-    "message": "Referrer cho phép"
-  },
-  "referrersPlaceholder": {
-    "message": "google.com\nnotion.so"
-  },
-  "referrersDesc": {
-    "message": "Cho phép truy cập nếu đến từ các trang này"
-  },
   "keywords": {
     "message": "Từ khóa chặn"
   },
@@ -339,12 +330,6 @@
   },
   "exceptionsDescription": {
     "message": "Các URL này sẽ không bị chặn"
-  },
-  "blockFromReferrer": {
-    "message": "Chặn từ nguồn (Referrer)"
-  },
-  "blockFromReferrerDesc": {
-    "message": "Chặn các link được click từ các trang này"
   },
   "keywordsInUrl": {
     "message": "Từ khóa trong URL"

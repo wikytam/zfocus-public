@@ -172,15 +172,6 @@
   "exceptionsDesc": {
     "message": "These URLs will NOT be blocked (one per line)"
   },
-  "referrers": {
-    "message": "Allowed Referrers"
-  },
-  "referrersPlaceholder": {
-    "message": "google.com\nnotion.so"
-  },
-  "referrersDesc": {
-    "message": "Allow access if coming from these pages"
-  },
   "keywords": {
     "message": "Block Keywords"
   },
@@ -339,12 +330,6 @@
   },
   "exceptionsDescription": {
     "message": "These URLs will not be blocked"
-  },
-  "blockFromReferrer": {
-    "message": "Block from Source (Referrer)"
-  },
-  "blockFromReferrerDesc": {
-    "message": "Block links clicked from these pages"
   },
   "keywordsInUrl": {
     "message": "Keywords in URL"

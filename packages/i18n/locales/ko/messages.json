@@ -172,15 +172,6 @@
   "exceptionsDesc": {
     "message": "이 URL은 차단되지 않습니다 (한 줄에 하나씩)"
   },
-  "referrers": {
-    "message": "허용된 리퍼러"
-  },
-  "referrersPlaceholder": {
-    "message": "google.com\nnotion.so"
-  },
-  "referrersDesc": {
-    "message": "이 페이지에서 온 경우 액세스 허용"
-  },
   "keywords": {
     "message": "차단 키워드"
   },
@@ -330,12 +321,6 @@
   },
   "exceptionsDescription": {
     "message": "이 URL은 차단되지 않습니다"
-  },
-  "blockFromReferrer": {
-    "message": "소스에서 차단 (리퍼러)"
-  },
-  "blockFromReferrerDesc": {
-    "message": "이 페이지에서 클릭한 링크 차단"
   },
   "keywordsInUrl": {
     "message": "URL의 키워드"

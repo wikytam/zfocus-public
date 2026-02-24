@@ -172,15 +172,6 @@
   "exceptionsDesc": {
     "message": "这些URL将不会被屏蔽（每行一个URL）"
   },
-  "referrers": {
-    "message": "允许的来源"
-  },
-  "referrersPlaceholder": {
-    "message": "google.com\nnotion.so"
-  },
-  "referrersDesc": {
-    "message": "如果来自这些页面则允许访问"
-  },
   "keywords": {
     "message": "屏蔽关键词"
   },
@@ -330,12 +321,6 @@
   },
   "exceptionsDescription": {
     "message": "这些URL不会被屏蔽"
-  },
-  "blockFromReferrer": {
-    "message": "从来源屏蔽（引荐来源）"
-  },
-  "blockFromReferrerDesc": {
-    "message": "屏蔽从这些页面点击的链接"
   },
   "keywordsInUrl": {
     "message": "URL中的关键词"

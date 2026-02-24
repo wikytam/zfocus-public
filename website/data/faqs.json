@@ -2,7 +2,7 @@
   {
     "id": "faq-1",
     "question": "How is ZFocus different from other website blockers?",
-    "answer": "ZFocus offers unique features like Exception Patterns (block YouTube but allow educational channels), Referrer Blocking (prevent rabbit holes from social media), Time-Based Blocking (5 min every hour), and multiple action types (Close Tab, Redirect, Time-Based). Plus, it's 100% private with zero tracking.",
+    "answer": "ZFocus offers unique features like Exception Patterns (block YouTube but allow educational channels), Keyword Blocking (auto-block URLs containing specific keywords), Time-Based Blocking (5 min every hour), and multiple action types (Close Tab, Redirect, Time-Based). Plus, it's 100% private with zero tracking.",
     "category": "features"
   },
   {

@@ -52,7 +52,6 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
     title: string;
     urls: string[];
     exceptions: string[];
-    referrers: string[];
     keywords: string[];
     allowedMinutes: number | '';
     timeInterval: number;
@@ -66,7 +65,6 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
     title: '',
     urls: [],
     exceptions: [],
-    referrers: [],
     keywords: [],
     allowedMinutes: 5,
     timeInterval: 60,
@@ -109,7 +107,6 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
         title: formData.title,
         urls: formData.urls.join('\n'),
         exceptions: formData.exceptions.length > 0 ? formData.exceptions.join('\n') : undefined,
-        referrers: formData.referrers.length > 0 ? formData.referrers.join('\n') : undefined,
         keywords: formData.keywords.length > 0 ? formData.keywords.join('\n') : undefined,
         allowedMinutes: formData.allowedMinutes === '' ? 1 : Number(formData.allowedMinutes),
         countOnlyActiveTab: formData.countOnlyActiveTab,
@@ -133,11 +130,6 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
         .map(u => u.trim())
         .filter(Boolean);
 
-      const referrers = (validatedData.referrers || '')
-        .split('\n')
-        .map(u => u.trim())
-        .filter(Boolean);
-
       const keywords = (validatedData.keywords || '')
         .split('\n')
         .map(u => u.trim())
@@ -147,7 +139,6 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
         title: validatedData.title,
         urls: allUrls,
         exceptions: exceptions.length > 0 ? exceptions : undefined,
-        referrers: referrers.length > 0 ? referrers : undefined,
         keywords: keywords.length > 0 ? keywords : undefined,
         allowedMinutesPerHour: validatedData.allowedMinutes,
         countOnlyActiveTab: validatedData.countOnlyActiveTab,
@@ -172,7 +163,6 @@ export const AddSiteDialog = ({ onAdd, isPremium = false, onActivatePremium }: A
         title: '',
         urls: [],
         exceptions: [],
-        referrers: [],
         keywords: [],
         allowedMinutes: 5,
         timeInterval: 60,

@@ -94,7 +94,6 @@ interface BlockedSite {
   title: string;
   urls: string[];
   exceptions?: string[]; // URLs to allow (whitelist)
-  referrers?: string[]; // Block when coming from these referrers
   keywords?: string[]; // Block URLs containing these keywords
   allowedMinutesPerHour: number;
   countOnlyActiveTab?: boolean;
@@ -283,9 +282,6 @@ const tabSiteMapping: Map<number, string> = new Map();
 // CRITICAL: Prevent race condition when multiple startTabTimer calls happen simultaneously
 const timerInitializationInProgress = new Set<number>();
 
-// Track referrers for each tab
-const tabReferrers: Map<number, string> = new Map();
-
 // In-memory timer cache to reduce storage writes
 const timerCache: Record<string, SiteTimer> = {};
 const MAX_CACHE_SIZE = 50;
@@ -378,7 +374,7 @@ const clearBadge = async (tabId: number) => {
 };
 
 // Check if URL matches a blocked site
-const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean => {
+const matchesUrl = (url: string, site: BlockedSite): boolean => {
   const isDev = process.env.NODE_ENV === 'development';
 
   try {
@@ -389,43 +385,26 @@ const matchesUrl = (url: string, site: BlockedSite, referrer?: string): boolean 
 
     if (isDev) {
       console.log(`[ZFocus] Checking URL: ${url} for site: ${site.title}`);
-      console.log(`[ZFocus] Referrer: ${referrer || 'none'}`);
     }
 
-    // 1. Check exceptions - if URL matches any exception, allow access immediately
+    // 1. Check exceptions FIRST - if URL matches any exception, skip this site entirely
     if (site.exceptions && site.exceptions.length > 0) {
       for (const exception of site.exceptions) {
         const cleanException = exception.trim().toLowerCase();
         if (cleanException && (fullPath.includes(cleanException) || fullUrl.includes(cleanException))) {
-          if (isDev) console.log(`[ZFocus] Exception matched: ${cleanException} - allowing access`);
-          return false; // Don't block
+          devLog(`[ZFocus] Exception matched: "${cleanException}" for site "${site.title}" - skipping all checks`);
+          return false;
         }
       }
     }
 
-    // 2. Check referrers FIRST - if coming from blocked referrer, block ANY external URL
-    if (site.referrers && site.referrers.length > 0 && referrer) {
-      try {
-        const refHost = new URL(referrer).hostname.replace(/^www\./, '').toLowerCase();
-        for (const referrerDomain of site.referrers) {
-          const cleanReferrer = referrerDomain.trim().toLowerCase();
-          if (cleanReferrer && refHost.includes(cleanReferrer)) {
-            if (isDev) console.log(`[ZFocus] Referrer matched: ${cleanReferrer} - blocking ANY external link`);
-            return true; // Block ANY link from this referrer
-          }
-        }
-      } catch {
-        if (isDev) console.log(`[ZFocus] Invalid referrer URL`);
-      }
-    }
-
-    // 3. Check keywords FIRST - applies to ALL URLs, not just those in URL list
+    // 2. Check keywords - applies to ALL URLs, not just those in URL list
     if (site.keywords && site.keywords.length > 0) {
       for (const keyword of site.keywords) {
         const cleanKeyword = keyword.trim().toLowerCase();
         if (cleanKeyword && fullUrl.includes(cleanKeyword)) {
-          if (isDev) console.log(`[ZFocus] Keyword matched: ${cleanKeyword} - blocking (applies to all URLs)`);
-          return true; // Block
+          devLog(`[ZFocus] Keyword matched: "${cleanKeyword}" for site "${site.title}" - blocking`);
+          return true;
         }
       }
     }
@@ -528,7 +507,7 @@ const isWithinWorkHours = (schedule: BlockedSite['schedule']): boolean => {
 };
 
 // Find matching blocked site for URL
-const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedSite | null> => {
+const findBlockedSite = async (url: string): Promise<BlockedSite | null> => {
   const settings = await getSettings();
 
   // Check if paused
@@ -552,13 +531,48 @@ const findBlockedSite = async (url: string, referrer?: string): Promise<BlockedS
     return maxLenB - maxLenA;
   });
 
+  devLog(`[ZFocus] findBlockedSite: checking ${sortedSites.length} sites for URL: ${url}`);
+
+  // Collect ALL exceptions from ALL active sites so that an exception in any site
+  // is respected globally (user should not have to duplicate exceptions across sites)
+  const globalExceptions: string[] = [];
+  for (const site of sortedSites) {
+    if (!site.isActive) continue;
+    if (site.exceptions) {
+      globalExceptions.push(...site.exceptions);
+    }
+  }
+
+  // Check if URL matches any global exception
+  if (globalExceptions.length > 0) {
+    try {
+      const urlObj = new URL(url);
+      const hostname = urlObj.hostname.replace(/^www\./, '').toLowerCase();
+      const fullPath = hostname + urlObj.pathname.toLowerCase();
+      const fullUrl = url.toLowerCase();
+
+      for (const exception of globalExceptions) {
+        const cleanException = exception.trim().toLowerCase();
+        if (cleanException && (fullPath.includes(cleanException) || fullUrl.includes(cleanException))) {
+          devLog(`[ZFocus] Global exception matched: "${cleanException}" - URL is whitelisted across all sites`);
+          return null;
+        }
+      }
+    } catch {
+      // invalid URL
+    }
+  }
+
   for (const site of sortedSites) {
     if (!site.isActive) continue;
     if (!isWithinWorkHours(site.schedule)) continue;
-    if (matchesUrl(url, site, referrer)) {
+    devLog(`[ZFocus] Checking site "${site.title}" (urls: ${site.urls.join(', ')})`);
+    if (matchesUrl(url, site)) {
+      devLog(`[ZFocus] >>> MATCHED site "${site.title}" (id: ${site.id})`);
       return site;
     }
   }
+  devLog(`[ZFocus] No site matched for: ${url}`);
   return null;
 };
 
@@ -699,6 +713,16 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         return;
       }
 
+      // Re-check if current URL still matches this blocked site (SPA may have navigated to an excepted URL)
+      if (tab.url) {
+        const currentSite = await findBlockedSite(tab.url);
+        if (!currentSite || currentSite.id !== site.id) {
+          devLog(`[ZFocus] Tab ${tabId} URL changed to excepted/different URL: ${tab.url} - clearing timer`);
+          clearTabTimer(tabId);
+          return;
+        }
+      }
+
       // If site has countOnlyActiveTab enabled, check if tab is active
       if (site.countOnlyActiveTab !== false) {
         // Default to true if not set
@@ -788,47 +812,48 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
   timerInitializationInProgress.delete(tabId);
 };
 
-// Listen for referrer messages from content script
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'REFERRER_CAPTURED' && sender.tab?.id) {
-    devLog(`[ZFocus] Referrer from content script for tab ${sender.tab.id}: ${message.referrer}`);
-    tabReferrers.set(sender.tab.id, message.referrer);
-    sendResponse({ received: true });
-  }
-  return true; // Keep message channel open for async response
-});
-
-// Handle tab updates
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  const isDev = process.env.NODE_ENV === 'development';
-
-  if (isDev) console.log(`[ZFocus] Tab ${tabId} updated:`, changeInfo.status, tab.url);
-
-  if (changeInfo.status !== 'complete' || !tab.url) return;
-
-  // Skip chrome:// and extension pages
-  if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
+// Re-evaluate blocking for a tab based on its current URL
+const evaluateTabUrl = async (tabId: number, url: string) => {
+  if (url.startsWith('chrome://') || url.startsWith('chrome-extension://')) {
     clearTabTimer(tabId);
     return;
   }
 
-  if (isDev) console.log(`[ZFocus] Checking URL: ${tab.url}`);
-  const referrer = tabReferrers.get(tabId);
-  const site = await findBlockedSite(tab.url, referrer);
+  devLog(`[ZFocus] Evaluating URL: ${url}`);
+  const site = await findBlockedSite(url);
   if (site) {
-    if (isDev) console.log(`[ZFocus] ✅ MATCHED! Detected blocked site: ${site.title} on ${tab.url}`);
+    devLog(`[ZFocus] MATCHED blocked site: ${site.title} on ${url}`);
     await startTabTimer(tabId, site);
   } else {
-    if (isDev) console.log(`[ZFocus] ❌ No match for: ${tab.url}`);
+    devLog(`[ZFocus] No match for: ${url}`);
     clearTabTimer(tabId);
   }
+};
 
-  // Clean up referrer after use
-  tabReferrers.delete(tabId);
+// Handle tab updates
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  devLog(`[ZFocus] Tab ${tabId} updated:`, changeInfo.status, changeInfo.url, tab.url);
 
-  // CRITICAL: Also check ALL other tabs when any tab updates
-  // This ensures timers start when entering work hours
+  // Re-evaluate on SPA navigation (URL changed without full page load)
+  if (changeInfo.url && tab.url) {
+    devLog(`[ZFocus] SPA navigation detected: ${changeInfo.url}`);
+    await evaluateTabUrl(tabId, tab.url);
+    return;
+  }
+
+  if (changeInfo.status !== 'complete' || !tab.url) return;
+
+  await evaluateTabUrl(tabId, tab.url);
+
   performScheduleCheck();
+});
+
+// Handle SPA navigation via History API (pushState/replaceState)
+// This catches URL changes that tabs.onUpdated might miss
+chrome.webNavigation.onHistoryStateUpdated.addListener(async details => {
+  if (details.frameId !== 0) return;
+  devLog(`[ZFocus] History state updated: ${details.url} (tab ${details.tabId})`);
+  await evaluateTabUrl(details.tabId, details.url);
 });
 
 // Handle tab activation
@@ -927,8 +952,7 @@ chrome.storage.sync.onChanged.addListener(async changes => {
         devLog('[ZFocus] Re-checking all tabs with new blocked site settings...');
         for (const tab of tabs) {
           if (tab.id && tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
-            const referrer = tabReferrers.get(tab.id);
-            const site = await findBlockedSite(tab.url, referrer);
+            const site = await findBlockedSite(tab.url);
             if (site) {
               devLog(`[ZFocus] Starting timer for tab ${tab.id} with site: ${site.title}`);
               await startTabTimer(tab.id, site);
@@ -1206,8 +1230,7 @@ const performScheduleCheck = async () => {
 
     checkedCount++;
 
-    const referrer = tabReferrers.get(tab.id);
-    const site = await findBlockedSite(tab.url, referrer);
+    const site = await findBlockedSite(tab.url);
     const hasActiveTimer = activeTabTimers.has(tab.id);
 
     if (site && !hasActiveTimer) {

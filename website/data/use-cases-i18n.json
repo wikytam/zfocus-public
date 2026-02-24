@@ -79,11 +79,11 @@
       "zh": "家庭环境里更容易出现与工作无关的干扰"
     },
     "solution": {
-      "en": "Block social media and news sites during work hours (9 AM - 6 PM). Use Referrer Blocking to prevent clicking through from Slack/email to rabbit holes. Enable 'Active Tab Only' to allow background music while blocking video browsing.",
-      "vi": "Chặn mạng xã hội và trang tin tức trong giờ làm việc (9 AM - 6 PM). Dùng Chặn theo nguồn truy cập để hạn chế việc bấm từ Slack/email sang các nội dung gây xao nhãng. Bật 'Chỉ tab đang hoạt động' để vẫn nghe nhạc nền nhưng chặn lướt video.",
-      "ko": "근무 시간(오전 9시-오후 6시)에는 소셜 미디어와 뉴스 사이트를 차단하세요. 리퍼러 차단을 활용하면 Slack/이메일에서 딴길로 빠지는 클릭을 줄일 수 있습니다. 또한 활성 탭만 계산을 켜면 백그라운드 음악은 유지하면서 영상 탐색은 제한할 수 있습니다.",
-      "ja": "勤務時間（9:00-18:00）はSNSやニュースサイトをブロックします。リファラーブロックを使うと、Slackやメールからの寄り道クリックを減らせます。さらに「アクティブタブのみ」を有効にすれば、BGMは流しつつ動画巡回は抑えられます。",
-      "zh": "在工作时段（9:00-18:00）屏蔽社交媒体和新闻站点。使用来源屏蔽可减少从 Slack/邮件“点进去就停不下来”的情况。开启“仅统计活动标签页”后，可保留后台音乐，同时限制视频刷看。"
+      "en": "Block social media and news sites during work hours (9 AM - 6 PM). Use Keyword Blocking to prevent accessing distracting content. Enable 'Active Tab Only' to allow background music while blocking video browsing.",
+      "vi": "Chặn mạng xã hội và trang tin tức trong giờ làm việc (9 AM - 6 PM). Dùng Chặn theo từ khóa để hạn chế truy cập nội dung gây xao nhãng. Bật 'Chỉ tab đang hoạt động' để vẫn nghe nhạc nền nhưng chặn lướt video.",
+      "ko": "근무 시간(오전 9시-오후 6시)에는 소셜 미디어와 뉴스 사이트를 차단하세요. 키워드 차단을 활용하면 산만한 콘텐츠 접근을 줄일 수 있습니다. 또한 활성 탭만 계산을 켜면 백그라운드 음악은 유지하면서 영상 탐색은 제한할 수 있습니다.",
+      "ja": "勤務時間（9:00-18:00）はSNSやニュースサイトをブロックします。キーワードブロックを使うと、気が散るコンテンツへのアクセスを減らせます。さらに「アクティブタブのみ」を有効にすれば、BGMは流しつつ動画巡回は抑えられます。",
+      "zh": "在工作时段（9:00-18:00）屏蔽社交媒体和新闻站点。使用关键词屏蔽可减少访问令人分心的内容。开启“仅统计活动标签页”后，可保留后台音乐，同时限制视频刷看。"
     },
     "results": [
       {
@@ -244,11 +244,11 @@
       "zh": "研究过程不断拉长，最终演变为拖延，创作部分被一再推后"
     },
     "solution": {
-      "en": "Block research sites during writing blocks (2-3 hours). Use Referrer Blocking to prevent clicking through from writing apps to distractions. Enable Time-Based Access for quick fact-checks (5 minutes every 30 minutes).",
-      "vi": "Chặn các trang nghiên cứu trong các phiên viết kéo dài 2-3 giờ. Dùng Chặn theo nguồn truy cập để tránh bấm từ ứng dụng viết sang các nội dung gây xao nhãng. Bật Truy cập theo thời gian để kiểm chứng thông tin nhanh (5 phút mỗi 30 phút).",
-      "ko": "집필 블록(2-3시간) 동안은 조사 사이트 접근을 제한하세요. 리퍼러 차단으로 글쓰기 도구에서 산만한 사이트로 넘어가는 흐름을 끊을 수 있습니다. 사실 확인이 필요할 때는 30분마다 5분처럼 짧은 시간 기반 접근만 허용하세요.",
-      "ja": "執筆ブロック（2-3時間）中は調査サイトを制限します。リファラーブロックで、執筆アプリから気が散るページへの遷移を防げます。ファクトチェックは「30分ごとに5分」など短時間の時間ベースアクセスだけ許可すると効果的です。",
-      "zh": "在写作时段（2-3 小时）限制研究类网站访问。使用来源屏蔽可避免从写作工具一路点到分心内容。需要查证时，只开放短时窗口（例如每 30 分钟可用 5 分钟）。"
+      "en": "Block research sites during writing blocks (2-3 hours). Use Keyword Blocking to prevent accessing distracting content from writing apps. Enable Time-Based Access for quick fact-checks (5 minutes every 30 minutes).",
+      "vi": "Chặn các trang nghiên cứu trong các phiên viết kéo dài 2-3 giờ. Dùng Chặn theo từ khóa để tránh truy cập nội dung gây xao nhãng. Bật Truy cập theo thời gian để kiểm chứng thông tin nhanh (5 phút mỗi 30 phút).",
+      "ko": "집필 블록(2-3시간) 동안은 조사 사이트 접근을 제한하세요. 키워드 차단으로 산만한 콘텐츠 접근을 줄일 수 있습니다. 사실 확인이 필요할 때는 30분마다 5분처럼 짧은 시간 기반 접근만 허용하세요.",
+      "ja": "執筆ブロック（2-3時間）中は調査サイトを制限します。キーワードブロックで、気が散るコンテンツへのアクセスを防げます。ファクトチェックは「30分ごとに5分」など短時間の時間ベースアクセスだけ許可すると効果的です。",
+      "zh": "在写作时段（2-3 小时）限制研究类网站访问。使用关键词屏蔽可避免从写作工具一路点到分心内容。需要查证时，只开放短时窗口（例如每 30 分钟可用 5 分钟）。"
     },
     "results": [
       {

@@ -77,7 +77,6 @@ export const EditSiteDialog = ({
     title: string;
     urls: string[];
     exceptions: string[];
-    referrers: string[];
     keywords: string[];
     allowedMinutes: number | '';
     timeInterval: number;
@@ -91,7 +90,6 @@ export const EditSiteDialog = ({
     title: getDisplayTitle(site.title),
     urls: Array.isArray(site.urls) ? site.urls : [],
     exceptions: site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : [],
-    referrers: site.referrers && Array.isArray(site.referrers) ? site.referrers : [],
     keywords: site.keywords && Array.isArray(site.keywords) ? site.keywords : [],
     allowedMinutes: site.allowedMinutesPerHour || 1,
     timeInterval: 60,
@@ -108,7 +106,6 @@ export const EditSiteDialog = ({
       title: getDisplayTitle(site.title),
       urls: Array.isArray(site.urls) ? site.urls : [],
       exceptions: site.exceptions && Array.isArray(site.exceptions) ? site.exceptions : [],
-      referrers: site.referrers && Array.isArray(site.referrers) ? site.referrers : [],
       keywords: site.keywords && Array.isArray(site.keywords) ? site.keywords : [],
       allowedMinutes: site.allowedMinutesPerHour || 1,
       timeInterval: 60,
@@ -140,7 +137,6 @@ export const EditSiteDialog = ({
         title: editData.title,
         urls: editData.urls.join('\n'),
         exceptions: editData.exceptions.length > 0 ? editData.exceptions.join('\n') : undefined,
-        referrers: editData.referrers.length > 0 ? editData.referrers.join('\n') : undefined,
         keywords: editData.keywords.length > 0 ? editData.keywords.join('\n') : undefined,
         allowedMinutes: editData.allowedMinutes || undefined,
         countOnlyActiveTab: editData.countOnlyActiveTab,
@@ -160,11 +156,6 @@ export const EditSiteDialog = ({
       const allUrls = normalizeUrlPatterns(validatedData.urls.split('\n').filter(Boolean));
 
       const exceptions = (validatedData.exceptions || '')
-        .split('\n')
-        .map(u => u.trim())
-        .filter(Boolean);
-
-      const referrers = (validatedData.referrers || '')
         .split('\n')
         .map(u => u.trim())
         .filter(Boolean);
@@ -190,7 +181,6 @@ export const EditSiteDialog = ({
         title: finalTitle,
         urls: allUrls,
         exceptions: exceptions.length > 0 ? exceptions : undefined,
-        referrers: referrers.length > 0 ? referrers : undefined,
         keywords: keywords.length > 0 ? keywords : undefined,
         allowedMinutesPerHour: validatedData.allowedMinutes || site.allowedMinutesPerHour,
         countOnlyActiveTab: validatedData.countOnlyActiveTab,

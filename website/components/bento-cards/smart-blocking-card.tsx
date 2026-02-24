@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, Star, XCircle, CheckCircle2, AlertTriangle, Globe } from 'lucide-react';
+import { Shield, Star, XCircle, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export const SmartBlockingCard = () => {
@@ -54,30 +54,7 @@ export const SmartBlockingCard = () => {
             <p className="text-muted-foreground mt-2.5 text-sm">{t('smartBlocking.exceptionPattern.description')}</p>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-2">
-            {/* Referrer Blocking */}
-            <div>
-              <h4 className="text-foreground mb-3 font-medium">{t('smartBlocking.referrerBlocking.title')}</h4>
-              <div className="space-y-2">
-                {[
-                  { src: '/icon/facebook.svg', alt: 'Facebook', name: 'facebook.com' },
-                  { src: '/icon/x.svg', alt: 'X', name: 'x.com' },
-                  { src: '/icon/instagram.svg', alt: 'Instagram', name: 'instagram.com' },
-                ].map(item => (
-                  <div
-                    key={item.alt}
-                    className="bg-background border-border/80 hover:border-accent/30 row-hover-highlight flex items-center gap-2 rounded-lg border p-2.5">
-                    <div className="flex flex-1 items-center gap-2">
-                      <img src={item.src} alt={item.alt} className="h-4 w-4" />
-                      <span className="text-foreground text-sm font-medium">{item.name}</span>
-                    </div>
-                    <Globe className="text-muted-foreground h-3.5 w-3.5" />
-                  </div>
-                ))}
-              </div>
-              <p className="text-muted-foreground mt-2 text-xs">{t('smartBlocking.referrerBlocking.description')}</p>
-            </div>
-
+          <div className="grid gap-4 lg:grid-cols-1">
             {/* Keyword Blocking */}
             <div>
               <h4 className="text-foreground mb-3 font-medium">{t('smartBlocking.keywordBlocking.title')}</h4>

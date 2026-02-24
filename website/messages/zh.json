@@ -21,10 +21,6 @@
       "allow2": "允许: +youtube.com/@freecodecamp",
       "description": "屏蔽娱乐，允许教育内容"
     },
-    "referrerBlocking": {
-      "title": "来源屏蔽",
-      "description": "屏蔽来自社交媒体的链接"
-    },
     "keywordBlocking": {
       "title": "关键词屏蔽",
       "description": "自动屏蔽包含关键词的URL"

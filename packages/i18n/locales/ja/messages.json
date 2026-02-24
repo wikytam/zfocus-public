@@ -172,15 +172,6 @@
   "exceptionsDesc": {
     "message": "これらのURLはブロックされません（1行に1つのURL）"
   },
-  "referrers": {
-    "message": "許可されたリファラー"
-  },
-  "referrersPlaceholder": {
-    "message": "google.com\nnotion.so"
-  },
-  "referrersDesc": {
-    "message": "これらのページから来た場合はアクセスを許可"
-  },
   "keywords": {
     "message": "ブロックキーワード"
   },
@@ -330,12 +321,6 @@
   },
   "exceptionsDescription": {
     "message": "これらのURLはブロックされません"
-  },
-  "blockFromReferrer": {
-    "message": "ソースからブロック（リファラー）"
-  },
-  "blockFromReferrerDesc": {
-    "message": "これらのページからクリックされたリンクをブロック"
   },
   "keywordsInUrl": {
     "message": "URLのキーワード"

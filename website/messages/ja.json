@@ -21,10 +21,6 @@
       "allow2": "許可: +youtube.com/@freecodecamp",
       "description": "エンターテイメントをブロック、教育コンテンツを許可"
     },
-    "referrerBlocking": {
-      "title": "リファラーブロッキング",
-      "description": "ソーシャルメディアからのリンクをブロック"
-    },
     "keywordBlocking": {
       "title": "キーワードブロッキング",
       "description": "キーワードを含むURLを自動ブロック"

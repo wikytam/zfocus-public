@@ -133,7 +133,6 @@ const generateRealisticSite = (index: number) => ({
     `subdomain.site-${index}.example.com/path/to/page`,
   ],
   exceptions: [`site-${index}-a.example.com/allowed-page`, `site-${index}-b.example.com/work`],
-  referrers: [`referrer-${index}.example.com`],
   keywords: [`distraction-${index}`, `timewaste-${index}`, `procrastinate`],
   allowedMinutesPerHour: 5 + (index % 20),
   countOnlyActiveTab: index % 2 === 0,

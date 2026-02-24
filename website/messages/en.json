@@ -21,10 +21,6 @@
       "allow2": "Allow: +youtube.com/@freecodecamp",
       "description": "Block entertainment, allow educational channels"
     },
-    "referrerBlocking": {
-      "title": "Referrer Blocking",
-      "description": "Block links from social media"
-    },
     "keywordBlocking": {
       "title": "Keyword Blocking",
       "description": "Auto-block URLs with keywords"

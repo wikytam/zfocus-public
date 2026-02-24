@@ -18,10 +18,6 @@
       "allow2": "Cho phép: +youtube.com/@freecodecamp",
       "description": "Chặn nội dung giải trí, cho phép kênh học tập"
     },
-    "referrerBlocking": {
-      "title": "Chặn Theo Nguồn",
-      "description": "Chặn các liên kết từ mạng xã hội"
-    },
     "keywordBlocking": {
       "title": "Chặn Theo Từ Khóa",
       "description": "Tự động chặn URL có chứa từ khóa"

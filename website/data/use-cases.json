@@ -14,7 +14,7 @@
     "title": "Remote Workers",
     "scenario": "Maintaining productivity while working from home",
     "problem": "Home environment has more distractions than office",
-    "solution": "Use Schedule Blocking for work hours (9 AM - 6 PM). Enable Active Tab Only mode to keep reference materials accessible in background tabs. Use Referrer Blocking to prevent clicking social media links from Slack/email.",
+    "solution": "Use Schedule Blocking for work hours (9 AM - 6 PM). Enable Active Tab Only mode to keep reference materials accessible in background tabs. Use Keyword Blocking to prevent accessing social media distractions.",
     "results": ["40% more productive", "Meet deadlines consistently", "Better work-life balance"]
   },
   {
