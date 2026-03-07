@@ -8,14 +8,41 @@ interface TimerData {
   remainingSeconds: number;
 }
 
+interface WorkSchedule {
+  startTime: string;
+  endTime: string;
+  workDays: number[];
+  allowOutsideHours: boolean;
+}
+
+const isWithinWorkHoursCheck = (schedule: WorkSchedule): boolean => {
+  const now = new Date();
+  const currentDay = now.getDay();
+  const currentTime = now.getHours() * 60 + now.getMinutes();
+
+  if (!schedule.workDays.includes(currentDay)) {
+    return false;
+  }
+
+  const [startHour, startMin] = schedule.startTime.split(':').map(Number);
+  const [endHour, endMin] = schedule.endTime.split(':').map(Number);
+  const startMinutes = startHour * 60 + startMin;
+  const endMinutes = endHour * 60 + endMin;
+
+  return currentTime >= startMinutes && currentTime <= endMinutes;
+};
+
 export default function App() {
   const [timerData, setTimerData] = useState<TimerData | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [showCountdown, setShowCountdown] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [showPauseMenu, setShowPauseMenu] = useState(false);
+  const [hardLockMode, setHardLockMode] = useState(false);
+  const [workSchedule, setWorkSchedule] = useState<WorkSchedule | null>(null);
 
-  // Load settings and check pause state
+  const isPauseLocked = hardLockMode && workSchedule !== null && isWithinWorkHoursCheck(workSchedule);
+
   useEffect(() => {
     const loadSettings = async () => {
       try {
@@ -23,37 +50,39 @@ export default function App() {
         const settings = result['focus-settings'];
         setShowCountdown(settings?.showBadgeCountdown !== false);
         setIsPaused(settings?.isPaused === true);
+        setHardLockMode(settings?.hardLockMode === true);
+        if (settings?.workSchedule) {
+          setWorkSchedule(settings.workSchedule);
+        }
 
-        // If paused, clear timer data
         if (settings?.isPaused === true) {
           console.log('[ZFocus Content-UI] Extension is paused, clearing timer');
           setTimerData(null);
         }
       } catch {
-        // Extension context invalidated - ignore
         console.log('[ZFocus Content-UI] Extension context invalidated during loadSettings');
       }
     };
 
     loadSettings();
 
-    // Listen for setting changes
     const handleStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
       if (changes['focus-settings']) {
         const newSettings = changes['focus-settings'].newValue;
         setShowCountdown(newSettings?.showBadgeCountdown !== false);
+        setHardLockMode(newSettings?.hardLockMode === true);
+        if (newSettings?.workSchedule) {
+          setWorkSchedule(newSettings.workSchedule);
+        }
 
-        // Check if pause state changed
         const wasPaused = isPaused;
         const isNowPaused = newSettings?.isPaused === true;
         setIsPaused(isNowPaused);
 
         if (isNowPaused && !wasPaused) {
-          // Just paused - clear timer
           console.log('[ZFocus Content-UI] Extension paused via storage change, clearing timer');
           setTimerData(null);
         } else if (!isNowPaused && wasPaused) {
-          // Just resumed - reset dismissed state so timer can show again
           console.log('[ZFocus Content-UI] Extension resumed, resetting dismissed state');
           setDismissed(false);
         }
@@ -106,9 +135,19 @@ export default function App() {
 
   // Handle pause actions
   const handlePauseFor = async (minutes: number) => {
+    if (isPauseLocked) return;
+
     try {
       const result = await chrome.storage.sync.get(['focus-settings']);
       const settings = result['focus-settings'] || {};
+
+      if (settings.hardLockMode) {
+        const schedule = settings.workSchedule;
+        if (schedule && isWithinWorkHoursCheck(schedule)) {
+          console.log('[ZFocus Content-UI] Hard Lock Mode active during work hours, pause blocked');
+          return;
+        }
+      }
 
       const pauseEndTime = Date.now() + minutes * 60 * 1000;
 
@@ -151,8 +190,8 @@ export default function App() {
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}>
       <div style={{ position: 'relative' }}>
-        <div
-          role="button"
+        <button
+          type="button"
           tabIndex={0}
           onClick={togglePauseMenu}
           onKeyDown={e => {
@@ -269,7 +308,7 @@ export default function App() {
               ✕
             </button>
           </div>
-        </div>
+        </button>
 
         {/* Pause Menu Popup */}
         {showPauseMenu && (
@@ -286,63 +325,53 @@ export default function App() {
               color: 'white',
               minWidth: '180px',
             }}>
-            <div style={{ fontSize: '12px', opacity: 0.8, marginBottom: '8px', fontWeight: 500 }}>Pause for:</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <button
-                onClick={() => handlePauseFor(3)}
-                style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '10px 12px',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  textAlign: 'left',
-                  transition: 'background 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                3 minutes
-              </button>
-              <button
-                onClick={() => handlePauseFor(5)}
-                style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '10px 12px',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  textAlign: 'left',
-                  transition: 'background 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                5 minutes
-              </button>
-              <button
-                onClick={() => handlePauseFor(10)}
-                style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '10px 12px',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  textAlign: 'left',
-                  transition: 'background 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                10 minutes
-              </button>
-            </div>
+            {isPauseLocked ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#f59e0b"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#f59e0b' }}>Hard Lock Mode</div>
+                  <div style={{ fontSize: '11px', opacity: 0.7, marginTop: '2px' }}>Cannot pause during work hours</div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div style={{ fontSize: '12px', opacity: 0.8, marginBottom: '8px', fontWeight: 500 }}>Pause for:</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {[3, 5, 10].map(min => (
+                    <button
+                      key={min}
+                      onClick={() => handlePauseFor(min)}
+                      style={{
+                        background: 'rgba(255,255,255,0.1)',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '10px 12px',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        textAlign: 'left',
+                        transition: 'background 0.2s',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
+                      {min} minutes
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

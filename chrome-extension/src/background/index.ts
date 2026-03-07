@@ -1021,6 +1021,12 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'PAUSE_BLOCKING') {
     (async () => {
       const settings = await getSettings();
+
+      if (settings.hardLockMode && isWithinWorkHours(settings.workSchedule)) {
+        devLog('[ZFocus] PAUSE_BLOCKING rejected: Hard Lock Mode active during work hours');
+        return;
+      }
+
       const endTime = Date.now() + message.minutes * 60 * 1000;
 
       // Track pause start time
