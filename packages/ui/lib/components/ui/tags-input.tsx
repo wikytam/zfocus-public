@@ -12,11 +12,14 @@ interface TagsInputProps {
   disabled?: boolean;
   id?: string;
   onNormalize?: (value: string) => string;
+  minLength?: number;
+  minLengthMessage?: string;
 }
 
 const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
-  ({ value, onChange, placeholder, className, disabled, id, onNormalize }, ref) => {
+  ({ value, onChange, placeholder, className, disabled, id, onNormalize, minLength, minLengthMessage }, ref) => {
     const [inputValue, setInputValue] = React.useState('');
+    const [error, setError] = React.useState<string | null>(null);
     const internalInputRef = React.useRef<HTMLInputElement>(null);
 
     const normalize = React.useCallback(
@@ -27,21 +30,28 @@ const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
       [onNormalize],
     );
 
-    // Expose focus method via imperative handle
     React.useImperativeHandle(ref, () => internalInputRef.current as HTMLInputElement, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
+      if (error) setError(null);
     };
 
     const addTag = () => {
       const normalized = normalize(inputValue);
-      if (normalized && !value.includes(normalized)) {
-        onChange([...value, normalized]);
+      if (!normalized) {
         setInputValue('');
-      } else {
-        setInputValue('');
+        return;
       }
+      if (minLength && normalized.length < minLength) {
+        setError(minLengthMessage || `Must be at least ${minLength} characters`);
+        return;
+      }
+      if (!value.includes(normalized)) {
+        onChange([...value, normalized]);
+      }
+      setInputValue('');
+      setError(null);
     };
 
     const removeTag = (index: number) => {
@@ -63,7 +73,16 @@ const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
       const newTags = pastedText
         .split(/[\n,]/)
         .map(tag => normalize(tag))
-        .filter(tag => tag && !value.includes(tag));
+        .filter(tag => tag && !value.includes(tag) && (!minLength || tag.length >= minLength));
+
+      const rejected = pastedText
+        .split(/[\n,]/)
+        .map(tag => normalize(tag))
+        .filter(tag => tag && minLength && tag.length < minLength);
+
+      if (rejected.length > 0) {
+        setError(minLengthMessage || `Must be at least ${minLength} characters`);
+      }
 
       if (newTags.length > 0) {
         onChange([...value, ...newTags]);
@@ -76,55 +95,58 @@ const TagsInput = React.forwardRef<HTMLInputElement, TagsInputProps>(
     };
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Composite widget: container delegates focus to inner input
-      <div
-        role="group"
-        tabIndex={-1}
-        className={cn(
-          'border-input ring-offset-background focus-within:ring-ring flex min-h-[40px] w-full flex-wrap gap-2 rounded-md border bg-transparent px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-offset-2',
-          disabled && 'cursor-not-allowed opacity-50',
-          !disabled && 'cursor-pointer',
-          className,
-        )}
-        onClick={handleContainerClick}
-        onKeyDown={e => {
-          if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            internalInputRef.current?.focus();
-          }
-        }}>
-        {value.map((tag, index) => (
-          <Badge key={index} variant="secondary" className="gap-1 pr-1">
-            <span className="max-w-[200px] truncate font-mono text-xs">{tag}</span>
-            {!disabled && (
-              <button
-                type="button"
-                tabIndex={-1}
-                onClick={e => {
-                  e.stopPropagation();
-                  removeTag(index);
-                }}
-                className="hover:bg-secondary-foreground/20 rounded-sm transition-colors"
-                aria-label={`Remove ${tag}`}>
-                <X className="h-3 w-3" />
-              </button>
-            )}
-          </Badge>
-        ))}
-        <Input
-          ref={internalInputRef}
-          id={id}
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
-          onPaste={handlePaste}
-          onBlur={addTag}
-          placeholder={value.length === 0 ? placeholder : ''}
-          disabled={disabled}
-          className="placeholder:text-muted-foreground h-7 flex-1 border-0 bg-transparent p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-        />
-      </div>
+      <>
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Composite widget: container delegates focus to inner input */}
+        <div
+          role="group"
+          tabIndex={-1}
+          className={cn(
+            'border-input ring-offset-background focus-within:ring-ring flex min-h-[40px] w-full flex-wrap gap-2 rounded-md border bg-transparent px-3 py-2 text-sm focus-within:ring-2 focus-within:ring-offset-2',
+            disabled && 'cursor-not-allowed opacity-50',
+            !disabled && 'cursor-pointer',
+            className,
+          )}
+          onClick={handleContainerClick}
+          onKeyDown={e => {
+            if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault();
+              internalInputRef.current?.focus();
+            }
+          }}>
+          {value.map((tag, index) => (
+            <Badge key={index} variant="secondary" className="gap-1 pr-1">
+              <span className="max-w-[200px] truncate font-mono text-xs">{tag}</span>
+              {!disabled && (
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onClick={e => {
+                    e.stopPropagation();
+                    removeTag(index);
+                  }}
+                  className="hover:bg-secondary-foreground/20 rounded-sm transition-colors"
+                  aria-label={`Remove ${tag}`}>
+                  <X className="h-3 w-3" />
+                </button>
+              )}
+            </Badge>
+          ))}
+          <Input
+            ref={internalInputRef}
+            id={id}
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+            onPaste={handlePaste}
+            onBlur={addTag}
+            placeholder={value.length === 0 ? placeholder : ''}
+            disabled={disabled}
+            className="placeholder:text-muted-foreground h-7 flex-1 border-0 bg-transparent p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+        </div>
+        {error && <p className="text-destructive mt-1 text-xs">{error}</p>}
+      </>
     );
   },
 );

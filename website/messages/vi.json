@@ -3,6 +3,7 @@
     "features": "Tính Năng",
     "faq": "Câu Hỏi Thường Gặp",
     "useCases": "Ứng Dụng",
+    "comparison": "So Sánh",
     "pricing": "Bảng Giá",
     "privacy": "Chính Sách Bảo Mật"
   },
@@ -289,6 +290,45 @@
       "title": "Liên Hệ",
       "description": "Nếu bạn có câu hỏi về chính sách bảo mật này hoặc ZFocus, vui lòng liên hệ:",
       "openIssue": "Mở issue trên GitHub"
+    }
+  },
+  "comparison": {
+    "title": "Tại Sao Chọn ZFocus?",
+    "subtitle": "So sánh ZFocus với các công cụ phổ biến khác trong việc quản lý thời gian và giảm xao nhãng",
+    "feature": "Tính năng",
+    "legend": {
+      "yes": "Hỗ trợ",
+      "partial": "Một phần / Hạn chế",
+      "no": "Không hỗ trợ"
+    },
+    "openSourceNote": "ZFocus sẽ được mã nguồn mở khi đạt đủ lượng người dùng để trang trải chi phí phát triển.",
+    "features": {
+      "easySetup": { "title": "Cấu Hình Đơn Giản" },
+      "exceptionPattern": { "title": "Ngoại Lệ Thông Minh" },
+      "breakTime": { "title": "Thời Gian Nghỉ Tích Hợp" },
+      "hourlyLimit": { "title": "Giới Hạn Theo Giờ" },
+      "specificUrlBlock": { "title": "Giới Hạn Theo Từng URL" },
+      "redirectOnExpiry": { "title": "Chuyển Hướng Thông Minh" },
+      "closeTab": { "title": "Tự Động Đóng Tab" },
+      "activeTabOnly": { "title": "Chỉ Đếm Tab Đang Xem" },
+      "schedule": { "title": "Lịch Trình Theo Ngày/Giờ" },
+      "modernUi": { "title": "Giao Diện Hiện Đại" },
+      "statistics": { "title": "Thống Kê Trực Quan" },
+      "privacyFirst": { "title": "Bảo Mật Tuyệt Đối" },
+      "openSource": { "title": "Mã Nguồn Mở" },
+      "crossBrowser": { "title": "Hỗ Trợ Đa Trình Duyệt" }
+    },
+    "footnotes": {
+      "1": "LeechBlock NG có 30+ bộ chặn với các tùy chọn nâng cao bao gồm regex, wildcard và tính năng lockdown. Rất mạnh nhưng có thể gây choáng ngợp cho người mới chỉ muốn chặn vài trang.",
+      "2": "LeechBlock hỗ trợ ngoại lệ qua tiền tố + và wildcard, nhưng cần viết URL pattern thủ công. ZFocus cung cấp giao diện trực quan để thêm quy tắc ngoại lệ.",
+      "3": "LeechBlock có thể tạo hành vi tương tự nghỉ trưa bằng cách cấu hình khoảng thời gian (VD: mở chặn từ 12:00-13:00), nhưng không có chế độ nghỉ/giải lao riêng với nút bật tắt nhanh.",
+      "4": "Screen Time trên Safari/iOS chỉ hỗ trợ giới hạn theo ngày. Không thể đặt giới hạn theo giờ để giảm dần trong suốt cả ngày.",
+      "5": "LeechBlock có thể chặn đường dẫn URL cụ thể, nhưng cần tạo block set riêng cho từng pattern (VD: một cho youtube.com/shorts, một cho facebook.com/reel). ZFocus xử lý trong cùng một quy tắc.",
+      "6": "LeechBlock có giao diện chức năng nhưng khá cũ. ZFocus cung cấp giao diện hiện đại với theme sáng/tối/tự động.",
+      "7": "LeechBlock cung cấp thống kê cơ bản (thời gian mỗi block set). ZFocus có biểu đồ trực quan 30 ngày với số lần chặn, thời gian tiết kiệm và chuỗi ngày liên tiếp.",
+      "8": "Screen Time đồng bộ dữ liệu sử dụng qua iCloud. ZFocus và LeechBlock lưu trữ mọi thứ cục bộ, không thu thập dữ liệu.",
+      "9": "LeechBlock NG hoàn toàn mã nguồn mở. ZFocus dự kiến mở mã nguồn khi đạt lượng người dùng bền vững.",
+      "10": "ZFocus hoạt động trên Chrome, Edge, Brave, Opera và Firefox. LeechBlock hỗ trợ Firefox, Chrome và Edge. Screen Time chỉ dành cho Safari/iOS."
     }
   },
   "moreThings": {

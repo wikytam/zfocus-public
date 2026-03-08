@@ -64,6 +64,11 @@ export const Header = () => {
             {t('nav.features')}
           </HashLink>
           <HashLink
+            hash="comparison"
+            className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
+            {t('nav.comparison')}
+          </HashLink>
+          <HashLink
             hash="pricing"
             className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
             {t('nav.pricing')}

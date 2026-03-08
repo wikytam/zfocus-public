@@ -328,6 +328,9 @@
   "keywordsInUrlDesc": {
     "message": "これらのキーワードを含むすべてのURLをブロック（上記のURLリストに依存せず、すべてのリンクに適用）"
   },
+  "keywordMinLength": {
+    "message": "キーワードは3文字以上で入力してください"
+  },
   "allowedTimeMinutes": {
     "message": "許可時間（分）"
   },

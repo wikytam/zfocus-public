@@ -215,7 +215,7 @@
 
 /* Card hover lift */
 .card-hover-lift {
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), 
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
               border-color 0.35s ease;
 }
@@ -256,7 +256,7 @@
 
 /* Badge scale bounce on hover */
 .badge-hover-pop {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.3s ease;
 }
 
@@ -369,7 +369,6 @@
 }
 
 .row-hover-highlight:hover {
-  padding-left: calc(0.625rem + 4px);
   background-color: color-mix(in srgb, var(--accent) 4%, transparent);
 }
 

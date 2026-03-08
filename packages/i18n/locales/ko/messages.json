@@ -328,6 +328,9 @@
   "keywordsInUrlDesc": {
     "message": "이러한 키워드가 포함된 모든 URL 차단 (위의 URL 목록과 무관하게 모든 링크에 적용)"
   },
+  "keywordMinLength": {
+    "message": "키워드는 최소 3자 이상이어야 합니다"
+  },
   "allowedTimeMinutes": {
     "message": "허용 시간 (분)"
   },

@@ -3,6 +3,7 @@
     "features": "기능",
     "faq": "자주 묻는 질문",
     "useCases": "사용 사례",
+    "comparison": "비교",
     "pricing": "가격",
     "privacy": "개인정보 보호정책"
   },
@@ -289,6 +290,45 @@
       "title": "연락처",
       "description": "이 개인정보 보호정책 또는 ZFocus에 대한 질문이 있으시면 연락주세요:",
       "openIssue": "GitHub에서 이슈 열기"
+    }
+  },
+  "comparison": {
+    "title": "왜 ZFocus인가?",
+    "subtitle": "스크린 타임 관리 및 집중력 향상을 위한 다른 인기 도구와 ZFocus를 비교해 보세요",
+    "feature": "기능",
+    "legend": {
+      "yes": "지원",
+      "partial": "부분적 / 제한적",
+      "no": "미지원"
+    },
+    "openSourceNote": "ZFocus는 개발 비용을 충당할 수 있는 사용자 수에 도달하면 오픈 소스로 전환될 예정입니다.",
+    "features": {
+      "easySetup": { "title": "쉬운 설정" },
+      "exceptionPattern": { "title": "스마트 예외 패턴" },
+      "breakTime": { "title": "내장 휴식 시간" },
+      "hourlyLimit": { "title": "시간별 제한" },
+      "specificUrlBlock": { "title": "URL별 시간 제한" },
+      "redirectOnExpiry": { "title": "스마트 리디렉션" },
+      "closeTab": { "title": "탭 자동 닫기" },
+      "activeTabOnly": { "title": "활성 탭만 타이머" },
+      "schedule": { "title": "요일/시간 스케줄" },
+      "modernUi": { "title": "모던 UI와 테마" },
+      "statistics": { "title": "시각적 통계" },
+      "privacyFirst": { "title": "프라이버시 우선" },
+      "openSource": { "title": "오픈 소스" },
+      "crossBrowser": { "title": "크로스 브라우저 지원" }
+    },
+    "footnotes": {
+      "1": "LeechBlock NG는 정규식, 와일드카드, 잠금 기능 등 고급 옵션이 있는 30개 이상의 차단 세트를 제공합니다. 강력하지만 몇 개 사이트만 차단하려는 초보자에게는 복잡할 수 있습니다.",
+      "2": "LeechBlock은 + 접두사와 와일드카드를 통해 예외를 지원하지만, URL 패턴을 수동으로 작성해야 합니다. ZFocus는 예외 규칙을 추가하는 시각적 인터페이스를 제공합니다.",
+      "3": "LeechBlock은 시간대 설정(예: 12:00-13:00 차단 해제)으로 휴식과 유사한 동작을 구현할 수 있지만, 원클릭 전환이 가능한 전용 휴식/점심 모드는 없습니다.",
+      "4": "Safari/iOS의 Screen Time은 일일 시간 제한만 지원합니다. 하루 중 점진적으로 줄이기 위한 시간별 제한을 설정할 수 없습니다.",
+      "5": "LeechBlock은 특정 URL 경로를 차단할 수 있지만 각 패턴에 별도의 차단 세트를 만들어야 합니다(예: youtube.com/shorts용 하나, facebook.com/reel용 하나). ZFocus는 하나의 규칙 내에서 처리합니다.",
+      "6": "LeechBlock은 기능적이지만 다소 오래된 인터페이스를 사용합니다. ZFocus는 라이트/다크/자동 테마가 있는 모던 UI를 제공합니다.",
+      "7": "LeechBlock은 기본 통계(차단 세트별 사용 시간)를 제공합니다. ZFocus는 차단 횟수, 절약 시간, 연속 기록이 포함된 30일 시각적 차트를 제공합니다.",
+      "8": "Screen Time은 iCloud를 통해 사용 데이터를 동기화합니다. ZFocus와 LeechBlock은 모든 것을 로컬에 저장하며 추적하지 않습니다.",
+      "9": "LeechBlock NG는 완전한 오픈 소스입니다. ZFocus는 지속 가능한 사용자 기반에 도달하면 오픈 소스로 전환할 계획입니다.",
+      "10": "ZFocus는 Chrome, Edge, Brave, Opera, Firefox에서 작동합니다. LeechBlock은 Firefox, Chrome, Edge를 지원합니다. Screen Time은 Safari/iOS 전용입니다."
     }
   },
   "moreThings": {

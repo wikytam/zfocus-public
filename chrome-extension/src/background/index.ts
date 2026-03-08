@@ -402,7 +402,11 @@ const matchesUrl = (url: string, site: BlockedSite): boolean => {
     if (site.keywords && site.keywords.length > 0) {
       for (const keyword of site.keywords) {
         const cleanKeyword = keyword.trim().toLowerCase();
-        if (cleanKeyword && fullUrl.includes(cleanKeyword)) {
+        if (cleanKeyword.length < 3) {
+          devLog(`[ZFocus] Keyword "${cleanKeyword}" too short (min 3 chars) - skipping`);
+          continue;
+        }
+        if (fullUrl.includes(cleanKeyword)) {
           devLog(`[ZFocus] Keyword matched: "${cleanKeyword}" for site "${site.title}" - blocking`);
           return true;
         }

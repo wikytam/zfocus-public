@@ -62,7 +62,7 @@ const blockedSiteSchema = z.object({
   title: z.string().min(1, 'Title is required').max(100, 'Title too long'),
   urls: z.array(urlOrDomainSchema).min(1, 'At least one URL required'),
   exceptions: z.array(optionalUrlOrDomainSchema).optional(),
-  keywords: z.array(z.string().max(50)).optional(),
+  keywords: z.array(z.string().min(3, 'Keyword must be at least 3 characters').max(50)).optional(),
   allowedMinutesPerHour: z.number().min(1, 'Must be at least 1 minute').max(1440, 'Cannot exceed 24 hours'),
   countOnlyActiveTab: z.boolean().optional(),
   action: z.enum(['close', 'redirect']),
@@ -202,4 +202,5 @@ export {
   validateEditSiteForm,
 };
 export { safeValidateBlockedSite, safeValidateFocusSettings };
+export const KEYWORD_MIN_LENGTH = 3;
 export { normalizeUrlPattern, normalizeUrlPatterns };

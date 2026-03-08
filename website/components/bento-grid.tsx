@@ -6,6 +6,7 @@ import { MoreThingsCard } from '@/components/bento-cards/more-things-card';
 import { PrivacyCard } from '@/components/bento-cards/privacy-card';
 import { SmartBlockingCard } from '@/components/bento-cards/smart-blocking-card';
 import { TimeControlCard } from '@/components/bento-cards/time-control-card';
+import { ComparisonSection } from '@/components/comparison-section';
 import { PricingSection } from '@/components/pricing-section';
 import { Button } from '@/components/ui/button';
 import { Chrome, Download } from 'lucide-react';
@@ -130,6 +131,8 @@ export const BentoGrid = () => {
         <PrivacyCard />
         <MoreThingsCard />
       </div>
+
+      <ComparisonSection />
 
       <PricingSection />
 

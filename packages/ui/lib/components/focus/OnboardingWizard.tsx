@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useI18n } from '@extension/i18n';
-import { validateUrls, normalizeUrlPattern } from '@extension/shared';
+import { validateUrls, normalizeUrlPattern, KEYWORD_MIN_LENGTH } from '@extension/shared';
 import {
   Globe,
   ChevronRight,
@@ -524,6 +524,8 @@ export const OnboardingWizard = ({
                               value={formData.keywords}
                               onChange={keywords => setFormData(prev => ({ ...prev, keywords }))}
                               placeholder="game, video, entertainment"
+                              minLength={KEYWORD_MIN_LENGTH}
+                              minLengthMessage={t('keywordMinLength')}
                             />
                           </PremiumFeatureLock>
                           <p className="text-muted-foreground text-xs">{t('keywordsInUrlDesc')}</p>

@@ -11,7 +11,7 @@ import { Switch } from '../ui/switch';
 import { TagsInput } from '../ui/tags-input';
 import { useToast } from '../ui/toast';
 import { useI18n } from '@extension/i18n';
-import { validateEditSiteForm, normalizeUrlPattern, normalizeUrlPatterns } from '@extension/shared';
+import { validateEditSiteForm, normalizeUrlPattern, normalizeUrlPatterns, KEYWORD_MIN_LENGTH } from '@extension/shared';
 import { Edit2, Trash2, Clock, HelpCircle, ChevronDown, ChevronUp, Info, Sparkles } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import type { BlockedSite, EditSiteFormData } from '@extension/shared';
@@ -467,6 +467,8 @@ export const EditSiteDialog = ({
                         value={editData.keywords}
                         onChange={keywords => setEditData(prev => ({ ...prev, keywords }))}
                         placeholder="game, video, entertainment"
+                        minLength={KEYWORD_MIN_LENGTH}
+                        minLengthMessage={t('keywordMinLength')}
                       />
                     </PremiumFeatureLock>
                     <p className="text-muted-foreground text-xs">{t('keywordsInUrlDesc')}</p>

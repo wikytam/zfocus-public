@@ -3,6 +3,7 @@
     "features": "Features",
     "faq": "FAQ",
     "useCases": "Use Cases",
+    "comparison": "Compare",
     "pricing": "Pricing",
     "privacy": "Privacy Policy"
   },
@@ -289,6 +290,45 @@
       "title": "Contact",
       "description": "If you have questions about this privacy policy or ZFocus, please contact us:",
       "openIssue": "Open an issue"
+    }
+  },
+  "comparison": {
+    "title": "Why ZFocus?",
+    "subtitle": "See how ZFocus compares to other popular tools for managing screen time and reducing distractions",
+    "feature": "Feature",
+    "legend": {
+      "yes": "Supported",
+      "partial": "Partial / Limited",
+      "no": "Not supported"
+    },
+    "openSourceNote": "ZFocus will be open-sourced once we reach a sustainable user base to cover development costs.",
+    "features": {
+      "easySetup": { "title": "Easy Configuration" },
+      "exceptionPattern": { "title": "Smart Exception Patterns" },
+      "breakTime": { "title": "Built-in Break Time" },
+      "hourlyLimit": { "title": "Hourly Time Limits" },
+      "specificUrlBlock": { "title": "Per-URL Time Limits" },
+      "redirectOnExpiry": { "title": "Smart Redirect" },
+      "closeTab": { "title": "Auto Close Tab" },
+      "activeTabOnly": { "title": "Active Tab Only Timer" },
+      "schedule": { "title": "Day/Time Schedule" },
+      "modernUi": { "title": "Modern UI with Themes" },
+      "statistics": { "title": "Visual Statistics" },
+      "privacyFirst": { "title": "Privacy First" },
+      "openSource": { "title": "Open Source" },
+      "crossBrowser": { "title": "Cross-Browser Support" }
+    },
+    "footnotes": {
+      "1": "LeechBlock NG has 30+ block sets with advanced options including regex, wildcards, and lockdown features. Powerful but can overwhelm new users who just want to block a few sites.",
+      "2": "LeechBlock supports exceptions via + prefix and wildcards, but requires manually writing URL patterns. ZFocus provides a visual interface to add exception rules.",
+      "3": "LeechBlock can achieve break-like behavior through time period configuration (e.g. unblock during 12:00-13:00), but has no dedicated break/lunch mode with one-click toggle.",
+      "4": "Screen Time on Safari/iOS only supports daily time limits. It does not allow setting hourly limits for gradual reduction throughout the day.",
+      "5": "LeechBlock can block specific URL paths, but requires creating separate block sets for each pattern (e.g. one for youtube.com/shorts, another for facebook.com/reel). ZFocus handles this within a single rule.",
+      "6": "LeechBlock uses a functional but dated interface. ZFocus offers a modern UI with light/dark/auto themes.",
+      "7": "LeechBlock offers basic statistics (time spent per block set). ZFocus provides 30-day visual charts with blocks, time saved, and streaks.",
+      "8": "Screen Time syncs usage data through iCloud. ZFocus and LeechBlock store everything locally with zero tracking.",
+      "9": "LeechBlock NG is fully open source. ZFocus plans to open source once it reaches a sustainable user base.",
+      "10": "ZFocus works on Chrome, Edge, Brave, Opera, and Firefox. LeechBlock supports Firefox, Chrome, and Edge. Screen Time is Safari/iOS only."
     }
   },
   "moreThings": {

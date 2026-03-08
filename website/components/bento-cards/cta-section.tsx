@@ -50,13 +50,13 @@ export const CTASection = () => {
               <Download className="h-4 w-4" />
               {t('cta.firefox')}
             </Button>
-            <Button
+            {/* <Button
               size="lg"
               variant="outline"
               className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 h-12 gap-2 rounded-full bg-transparent px-7 text-base font-semibold transition-all duration-200">
               <Download className="h-4 w-4" />
               {t('cta.manualDownload')}
-            </Button>
+            </Button> */}
           </div>
 
           <div className="text-primary-foreground/50 flex flex-wrap items-center justify-center gap-6 text-sm">

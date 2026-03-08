@@ -3,6 +3,7 @@
     "features": "功能",
     "faq": "常见问题",
     "useCases": "使用案例",
+    "comparison": "对比",
     "pricing": "定价",
     "privacy": "隐私政策"
   },
@@ -289,6 +290,45 @@
       "title": "联系我们",
       "description": "如果您对此隐私政策或ZFocus有疑问，请联系我们：",
       "openIssue": "在GitHub上提交问题"
+    }
+  },
+  "comparison": {
+    "title": "为什么选择 ZFocus？",
+    "subtitle": "看看 ZFocus 与其他热门屏幕时间管理和减少干扰工具的对比",
+    "feature": "功能",
+    "legend": {
+      "yes": "支持",
+      "partial": "部分 / 有限",
+      "no": "不支持"
+    },
+    "openSourceNote": "ZFocus 将在达到可持续用户规模以覆盖开发成本后开源。",
+    "features": {
+      "easySetup": { "title": "简单配置" },
+      "exceptionPattern": { "title": "智能例外模式" },
+      "breakTime": { "title": "内置休息模式" },
+      "hourlyLimit": { "title": "按小时限制" },
+      "specificUrlBlock": { "title": "按URL设置时间限制" },
+      "redirectOnExpiry": { "title": "智能重定向" },
+      "closeTab": { "title": "自动关闭标签" },
+      "activeTabOnly": { "title": "仅活动标签计时" },
+      "schedule": { "title": "按日/时段安排" },
+      "modernUi": { "title": "现代UI与主题" },
+      "statistics": { "title": "可视化统计" },
+      "privacyFirst": { "title": "隐私优先" },
+      "openSource": { "title": "开源" },
+      "crossBrowser": { "title": "跨浏览器支持" }
+    },
+    "footnotes": {
+      "1": "LeechBlock NG 提供30多个屏蔽集和高级选项，包括正则表达式、通配符和锁定功能。功能强大但对只想屏蔽几个网站的新用户来说可能过于复杂。",
+      "2": "LeechBlock 通过 + 前缀和通配符支持例外，但需要手动编写URL模式。ZFocus 提供可视化界面来添加例外规则。",
+      "3": "LeechBlock 可以通过时间段配置（如12:00-13:00解除屏蔽）实现类似休息的行为，但没有一键切换的专用休息/午休模式。",
+      "4": "Safari/iOS 的 Screen Time 仅支持每日时间限制，无法设置按小时限制来实现全天逐步减少。",
+      "5": "LeechBlock 可以屏蔽特定URL路径，但需要为每个模式创建单独的屏蔽集（如youtube.com/shorts一个，facebook.com/reel一个）。ZFocus 在单一规则内处理。",
+      "6": "LeechBlock 界面功能完备但风格较旧。ZFocus 提供配有浅色/深色/自动主题的现代UI。",
+      "7": "LeechBlock 提供基础统计（每个屏蔽集的使用时间）。ZFocus 提供包含屏蔽次数、节省时间和连续天数的30天可视化图表。",
+      "8": "Screen Time 通过 iCloud 同步使用数据。ZFocus 和 LeechBlock 将所有数据保存在本地，零追踪。",
+      "9": "LeechBlock NG 是完全开源的。ZFocus 计划在达到可持续用户规模后开源。",
+      "10": "ZFocus 支持 Chrome、Edge、Brave、Opera 和 Firefox。LeechBlock 支持 Firefox、Chrome 和 Edge。Screen Time 仅限 Safari/iOS。"
     }
   },
   "moreThings": {
