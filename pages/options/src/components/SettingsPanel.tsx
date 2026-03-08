@@ -201,7 +201,7 @@ export const SettingsPanel = ({
         </CardTitle>
         <CardDescription>{t('advancedSettingsDesc')}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-2">
         {/* Premium Status */}
         <div
           className={cn(
@@ -220,8 +220,8 @@ export const SettingsPanel = ({
               <Label className="font-medium">
                 {isPremium
                   ? premiumInfo?.planType === 'lifetime'
-                    ? t('premiumActive') + ' - Lifetime'
-                    : t('premiumActive') + ' - Yearly'
+                    ? `${t('premiumActive')} - ${t('premiumLifetime')}`
+                    : `${t('premiumActive')} - ${t('premiumYearly')}`
                   : t('premiumInactive')}
               </Label>
               <p className="text-muted-foreground text-xs">
@@ -230,11 +230,11 @@ export const SettingsPanel = ({
                     t('premiumActiveDesc')
                   ) : premiumInfo?.expiresAt ? (
                     <>
-                      {t('premiumActiveDesc')} &middot; Expires: {formatExpirationDate(premiumInfo.expiresAt)}
+                      {t('premiumActiveDesc')} &middot; {t('expires', formatExpirationDate(premiumInfo.expiresAt))}
                       {(() => {
                         const days = getDaysRemaining(premiumInfo.expiresAt);
                         if (days !== null && days <= 30) {
-                          return <span className="ml-1 text-amber-500">({days} days left)</span>;
+                          return <span className="ml-1 text-amber-500">({t('daysLeft', String(days))})</span>;
                         }
                         return null;
                       })()}
@@ -547,9 +547,7 @@ export const SettingsPanel = ({
                           'mt-2 rounded px-2 py-1 text-xs font-medium',
                           quotaTestSuccess ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500',
                         )}>
-                        {quotaTestSuccess
-                          ? 'All tests passed - IndexedDB fallback works correctly'
-                          : 'Some tests failed - check details above'}
+                        {quotaTestSuccess ? t('quotaTestAllPassed') : t('quotaTestSomeFailed')}
                       </div>
                     )}
                   </div>

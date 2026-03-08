@@ -3,6 +3,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/lib/compone
 import { Clock, Ban } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { useI18n } from '@extension/i18n';
 import type { ChartConfig } from '@/lib/components/ui/chart';
 import type { HistoricalStats } from '@extension/storage';
 
@@ -18,24 +19,25 @@ interface StatsChartProps {
 
 type ViewMode = 'week' | 'month';
 
-const chartConfig = {
-  blockedAttempts: {
-    label: 'Blocks',
-    color: 'hsl(var(--chart-1))',
-  },
-  timePausedMinutes: {
-    label: 'Pause (min)',
-    color: 'hsl(var(--chart-2))',
-  },
-} satisfies ChartConfig;
-
 export const StatsChart = ({
   historicalStats,
   currentStats,
   currentDate,
   weekStartsOn = 'monday',
 }: StatsChartProps) => {
+  const { t, language } = useI18n();
   const [viewMode, setViewMode] = useState<ViewMode>('week');
+
+  const chartConfig = {
+    blockedAttempts: {
+      label: t('blocks'),
+      color: 'hsl(var(--chart-1))',
+    },
+    timePausedMinutes: {
+      label: t('pauseMin'),
+      color: 'hsl(var(--chart-2))',
+    },
+  } satisfies ChartConfig;
 
   const chartData = useMemo(() => {
     const allStats = { ...historicalStats };
@@ -82,11 +84,20 @@ export const StatsChart = ({
       }
     }
 
+    const localeMap: Record<string, string> = {
+      en: 'en-US',
+      vi: 'vi-VN',
+      ko: 'ko-KR',
+      ja: 'ja-JP',
+      zh: 'zh-CN',
+    };
+    const dateLocale = localeMap[language] || 'en-US';
+
     return continuousDates.map(date => {
       const stats = allStats[date];
       const dateObj = new Date(date);
-      const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-      const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const dayName = dateObj.toLocaleDateString(dateLocale, { weekday: 'short' });
+      const monthDay = dateObj.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric' });
 
       return {
         date: viewMode === 'week' ? dayName : monthDay,
@@ -108,8 +119,8 @@ export const StatsChart = ({
             <Clock className="text-primary h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-sm font-medium">Statistics Overview</h3>
-            <p className="text-muted-foreground text-xs">{viewMode === 'week' ? 'Last 7 days' : 'Last 30 days'}</p>
+            <h3 className="text-sm font-medium">{t('statisticsOverview')}</h3>
+            <p className="text-muted-foreground text-xs">{viewMode === 'week' ? t('last7Days') : t('last30Days')}</p>
           </div>
         </div>
 
@@ -121,7 +132,7 @@ export const StatsChart = ({
                 ? 'bg-primary text-primary-foreground'
                 : 'text-muted-foreground hover:bg-background/80 hover:text-foreground'
             }`}>
-            Week
+            {t('week')}
           </button>
           <button
             onClick={() => setViewMode('month')}
@@ -130,7 +141,7 @@ export const StatsChart = ({
                 ? 'bg-primary text-primary-foreground'
                 : 'text-muted-foreground hover:bg-background/80 hover:text-foreground'
             }`}>
-            Month
+            {t('month')}
           </button>
         </div>
       </div>
@@ -184,7 +195,7 @@ export const StatsChart = ({
             <Ban className="text-chart-1 h-4 w-4" />
           </div>
           <div>
-            <p className="text-muted-foreground text-xs">Total Blocks</p>
+            <p className="text-muted-foreground text-xs">{t('totalBlocks')}</p>
             <p className="text-sm font-semibold">{chartData.reduce((sum, d) => sum + d.blockedAttempts, 0)}</p>
           </div>
         </div>
@@ -193,7 +204,7 @@ export const StatsChart = ({
             <Clock className="text-chart-2 h-4 w-4" />
           </div>
           <div>
-            <p className="text-muted-foreground text-xs">Total Pause</p>
+            <p className="text-muted-foreground text-xs">{t('totalPause')}</p>
             <p className="text-sm font-semibold">
               {Math.round(chartData.reduce((sum, d) => sum + d.timePausedMinutes, 0))}m
             </p>

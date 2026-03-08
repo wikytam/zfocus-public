@@ -16,6 +16,12 @@
   "overview": {
     "message": "概要"
   },
+  "premiumActive": {
+    "message": "プレミアム有効"
+  },
+  "premiumActiveDesc": {
+    "message": "すべてのプレミアム機能が有効になりました"
+  },
   "websites": {
     "message": "フォーカスゾーン"
   },
@@ -555,5 +561,56 @@
   },
   "storageQuotaStatus": {
     "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
+  },
+  "premiumLifetime": {
+    "message": "永久"
+  },
+  "premiumYearly": {
+    "message": "年間"
+  },
+  "expires": {
+    "message": "有効期限: $1"
+  },
+  "daysLeft": {
+    "message": "残り$1日"
+  },
+  "statisticsOverview": {
+    "message": "統計概要"
+  },
+  "last7Days": {
+    "message": "過去7日間"
+  },
+  "last30Days": {
+    "message": "過去30日間"
+  },
+  "week": {
+    "message": "週間"
+  },
+  "month": {
+    "message": "月間"
+  },
+  "totalBlocks": {
+    "message": "合計ブロック"
+  },
+  "totalPause": {
+    "message": "合計一時停止"
+  },
+  "quotaTestAllPassed": {
+    "message": "すべてのテストに合格 - IndexedDBフォールバックは正常に動作"
+  },
+  "quotaTestSomeFailed": {
+    "message": "一部のテストが失敗 - 上記の詳細を確認してください"
+  },
+  "loading": {
+    "message": "読み込み中..."
+  },
+  "toggleTheme": {
+    "message": "テーマ切替"
+  },
+  "blocks": {
+    "message": "ブロック"
+  },
+  "pauseMin": {
+    "message": "一時停止 (分)"
   }
 }

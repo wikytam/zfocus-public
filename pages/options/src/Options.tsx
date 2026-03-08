@@ -177,7 +177,7 @@ const Options = () => {
   if (!onboardingChecked) {
     return (
       <div className="bg-background flex min-h-screen items-center justify-center">
-        <div className="text-muted-foreground">Loading...</div>
+        <div className="text-muted-foreground">{t('loading')}</div>
       </div>
     );
   }
@@ -211,7 +211,7 @@ const Options = () => {
 
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
-          <div className="space-y-6">
+          <div className="space-y-2">
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4">
               <StatCard
@@ -281,7 +281,7 @@ const Options = () => {
 
         {/* Sites Tab */}
         {activeTab === 'sites' && (
-          <div className="space-y-6">
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-semibold">{t('manageWebsites')}</h2>
@@ -316,7 +316,7 @@ const Options = () => {
 
         {/* Settings Tab */}
         {activeTab === 'settings' && (
-          <div className="space-y-6">
+          <div className="space-y-2">
             <SettingsPanel
               settings={settings}
               onUpdate={updateSettings}

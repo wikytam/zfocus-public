@@ -66,7 +66,7 @@ const Popup = () => {
   if (needsOnboarding === null) {
     return (
       <div className="bg-background flex min-h-[300px] w-[380px] items-center justify-center">
-        <div className="text-muted-foreground text-sm">Loading...</div>
+        <div className="text-muted-foreground text-sm">{t('loading')}</div>
       </div>
     );
   }

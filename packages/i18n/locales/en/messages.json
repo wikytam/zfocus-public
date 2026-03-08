@@ -645,5 +645,56 @@
   },
   "storageQuotaStatus": {
     "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
+  },
+  "premiumLifetime": {
+    "message": "Lifetime"
+  },
+  "premiumYearly": {
+    "message": "Yearly"
+  },
+  "expires": {
+    "message": "Expires: $1"
+  },
+  "daysLeft": {
+    "message": "$1 days left"
+  },
+  "statisticsOverview": {
+    "message": "Statistics Overview"
+  },
+  "last7Days": {
+    "message": "Last 7 days"
+  },
+  "last30Days": {
+    "message": "Last 30 days"
+  },
+  "week": {
+    "message": "Week"
+  },
+  "month": {
+    "message": "Month"
+  },
+  "totalBlocks": {
+    "message": "Total Blocks"
+  },
+  "totalPause": {
+    "message": "Total Pause"
+  },
+  "quotaTestAllPassed": {
+    "message": "All tests passed - IndexedDB fallback works correctly"
+  },
+  "quotaTestSomeFailed": {
+    "message": "Some tests failed - check details above"
+  },
+  "loading": {
+    "message": "Loading..."
+  },
+  "toggleTheme": {
+    "message": "Toggle Theme"
+  },
+  "blocks": {
+    "message": "Blocks"
+  },
+  "pauseMin": {
+    "message": "Pause (min)"
   }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useI18n } from '@extension/i18n';
 
 interface TimerData {
   siteId: string;
@@ -33,6 +34,7 @@ const isWithinWorkHoursCheck = (schedule: WorkSchedule): boolean => {
 };
 
 export default function App() {
+  const { t } = useI18n();
   const [timerData, setTimerData] = useState<TimerData | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [showCountdown, setShowCountdown] = useState(true);
@@ -340,13 +342,15 @@ export default function App() {
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#f59e0b' }}>Hard Lock Mode</div>
-                  <div style={{ fontSize: '11px', opacity: 0.7, marginTop: '2px' }}>Cannot pause during work hours</div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#f59e0b' }}>{t('hardLockMode')}</div>
+                  <div style={{ fontSize: '11px', opacity: 0.7, marginTop: '2px' }}>{t('hardLockModeDesc')}</div>
                 </div>
               </div>
             ) : (
               <>
-                <div style={{ fontSize: '12px', opacity: 0.8, marginBottom: '8px', fontWeight: 500 }}>Pause for:</div>
+                <div style={{ fontSize: '12px', opacity: 0.8, marginBottom: '8px', fontWeight: 500 }}>
+                  {t('pauseFor')}:
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {[3, 5, 10].map(min => (
                     <button
@@ -366,7 +370,7 @@ export default function App() {
                       }}
                       onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
                       onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}>
-                      {min} minutes
+                      {min} {t('minutes')}
                     </button>
                   ))}
                 </div>

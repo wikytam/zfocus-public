@@ -37,7 +37,7 @@ export const SettingsPanel = ({ settings, onUpdate }: SettingsPanelProps) => {
         </CardTitle>
         <CardDescription>{t('advancedSettingsDesc')}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-2">
         {/* Theme Selection */}
         <div className="space-y-3">
           <Label>{t('appearance')}</Label>

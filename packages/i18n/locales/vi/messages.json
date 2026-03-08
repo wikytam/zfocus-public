@@ -645,5 +645,56 @@
   },
   "storageQuotaStatus": {
     "message": "Dung lượng: $1 KB / $2 KB ($3%) | Số khóa IndexedDB: $4"
+  },
+  "premiumLifetime": {
+    "message": "Trọn đời"
+  },
+  "premiumYearly": {
+    "message": "Hàng năm"
+  },
+  "expires": {
+    "message": "Hết hạn: $1"
+  },
+  "daysLeft": {
+    "message": "Còn $1 ngày"
+  },
+  "statisticsOverview": {
+    "message": "Tổng quan thống kê"
+  },
+  "last7Days": {
+    "message": "7 ngày qua"
+  },
+  "last30Days": {
+    "message": "30 ngày qua"
+  },
+  "week": {
+    "message": "Tuần"
+  },
+  "month": {
+    "message": "Tháng"
+  },
+  "totalBlocks": {
+    "message": "Tổng lượt chặn"
+  },
+  "totalPause": {
+    "message": "Tổng tạm dừng"
+  },
+  "quotaTestAllPassed": {
+    "message": "Tất cả kiểm tra đều đạt - IndexedDB fallback hoạt động tốt"
+  },
+  "quotaTestSomeFailed": {
+    "message": "Một số kiểm tra thất bại - xem chi tiết ở trên"
+  },
+  "loading": {
+    "message": "Đang tải..."
+  },
+  "toggleTheme": {
+    "message": "Chuyển giao diện"
+  },
+  "blocks": {
+    "message": "Lượt chặn"
+  },
+  "pauseMin": {
+    "message": "Tạm dừng (phút)"
   }
 }

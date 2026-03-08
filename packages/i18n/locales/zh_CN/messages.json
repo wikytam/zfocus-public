@@ -19,6 +19,12 @@
   "websites": {
     "message": "专注区"
   },
+  "premiumActive": {
+    "message": "高级功能已激活"
+  },
+  "premiumActiveDesc": {
+    "message": "所有高级功能已激活"
+  },
   "settings": {
     "message": "设置"
   },
@@ -555,5 +561,56 @@
   },
   "storageQuotaStatus": {
     "message": "Quota: $1 KB / $2 KB ($3%) | IndexedDB keys: $4"
+  },
+  "premiumLifetime": {
+    "message": "终身"
+  },
+  "premiumYearly": {
+    "message": "年度"
+  },
+  "expires": {
+    "message": "到期: $1"
+  },
+  "daysLeft": {
+    "message": "剩余$1天"
+  },
+  "statisticsOverview": {
+    "message": "统计概览"
+  },
+  "last7Days": {
+    "message": "最近7天"
+  },
+  "last30Days": {
+    "message": "最近30天"
+  },
+  "week": {
+    "message": "周"
+  },
+  "month": {
+    "message": "月"
+  },
+  "totalBlocks": {
+    "message": "总拦截"
+  },
+  "totalPause": {
+    "message": "总暂停"
+  },
+  "quotaTestAllPassed": {
+    "message": "所有测试通过 - IndexedDB备用方案正常工作"
+  },
+  "quotaTestSomeFailed": {
+    "message": "部分测试失败 - 请查看上方详情"
+  },
+  "loading": {
+    "message": "加载中..."
+  },
+  "toggleTheme": {
+    "message": "切换主题"
+  },
+  "blocks": {
+    "message": "拦截"
+  },
+  "pauseMin": {
+    "message": "暂停 (分钟)"
   }
 }

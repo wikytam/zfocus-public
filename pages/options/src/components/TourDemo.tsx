@@ -9,7 +9,7 @@ export const TourDemo = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Basic Tour</h3>
         <Button onClick={() => setOpen(true)}>Start Tour</Button>
@@ -145,7 +145,7 @@ export const TourControlledDemo = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Controlled Tour</h3>
         <div className="flex items-center gap-4">

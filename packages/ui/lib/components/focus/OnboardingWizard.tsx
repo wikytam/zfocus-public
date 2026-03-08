@@ -232,7 +232,7 @@ export const OnboardingWizard = ({
             <div className="relative max-h-[70vh] space-y-4 px-2 py-6 md:px-6">
               {/* Step 1: Language Selection */}
               {step === 1 && (
-                <div className="space-y-6">
+                <div className="space-y-2">
                   <div className="text-center">
                     <div className="bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
                       <Globe className="text-primary h-8 w-8" />
