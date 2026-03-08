@@ -1,5 +1,6 @@
 'use client';
 
+import { HashLink } from './hash-link';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
@@ -42,26 +43,26 @@ export const Footer = () => {
           <div className="md:col-span-1">
             <h4 className="text-foreground mb-4 text-sm font-semibold">{t('nav.features')}</h4>
             <nav className="flex flex-col gap-2.5" aria-label="Footer navigation">
-              <Link
-                href="/#features"
+              <HashLink
+                hash="features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('smartBlocking.title')}
-              </Link>
-              <Link
-                href="/#features"
+              </HashLink>
+              <HashLink
+                hash="features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('timeControl.title')}
-              </Link>
-              <Link
-                href="/#features"
+              </HashLink>
+              <HashLink
+                hash="features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('advancedActions.title')}
-              </Link>
-              <Link
-                href="/#features"
+              </HashLink>
+              <HashLink
+                hash="features"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">
                 {t('privacy.title')}
-              </Link>
+              </HashLink>
               <Link
                 href="/faq"
                 className="text-muted-foreground hover:text-foreground link-hover-underline w-fit text-sm transition-colors">

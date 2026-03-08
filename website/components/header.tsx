@@ -1,8 +1,9 @@
 'use client';
 
+import { HashLink } from './hash-link';
 import { LanguageSelector } from './language-selector';
 import { Button } from '@/components/ui/button';
-import { Link, useRouter } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { Chrome } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
@@ -57,16 +58,16 @@ export const Header = () => {
 
         {/* Navigation */}
         <nav className="animate-header-content-appear hidden items-center gap-1 md:flex" aria-label="Main navigation">
-          <Link
-            href="/#features"
+          <HashLink
+            hash="features"
             className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
             {t('nav.features')}
-          </Link>
-          <Link
-            href="/#pricing"
+          </HashLink>
+          <HashLink
+            hash="pricing"
             className="link-hover-underline text-muted-foreground hover:text-foreground rounded-lg px-3.5 py-2 text-sm font-medium transition-colors">
             {t('nav.pricing')}
-          </Link>
+          </HashLink>
         </nav>
 
         {/* Actions */}

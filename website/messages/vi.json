@@ -1,7 +1,10 @@
 {
   "nav": {
     "features": "Tính Năng",
-    "pricing": "Bảng Giá"
+    "faq": "Câu Hỏi Thường Gặp",
+    "useCases": "Ứng Dụng",
+    "pricing": "Bảng Giá",
+    "privacy": "Chính Sách Bảo Mật"
   },
   "hero": {
     "title": "Giảm Xao Nhãng, Tập Trung Hiệu Quả",
