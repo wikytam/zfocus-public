@@ -226,7 +226,7 @@
           "description": "活动屏蔽站点的当前计时器状态。"
         }
       },
-      "noServer": "所有数据都保留在您的设备或个人Chrome同步账户中。由于我们不运营任何服务器，因此没有数据被传输到ZFocus服务器。"
+      "noServer": "所有数据都保留在您的设备或个人Chrome同步账户中。没有数据被传输到ZFocus服务器。"
     },
     "permissions": {
       "title": "权限",
@@ -244,25 +244,17 @@
           "name": "alarms",
           "reason": "重置每小时时间限制和安排屏蔽时段。"
         },
-        "scripting": {
-          "name": "scripting",
-          "reason": "在匹配的网站上注入屏蔽覆盖层。"
+        "sidePanel": {
+          "name": "sidePanel",
+          "reason": "显示ZFocus侧边面板，快速访问专注设置和计时器控制。"
         },
         "webNavigation": {
           "name": "webNavigation",
           "reason": "检测页面导航事件并在页面内导航期间应用屏蔽规则。"
         },
-        "notifications": {
-          "name": "notifications",
-          "reason": "在时间限制即将到期时发送可选通知。"
-        },
         "idle": {
           "name": "idle",
           "reason": "检测用户处于空闲状态时，相应暂停仅活动标签计时器。"
-        },
-        "hostPermissions": {
-          "name": "host_permissions (all_urls)",
-          "reason": "需要在用户选择屏蔽的任何网站上应用屏蔽规则。ZFocus不读取或收集页面内容。"
         }
       },
       "onlyForCore": "这些权限仅用于扩展程序的核心功能。"

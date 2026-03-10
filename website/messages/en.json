@@ -226,7 +226,7 @@
           "description": "Current timer states for active blocked sites."
         }
       },
-      "noServer": "All data remains on your device or within your personal Chrome sync account. No data is transmitted to ZFocus servers because we don't operate any servers."
+      "noServer": "All data remains on your device or within your personal Chrome sync account. No data is transmitted to ZFocus servers."
     },
     "permissions": {
       "title": "Permissions",
@@ -244,25 +244,17 @@
           "name": "alarms",
           "reason": "To reset hourly time limits and schedule blocking periods."
         },
-        "scripting": {
-          "name": "scripting",
-          "reason": "To inject the blocking overlay on matched websites."
+        "sidePanel": {
+          "name": "sidePanel",
+          "reason": "To display the ZFocus side panel for quick access to focus settings and timer controls."
         },
         "webNavigation": {
           "name": "webNavigation",
           "reason": "To detect page navigation events and apply blocking rules during in-page navigations."
         },
-        "notifications": {
-          "name": "notifications",
-          "reason": "To send optional notifications when time limits are about to expire."
-        },
         "idle": {
           "name": "idle",
           "reason": "To detect when the user is idle and pause active-tab-only timers accordingly."
-        },
-        "hostPermissions": {
-          "name": "host_permissions (all_urls)",
-          "reason": "Required to apply blocking rules on any website the user chooses to block. ZFocus does not read or collect page content."
         }
       },
       "onlyForCore": "These permissions are used solely for the extension's core functionality and nothing else."

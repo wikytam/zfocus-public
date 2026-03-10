@@ -226,7 +226,7 @@
           "description": "활성 차단 사이트의 현재 타이머 상태."
         }
       },
-      "noServer": "모든 데이터는 귀하의 기기 또는 개인 Chrome 동기화 계정에 남습니다. 서버를 운영하지 않기 때문에 ZFocus 서버로 데이터가 전송되지 않습니다."
+      "noServer": "모든 데이터는 귀하의 기기 또는 개인 Chrome 동기화 계정에 남습니다. ZFocus 서버로 데이터가 전송되지 않습니다."
     },
     "permissions": {
       "title": "권한",
@@ -244,25 +244,17 @@
           "name": "alarms",
           "reason": "시간별 제한을 재설정하고 차단 기간을 예약하기 위해."
         },
-        "scripting": {
-          "name": "scripting",
-          "reason": "일치하는 웹사이트에 차단 오버레이를 삽입하기 위해."
+        "sidePanel": {
+          "name": "sidePanel",
+          "reason": "ZFocus 사이드 패널을 표시하여 집중 설정 및 타이머 제어에 빠르게 액세스하기 위해."
         },
         "webNavigation": {
           "name": "webNavigation",
           "reason": "페이지 탐색 이벤트를 감지하고 페이지 내 탐색 중 차단 규칙을 적용하기 위해."
         },
-        "notifications": {
-          "name": "notifications",
-          "reason": "시간 제한이 만료되기 전에 선택적 알림을 보내기 위해."
-        },
         "idle": {
           "name": "idle",
           "reason": "사용자가 유휴 상태일 때 감지하고 활성 탭 전용 타이머를 일시 중지하기 위해."
-        },
-        "hostPermissions": {
-          "name": "host_permissions (all_urls)",
-          "reason": "사용자가 차단하려는 모든 웹사이트에 차단 규칙을 적용하기 위해 필요합니다. ZFocus는 페이지 콘텐츠를 읽거나 수집하지 않습니다."
         }
       },
       "onlyForCore": "이 권한은 확장 프로그램의 핵심 기능에만 사용됩니다."

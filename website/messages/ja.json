@@ -226,7 +226,7 @@
           "description": "アクティブなブロックサイトの現在のタイマー状態。"
         }
       },
-      "noServer": "すべてのデータはデバイスまたは個人のChrome同期アカウントに残ります。サーバーを運営していないため、ZFocusサーバーにデータは送信されません。"
+      "noServer": "すべてのデータはデバイスまたは個人のChrome同期アカウントに残ります。ZFocusサーバーにデータは送信されません。"
     },
     "permissions": {
       "title": "パーミッション",
@@ -244,25 +244,17 @@
           "name": "alarms",
           "reason": "時間別制限をリセットし、ブロック期間をスケジュールするため。"
         },
-        "scripting": {
-          "name": "scripting",
-          "reason": "マッチしたウェブサイトにブロックオーバーレイを挿入するため。"
+        "sidePanel": {
+          "name": "sidePanel",
+          "reason": "ZFocusサイドパネルを表示し、集中設定やタイマー制御に素早くアクセスするため。"
         },
         "webNavigation": {
           "name": "webNavigation",
           "reason": "ページナビゲーションイベントを検出し、ページ内ナビゲーション中にブロックルールを適用するため。"
         },
-        "notifications": {
-          "name": "notifications",
-          "reason": "時間制限が期限切れになる前にオプションの通知を送信するため。"
-        },
         "idle": {
           "name": "idle",
           "reason": "ユーザーがアイドル状態のときを検出し、アクティブタブ専用タイマーを一時停止するため。"
-        },
-        "hostPermissions": {
-          "name": "host_permissions (all_urls)",
-          "reason": "ユーザーがブロックすることを選択したウェブサイトにブロックルールを適用するために必要です。ZFocusはページコンテンツを読み取ったり収集したりしません。"
         }
       },
       "onlyForCore": "これらの権限は拡張機能のコア機能にのみ使用されます。"

@@ -118,18 +118,7 @@ export default function PrivacyPage() {
               </div>
               <p className="text-muted-foreground mb-4 text-sm leading-relaxed">{t('permissions.description')}</p>
               <div className="space-y-3">
-                {(
-                  [
-                    'storage',
-                    'tabs',
-                    'alarms',
-                    'scripting',
-                    'webNavigation',
-                    'notifications',
-                    'idle',
-                    'hostPermissions',
-                  ] as const
-                ).map(key => (
+                {(['storage', 'tabs', 'alarms', 'sidePanel', 'webNavigation', 'idle'] as const).map(key => (
                   <div key={key} className="bg-card border-border rounded-lg border p-4">
                     <p className="text-foreground text-sm font-medium">
                       <code className="bg-secondary rounded px-1.5 py-0.5 font-mono text-xs">

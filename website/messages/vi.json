@@ -226,7 +226,7 @@
           "description": "Trạng thái bộ đếm thời gian hiện tại cho các trang bị chặn đang hoạt động."
         }
       },
-      "noServer": "Tất cả dữ liệu đều nằm trên thiết bị của bạn hoặc trong tài khoản Chrome sync cá nhân. Không có dữ liệu nào được truyền đến máy chủ ZFocus vì chúng tôi không vận hành bất kỳ máy chủ nào."
+      "noServer": "Tất cả dữ liệu đều nằm trên thiết bị của bạn hoặc trong tài khoản Chrome sync cá nhân. Không có dữ liệu nào được truyền đến máy chủ ZFocus."
     },
     "permissions": {
       "title": "Quyền Truy Cập",
@@ -244,25 +244,17 @@
           "name": "alarms",
           "reason": "Để đặt lại giới hạn thời gian theo giờ và lên lịch các khoảng thời gian chặn."
         },
-        "scripting": {
-          "name": "scripting",
-          "reason": "Để hiển thị lớp phủ chặn trên các website phù hợp."
+        "sidePanel": {
+          "name": "sidePanel",
+          "reason": "Để hiển thị bảng điều khiển bên cạnh cho phép truy cập nhanh cài đặt tập trung và điều khiển bộ đếm."
         },
         "webNavigation": {
           "name": "webNavigation",
           "reason": "Để phát hiện sự kiện điều hướng trang và áp dụng quy tắc chặn khi điều hướng trong trang."
         },
-        "notifications": {
-          "name": "notifications",
-          "reason": "Để gửi thông báo tùy chọn khi giới hạn thời gian sắp hết."
-        },
         "idle": {
           "name": "idle",
           "reason": "Để phát hiện khi người dùng không hoạt động và tạm dừng bộ đếm chỉ-tab-đang-xem tương ứng."
-        },
-        "hostPermissions": {
-          "name": "host_permissions (all_urls)",
-          "reason": "Cần thiết để áp dụng quy tắc chặn trên bất kỳ website nào người dùng chọn chặn. ZFocus không đọc hoặc thu thập nội dung trang."
         }
       },
       "onlyForCore": "Các quyền này chỉ được sử dụng cho chức năng cốt lõi của tiện ích và không có mục đích nào khác."
