@@ -192,8 +192,8 @@ export default function App() {
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}>
       <div style={{ position: 'relative' }}>
-        <button
-          type="button"
+        <div
+          role="button"
           tabIndex={0}
           onClick={togglePauseMenu}
           onKeyDown={e => {
@@ -212,6 +212,7 @@ export default function App() {
             padding: '12px 16px',
             boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
             color: 'white',
+            border: 'none',
             animation: isCritical ? 'pulse 1s infinite' : undefined,
             cursor: 'pointer',
           }}>
@@ -224,9 +225,7 @@ export default function App() {
             `}
           </style>
 
-          {/* Single row layout: Logo | Title | Time | Circle | X */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {/* Logo */}
             <div
               style={{
                 width: '32px',
@@ -248,12 +247,10 @@ export default function App() {
               />
             </div>
 
-            {/* Title */}
             <div style={{ fontSize: '14px', fontWeight: 600, flexShrink: 0 }} title={siteName}>
               {displayName}
             </div>
 
-            {/* Time */}
             <div
               style={{
                 fontSize: '20px',
@@ -265,12 +262,9 @@ export default function App() {
               {timeDisplay}
             </div>
 
-            {/* Progress Circle */}
             <div style={{ position: 'relative', width: '36px', height: '36px', flexShrink: 0 }}>
               <svg width="36" height="36" style={{ transform: 'rotate(-90deg)' }}>
-                {/* Background circle */}
                 <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
-                {/* Progress circle */}
                 <circle
                   cx="18"
                   cy="18"
@@ -286,7 +280,6 @@ export default function App() {
               </svg>
             </div>
 
-            {/* Close button */}
             <button
               className="close-button"
               onClick={e => {
@@ -310,7 +303,7 @@ export default function App() {
               ✕
             </button>
           </div>
-        </button>
+        </div>
 
         {/* Pause Menu Popup */}
         {showPauseMenu && (
