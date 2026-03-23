@@ -74,10 +74,10 @@
     "message": "Week starts on"
   },
   "monday": {
-    "message": "Monday"
+    "message": "Mon"
   },
   "sunday": {
-    "message": "Sunday"
+    "message": "Sun"
   },
   "showBadgeCountdown": {
     "message": "Show Countdown"
@@ -208,9 +208,6 @@
   "applyBlockingDays": {
     "message": "Apply Blocking by Days"
   },
-  "monday": {
-    "message": "Mon"
-  },
   "tuesday": {
     "message": "Tue"
   },
@@ -225,9 +222,6 @@
   },
   "saturday": {
     "message": "Sat"
-  },
-  "sunday": {
-    "message": "Sun"
   },
   "actionWhenTimeUp": {
     "message": "Action When Time is Up"
@@ -352,9 +346,6 @@
   "countOnlyActiveTabLabel": {
     "message": "Active tab only"
   },
-  "countOnlyActiveTabTooltip": {
-    "message": "Example: YouTube music in background won't count"
-  },
   "scheduleLabel": {
     "message": "Block Schedule"
   },
@@ -406,32 +397,17 @@
   "sundayFull": {
     "message": "Sunday"
   },
-  "overview": {
-    "message": "Overview"
-  },
   "fullSettings": {
     "message": "Full Settings"
   },
   "protecting": {
     "message": "Protecting your focus"
   },
-  "paused": {
-    "message": "Paused"
-  },
   "outsideWorkHours": {
     "message": "Outside work hours"
   },
-  "blocking": {
-    "message": "Blocking"
-  },
   "minutesPerHour": {
     "message": "minutes/hour"
-  },
-  "closeTab": {
-    "message": "Close Tab"
-  },
-  "redirect": {
-    "message": "Redirect"
   },
   "continue": {
     "message": "Continue"
@@ -478,9 +454,6 @@
   "pause": {
     "message": "Pause"
   },
-  "more": {
-    "message": "more"
-  },
   "timeRemaining": {
     "message": "Time Remaining"
   },
@@ -489,12 +462,6 @@
   },
   "websitesUnit": {
     "message": "websites"
-  },
-  "timePause": {
-    "message": "Time Saved"
-  },
-  "minutes": {
-    "message": "minutes"
   },
   "seedGroupSocialMedia": {
     "message": "Social Media"

@@ -80,10 +80,10 @@
     "message": "每周开始于"
   },
   "monday": {
-    "message": "星期一"
+    "message": "周一"
   },
   "sunday": {
-    "message": "星期日"
+    "message": "周日"
   },
   "showBadgeCountdown": {
     "message": "显示倒计时"
@@ -214,9 +214,6 @@
   "applyBlockingDays": {
     "message": "按天应用屏蔽"
   },
-  "monday": {
-    "message": "周一"
-  },
   "tuesday": {
     "message": "周二"
   },
@@ -231,9 +228,6 @@
   },
   "saturday": {
     "message": "周六"
-  },
-  "sunday": {
-    "message": "周日"
   },
   "actionWhenTimeUp": {
     "message": "时间用完时的操作"
@@ -349,9 +343,6 @@
   "countOnlyActiveTabLabel": {
     "message": "仅活动标签页"
   },
-  "countOnlyActiveTabTooltip": {
-    "message": "例如：后台播放YouTube音乐不计入"
-  },
   "scheduleLabel": {
     "message": "屏蔽时间表"
   },
@@ -403,32 +394,17 @@
   "sundayFull": {
     "message": "星期日"
   },
-  "overview": {
-    "message": "概览"
-  },
   "fullSettings": {
     "message": "完整设置"
   },
   "protecting": {
     "message": "正在保护您的专注力"
   },
-  "paused": {
-    "message": "已暂停"
-  },
   "outsideWorkHours": {
     "message": "工作时间外"
   },
-  "blocking": {
-    "message": "正在屏蔽"
-  },
   "minutesPerHour": {
     "message": "分钟/小时"
-  },
-  "closeTab": {
-    "message": "关闭标签页"
-  },
-  "redirect": {
-    "message": "重定向"
   },
   "continue": {
     "message": "继续"
@@ -475,9 +451,6 @@
   "pause": {
     "message": "暂停"
   },
-  "more": {
-    "message": "更多"
-  },
   "timeRemaining": {
     "message": "剩余时间"
   },
@@ -486,12 +459,6 @@
   },
   "websitesUnit": {
     "message": "网站"
-  },
-  "timePause": {
-    "message": "节省时间"
-  },
-  "minutes": {
-    "message": "分钟"
   },
   "seedGroupSocialMedia": {
     "message": "社交媒体"

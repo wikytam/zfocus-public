@@ -25,7 +25,11 @@ const manifest = {
   browser_specific_settings: {
     gecko: {
       id: 'zfocus@zfocus.extension',
-      strict_min_version: '109.0',
+      strict_min_version: '112.0',
+      data_collection_permissions: {
+        required: ['none'],
+        optional: ['technicalAndInteraction'],
+      },
     },
   },
   version: packageJson.version,

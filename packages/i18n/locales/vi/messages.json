@@ -74,10 +74,10 @@
     "message": "Tuần bắt đầu từ"
   },
   "monday": {
-    "message": "Thứ Hai"
+    "message": "T2"
   },
   "sunday": {
-    "message": "Chủ Nhật"
+    "message": "CN"
   },
   "showBadgeCountdown": {
     "message": "Hiển thị đếm ngược"
@@ -208,9 +208,6 @@
   "applyBlockingDays": {
     "message": "Áp dụng chặn theo ngày"
   },
-  "monday": {
-    "message": "T2"
-  },
   "tuesday": {
     "message": "T3"
   },
@@ -225,9 +222,6 @@
   },
   "saturday": {
     "message": "T7"
-  },
-  "sunday": {
-    "message": "CN"
   },
   "actionWhenTimeUp": {
     "message": "Hành động khi hết thời gian"
@@ -352,9 +346,6 @@
   "countOnlyActiveTabLabel": {
     "message": "Chỉ tab active"
   },
-  "countOnlyActiveTabTooltip": {
-    "message": "Ví dụ: nghe nhạc Youtube Background thì không tính vào"
-  },
   "scheduleLabel": {
     "message": "Lịch chặn"
   },
@@ -406,32 +397,17 @@
   "sundayFull": {
     "message": "Chủ nhật"
   },
-  "overview": {
-    "message": "Tổng quan"
-  },
   "fullSettings": {
     "message": "Cài đặt đầy đủ"
   },
   "protecting": {
     "message": "Đang bảo vệ sự tập trung"
   },
-  "paused": {
-    "message": "Đang tạm dừng"
-  },
   "outsideWorkHours": {
     "message": "Ngoài giờ làm việc"
   },
-  "blocking": {
-    "message": "Đang chặn"
-  },
   "minutesPerHour": {
     "message": "phút/giờ"
-  },
-  "closeTab": {
-    "message": "Đóng tab"
-  },
-  "redirect": {
-    "message": "Chuyển hướng"
   },
   "continue": {
     "message": "Tiếp tục"
@@ -478,9 +454,6 @@
   "pause": {
     "message": "Dừng"
   },
-  "more": {
-    "message": "khác"
-  },
   "timeRemaining": {
     "message": "Thời gian còn lại"
   },
@@ -489,12 +462,6 @@
   },
   "websitesUnit": {
     "message": "trang web"
-  },
-  "timePause": {
-    "message": "Thời gian tiết kiệm"
-  },
-  "minutes": {
-    "message": "phút"
   },
   "seedGroupSocialMedia": {
     "message": "Mạng xã hội"

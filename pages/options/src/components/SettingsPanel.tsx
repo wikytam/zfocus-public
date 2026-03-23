@@ -283,7 +283,7 @@ export const SettingsPanel = ({
                   ? 'gradient-primary text-primary-foreground shadow-sm'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
               )}>
-              {t('monday')}
+              {t('mondayFull')}
             </button>
             <button
               onClick={() => onUpdate({ weekStartsOn: 'sunday' })}
@@ -293,7 +293,7 @@ export const SettingsPanel = ({
                   ? 'gradient-primary text-primary-foreground shadow-sm'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
               )}>
-              {t('sunday')}
+              {t('sundayFull')}
             </button>
           </div>
         </div>

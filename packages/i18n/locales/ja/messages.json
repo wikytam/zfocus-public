@@ -80,10 +80,10 @@
     "message": "週の開始日"
   },
   "monday": {
-    "message": "月曜日"
+    "message": "月"
   },
   "sunday": {
-    "message": "日曜日"
+    "message": "日"
   },
   "showBadgeCountdown": {
     "message": "カウントダウンを表示"
@@ -214,9 +214,6 @@
   "applyBlockingDays": {
     "message": "曜日別にブロックを適用"
   },
-  "monday": {
-    "message": "月"
-  },
   "tuesday": {
     "message": "火"
   },
@@ -231,9 +228,6 @@
   },
   "saturday": {
     "message": "土"
-  },
-  "sunday": {
-    "message": "日"
   },
   "actionWhenTimeUp": {
     "message": "時間切れ時のアクション"
@@ -349,9 +343,6 @@
   "countOnlyActiveTabLabel": {
     "message": "アクティブなタブのみ"
   },
-  "countOnlyActiveTabTooltip": {
-    "message": "例：バックグラウンドでYouTube音楽を聴いてもカウントされません"
-  },
   "scheduleLabel": {
     "message": "ブロックスケジュール"
   },
@@ -403,32 +394,17 @@
   "sundayFull": {
     "message": "日曜日"
   },
-  "overview": {
-    "message": "概要"
-  },
   "fullSettings": {
     "message": "完全な設定"
   },
   "protecting": {
     "message": "集中力を保護中"
   },
-  "paused": {
-    "message": "一時停止中"
-  },
   "outsideWorkHours": {
     "message": "勤務時間外"
   },
-  "blocking": {
-    "message": "ブロック中"
-  },
   "minutesPerHour": {
     "message": "分/時間"
-  },
-  "closeTab": {
-    "message": "タブを閉じる"
-  },
-  "redirect": {
-    "message": "リダイレクト"
   },
   "continue": {
     "message": "続行"
@@ -475,9 +451,6 @@
   "pause": {
     "message": "一時停止"
   },
-  "more": {
-    "message": "その他"
-  },
   "timeRemaining": {
     "message": "残り時間"
   },
@@ -486,12 +459,6 @@
   },
   "websitesUnit": {
     "message": "ウェブサイト"
-  },
-  "timePause": {
-    "message": "節約した時間"
-  },
-  "minutes": {
-    "message": "分"
   },
   "seedGroupSocialMedia": {
     "message": "ソーシャルメディア"

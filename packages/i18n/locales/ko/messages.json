@@ -80,10 +80,10 @@
     "message": "주 시작 요일"
   },
   "monday": {
-    "message": "월요일"
+    "message": "월"
   },
   "sunday": {
-    "message": "일요일"
+    "message": "일"
   },
   "showBadgeCountdown": {
     "message": "카운트다운 표시"
@@ -214,9 +214,6 @@
   "applyBlockingDays": {
     "message": "요일별 차단 적용"
   },
-  "monday": {
-    "message": "월"
-  },
   "tuesday": {
     "message": "화"
   },
@@ -231,9 +228,6 @@
   },
   "saturday": {
     "message": "토"
-  },
-  "sunday": {
-    "message": "일"
   },
   "actionWhenTimeUp": {
     "message": "시간 종료 시 작업"
@@ -349,9 +343,6 @@
   "countOnlyActiveTabLabel": {
     "message": "활성 탭만"
   },
-  "countOnlyActiveTabTooltip": {
-    "message": "예: 백그라운드에서 YouTube 음악을 들으면 계산되지 않습니다"
-  },
   "scheduleLabel": {
     "message": "차단 일정"
   },
@@ -403,32 +394,17 @@
   "sundayFull": {
     "message": "일요일"
   },
-  "overview": {
-    "message": "개요"
-  },
   "fullSettings": {
     "message": "전체 설정"
   },
   "protecting": {
     "message": "집중력 보호 중"
   },
-  "paused": {
-    "message": "일시 중지됨"
-  },
   "outsideWorkHours": {
     "message": "근무 시간 외"
   },
-  "blocking": {
-    "message": "차단 중"
-  },
   "minutesPerHour": {
     "message": "분/시간"
-  },
-  "closeTab": {
-    "message": "탭 닫기"
-  },
-  "redirect": {
-    "message": "리디렉션"
   },
   "continue": {
     "message": "계속"
@@ -475,9 +451,6 @@
   "pause": {
     "message": "일시 중지"
   },
-  "more": {
-    "message": "더보기"
-  },
   "timeRemaining": {
     "message": "남은 시간"
   },
@@ -486,12 +459,6 @@
   },
   "websitesUnit": {
     "message": "웹사이트"
-  },
-  "timePause": {
-    "message": "절약된 시간"
-  },
-  "minutes": {
-    "message": "분"
   },
   "seedGroupSocialMedia": {
     "message": "소셜 미디어"
