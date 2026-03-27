@@ -49,7 +49,7 @@ export const Scene7Pricing: React.FC<Scene7Props> = ({ locale }) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-start',
-          padding: 48,
+          padding: 28,
           gap: 32,
         }}>
         <PricingSection t={t} />

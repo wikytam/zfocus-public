@@ -59,7 +59,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ t }) => {
   const headerY = interpolate(frame, [0, 0.4 * fps], [20, 0], { extrapolateRight: 'clamp' });
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-4">
+    <div className="flex flex-1 flex-col items-center justify-center">
       <div
         className="mb-10 text-center"
         style={{
@@ -70,7 +70,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ t }) => {
         <p className="text-primary-foreground/60 text-2xl">{t('pricing.subtitle')}</p>
       </div>
 
-      <div className="mx-auto grid w-full max-w-4xl grid-cols-3 gap-5">
+      <div className="mx-auto grid w-full max-w-5xl grid-cols-3 gap-5">
         {tiers.map((tier, index) => {
           const isHighlighted = tier.highlighted;
 
@@ -95,7 +95,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ t }) => {
               }}>
               {isHighlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-accent text-accent-foreground inline-flex items-center gap-2 rounded-full px-5 py-2 text-lg font-bold shadow-lg">
+                  <span className="bg-accent text-accent-foreground inline-flex w-max items-center justify-center gap-2 rounded-full px-4 py-2 text-lg font-bold shadow-lg">
                     <Sparkles className="h-5 w-5" />
                     {t(`pricing.${tier.key}.badge`)}
                   </span>
