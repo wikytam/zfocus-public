@@ -21,25 +21,19 @@ export const voiceoverScripts: Record<Locale, VoiceoverScript> = {
   ],
   en: [
     // Scene 1 (0-8s) - Hero
-    [
-      'Working remotely but social media keeps pulling you away?',
-      'ZFocus helps you get back to work right in your browser.',
-    ],
+    ['Working but distracted by social media?', 'ZFocus helps you stay focused in your browser.'],
     // Scene 2 (8-16s) - Smart Blocking
-    ['ZFocus blocks smart, not blanket blocking.', 'Block distracting content while keeping what you need.'],
+    ['Smart blocking, not overblocking.', 'Block distractions, keep what matters.'],
     // Scene 3 (16-24s) - Time Control
-    ['Schedule blocking based on your work hours.', 'Need a short break? Pause for a few minutes, then auto-resume.'],
+    ['Block by work schedule.', 'Need a break? Pause anytime.'],
     // Scene 4 (24-32s) - Advanced Actions
-    [
-      'Not just blocking websites, ZFocus handles distracting behaviors.',
-      'Auto-close tabs, redirect, and limit entertainment time.',
-    ],
+    ['More than a web blocker.', 'Auto-close tabs, redirect, limit time.'],
     // Scene 5 (32-40s) - Privacy
-    ['Your data stays on your device.', 'No collection, no server uploads, completely private.'],
+    ['Your data stays on your device.', 'No tracking, no uploads.'],
     // Scene 6 (40-48s) - Comparison
-    ['ZFocus gives you more control than typical web blockers.', 'Smarter, more private, and more modern.'],
+    ['More control than typical blockers.', 'Smarter and more private.'],
     // Scene 7 (48-56s) - Pricing
-    ['Free 30-day trial, no card required.', 'Install ZFocus today on Chrome Web Store.'],
+    ['30-day premium trial, no signup.', 'Install ZFocus now.'],
   ],
   ko: [
     // Scene 1 - Hero
