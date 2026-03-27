@@ -70,7 +70,7 @@ export const SmartBlockingCard: React.FC<SmartBlockingCardProps> = ({ t }) => {
             </div>
             <p className="text-muted-foreground mt-5 text-xl">{t('smartBlocking.exceptionPattern.description')}</p>
           </div>
-
+          <div className="bg-border my-3 h-px w-full" />
           <div
             style={{
               opacity: interpolate(frame, [0.6 * fps, 0.9 * fps], [0, 1], { extrapolateRight: 'clamp' }),

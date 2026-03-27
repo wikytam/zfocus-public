@@ -62,6 +62,7 @@ export const AdvancedActionsCard: React.FC<AdvancedActionsCardProps> = ({ t }) =
           </div>
         </div>
       </div>
+      <div className="bg-border my-3 h-px w-full" />
 
       <div className="grid flex-1 grid-cols-1 gap-8">
         <div
@@ -72,27 +73,27 @@ export const AdvancedActionsCard: React.FC<AdvancedActionsCardProps> = ({ t }) =
           <h3 className="text-foreground mb-5 text-3xl font-semibold">{t('advancedActions.redirectLink.title')}</h3>
           <p className="text-muted-foreground mb-5 text-2xl">{t('advancedActions.redirectLink.description')}</p>
           <div className="bg-secondary/60 border-border space-y-5 rounded-2xl border-2 p-8 font-mono text-2xl">
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-start gap-5">
               <Img src={staticFile('icon/facebook.svg')} alt="Facebook" style={{ width: 36, height: 36 }} />
               <span className="text-foreground line-through opacity-50">facebook.com</span>
               <ArrowRight className="text-muted-foreground h-8 w-8" />
               <Img src={staticFile('icon/notion.svg')} alt="Notion" style={{ width: 36, height: 36 }} />
               <span className="text-accent font-bold">notion.so</span>
             </div>
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-start gap-5">
               <Img src={staticFile('icon/instagram.svg')} alt="Instagram" style={{ width: 36, height: 36 }} />
               <span className="text-foreground line-through opacity-50">instagram.com</span>
               <ArrowRight className="text-muted-foreground h-8 w-8" />
               <Img src={staticFile('icon/mail.svg')} alt="Gmail" style={{ width: 36, height: 36 }} />
               <span className="text-accent font-bold">gmail.com</span>
             </div>
-            <span className="text-muted-foreground flex items-center justify-center gap-3 text-2xl">
+            <span className="text-muted-foreground flex items-center justify-end gap-3 text-2xl">
               {t('advancedActions.redirectLink.more')}
               <Plus className="h-7 w-7" />
             </span>
           </div>
         </div>
-
+        <div className="bg-border my-3 h-px w-full" />
         <div
           style={{
             opacity: timeLimitOpacity,
