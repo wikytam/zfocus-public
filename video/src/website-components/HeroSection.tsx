@@ -1,4 +1,5 @@
 import { Img, staticFile, useCurrentFrame, interpolate, useVideoConfig } from 'remotion';
+import { Timer, Target, ShieldBan, Lock } from 'lucide-react';
 
 type TranslatorFn = (key: string) => string;
 
@@ -14,6 +15,13 @@ const browsers = [
   { src: 'icon/firefox-icon.svg', alt: 'Firefox' },
 ];
 
+const taglineKeys = [
+  { key: 'hero.tagline1', highlight: true, Icon: Timer },
+  { key: 'hero.tagline2', highlight: true, Icon: Target },
+  { key: 'hero.tagline3', highlight: false, Icon: ShieldBan },
+  { key: 'hero.tagline4', highlight: true, Icon: Lock },
+];
+
 export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -21,40 +29,52 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
   const titleOpacity = interpolate(frame, [0, 0.5 * fps], [0, 1], { extrapolateRight: 'clamp' });
   const titleY = interpolate(frame, [0, 0.5 * fps], [30, 0], { extrapolateRight: 'clamp' });
 
-  const subtitleOpacity = interpolate(frame, [0.3 * fps, 0.8 * fps], [0, 1], { extrapolateRight: 'clamp' });
-  const subtitleY = interpolate(frame, [0.3 * fps, 0.8 * fps], [20, 0], { extrapolateRight: 'clamp' });
-
   const browserOpacity = interpolate(frame, [0.6 * fps, 1 * fps], [0, 1], { extrapolateRight: 'clamp' });
-
-  const screenshotOpacity = interpolate(frame, [0.8 * fps, 1.3 * fps], [0, 1], { extrapolateRight: 'clamp' });
-  const screenshotY = interpolate(frame, [0.8 * fps, 1.3 * fps], [40, 0], { extrapolateRight: 'clamp' });
-  const screenshotRotateY = interpolate(frame, [0.8 * fps, 1.8 * fps], [-12, -8], { extrapolateRight: 'clamp' });
-  const screenshotRotateX = interpolate(frame, [0.8 * fps, 1.8 * fps], [8, 4], { extrapolateRight: 'clamp' });
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-8">
       <div
+        className="mb-6 flex items-center gap-6"
         style={{
           opacity: titleOpacity,
           transform: `translateY(${titleY}px)`,
         }}>
-        <h1 className="text-foreground mb-8 text-center text-6xl font-bold leading-tight tracking-tight">
-          {t('hero.title')}
-        </h1>
+        <Img src={staticFile('icon/logo.svg')} alt="ZFocus" style={{ width: 100, height: 100 }} />
+        <h1 className="text-foreground text-center text-7xl font-bold tracking-tight">ZFocus</h1>
+      </div>
+
+      <div className="mb-10 mt-24 grid grid-cols-2 gap-10">
+        {taglineKeys.map((tag, index) => {
+          const delay = 0.3 * fps + index * 8;
+          const tagOpacity = interpolate(frame, [delay, delay + 0.4 * fps], [0, 1], { extrapolateRight: 'clamp' });
+          const tagScale = interpolate(frame, [delay, delay + 0.4 * fps], [0.6, 1], { extrapolateRight: 'clamp' });
+          const tagX = interpolate(frame, [delay, delay + 0.4 * fps], [-30, 0], { extrapolateRight: 'clamp' });
+          const iconRotate = interpolate(frame, [delay, delay + 0.5 * fps], [-20, 0], { extrapolateRight: 'clamp' });
+
+          return (
+            <div
+              key={tag.key}
+              className={`flex items-center gap-3 rounded-2xl px-6 py-6 text-2xl font-semibold shadow-lg ${
+                tag.highlight ? 'bg-primary text-primary-foreground' : 'bg-card text-foreground border-border border'
+              }`}
+              style={{
+                opacity: tagOpacity,
+                transform: `scale(${tagScale}) translateX(${tagX}px)`,
+              }}>
+              <tag.Icon
+                className="h-7 w-7"
+                style={{
+                  transform: `rotate(${iconRotate}deg)`,
+                }}
+              />
+              {t(tag.key)}
+            </div>
+          );
+        })}
       </div>
 
       <div
-        style={{
-          opacity: subtitleOpacity,
-          transform: `translateY(${subtitleY}px)`,
-        }}>
-        <p className="text-muted-foreground mx-auto mb-10 max-w-2xl text-center text-3xl leading-relaxed">
-          {t('hero.subtitle')}
-        </p>
-      </div>
-
-      <div
-        className="mb-10 flex items-center gap-4"
+        className="mb-10 mt-8 flex items-center gap-4"
         style={{
           opacity: browserOpacity,
         }}>
@@ -75,36 +95,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
               <Img src={staticFile(browser.src)} alt={browser.alt} style={{ width: 36, height: 36 }} />
             </div>
           ))}
-        </div>
-      </div>
-
-      <div
-        className="relative w-full max-w-xl"
-        style={{
-          opacity: screenshotOpacity,
-          transform: `translateY(${screenshotY}px)`,
-          perspective: 1200,
-        }}>
-        <div
-          style={{
-            transform: `rotateY(${screenshotRotateY}deg) rotateX(${screenshotRotateX}deg)`,
-          }}>
-          <div className="bg-card border-border overflow-hidden rounded-2xl border-2 shadow-2xl">
-            <Img
-              src={staticFile('screenshots/overview-light.png')}
-              alt="ZFocus overview"
-              style={{ width: '100%', height: 'auto' }}
-            />
-          </div>
-        </div>
-
-        <div
-          className="bg-card border-border absolute -bottom-6 -left-4 w-44 overflow-hidden rounded-xl border-2 shadow-xl"
-          style={{
-            transform: `rotate(3deg)`,
-            opacity: interpolate(frame, [1.5 * fps, 1.9 * fps], [0, 1], { extrapolateRight: 'clamp' }),
-          }}>
-          <Img src={staticFile('screenshots/pause.png')} alt="ZFocus pause" style={{ width: '100%', height: 'auto' }} />
         </div>
       </div>
     </div>

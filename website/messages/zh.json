@@ -9,7 +9,11 @@
   },
   "hero": {
     "title": "减少干扰，保持专注",
-    "subtitle": "Pomodoro & Focus Zones – 这是一款隐私优先的网站屏蔽工具，通过日程、时长限制和智能规则帮你守住专注时间"
+    "subtitle": "Pomodoro & Focus Zones – 这是一款隐私优先的网站屏蔽工具，通过日程、时长限制和智能规则帮你守住专注时间",
+    "tagline1": "Pomodoro Timer",
+    "tagline2": "Focus Zones",
+    "tagline3": "网站屏蔽",
+    "tagline4": "100%隐私"
   },
   "smartBlocking": {
     "title": "智能屏蔽",
