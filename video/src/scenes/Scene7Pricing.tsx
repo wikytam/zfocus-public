@@ -30,14 +30,14 @@ export const Scene7Pricing: React.FC<Scene7Props> = ({ locale }) => {
     <AbsoluteFill
       style={{
         fontFamily,
-        backgroundColor: '#1a1a1a',
+        backgroundColor: '#f8f8f6',
         opacity,
       }}>
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%)',
+          background: 'linear-gradient(180deg, #f8f8f6 0%, #f2f0ec 100%)',
         }}
       />
       <div

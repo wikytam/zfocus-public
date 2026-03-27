@@ -17,7 +17,7 @@ interface PricingTier {
 const tiers: PricingTier[] = [
   {
     key: 'freeTrial',
-    icon: <Zap className="h-6 w-6" />,
+    icon: <Zap className="h-7 w-7" />,
     highlighted: false,
     features: [
       'urlBlocking',
@@ -32,7 +32,7 @@ const tiers: PricingTier[] = [
   },
   {
     key: 'yearly',
-    icon: <Sparkles className="h-6 w-6" />,
+    icon: <Sparkles className="h-7 w-7" />,
     highlighted: true,
     features: [
       'allFreeFeatures',
@@ -45,7 +45,7 @@ const tiers: PricingTier[] = [
   },
   {
     key: 'lifetime',
-    icon: <Crown className="h-6 w-6" />,
+    icon: <Crown className="h-7 w-7" />,
     highlighted: false,
     features: ['allYearlyFeatures', 'lifetimeUpdates', 'prioritySupport', 'noRecurring', 'earlyAccess'],
   },
@@ -61,13 +61,13 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ t }) => {
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4">
       <div
-        className="mb-8 text-center"
+        className="mb-10 text-center"
         style={{
           opacity: headerOpacity,
           transform: `translateY(${headerY}px)`,
         }}>
-        <h2 className="text-primary-foreground mb-2 text-4xl font-bold tracking-tight">{t('pricing.title')}</h2>
-        <p className="text-primary-foreground/60 text-xl">{t('pricing.subtitle')}</p>
+        <h2 className="text-primary-foreground mb-3 text-5xl font-bold tracking-tight">{t('pricing.title')}</h2>
+        <p className="text-primary-foreground/60 text-2xl">{t('pricing.subtitle')}</p>
       </div>
 
       <div className="mx-auto grid w-full max-w-4xl grid-cols-3 gap-5">
@@ -95,8 +95,8 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ t }) => {
               }}>
               {isHighlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-accent text-accent-foreground inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold shadow-lg">
-                    <Sparkles className="h-4 w-4" />
+                  <span className="bg-accent text-accent-foreground inline-flex items-center gap-2 rounded-full px-5 py-2 text-lg font-bold shadow-lg">
+                    <Sparkles className="h-5 w-5" />
                     {t(`pricing.${tier.key}.badge`)}
                   </span>
                 </div>
@@ -104,40 +104,40 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ t }) => {
 
               {!isHighlighted && (
                 <div className="mb-4">
-                  <span className="border-border bg-secondary text-muted-foreground inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-medium">
+                  <span className="border-border bg-secondary text-muted-foreground inline-flex items-center gap-1 rounded-full border px-4 py-1.5 text-lg font-medium">
                     {t(`pricing.${tier.key}.badge`)}
                   </span>
                 </div>
               )}
 
-              <div className={isHighlighted ? 'mt-4' : ''}>
-                <div className="mb-4 flex items-center gap-3">
+              <div className={isHighlighted ? 'mt-5' : ''}>
+                <div className="mb-4 flex items-center gap-4">
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-xl ${
+                    className={`flex h-14 w-14 items-center justify-center rounded-xl ${
                       isHighlighted ? 'bg-accent/15 text-accent' : 'bg-secondary text-muted-foreground'
                     }`}>
                     {tier.icon}
                   </div>
-                  <h3 className="text-foreground text-xl font-bold">{t(`pricing.${tier.key}.title`)}</h3>
+                  <h3 className="text-foreground text-2xl font-bold">{t(`pricing.${tier.key}.title`)}</h3>
                 </div>
 
-                <div className="mb-3 flex items-baseline gap-1">
-                  <span className="text-muted-foreground text-lg">{t(`pricing.${tier.key}.currency`)}</span>
-                  <span className="text-foreground text-5xl font-bold tracking-tight">
+                <div className="mb-4 flex items-baseline gap-1">
+                  <span className="text-muted-foreground text-xl">{t(`pricing.${tier.key}.currency`)}</span>
+                  <span className="text-foreground text-6xl font-bold tracking-tight">
                     {t(`pricing.${tier.key}.price`)}
                   </span>
-                  <span className="text-muted-foreground ml-1 text-base">{t(`pricing.${tier.key}.period`)}</span>
+                  <span className="text-muted-foreground ml-1 text-xl">{t(`pricing.${tier.key}.period`)}</span>
                 </div>
 
-                <p className="text-muted-foreground mb-5 text-sm leading-relaxed">
+                <p className="text-muted-foreground mb-5 text-lg leading-relaxed">
                   {t(`pricing.${tier.key}.description`)}
                 </p>
               </div>
 
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {tier.features.map(featureKey => (
-                  <li key={featureKey} className="text-foreground/85 flex items-start gap-2.5 text-sm">
-                    <Check className={`mt-0.5 h-5 w-5 shrink-0 ${isHighlighted ? 'text-accent' : 'text-accent/80'}`} />
+                  <li key={featureKey} className="text-foreground/85 flex items-start gap-3 text-lg">
+                    <Check className={`mt-0.5 h-6 w-6 shrink-0 ${isHighlighted ? 'text-accent' : 'text-accent/80'}`} />
                     <span>{t(`pricing.${tier.key}.features.${featureKey}`)}</span>
                   </li>
                 ))}
@@ -164,7 +164,7 @@ export const CTASection: React.FC<PricingSectionProps> = ({ t }) => {
         opacity: ctaOpacity,
         transform: `translateY(${ctaY}px)`,
       }}>
-      <p className="text-primary-foreground/60 text-xl">{t('cta.noRegistration')}</p>
+      <p className="text-primary-foreground/60 text-2xl">{t('cta.noRegistration')}</p>
     </div>
   );
 };

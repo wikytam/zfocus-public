@@ -38,7 +38,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
           opacity: titleOpacity,
           transform: `translateY(${titleY}px)`,
         }}>
-        <h1 className="text-foreground mb-8 text-center text-5xl font-bold leading-tight tracking-tight">
+        <h1 className="text-foreground mb-8 text-center text-6xl font-bold leading-tight tracking-tight">
           {t('hero.title')}
         </h1>
       </div>
@@ -48,22 +48,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
           opacity: subtitleOpacity,
           transform: `translateY(${subtitleY}px)`,
         }}>
-        <p className="text-muted-foreground mx-auto mb-10 max-w-2xl text-center text-2xl leading-relaxed">
+        <p className="text-muted-foreground mx-auto mb-10 max-w-2xl text-center text-3xl leading-relaxed">
           {t('hero.subtitle')}
         </p>
       </div>
 
       <div
-        className="mb-10 flex items-center gap-3"
+        className="mb-10 flex items-center gap-4"
         style={{
           opacity: browserOpacity,
         }}>
-        <span className="text-muted-foreground text-lg">{t('moreThings.browserSupport.title')}:</span>
-        <div className="flex items-center gap-3">
+        <span className="text-muted-foreground text-2xl">{t('moreThings.browserSupport.title')}:</span>
+        <div className="flex items-center gap-4">
           {browsers.map((browser, index) => (
             <div
               key={browser.alt}
-              className="bg-card border-border flex h-12 w-12 items-center justify-center rounded-xl border shadow-sm"
+              className="bg-card border-border flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm"
               style={{
                 opacity: interpolate(frame, [0.8 * fps + index * 3, 1 * fps + index * 3], [0, 1], {
                   extrapolateRight: 'clamp',
@@ -72,7 +72,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
                   extrapolateRight: 'clamp',
                 })})`,
               }}>
-              <Img src={staticFile(browser.src)} alt={browser.alt} style={{ width: 28, height: 28 }} />
+              <Img src={staticFile(browser.src)} alt={browser.alt} style={{ width: 36, height: 36 }} />
             </div>
           ))}
         </div>
@@ -99,7 +99,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ t }) => {
         </div>
 
         <div
-          className="bg-card border-border absolute -bottom-6 -left-4 w-40 overflow-hidden rounded-xl border-2 shadow-xl"
+          className="bg-card border-border absolute -bottom-6 -left-4 w-44 overflow-hidden rounded-xl border-2 shadow-xl"
           style={{
             transform: `rotate(3deg)`,
             opacity: interpolate(frame, [1.5 * fps, 1.9 * fps], [0, 1], { extrapolateRight: 'clamp' }),

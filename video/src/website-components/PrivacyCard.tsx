@@ -39,12 +39,12 @@ export const PrivacyCard: React.FC<PrivacyCardProps> = ({ t }) => {
           opacity: headerOpacity,
           transform: `translateY(${headerY}px)`,
         }}>
-        <div className="bg-foreground text-primary-foreground flex h-16 w-16 items-center justify-center rounded-2xl shadow-lg">
-          <Lock className="h-8 w-8" />
+        <div className="bg-foreground text-primary-foreground flex h-20 w-20 items-center justify-center rounded-2xl shadow-lg">
+          <Lock className="h-10 w-10" />
         </div>
         <div>
-          <h2 className="text-foreground text-3xl font-bold">{t('privacy.title')}</h2>
-          <p className="text-muted-foreground text-xl">{t('privacy.subtitle')}</p>
+          <h2 className="text-foreground text-4xl font-bold">{t('privacy.title')}</h2>
+          <p className="text-muted-foreground text-2xl">{t('privacy.subtitle')}</p>
         </div>
       </div>
 
@@ -56,28 +56,28 @@ export const PrivacyCard: React.FC<PrivacyCardProps> = ({ t }) => {
         }}>
         <div className="relative">
           <div className="bg-accent/10 absolute inset-0 rounded-full blur-3xl" aria-hidden="true" />
-          <div className="from-accent/15 to-accent/5 border-accent/20 relative flex h-32 w-32 items-center justify-center rounded-full border-2 bg-gradient-to-br">
-            <Lock className="text-accent h-16 w-16" />
+          <div className="from-accent/15 to-accent/5 border-accent/20 relative flex h-36 w-36 items-center justify-center rounded-full border-2 bg-gradient-to-br">
+            <Lock className="text-accent h-20 w-20" />
           </div>
         </div>
       </div>
 
       <div
-        className="space-y-4"
+        className="space-y-5"
         style={{
           opacity: featuresOpacity,
           transform: `translateY(${featuresY}px)`,
         }}>
-        <div className="flex items-center gap-4 text-xl">
-          <CheckCircle2 className="text-accent h-7 w-7 flex-shrink-0" />
+        <div className="flex items-center gap-4 text-2xl">
+          <CheckCircle2 className="text-accent h-8 w-8 flex-shrink-0" />
           <span className="text-foreground font-semibold">{t('privacy.localStorage')}</span>
         </div>
-        <div className="flex items-center gap-4 text-xl">
-          <CheckCircle2 className="text-accent h-7 w-7 flex-shrink-0" />
+        <div className="flex items-center gap-4 text-2xl">
+          <CheckCircle2 className="text-accent h-8 w-8 flex-shrink-0" />
           <span className="text-foreground font-semibold">{t('privacy.zeroTracking')}</span>
         </div>
-        <div className="flex items-center gap-4 text-xl">
-          <CheckCircle2 className="text-accent h-7 w-7 flex-shrink-0" />
+        <div className="flex items-center gap-4 text-2xl">
+          <CheckCircle2 className="text-accent h-8 w-8 flex-shrink-0" />
           <span className="text-foreground font-semibold">{t('privacy.optInErrorReporting')}</span>
         </div>
       </div>
@@ -87,7 +87,7 @@ export const PrivacyCard: React.FC<PrivacyCardProps> = ({ t }) => {
         style={{
           opacity: quoteOpacity,
         }}>
-        <p className="text-muted-foreground text-center text-xl italic leading-relaxed">
+        <p className="text-muted-foreground text-center text-2xl italic leading-relaxed">
           {'"'}
           {t('privacy.quote')}
           {'"'}
@@ -112,12 +112,12 @@ export const BrowserSupportSection: React.FC<PrivacyCardProps> = ({ t }) => {
         transform: `translateY(${sectionY}px)`,
       }}>
       <div className="flex items-center justify-center gap-6">
-        <span className="text-muted-foreground text-xl font-medium">{t('moreThings.browserSupport.title')}:</span>
-        <div className="flex items-center gap-4">
+        <span className="text-muted-foreground text-2xl font-medium">{t('moreThings.browserSupport.title')}:</span>
+        <div className="flex items-center gap-5">
           {browsers.map((browser, index) => (
             <div
               key={browser.alt}
-              className="bg-secondary border-border flex h-14 w-14 items-center justify-center rounded-xl border"
+              className="bg-secondary border-border flex h-16 w-16 items-center justify-center rounded-xl border"
               style={{
                 opacity: interpolate(frame, [1.2 * fps + index * 4, 1.5 * fps + index * 4], [0, 1], {
                   extrapolateRight: 'clamp',
@@ -126,7 +126,7 @@ export const BrowserSupportSection: React.FC<PrivacyCardProps> = ({ t }) => {
                   extrapolateRight: 'clamp',
                 })})`,
               }}>
-              <Img src={staticFile(browser.src)} alt={browser.alt} style={{ width: 32, height: 32 }} />
+              <Img src={staticFile(browser.src)} alt={browser.alt} style={{ width: 40, height: 40 }} />
             </div>
           ))}
         </div>

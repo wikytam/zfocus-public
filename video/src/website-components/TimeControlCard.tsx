@@ -34,12 +34,12 @@ export const TimeControlCard: React.FC<TimeControlCardProps> = ({ t }) => {
           opacity: headerOpacity,
           transform: `translateY(${headerY}px)`,
         }}>
-        <div className="bg-foreground text-primary-foreground flex h-16 w-16 items-center justify-center rounded-2xl shadow-lg">
-          <Clock className="h-8 w-8" />
+        <div className="bg-foreground text-primary-foreground flex h-20 w-20 items-center justify-center rounded-2xl shadow-lg">
+          <Clock className="h-10 w-10" />
         </div>
         <div>
-          <h2 className="text-foreground text-3xl font-bold">{t('timeControl.title')}</h2>
-          <p className="text-muted-foreground text-xl">{t('timeControl.subtitle')}</p>
+          <h2 className="text-foreground text-4xl font-bold">{t('timeControl.title')}</h2>
+          <p className="text-muted-foreground text-2xl">{t('timeControl.subtitle')}</p>
         </div>
       </div>
 
@@ -49,11 +49,11 @@ export const TimeControlCard: React.FC<TimeControlCardProps> = ({ t }) => {
             opacity: scheduleOpacity,
             transform: `translateY(${scheduleY}px)`,
           }}>
-          <h3 className="text-foreground mb-3 flex items-center gap-3 text-xl font-semibold">
-            <Calendar className="text-muted-foreground h-6 w-6" />
+          <h3 className="text-foreground mb-4 flex items-center gap-3 text-2xl font-semibold">
+            <Calendar className="text-muted-foreground h-7 w-7" />
             {t('timeControl.schedule.title')}
           </h3>
-          <div className="bg-secondary/60 border-border space-y-3 rounded-2xl border p-5 text-lg">
+          <div className="bg-secondary/60 border-border space-y-4 rounded-2xl border p-6 text-2xl">
             <div className="flex justify-between">
               <span className="text-foreground font-semibold">{t('timeControl.schedule.monFri')}</span>
               <span className="text-muted-foreground font-mono">9:00-17:00</span>
@@ -70,17 +70,17 @@ export const TimeControlCard: React.FC<TimeControlCardProps> = ({ t }) => {
             opacity: activeTabOpacity,
             transform: `translateY(${activeTabY}px)`,
           }}>
-          <h3 className="text-foreground mb-3 flex items-center gap-3 text-xl font-semibold">
-            <Target className="text-muted-foreground h-6 w-6" />
+          <h3 className="text-foreground mb-4 flex items-center gap-3 text-2xl font-semibold">
+            <Target className="text-muted-foreground h-7 w-7" />
             {t('timeControl.activeTabOnly.title')}
           </h3>
-          <div className="bg-secondary/60 border-border space-y-3 rounded-2xl border p-5 text-lg">
-            <div className="flex items-center gap-3">
-              <XCircle className="text-destructive h-6 w-6 flex-shrink-0" />
+          <div className="bg-secondary/60 border-border space-y-4 rounded-2xl border p-6 text-2xl">
+            <div className="flex items-center gap-4">
+              <XCircle className="text-destructive h-7 w-7 flex-shrink-0" />
               <span className="text-foreground">{t('timeControl.activeTabOnly.blockActive')}</span>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="text-accent h-6 w-6 flex-shrink-0" />
+            <div className="flex items-center gap-4">
+              <CheckCircle2 className="text-accent h-7 w-7 flex-shrink-0" />
               <span className="text-muted-foreground">{t('timeControl.activeTabOnly.allowBackground')}</span>
             </div>
           </div>
@@ -91,11 +91,11 @@ export const TimeControlCard: React.FC<TimeControlCardProps> = ({ t }) => {
             opacity: pauseOpacity,
             transform: `translateY(${pauseY}px)`,
           }}>
-          <h3 className="text-foreground mb-3 flex items-center gap-3 text-xl font-semibold">
-            <Pause className="text-muted-foreground h-6 w-6" />
+          <h3 className="text-foreground mb-4 flex items-center gap-3 text-2xl font-semibold">
+            <Pause className="text-muted-foreground h-7 w-7" />
             {t('timeControl.quickPause.title')}
           </h3>
-          <p className="text-muted-foreground text-lg leading-relaxed">{t('timeControl.quickPause.description')}</p>
+          <p className="text-muted-foreground text-2xl leading-relaxed">{t('timeControl.quickPause.description')}</p>
         </div>
 
         <div
@@ -105,13 +105,13 @@ export const TimeControlCard: React.FC<TimeControlCardProps> = ({ t }) => {
             transform: `scale(${statsScale})`,
           }}>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-secondary/60 border-border rounded-2xl border p-5 text-center">
-              <div className="text-foreground text-4xl font-bold">12</div>
-              <div className="text-muted-foreground text-base">{t('statistics.blocksToday')}</div>
+            <div className="bg-secondary/60 border-border rounded-2xl border p-6 text-center">
+              <div className="text-foreground text-5xl font-bold">12</div>
+              <div className="text-muted-foreground text-xl">{t('statistics.blocksToday')}</div>
             </div>
-            <div className="bg-secondary/60 border-border rounded-2xl border p-5 text-center">
-              <div className="text-foreground text-4xl font-bold">2.5h</div>
-              <div className="text-muted-foreground text-base">{t('statistics.timeSaved')}</div>
+            <div className="bg-secondary/60 border-border rounded-2xl border p-6 text-center">
+              <div className="text-foreground text-5xl font-bold">2.5h</div>
+              <div className="text-muted-foreground text-xl">{t('statistics.timeSaved')}</div>
             </div>
           </div>
         </div>
