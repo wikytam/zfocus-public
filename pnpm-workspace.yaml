@@ -4,6 +4,7 @@ packages:
   - packages/*
   - tests/*
   - website
+  - video
 
 onlyBuiltDependencies:
   - '@parcel/watcher'

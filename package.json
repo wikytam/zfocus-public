@@ -41,6 +41,10 @@
     "website:deploy": "pnpm -F @zfocus/website deploy",
     "website:db:migrate": "pnpm -F @zfocus/website db:migrate",
     "website:db:studio": "pnpm -F @zfocus/website db:studio",
+    "video:dev": "pnpm -F @zfocus/video dev",
+    "video:render": "pnpm -F @zfocus/video render",
+    "video:render:en": "pnpm -F @zfocus/video render:en",
+    "video:render:all": "pnpm -F @zfocus/video render:all",
     "postinstall": "pnpm copy-env"
   },
   "dependencies": {
