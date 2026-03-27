@@ -1,6 +1,6 @@
 import { AbsoluteFill, Audio, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
-import { PrivacyCard, BrowserSupportSection } from '../website-components/PrivacyCard';
+import { PrivacyCard } from '../website-components/PrivacyCard';
 import { Subtitle, buildSubtitleLines } from '../components/Subtitle';
 import { SCENE_DURATION_FRAMES } from '../theme';
 import { createTranslator } from '../i18n';
@@ -53,7 +53,7 @@ export const Scene5Privacy: React.FC<Scene5Props> = ({ locale }) => {
           gap: 24,
         }}>
         <PrivacyCard t={t} />
-        <BrowserSupportSection t={t} />
+        {/* <BrowserSupportSection t={t} /> */}
       </div>
       <Subtitle lines={buildSubtitleLines(sub[4], SCENE_DURATION_FRAMES)} />
     </AbsoluteFill>

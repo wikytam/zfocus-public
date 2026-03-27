@@ -1,4 +1,4 @@
-import { Audio } from 'remotion';
+import { AbsoluteFill, Audio } from 'remotion';
 import { TransitionSeries, linearTiming } from '@remotion/transitions';
 import { fade } from '@remotion/transitions/fade';
 import { slide } from '@remotion/transitions/slide';
@@ -10,7 +10,7 @@ import { Scene4AdvancedActions } from './scenes/Scene4AdvancedActions';
 import { Scene5Privacy } from './scenes/Scene5Privacy';
 import { Scene6Comparison } from './scenes/Scene6Comparison';
 import { Scene7Pricing } from './scenes/Scene7Pricing';
-import { SCENE_DURATION_FRAMES, TRANSITION_DURATION_FRAMES } from './theme';
+import { SCENE_DURATION_FRAMES, TRANSITION_DURATION_FRAMES, theme } from './theme';
 import type { Locale } from './i18n';
 
 export type ZFocusAdProps = {
@@ -21,7 +21,7 @@ export const ZFocusAd: React.FC<ZFocusAdProps> = ({ locale }) => {
   const td = TRANSITION_DURATION_FRAMES;
 
   return (
-    <>
+    <AbsoluteFill style={{ backgroundColor: theme.colors.background }}>
       <Audio src={bgMusic} volume={0.25} loop />
       <TransitionSeries>
         <TransitionSeries.Sequence durationInFrames={SCENE_DURATION_FRAMES}>
@@ -73,6 +73,6 @@ export const ZFocusAd: React.FC<ZFocusAdProps> = ({ locale }) => {
           <Scene7Pricing locale={locale} />
         </TransitionSeries.Sequence>
       </TransitionSeries>
-    </>
+    </AbsoluteFill>
   );
 };
