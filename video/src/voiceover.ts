@@ -5,13 +5,13 @@ export type VoiceoverScript = string[][];
 export const voiceoverScripts: Record<Locale, VoiceoverScript> = {
   vi: [
     // Scene 1 (0-8s) - Hero
-    ['Làm từ xa, dễ bị mạng xã hội làm phiền?', 'ZFocus giúp bạn quay lại việc ngay trên trình duyệt.'],
+    ['Làm việc nhưng dễ bị mạng xã hội làm phiền?', 'ZFocus giúp bạn tập trung ngay trên trình duyệt.'],
     // Scene 2 (8-16s) - Smart Blocking
     ['Chặn thông minh, không chặn bừa.', 'Chỉ chặn thứ gây xao nhãng, vẫn giữ nội dung cần.'],
     // Scene 3 (16-24s) - Time Control
     ['Chặn theo giờ làm việc.', 'Cần nghỉ? Tạm dừng nhanh.'],
     // Scene 4 (24-32s) - Advanced Actions
-    ['Không chỉ chặn web.', 'Tự đóng tab, chuyển hướng, giới hạn thời gian.'],
+    ['Không chỉ chặn web.', 'Tự đóng tab, chuyển hướng và giới hạn thời gian.'],
     // Scene 5 (32-40s) - Privacy
     ['Dữ liệu luôn ở máy bạn.', 'Không thu thập, không gửi server.'],
     // Scene 6 (40-48s) - Comparison
