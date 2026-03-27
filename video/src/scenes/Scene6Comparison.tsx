@@ -6,7 +6,7 @@ import { SCENE_DURATION_FRAMES } from '../theme';
 import { createTranslator } from '../i18n';
 import type { Locale } from '../i18n';
 import { voiceoverScripts } from '../voiceover';
-import voiceViAudio from '../audio/voice_vi_6.mp3';
+import { getVoiceAudio } from '../audio/voiceAudio';
 
 const { fontFamily } = loadFont('normal', {
   weights: ['400', '500', '600', '700', '800'],
@@ -41,7 +41,7 @@ export const Scene6Comparison: React.FC<Scene6Props> = ({ locale }) => {
           background: 'linear-gradient(180deg, #f8f8f6 0%, #f2f0ec 100%)',
         }}
       />
-      <Audio src={voiceViAudio} />
+      <Audio src={getVoiceAudio(locale, 5)} />
       <div
         style={{
           position: 'relative',
