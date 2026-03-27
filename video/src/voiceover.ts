@@ -5,28 +5,19 @@ export type VoiceoverScript = string[][];
 export const voiceoverScripts: Record<Locale, VoiceoverScript> = {
   vi: [
     // Scene 1 (0-8s) - Hero
-    [
-      'Làm việc từ xa nhưng cứ bị mạng xã hội kéo mất tập trung?',
-      'ZFocus giúp bạn quay lại công việc ngay trên trình duyệt.',
-    ],
+    ['Làm từ xa, dễ bị mạng xã hội làm phiền?', 'ZFocus giúp bạn quay lại việc ngay trên trình duyệt.'],
     // Scene 2 (8-16s) - Smart Blocking
-    ['ZFocus chặn thông minh, không chặn bừa.', 'Chặn đúng nội dung gây xao nhãng, vẫn giữ lại nội dung bạn cần.'],
+    ['Chặn thông minh, không chặn bừa.', 'Chỉ chặn thứ gây xao nhãng, vẫn giữ nội dung cần.'],
     // Scene 3 (16-24s) - Time Control
-    ['Đặt lịch chặn theo giờ làm việc của bạn.', 'Cần nghỉ ngắn? Tạm dừng vài phút rồi tự bật lại.'],
+    ['Chặn theo giờ làm việc.', 'Cần nghỉ? Tạm dừng nhanh.'],
     // Scene 4 (24-32s) - Advanced Actions
-    [
-      'Không chỉ chặn web, ZFocus còn xử lý hành vi gây phân tâm.',
-      'Tự đóng tab, chuyển hướng, và giới hạn thời gian giải trí.',
-    ],
+    ['Không chỉ chặn web.', 'Tự đóng tab, chuyển hướng, giới hạn thời gian.'],
     // Scene 5 (32-40s) - Privacy
-    ['Dữ liệu của bạn luôn ở trên máy của bạn.', 'Không thu thập, không gửi server, hoàn toàn riêng tư.'],
+    ['Dữ liệu luôn ở máy bạn.', 'Không thu thập, không gửi server.'],
     // Scene 6 (40-48s) - Comparison
-    [
-      'ZFocus mang đến nhiều kiểm soát hơn các công cụ chặn web thông thường.',
-      'Thông minh hơn, riêng tư hơn, và hiện đại hơn.',
-    ],
+    ['Kiểm soát tốt hơn tool chặn web thường.', 'Thông minh hơn, riêng tư hơn.'],
     // Scene 7 (48-56s) - Pricing
-    ['Dùng thử miễn phí 30 ngày, không cần thẻ.', 'Cài ZFocus ngay hôm nay trên Chrome Web Store.'],
+    ['Dùng thử premium 30 ngày, không cần đăng ký.', 'Cài ZFocus ngay.'],
   ],
   en: [
     // Scene 1 (0-8s) - Hero

@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
 import { HeroSection } from '../website-components/HeroSection';
 import { Subtitle, buildSubtitleLines } from '../components/Subtitle';
@@ -6,6 +6,7 @@ import { SCENE_DURATION_FRAMES } from '../theme';
 import { createTranslator } from '../i18n';
 import type { Locale } from '../i18n';
 import { voiceoverScripts } from '../voiceover';
+import voiceViAudio from '../audio/voice_vi_1.mp3';
 
 const { fontFamily } = loadFont('normal', {
   weights: ['400', '500', '600', '700', '800'],
@@ -40,6 +41,7 @@ export const Scene1Hero: React.FC<Scene1Props> = ({ locale }) => {
           background: 'linear-gradient(180deg, #f8f8f6 0%, #e8f5ef 50%, #f8f8f6 100%)',
         }}
       />
+      <Audio src={voiceViAudio} />
       <div
         style={{
           position: 'relative',

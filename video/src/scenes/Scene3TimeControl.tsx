@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
 import { TimeControlCard } from '../website-components/TimeControlCard';
 import { Subtitle, buildSubtitleLines } from '../components/Subtitle';
@@ -6,6 +6,7 @@ import { SCENE_DURATION_FRAMES } from '../theme';
 import { createTranslator } from '../i18n';
 import type { Locale } from '../i18n';
 import { voiceoverScripts } from '../voiceover';
+import voiceViAudio from '../audio/voice_vi_3.mp3';
 
 const { fontFamily } = loadFont('normal', {
   weights: ['400', '500', '600', '700', '800'],
@@ -40,6 +41,7 @@ export const Scene3TimeControl: React.FC<Scene3Props> = ({ locale }) => {
           background: 'linear-gradient(180deg, #f8f8f6 0%, #f2f0ec 100%)',
         }}
       />
+      <Audio src={voiceViAudio} />
       <div
         style={{
           position: 'relative',

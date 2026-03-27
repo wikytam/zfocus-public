@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
 import { AdvancedActionsCard } from '../website-components/AdvancedActionsCard';
 import { Subtitle, buildSubtitleLines } from '../components/Subtitle';
@@ -6,6 +6,7 @@ import { SCENE_DURATION_FRAMES } from '../theme';
 import { createTranslator } from '../i18n';
 import type { Locale } from '../i18n';
 import { voiceoverScripts } from '../voiceover';
+import voiceViAudio from '../audio/voice_vi_4.mp3';
 
 const { fontFamily } = loadFont('normal', {
   weights: ['400', '500', '600', '700', '800'],
@@ -40,6 +41,7 @@ export const Scene4AdvancedActions: React.FC<Scene4Props> = ({ locale }) => {
           background: 'linear-gradient(180deg, #f8f8f6 0%, #e8f5ef 50%, #f8f8f6 100%)',
         }}
       />
+      <Audio src={voiceViAudio} />
       <div
         style={{
           position: 'relative',
