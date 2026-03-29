@@ -54,7 +54,5 @@ export const GET = async (request: NextRequest) => {
   } catch (error) {
     console.error('Error validating promo code:', error);
     return NextResponse.json({ valid: false, error: 'System error, please try again later' }, { status: 500 });
-  } finally {
-    await pool.end();
   }
 };

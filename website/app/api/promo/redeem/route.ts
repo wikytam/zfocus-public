@@ -124,7 +124,5 @@ export const POST = async (request: NextRequest) => {
   } catch (error) {
     console.error('Error redeeming promo code:', error);
     return NextResponse.json({ success: false, error: 'System error, please try again later' }, { status: 500 });
-  } finally {
-    await pool.end();
   }
 };

@@ -146,7 +146,5 @@ export const POST = async (request: NextRequest) => {
   } catch (error) {
     console.error('[Webhook] Error processing webhook:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  } finally {
-    await pool.end();
   }
 };
