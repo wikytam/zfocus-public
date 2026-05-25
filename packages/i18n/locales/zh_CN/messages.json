@@ -579,5 +579,29 @@
   },
   "pauseMin": {
     "message": "暂停 (分钟)"
+  },
+  "onboardingPresetTitle": {
+    "message": "快速设置模板"
+  },
+  "onboardingPresetDesc": {
+    "message": "选择预设自动填入，或在下方手动配置"
+  },
+  "presetSocialMedia": {
+    "message": "社交媒体"
+  },
+  "presetSocialMediaDesc": {
+    "message": "Facebook、TikTok、Instagram（不包含Messenger）"
+  },
+  "presetYoutubeShorts": {
+    "message": "YouTube Shorts"
+  },
+  "presetYoutubeShortsDesc": {
+    "message": "仅屏蔽YouTube Shorts，不屏蔽普通视频"
+  },
+  "presetAllDistractions": {
+    "message": "所有干扰"
+  },
+  "presetAllDistractionsDesc": {
+    "message": "YouTube Shorts、TikTok、Facebook、Instagram（不包含Messenger）"
   }
 }

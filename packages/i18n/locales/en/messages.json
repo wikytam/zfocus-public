@@ -663,5 +663,29 @@
   },
   "pauseMin": {
     "message": "Pause (min)"
+  },
+  "onboardingPresetTitle": {
+    "message": "Quick Setup Templates"
+  },
+  "onboardingPresetDesc": {
+    "message": "Select a preset to auto-fill, or configure manually below"
+  },
+  "presetSocialMedia": {
+    "message": "Social Media"
+  },
+  "presetSocialMediaDesc": {
+    "message": "Facebook, TikTok, Instagram (excludes Messenger)"
+  },
+  "presetYoutubeShorts": {
+    "message": "YouTube Shorts"
+  },
+  "presetYoutubeShortsDesc": {
+    "message": "Only block YouTube Shorts, not regular videos"
+  },
+  "presetAllDistractions": {
+    "message": "All Distractions"
+  },
+  "presetAllDistractionsDesc": {
+    "message": "YouTube Shorts, TikTok, Facebook, Instagram (excludes Messenger)"
   }
 }

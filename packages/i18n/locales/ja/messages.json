@@ -579,5 +579,29 @@
   },
   "pauseMin": {
     "message": "一時停止 (分)"
+  },
+  "onboardingPresetTitle": {
+    "message": "クイックセットアップテンプレート"
+  },
+  "onboardingPresetDesc": {
+    "message": "プリセットを選択して自動入力するか、下で手動設定してください"
+  },
+  "presetSocialMedia": {
+    "message": "ソーシャルメディア"
+  },
+  "presetSocialMediaDesc": {
+    "message": "Facebook、TikTok、Instagram（Messenger除く）"
+  },
+  "presetYoutubeShorts": {
+    "message": "YouTube Shorts"
+  },
+  "presetYoutubeShortsDesc": {
+    "message": "YouTube Shortsのみブロック、通常動画は許可"
+  },
+  "presetAllDistractions": {
+    "message": "すべての気晴らし"
+  },
+  "presetAllDistractionsDesc": {
+    "message": "YouTube Shorts、TikTok、Facebook、Instagram（Messenger除く）"
   }
 }

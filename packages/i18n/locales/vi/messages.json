@@ -663,5 +663,29 @@
   },
   "pauseMin": {
     "message": "Tạm dừng (phút)"
+  },
+  "onboardingPresetTitle": {
+    "message": "Mẫu cài đặt nhanh"
+  },
+  "onboardingPresetDesc": {
+    "message": "Chọn mẫu để tự động điền, hoặc cấu hình thủ công bên dưới"
+  },
+  "presetSocialMedia": {
+    "message": "Mạng xã hội"
+  },
+  "presetSocialMediaDesc": {
+    "message": "Facebook, TikTok, Instagram (loại trừ Messenger)"
+  },
+  "presetYoutubeShorts": {
+    "message": "YouTube Shorts"
+  },
+  "presetYoutubeShortsDesc": {
+    "message": "Chỉ chặn YouTube Shorts, không chặn video thường"
+  },
+  "presetAllDistractions": {
+    "message": "Tất cả gây mất tập trung"
+  },
+  "presetAllDistractionsDesc": {
+    "message": "YouTube Shorts, TikTok, Facebook, Instagram (loại trừ Messenger)"
   }
 }

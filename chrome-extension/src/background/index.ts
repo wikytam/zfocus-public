@@ -651,6 +651,15 @@ const clearTabTimer = (tabId: number) => {
   }
   tabSiteMapping.delete(tabId);
   clearBadge(tabId);
+
+  // Notify content script to hide the overlay
+  try {
+    chrome.tabs.sendMessage(tabId, { type: 'CLEAR_TIMER' }).catch(() => {
+      // Content script might not be loaded
+    });
+  } catch {
+    // Tab might not exist
+  }
 };
 
 // Start tracking time for a tab

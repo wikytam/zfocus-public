@@ -579,5 +579,29 @@
   },
   "pauseMin": {
     "message": "일시 중지 (분)"
+  },
+  "onboardingPresetTitle": {
+    "message": "빠른 설정 템플릿"
+  },
+  "onboardingPresetDesc": {
+    "message": "프리셋을 선택하여 자동 입력하거나, 아래에서 수동으로 설정하세요"
+  },
+  "presetSocialMedia": {
+    "message": "소셜 미디어"
+  },
+  "presetSocialMediaDesc": {
+    "message": "Facebook, TikTok, Instagram (Messenger 제외)"
+  },
+  "presetYoutubeShorts": {
+    "message": "YouTube Shorts"
+  },
+  "presetYoutubeShortsDesc": {
+    "message": "YouTube Shorts만 차단, 일반 동영상은 허용"
+  },
+  "presetAllDistractions": {
+    "message": "모든 방해 요소"
+  },
+  "presetAllDistractionsDesc": {
+    "message": "YouTube Shorts, TikTok, Facebook, Instagram (Messenger 제외)"
   }
 }

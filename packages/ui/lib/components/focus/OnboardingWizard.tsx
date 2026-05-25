@@ -308,6 +308,66 @@ export const OnboardingWizard = ({
                     <p className="text-muted-foreground mt-2 text-sm">{t('onboardingAddFirstGroupDesc')}</p>
                   </div>
 
+                  {/* Preset Templates */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">{t('onboardingPresetTitle')}</Label>
+                    <p className="text-muted-foreground text-xs">{t('onboardingPresetDesc')}</p>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        {
+                          id: 'social',
+                          label: t('presetSocialMedia'),
+                          desc: t('presetSocialMediaDesc'),
+                          title: t('presetSocialMedia'),
+                          urls: ['facebook.com', 'tiktok.com', 'instagram.com'],
+                          exceptions: ['messenger.com', 'facebook.com/messages'],
+                        },
+                        {
+                          id: 'shorts',
+                          label: t('presetYoutubeShorts'),
+                          desc: t('presetYoutubeShortsDesc'),
+                          title: t('presetYoutubeShorts'),
+                          urls: ['youtube.com/shorts'],
+                          exceptions: [] as string[],
+                        },
+                        {
+                          id: 'all',
+                          label: t('presetAllDistractions'),
+                          desc: t('presetAllDistractionsDesc'),
+                          title: t('presetAllDistractions'),
+                          urls: ['youtube.com/shorts', 'tiktok.com', 'facebook.com', 'instagram.com'],
+                          exceptions: ['messenger.com', 'facebook.com/messages'],
+                        },
+                      ].map(preset => (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          onClick={() => {
+                            setFormData(prev => ({
+                              ...prev,
+                              title: preset.title,
+                              urls: preset.urls,
+                              exceptions: preset.exceptions,
+                            }));
+                          }}
+                          className={cn(
+                            'border-border/50 flex items-center gap-3 rounded-lg border p-3 text-left transition-all duration-200',
+                            formData.title === preset.title && formData.urls.join(',') === preset.urls.join(',')
+                              ? 'border-primary bg-primary/5 ring-primary/20 ring-1'
+                              : 'hover:bg-secondary/30',
+                          )}>
+                          <div className="flex-1">
+                            <div className="text-sm font-medium">{preset.label}</div>
+                            <div className="text-muted-foreground text-xs">{preset.desc}</div>
+                          </div>
+                          {formData.title === preset.title && formData.urls.join(',') === preset.urls.join(',') && (
+                            <Check className="text-primary h-4 w-4 flex-shrink-0" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
                   {/* Zone Name */}
                   <div className="space-y-2">
                     <Label htmlFor="onboard-title">{t('groupName')}</Label>

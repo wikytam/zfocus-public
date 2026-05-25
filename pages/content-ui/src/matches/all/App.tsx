@@ -37,6 +37,7 @@ export default function App() {
   const { t } = useI18n();
   const [timerData, setTimerData] = useState<TimerData | null>(null);
   const [dismissed, setDismissed] = useState(false);
+  const [permanentlyDismissed, setPermanentlyDismissed] = useState(false);
   const [showCountdown, setShowCountdown] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [showPauseMenu, setShowPauseMenu] = useState(false);
@@ -87,6 +88,7 @@ export default function App() {
         } else if (!isNowPaused && wasPaused) {
           console.log('[ZFocus Content-UI] Extension resumed, resetting dismissed state');
           setDismissed(false);
+          setPermanentlyDismissed(false);
         }
       }
     };
@@ -100,21 +102,21 @@ export default function App() {
       console.log('[ZFocus Content-UI] Received message:', message.type);
       if (message.type === 'TIMER_UPDATE' && message.data) {
         setTimerData(message.data);
-        // Auto-show when time is running low
-        if (message.data.remainingSeconds <= 60) {
+        // Only force-show when time is critical (<=10s) and user hasn't permanently dismissed
+        if (message.data.remainingSeconds <= 10 && !permanentlyDismissed) {
           setDismissed(false);
         }
       } else if (message.type === 'CLEAR_TIMER') {
-        // Clear timer when paused or timer stopped
         console.log('[ZFocus Content-UI] Clearing timer overlay');
         setTimerData(null);
         setDismissed(false);
+        setPermanentlyDismissed(false);
       }
     };
 
     chrome.runtime.onMessage.addListener(handleMessage);
     return () => chrome.runtime.onMessage.removeListener(handleMessage);
-  }, []);
+  }, [permanentlyDismissed]);
 
   // Don't show if setting is disabled
   if (!showCountdown || !timerData || dismissed) return null;
@@ -285,6 +287,7 @@ export default function App() {
               onClick={e => {
                 e.stopPropagation();
                 setDismissed(true);
+                setPermanentlyDismissed(true);
               }}
               style={{
                 background: 'rgba(255,255,255,0.1)',
