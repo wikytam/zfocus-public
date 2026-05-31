@@ -281,6 +281,9 @@ const activeTabTimers: Map<number, ReturnType<typeof setInterval>> = new Map();
 const tabSiteMapping: Map<number, string> = new Map();
 // CRITICAL: Prevent race condition when multiple startTabTimer calls happen simultaneously
 const timerInitializationInProgress = new Set<number>();
+// Track which tab is the "primary counter" for each site (prevents double-counting)
+// Only the primary tab increments usedSeconds; other tabs just receive badge/overlay updates
+const sitePrimaryTab: Map<string, number> = new Map();
 
 // In-memory timer cache to reduce storage writes
 const timerCache: Record<string, SiteTimer> = {};
@@ -643,6 +646,7 @@ const handleBlocking = async (tabId: number, site: BlockedSite) => {
 
 // Clear timer for a tab
 const clearTabTimer = (tabId: number) => {
+  const siteId = tabSiteMapping.get(tabId);
   const existingTimer = activeTabTimers.get(tabId);
   if (existingTimer) {
     devLog(`[ZFocus] Clearing timer for tab ${tabId}. Active timers: ${activeTabTimers.size}`);
@@ -651,6 +655,13 @@ const clearTabTimer = (tabId: number) => {
   }
   tabSiteMapping.delete(tabId);
   clearBadge(tabId);
+
+  // If this tab was the primary counter for its site, release the slot
+  // so another tab with the same site can become primary
+  if (siteId && sitePrimaryTab.get(siteId) === tabId) {
+    sitePrimaryTab.delete(siteId);
+    devLog(`[ZFocus] Released primary counter for site ${siteId} (was tab ${tabId})`);
+  }
 
   // Notify content script to hide the overlay
   try {
@@ -690,6 +701,14 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
 
   clearTabTimer(tabId);
   tabSiteMapping.set(tabId, site.id);
+
+  // Assign this tab as primary counter if no other tab holds that role for this site
+  if (!sitePrimaryTab.has(site.id)) {
+    sitePrimaryTab.set(site.id, tabId);
+    devLog(`[ZFocus] Tab ${tabId} is now primary counter for site ${site.id}`);
+  } else {
+    devLog(`[ZFocus] Tab ${tabId} is secondary for site ${site.id} (primary: ${sitePrimaryTab.get(site.id)})`);
+  }
 
   const timer = await getOrCreateTimer(site);
 
@@ -759,17 +778,28 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         return;
       }
 
-      // Increment used time by 1 second
-      const newUsedSeconds = currentTimer.usedSeconds + 1;
+      // Only the primary tab for this site increments the counter.
+      // This prevents double-counting when multiple tabs share the same site.
+      // Auto-promote: if no primary exists (was closed), claim the role.
+      if (!sitePrimaryTab.has(site.id)) {
+        sitePrimaryTab.set(site.id, tabId);
+        devLog(`[ZFocus] Tab ${tabId} auto-promoted to primary for site ${site.id}`);
+      }
+      const isPrimary = sitePrimaryTab.get(site.id) === tabId;
+      let newUsedSeconds = currentTimer.usedSeconds;
 
-      // Use batched update instead of writing every second
-      batchUpdateTimer(site.id, {
-        usedSeconds: newUsedSeconds,
-        lastUpdate: Date.now(),
-      });
+      if (isPrimary) {
+        newUsedSeconds = currentTimer.usedSeconds + 1;
 
-      // Track stats every minute
-      if (newUsedSeconds % 60 === 0) {
+        // Use batched update instead of writing every second
+        batchUpdateTimer(site.id, {
+          usedSeconds: newUsedSeconds,
+          lastUpdate: Date.now(),
+        });
+      }
+
+      // Track stats every minute (only primary tab)
+      if (isPrimary && newUsedSeconds % 60 === 0) {
         const stats = await getStats();
         await updateStats({
           sitesAccessed: {
@@ -779,7 +809,7 @@ const startTabTimer = async (tabId: number, site: BlockedSite) => {
         });
       }
 
-      // Check if time exceeded
+      // Check if time exceeded (all tabs should enforce blocking)
       if (newUsedSeconds >= currentTimer.allowedSeconds) {
         await handleBlocking(tabId, site);
         return;
@@ -942,8 +972,9 @@ chrome.storage.sync.onChanged.addListener(async changes => {
       // Clear timer initialization flags
       timerInitializationInProgress.clear();
 
-      // Clear tab-site mappings
+      // Clear tab-site mappings and primary tab assignments
       tabSiteMapping.clear();
+      sitePrimaryTab.clear();
 
       // Clear timer cache
       Object.keys(timerCache).forEach(key => delete timerCache[key]);
@@ -1058,6 +1089,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         clearBadge(tabId);
       });
       tabSiteMapping.clear();
+      sitePrimaryTab.clear();
 
       // Send CLEAR_TIMER message to all tabs to hide overlays
       const tabs = await chrome.tabs.query({});
