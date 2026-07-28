@@ -1,0 +1,53 @@
+name: Mirror Extension to Public Repo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'chrome-extension/**'
+      - 'pages/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'turbo.json'
+      - 'tsconfig.json'
+      - '.nvmrc'
+      - '.example.env'
+      - 'LICENSE'
+      - 'README.md'
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout private repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare public mirror
+        run: |
+          rm -rf website video docs documents scripts bash-scripts tests
+          rm -rf .cursorrules .cursor .letta .history .playwright-mcp
+          rm -rf output coverage
+          rm -rf .github/workflows.disabled
+          rm -f .github/workflows/mirror-public.yml
+          rm -f RENAME_SUMMARY.md UPDATE-PACKAGE-VERSIONS.md CHANGELOG.md
+          rm -f .gitguardian.yaml
+
+          sed -i '/^  - website$/d; /^  - video$/d; /^  - tests\/\*$/d' pnpm-workspace.yaml
+
+      - name: Push to public repo
+        env:
+          MIRROR_TOKEN: ${{ secrets.MIRROR_PUBLIC_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          git commit -m "Mirror from private repo" --allow-empty
+
+          git remote add public https://x-access-token:${MIRROR_TOKEN}@github.com/wikytam/zfocus-public.git
+          git push public main --force

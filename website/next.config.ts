@@ -5,15 +5,7 @@ const withNextIntl = createNextIntlPlugin('./i18n.ts');
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   images: {
-    // Disable image optimization on Cloudflare Workers to reduce CPU usage
     unoptimized: process.env.NODE_ENV === 'production',
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'storage.gpems.app',
-        pathname: '/agritrade/zfocus/**',
-      },
-    ],
   },
   // Enable static exports for better caching
   experimental: {

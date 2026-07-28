@@ -10,7 +10,6 @@ import { ComparisonSection } from '@/components/comparison-section';
 import { PricingSection } from '@/components/pricing-section';
 import { Button } from '@/components/ui/button';
 import { Chrome, Download } from 'lucide-react';
-import { s3Image } from '@/lib/s3';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
@@ -87,7 +86,7 @@ export const BentoGrid = () => {
                 style={{ transform: 'rotateY(-8deg) rotateX(4deg)' }}>
                 <div className="bg-card border-border/60 overflow-hidden rounded-xl border shadow-2xl sm:rounded-2xl">
                   <Image
-                    src={s3Image('overview-light.png')}
+                    src="/images/overview-light.png"
                     alt="ZFocus overview - light mode"
                     width={800}
                     height={500}
@@ -95,7 +94,7 @@ export const BentoGrid = () => {
                     priority
                   />
                   <Image
-                    src={s3Image('overview-dark.png')}
+                    src="/images/overview-dark.png"
                     alt="ZFocus overview - dark mode"
                     width={800}
                     height={500}
@@ -109,7 +108,7 @@ export const BentoGrid = () => {
                 className="bg-card border-border/60 absolute -bottom-4 -left-2 w-28 overflow-hidden rounded-lg border shadow-2xl sm:-bottom-5 sm:w-36 md:w-40 lg:-bottom-6 lg:-left-4 lg:w-44"
                 style={{ transform: 'rotate(3deg)' }}>
                 <Image
-                  src={s3Image('pause.png')}
+                  src="/images/pause.png"
                   alt="ZFocus pause feature"
                   width={400}
                   height={300}
