@@ -7,7 +7,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite.git"
+    "url": "https://github.com/wikytam/zfocus-public.git"
   },
   "type": "module",
   "scripts": {
@@ -25,8 +25,6 @@
     "dev:firefox": "pnpm set-global-env CLI_CEB_DEV=true CLI_CEB_FIREFOX=true && pnpm base-dev",
     "zip": "pnpm build && pnpm -F zipper zip",
     "zip:firefox": "pnpm build:firefox && pnpm -F zipper zip",
-    "e2e": "pnpm zip && turbo e2e",
-    "e2e:firefox": "pnpm zip:firefox && turbo e2e",
     "lint": "turbo lint --continue",
     "lint:fix": "turbo lint:fix --continue",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
@@ -35,16 +33,6 @@
     "copy-env": "bash bash-scripts/copy_env.sh",
     "set-global-env": "bash bash-scripts/set_global_env.sh",
     "module-manager": "pnpm -F module-manager start",
-    "website:dev": "pnpm -F @zfocus/website dev",
-    "website:build": "pnpm -F @zfocus/website build",
-    "website:start": "pnpm -F @zfocus/website start",
-    "website:deploy": "pnpm -F @zfocus/website deploy",
-    "website:db:migrate": "pnpm -F @zfocus/website db:migrate",
-    "website:db:studio": "pnpm -F @zfocus/website db:studio",
-    "video:dev": "pnpm -F @zfocus/video dev",
-    "video:render": "pnpm -F @zfocus/video render",
-    "video:render:en": "pnpm -F @zfocus/video render:en",
-    "video:render:all": "pnpm -F @zfocus/video render:all",
     "postinstall": "pnpm copy-env"
   },
   "dependencies": {

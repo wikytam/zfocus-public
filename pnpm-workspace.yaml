@@ -2,9 +2,6 @@ packages:
   - chrome-extension
   - pages/*
   - packages/*
-  - tests/*
-  - website
-  - video
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
