@@ -26,6 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Prepare public mirror
         run: |
@@ -39,9 +40,16 @@ jobs:
 
           sed -i '/^  - website$/d; /^  - video$/d; /^  - tests\/\*$/d' pnpm-workspace.yaml
 
+      - name: Configure SSH for public repo
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MIRROR_DEPLOY_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+
       - name: Push to public repo
         env:
-          MIRROR_TOKEN: ${{ secrets.MIRROR_PUBLIC_TOKEN }}
+          GIT_SSH_COMMAND: ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -49,5 +57,9 @@ jobs:
           git add -A
           git commit -m "Mirror from private repo" --allow-empty
 
-          git remote add public https://x-access-token:${MIRROR_TOKEN}@github.com/wikytam/zfocus-public.git
+          git remote add public git@github.com:wikytam/zfocus-public.git
           git push public main --force
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
