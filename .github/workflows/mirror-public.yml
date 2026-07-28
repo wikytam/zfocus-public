@@ -7,6 +7,7 @@ on:
       - 'chrome-extension/**'
       - 'pages/**'
       - 'packages/**'
+      - 'bash-scripts/**'
       - 'package.json'
       - 'pnpm-workspace.yaml'
       - 'pnpm-lock.yaml'
@@ -30,7 +31,7 @@ jobs:
 
       - name: Prepare public mirror
         run: |
-          rm -rf website video docs documents scripts bash-scripts tests
+          rm -rf website video docs documents scripts tests
           rm -rf .cursorrules .cursor .letta .history .playwright-mcp
           rm -rf output coverage
           rm -rf .github/workflows.disabled
@@ -38,7 +39,46 @@ jobs:
           rm -f RENAME_SUMMARY.md UPDATE-PACKAGE-VERSIONS.md CHANGELOG.md
           rm -f .gitguardian.yaml
 
+          # Clean pnpm-workspace.yaml
           sed -i '/^  - website$/d; /^  - video$/d; /^  - tests\/\*$/d' pnpm-workspace.yaml
+
+          # Clean package.json: remove website/video/e2e scripts, update repo URL
+          node -e "
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
+          pkg.repository = {
+            type: 'git',
+            url: 'https://github.com/wikytam/zfocus-public.git'
+          };
+
+          const removeScripts = [
+            'website:dev', 'website:build', 'website:start', 'website:deploy',
+            'website:db:migrate', 'website:db:studio',
+            'video:dev', 'video:render', 'video:render:en', 'video:render:all',
+            'e2e', 'e2e:firefox'
+          ];
+          for (const key of removeScripts) {
+            delete pkg.scripts[key];
+          }
+
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+          # Clean turbo.json: remove website-specific and e2e tasks
+          node -e "
+          const fs = require('fs');
+          const turbo = JSON.parse(fs.readFileSync('turbo.json', 'utf8'));
+
+          delete turbo.tasks['@zfocus/website#build'];
+          delete turbo.tasks['@zfocus/website#dev'];
+          delete turbo.tasks['e2e'];
+
+          fs.writeFileSync('turbo.json', JSON.stringify(turbo, null, 2) + '\n');
+          "
+
+          # Clean .gitignore: remove video/build line
+          sed -i '/^video\/build$/d' .gitignore
 
       - name: Configure SSH for public repo
         run: |

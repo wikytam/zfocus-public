@@ -297,7 +297,8 @@
       "partial": "Partial / Limited",
       "no": "Not supported"
     },
-    "openSourceNote": "ZFocus will be open-sourced once we reach a sustainable user base to cover development costs.",
+    "openSourceNote": "ZFocus extension code is open source on GitHub.",
+    "viewOnGithub": "View on GitHub",
     "features": {
       "easySetup": { "title": "Easy Configuration" },
       "exceptionPattern": { "title": "Smart Exception Patterns" },
@@ -323,7 +324,7 @@
       "6": "LeechBlock uses a functional but dated interface. ZFocus offers a modern UI with light/dark/auto themes.",
       "7": "LeechBlock offers basic statistics (time spent per block set). ZFocus provides 30-day visual charts with blocks, time saved, and streaks.",
       "8": "Screen Time syncs usage data through iCloud. ZFocus and LeechBlock store everything locally with zero tracking.",
-      "9": "LeechBlock NG is fully open source. ZFocus plans to open source once it reaches a sustainable user base.",
+      "9": "Both LeechBlock NG and ZFocus are fully open source.",
       "10": "ZFocus works on Chrome, Edge, Brave, Opera, and Firefox. LeechBlock supports Firefox, Chrome, and Edge. Screen Time is Safari/iOS only."
     }
   },

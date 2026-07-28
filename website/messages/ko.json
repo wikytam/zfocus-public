@@ -297,7 +297,8 @@
       "partial": "부분적 / 제한적",
       "no": "미지원"
     },
-    "openSourceNote": "ZFocus는 개발 비용을 충당할 수 있는 사용자 수에 도달하면 오픈 소스로 전환될 예정입니다.",
+    "openSourceNote": "ZFocus 확장 프로그램 코드는 GitHub에서 오픈 소스로 공개되어 있습니다.",
+    "viewOnGithub": "GitHub에서 보기",
     "features": {
       "easySetup": { "title": "쉬운 설정" },
       "exceptionPattern": { "title": "스마트 예외 패턴" },
@@ -323,7 +324,7 @@
       "6": "LeechBlock은 기능적이지만 다소 오래된 인터페이스를 사용합니다. ZFocus는 라이트/다크/자동 테마가 있는 모던 UI를 제공합니다.",
       "7": "LeechBlock은 기본 통계(차단 세트별 사용 시간)를 제공합니다. ZFocus는 차단 횟수, 절약 시간, 연속 기록이 포함된 30일 시각적 차트를 제공합니다.",
       "8": "Screen Time은 iCloud를 통해 사용 데이터를 동기화합니다. ZFocus와 LeechBlock은 모든 것을 로컬에 저장하며 추적하지 않습니다.",
-      "9": "LeechBlock NG는 완전한 오픈 소스입니다. ZFocus는 지속 가능한 사용자 기반에 도달하면 오픈 소스로 전환할 계획입니다.",
+      "9": "LeechBlock NG와 ZFocus 모두 완전한 오픈 소스입니다.",
       "10": "ZFocus는 Chrome, Edge, Brave, Opera, Firefox에서 작동합니다. LeechBlock은 Firefox, Chrome, Edge를 지원합니다. Screen Time은 Safari/iOS 전용입니다."
     }
   },

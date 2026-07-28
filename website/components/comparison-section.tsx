@@ -27,7 +27,7 @@ const features: ComparisonFeature[] = [
   { key: 'modernUi', zfocus: 'yes', screenTime: 'yes', leechBlock: 'no', footnote: 6 },
   { key: 'statistics', zfocus: 'yes', screenTime: 'yes', leechBlock: 'partial', footnote: 7 },
   { key: 'privacyFirst', zfocus: 'yes', screenTime: 'partial', leechBlock: 'yes', footnote: 8 },
-  { key: 'openSource', zfocus: 'partial', screenTime: 'no', leechBlock: 'yes', footnote: 9 },
+  { key: 'openSource', zfocus: 'yes', screenTime: 'no', leechBlock: 'yes', footnote: 9 },
   { key: 'crossBrowser', zfocus: 'yes', screenTime: 'no', leechBlock: 'yes', footnote: 10 },
 ];
 

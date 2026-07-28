@@ -2,8 +2,11 @@
 
 import { HashLink } from './hash-link';
 import { Link } from '@/i18n/navigation';
+import { Github } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+
+const GITHUB_REPO_URL = 'https://github.com/wikytam/zfocus-public';
 
 export const Footer = () => {
   const t = useTranslations();
@@ -101,7 +104,17 @@ export const Footer = () => {
         {/* Bottom bar */}
         <div className="border-border mt-12 border-t pt-8">
           <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
-            <p className="text-muted-foreground text-xs">{t('privacy.zeroTracking')}</p>
+            <div className="flex items-center gap-4">
+              <p className="text-muted-foreground text-xs">{t('privacy.zeroTracking')}</p>
+              <a
+                href={GITHUB_REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-xs transition-colors">
+                <Github className="h-3.5 w-3.5" />
+                {t('comparison.viewOnGithub')}
+              </a>
+            </div>
             <div className="flex items-center gap-4">
               <Link href="/privacy" className="text-muted-foreground hover:text-foreground text-xs transition-colors">
                 {t('nav.privacy')}

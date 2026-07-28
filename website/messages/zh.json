@@ -297,7 +297,8 @@
       "partial": "部分 / 有限",
       "no": "不支持"
     },
-    "openSourceNote": "ZFocus 将在达到可持续用户规模以覆盖开发成本后开源。",
+    "openSourceNote": "ZFocus 扩展代码已在 GitHub 上开源。",
+    "viewOnGithub": "在 GitHub 上查看",
     "features": {
       "easySetup": { "title": "简单配置" },
       "exceptionPattern": { "title": "智能例外模式" },
@@ -323,7 +324,7 @@
       "6": "LeechBlock 界面功能完备但风格较旧。ZFocus 提供配有浅色/深色/自动主题的现代UI。",
       "7": "LeechBlock 提供基础统计（每个屏蔽集的使用时间）。ZFocus 提供包含屏蔽次数、节省时间和连续天数的30天可视化图表。",
       "8": "Screen Time 通过 iCloud 同步使用数据。ZFocus 和 LeechBlock 将所有数据保存在本地，零追踪。",
-      "9": "LeechBlock NG 是完全开源的。ZFocus 计划在达到可持续用户规模后开源。",
+      "9": "LeechBlock NG 和 ZFocus 都是完全开源的。",
       "10": "ZFocus 支持 Chrome、Edge、Brave、Opera 和 Firefox。LeechBlock 支持 Firefox、Chrome 和 Edge。Screen Time 仅限 Safari/iOS。"
     }
   },

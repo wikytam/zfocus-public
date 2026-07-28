@@ -297,7 +297,8 @@
       "partial": "Một phần / Hạn chế",
       "no": "Không hỗ trợ"
     },
-    "openSourceNote": "ZFocus sẽ được mã nguồn mở khi đạt đủ lượng người dùng để trang trải chi phí phát triển.",
+    "openSourceNote": "Mã nguồn extension ZFocus được công khai trên GitHub.",
+    "viewOnGithub": "Xem trên GitHub",
     "features": {
       "easySetup": { "title": "Cấu Hình Đơn Giản" },
       "exceptionPattern": { "title": "Ngoại Lệ Thông Minh" },
@@ -323,7 +324,7 @@
       "6": "LeechBlock có giao diện chức năng nhưng khá cũ. ZFocus cung cấp giao diện hiện đại với theme sáng/tối/tự động.",
       "7": "LeechBlock cung cấp thống kê cơ bản (thời gian mỗi block set). ZFocus có biểu đồ trực quan 30 ngày với số lần chặn, thời gian tiết kiệm và chuỗi ngày liên tiếp.",
       "8": "Screen Time đồng bộ dữ liệu sử dụng qua iCloud. ZFocus và LeechBlock lưu trữ mọi thứ cục bộ, không thu thập dữ liệu.",
-      "9": "LeechBlock NG hoàn toàn mã nguồn mở. ZFocus dự kiến mở mã nguồn khi đạt lượng người dùng bền vững.",
+      "9": "Cả LeechBlock NG và ZFocus đều hoàn toàn mã nguồn mở.",
       "10": "ZFocus hoạt động trên Chrome, Edge, Brave, Opera và Firefox. LeechBlock hỗ trợ Firefox, Chrome và Edge. Screen Time chỉ dành cho Safari/iOS."
     }
   },
